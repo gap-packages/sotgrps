@@ -7,7 +7,7 @@
 
 #############################################################################
 ##
-## Files containing the algorithm to construct and count cubefree groups
+## 
 ##
 msg := rec();
 
