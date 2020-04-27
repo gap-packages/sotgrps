@@ -11,21 +11,73 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 			end;
 #####################################
 			allGrpsP2 := function(p)
-				local list;
+				local G1, G2, list;
 				list := [];
-				Add(list, AbelianGroup([p^2]));
-				Add(list, AbelianGroup([p, p]));
+				G1 := function(p)
+					local coll, G;
+						coll := FromTheLeftCollector(2);
+						SetRelativeOrder(coll, 1, p);
+						SetRelativeOrder(coll, 2, p);
+						SetPower(coll, 1, [2, 1]);
+						G := PcpGroupByCollector(coll);
+					return PcpGroupToPcGroup(G);
+				end;
+
+				G2 := function(p)
+					local coll, G;
+						coll := FromTheLeftCollector(2);
+						SetRelativeOrder(coll, 1, p);
+						SetRelativeOrder(coll, 2, p);
+						G := PcpGroupByCollector(coll);
+					return PcpGroupToPcGroup(G);
+				end;
+				Add(list, G1(p)));
+				Add(list, G2(p)));
 				return list;
 			end;
 #####################################
 			allGrpsP3 := function(p)
 				local list, G1, G2, case1, case2, G5;
 				list :=[];
-				G1 := AbelianGroup([p^3]);
-				G2 := AbelianGroup([p, p^2]);
-				G5 := AbelianGroup([p, p, p]);
-				Append(list, [G1, G2, G5]);
-		##case1 is when p =2
+				
+				G1 := function(p)
+					local coll, G;
+						coll := FromTheLeftCollector(3);
+						SetRelativeOrder(coll, 1, p);
+						SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+						SetPower(coll, 1, [2, 1]);
+						SetPower(coll, 2, [3, 1]);
+						G := PcpGroupByCollector(coll);
+					return PcpGroupToPcGroup(G);
+				end;
+
+				G2 := function(p)
+					local coll, G;
+						coll := FromTheLeftCollector(3);
+						SetRelativeOrder(coll, 1, p);
+						SetRelativeOrder(coll, 2, p);
+						SetPower(coll, 1, [2, 1]);
+						SetRelativeOrder(coll, 3, p);
+						G := PcpGroupByCollector(coll);
+					return PcpGroupToPcGroup(G);
+				end;
+
+				G5 := function(p)
+					local coll, G;
+						coll := FromTheLeftCollector(3);
+						SetRelativeOrder(coll, 1, p);
+						SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+						G := PcpGroupByCollector(coll);
+					return PcpGroupToPcGroup(G);
+				end;
+				Add(list, G1(p)));
+				Add(list, G2(p)));
+				Add(list, G5(p));
+				return list;
+			end;
+			##case1 is when p =2
 
 				case1 := function(p)
 					local G3, G4, s;
@@ -105,14 +157,73 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 
 			##construct groups of order p^4
 			allGrpsP4:=function(p)
-			local list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, G13, G14, G15, G16, G17, G18, G19, G20;
+			local list, A1, A2, A3, A4, A5, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, G13, G14, G15, G16, G17, G18, G19, G20;
 				list := [];
-				 Add(list, AbelianGroup([p^4]));
-				 Add(list, AbelianGroup([p^3, p]));
-				 Add(list, AbelianGroup([p^2, p^2]));
-				 Add(list, AbelianGroup([p^2, p, p]));
-				 Add(list, AbelianGroup([p, p, p, p]));
+				A1 := function(p)
+			    local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, p);
+			      SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+			      SetRelativeOrder(coll, 4, p);
+						SetPower(coll, 1, [2, 1]);
+						SetPower(coll, 2, [3, 1]);
+						SetPower(coll, 3, [4, 1]);
+			      G := PcpGroupByCollector(coll);
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			  end;
 
+				A2 := function(p)
+			    local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, p);
+			      SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+			      SetRelativeOrder(coll, 4, p);
+						SetPower(coll, 1, [2, 1]);
+						SetPower(coll, 2, [3, 1]);
+			      G := PcpGroupByCollector(coll);
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			  end;
+
+				A3 := function(p)
+			    local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, p);
+			      SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+			      SetRelativeOrder(coll, 4, p);
+						SetPower(coll, 1, [2, 1]);
+						SetPower(coll, 3, [4, 1]);
+			      G := PcpGroupByCollector(coll);
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			  end;
+
+				A4 := function(p)
+			    local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, p);
+			      SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+			      SetRelativeOrder(coll, 4, p);
+						SetPower(coll, 1, [2, 1]);
+			      G := PcpGroupByCollector(coll);
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			  end;
+
+				A5 := function(p)
+			    local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, p);
+			      SetRelativeOrder(coll, 2, p);
+						SetRelativeOrder(coll, 3, p);
+			      SetRelativeOrder(coll, 4, p);
+						SetPower(coll, 1, [2, 1]);
+			      G := PcpGroupByCollector(coll);
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			  end;
+
+				 Append(list, [A1(p), A2(p), A3(p), A4(p), A5(p)]);
 			  G1 := function(p)
 			    local coll, G;
 			      coll:=FromTheLeftCollector(4);
