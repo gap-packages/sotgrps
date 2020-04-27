@@ -75,8 +75,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				Add(list, G1(p)));
 				Add(list, G2(p)));
 				Add(list, G5(p));
-				return list;
-			end;
+				
 			##case1 is when p =2
 
 				case1 := function(p)
@@ -102,7 +101,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 							SetRelativeOrder(coll, 2, 2);
 							SetRelativeOrder(coll, 3, 2);
 							SetPower(coll, 1, [3, 1]);
-              SetPower(coll, 2, [3, 1]);
+                                                        SetPower(coll, 2, [3, 1]);
 							SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
 							G := PcpGroupByCollector(coll);
 						return PcpGroupToPcGroup(G);
@@ -159,19 +158,19 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 			allGrpsP4:=function(p)
 			local list, A1, A2, A3, A4, A5, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, G13, G14, G15, G16, G17, G18, G19, G20;
 				list := [];
-				A1 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(4);
-			      SetRelativeOrder(coll, 1, p);
-			      SetRelativeOrder(coll, 2, p);
-						SetRelativeOrder(coll, 3, p);
-			      SetRelativeOrder(coll, 4, p);
-						SetPower(coll, 1, [2, 1]);
-						SetPower(coll, 2, [3, 1]);
-						SetPower(coll, 3, [4, 1]);
-			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-			  end;
+				 A1 := function(p)
+					 local coll, G;
+						 coll:=FromTheLeftCollector(4);
+						 SetRelativeOrder(coll, 1, p);
+						 SetRelativeOrder(coll, 2, p);
+						 SetRelativeOrder(coll, 3, p);
+						 SetRelativeOrder(coll, 4, p);
+						 SetPower(coll, 1, [2, 1]);
+						 SetPower(coll, 2, [3, 1]);
+						 SetPower(coll, 3, [4, 1]);
+						 G := PcpGroupByCollector(coll);
+					 return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+				 end;
 
 				A2 := function(p)
 			    local coll, G;
@@ -377,101 +376,130 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 			## case: p = 2
 			  G12 := function(p)
 			    local coll, G;
-			      coll:=FromTheLeftCollector(2);
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,8);
-			      SetConjugate(coll,2,1,[2,3]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 3, [4, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
+						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G13 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(2);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,8);
-			      SetConjugate(coll,2,1,[2,5]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 3, [4, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G14 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(2);
-			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,8);
-			      SetConjugate(coll,2,1,[2,7]);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
+			      SetRelativeOrder(coll, 1, 2);
+						SetRelativeOrder(coll, 2, 2);
+						SetRelativeOrder(coll, 3, 2);
+						SetRelativeOrder(coll, 4, 2);
+						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 3, [4, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1, 4, 1]);
+						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G15 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(2);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,8);
-			      SetConjugate(coll,2,1,[2,7]);
-			      SetPower(coll,1,[2,4]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 1, [4, 1)]);
+						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 3, [4, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1, 4, 1]);
+						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G16 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(3);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,4);
-			      SetRelativeOrder(coll,3,2);
-			      SetConjugate(coll,2,1,[2,3]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 2, [3, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G17 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(3);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,4);
-			      SetRelativeOrder(coll,3,2);
-			      SetConjugate(coll,2,1,[2,1,3,1]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 2, [3, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G18 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(3);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,4);
-			      SetRelativeOrder(coll,3,2);
-			      SetConjugate(coll,2,1,[2,3]);
-			      SetConjugate(coll,3,1,[2,2,3,1]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 2, [3, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
+						SetConjugate(coll, 4, 1, [3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G19 := function(p)
-			    local coll, G;
-			      coll:=FromTheLeftCollector(3);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,4);
-			      SetRelativeOrder(coll,3,2);
-			      SetConjugate(coll,2,1,[2,3]);
-			      SetPower(coll,1,[2,2]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 1, [3, 1)]);
+						SetPower(coll, 2, [3, 1)]);
+			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 			  G20 := function(p)
-			    local coll, G;
-			      coll := FromTheLeftCollector(3);
+					local coll, G;
+			      coll:=FromTheLeftCollector(4);
 			      SetRelativeOrder(coll,1,2);
-			      SetRelativeOrder(coll,2,4);
-			      SetRelativeOrder(coll,3,2);
-			      SetConjugate(coll,2,1,[2,1,3,1]);
-			      SetPower(coll,1,[2,2]);
+						SetRelativeOrder(coll,2,2);
+						SetRelativeOrder(coll,3,2);
+						SetRelativeOrder(coll,4,2);
+						SetPower(coll, 1, [3, 1)]);
+						SetPower(coll, 2, [3, 1)]);
+			      SetConjugate(coll,2, 1, [2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
-			    return PcpGroupToPcGroup(RefinedPcpGroup(G));
+			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;
 			##
 
