@@ -78,7 +78,7 @@ isAvailable := function(n) ## tells whether the order is available for construct
 		length := Length(PF);
 		fac := Collected(Factors(n));
 		if length > 4 then return false; fi;
-		if length = 4 and Length(fac) > 2 then return false; fi;
+		if length = 4 and Length(fac) = 4 then return false; fi;
 		return true;
 	end;
 
