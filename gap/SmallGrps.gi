@@ -118,3 +118,7 @@ testIrredundancy := function(n)
 		fi;
 		Print("checked ",n,"\n");
 end;
+############################################################################
+MySmallGroupsInformation := function()
+	Print("SmallGroups(n) constructs all groups of order n up to isomorphism, where n factorises into at most 4 primes, except for n = pqrs.");
+end;

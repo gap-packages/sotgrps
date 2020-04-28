@@ -31,8 +31,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						G := PcpGroupByCollector(coll);
 					return PcpGroupToPcGroup(G);
 				end;
-				Add(list, G1(p)));
-				Add(list, G2(p)));
+				Add(list, G1(p));
+				Add(list, G2(p));
 				return list;
 			end;
 #####################################
