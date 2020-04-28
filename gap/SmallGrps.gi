@@ -118,3 +118,13 @@ testIrredundancy := function(n)
 		fi;
 		Print("checked ",n,"\n");
 end;
+
+
+
+###### some order test functions
+
+msg.isp2q2:=x-> List( Collected(FactorsInt(x)),x->x[2]) = [2,2];;
+msg.isp2qr:=x-> List( Collected(FactorsInt(x)),x->x[2])  in [[1,1,2],[1,2,1],[2,1,1]];;
+msg.isp3q:=x-> List( Collected(FactorsInt(x)),x->x[2])  in [[3,1],[1,3];;
+
+
