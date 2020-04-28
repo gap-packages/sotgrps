@@ -103,7 +103,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 							SetRelativeOrder(coll, 2, 2);
 							SetRelativeOrder(coll, 3, 2);
 							SetPower(coll, 1, [3, 1]);
-              SetPower(coll, 2, [3, 1]);
+                                                        SetPower(coll, 2, [3, 1]);
 							SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
 							G := PcpGroupByCollector(coll);
 						return PcpGroupToPcGroup(G);

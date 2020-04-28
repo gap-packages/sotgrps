@@ -216,7 +216,7 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 							fi;
 		          return list;
 		      end;
-		    if (p - 1) mod q = 0 then
+		    if (p - 1) mod q = 0 and q > 2 then
 		    	Append(s, case2(p, q));
 				fi;
 		        ####
