@@ -134,43 +134,44 @@ MySmallGroupsInformation := function(n)
 			k := length;
 			if k = 1 then Print("There is a unique group of order "n", up to isomorphism, and it is cyclic." )
 			fi;
-			if k = 2 then Print("There are two isomorphism types of p-groups of order "n": there is one cyclic group, and one elementary abelian group.")
+			if k = 2 then Print("There are two isomorphism types of p-groups of order "n": there is one cyclic group, and one elementary abelian group.");
 			fi;
-			if k = 3 then Print("There are five isomorpshim types of p-groups of order "n": there are 3 abelian groups, and 3 extraspecial groups.")
+			if k = 3 then Print("There are five isomorpshim types of p-groups of order "n": there are 3 abelian groups, and 3 extraspecial groups.");
 			fi;
 			if k = 4 then
-				if p = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.")
-				else Print("There are 15 isomorphism types of groups of order "n": there are 5 abelian groups, and 10 nonabelian groups.")
+				if p = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
+				else Print("There are 15 isomorphism types of groups of order "n": there are 5 abelian groups, and 10 nonabelian groups.");
 				fi;
 			fi;
 		fi;
 
 		if length = 2 and Length(fac) = 2 then ##p^aq, a = 1
 			if (PF[2] - 1) mod PF[1] = 1 then
-				Print("There are two isomorphism types of squarefree groups of order "n": there is one abelian group, and one nonebalian group.")
-			else Print("There is a unique group of order "n", up to isomorphism, and it is abelian.")
+				Print("There are two isomorphism types of squarefree groups of order "n": there is one abelian group, and one nonebalian group.");
+			else Print("There is a unique group of order "n", up to isomorphism, and it is abelian.");
 			fi;
 		fi;
 
 
 		if length = 3 and Length(fac) = 2 then
 			if not (PF[1] - 1) mod PF[3] = 0 and not (Pf[3] - 1) mod PF[1] = 0 then
-				Print("There are two isomorphism types of order "n": one is cyclic, and one is isomorphic to AbelianGroup("pq, p")".)
-			else Print("There are "NumberGroupsP2Q(n)" isomorphism types of groups of order "n".")
+				Print("There are two isomorphism types of order "n": one is cyclic, and one is isomorphic to AbelianGroup("pq, p").");
+			else Print("There are "NumberGroupsP2Q(n)" isomorphism types of groups of order "n".");
 		fi;
 
 		if length = 3 and Length(fac) = 3 then
-			Print("There are "NumberGroupsPQR(n)" isomorphism types of squarefree groups of order "n".")
+			Print("There are "NumberGroupsPQR(n)" isomorphism types of squarefree groups of order "n".");
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-			Print("There are "NumberGroupsP2Q2(n)" isomorphism types of groups of order "n".")
+			Print("There are "NumberGroupsP2Q2(n)" isomorphism types of groups of order "n".");
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-			Print("There are "NumberGroupsP3Q(n)" isomorphism types of groups of order "n".")
+			Print("There are "NumberGroupsP3Q(n)" isomorphism types of groups of order "n".");
 		fi;
 
 		if length = 4 and Length(fac) = 3 then
-			Print("There are "NumberGroupsP2QR(n)" isomorphism types of groups of order "n".")
+			Print("There are "NumberGroupsP2QR(n)" isomorphism types of groups of order "n".");
 		fi;
+end;
