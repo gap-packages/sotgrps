@@ -384,8 +384,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 2, [3, 1)]);
-						SetPower(coll, 3, [4, 1)]);
+						SetPower(coll, 2, [3, 1]);
+						SetPower(coll, 3, [4, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
@@ -399,8 +399,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 2, [3, 1)]);
-						SetPower(coll, 3, [4, 1)]);
+						SetPower(coll, 2, [3, 1]);
+						SetPower(coll, 3, [4, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
@@ -413,8 +413,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll, 2, 2);
 						SetRelativeOrder(coll, 3, 2);
 						SetRelativeOrder(coll, 4, 2);
-						SetPower(coll, 2, [3, 1)]);
-						SetPower(coll, 3, [4, 1)]);
+						SetPower(coll, 2, [3, 1]);
+						SetPower(coll, 3, [4, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1, 4, 1]);
 						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
@@ -428,9 +428,9 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 1, [4, 1)]);
-						SetPower(coll, 2, [3, 1)]);
-						SetPower(coll, 3, [4, 1)]);
+						SetPower(coll, 1, [4, 1]);
+						SetPower(coll, 2, [3, 1]);
+						SetPower(coll, 3, [4, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1, 4, 1]);
 						SetConjugate(coll,3,1,[3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
@@ -444,7 +444,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 2, [3, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
@@ -457,7 +457,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 2, [3, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
@@ -470,7 +470,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 2, [3, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 						SetConjugate(coll, 4, 1, [3, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
@@ -484,8 +484,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 1, [3, 1)]);
-						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 1, [3, 1]);
+						SetPower(coll, 2, [3, 1]);
 			      SetConjugate(coll,2,1,[2, 1, 3, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
@@ -498,8 +498,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						SetRelativeOrder(coll,2,2);
 						SetRelativeOrder(coll,3,2);
 						SetRelativeOrder(coll,4,2);
-						SetPower(coll, 1, [3, 1)]);
-						SetPower(coll, 2, [3, 1)]);
+						SetPower(coll, 1, [3, 1]);
+						SetPower(coll, 2, [3, 1]);
 			      SetConjugate(coll,2, 1, [2, 1, 4, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
