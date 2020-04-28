@@ -15,8 +15,17 @@ InstallGlobalFunction( allGroupsPQR, function(n)
       r := fac[1];
       q := fac[2];
       p := fac[3];
-      G1 := AbelianGroup([n]);
+      G1 := function(p, q, r) #(C_r \ltimes C_q) \times C_p
+        local G, coll;
+          coll := FromTheLeftCollector(3);
+          SetRelativeOrder(coll, 1, r);
+          SetRelativeOrder(coll, 2, q);
+          SetRelativeOrder(coll, 3, p);
+          G := PcpGroupByCollector(coll);
+        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+      end;
       Add(s, G1);
+      
       if not (p - 1) mod q = 0 and not (p - 1) mod r = 0 and not (q - 1) mod r = 0 then
         return s; fi;
 

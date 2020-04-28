@@ -75,8 +75,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				Add(list, G1(p));
 				Add(list, G2(p));
 				Add(list, G5(p));
-				return list;
-			end;
+				
 
 		##case1 is when p =2
 
