@@ -728,10 +728,9 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             Add(list, G5(p, q, r, 0));
           fi;
           ##
-          G6 := function(p, q, r, k) ## q | (p + 1), and G \cong C_q \ltimes (C_r \times C_p^2)
-            local matq, coll, a, b, c, G;
-              matq := msg.QthRootGL2P(p, q);
-              b := matq^k;
+          G6 := function(p, q, r) ## q | (p + 1), and G \cong C_q \ltimes (C_r \times C_p^2)
+            local coll, a, b, c, G;
+              b := msg.QthRootGL2P(p, q);
               coll := FromTheLeftCollector(4);
               SetRelativeOrder(coll, 1, q);
               SetRelativeOrder(coll, 2, r);
@@ -744,9 +743,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           end;
           ##
           if (p + 1) mod q = 0 and q > 2 then
-            for i in [1..(q-1)/2] do
-              Add(list, G6(p, q, r, i));
-            od;
+            Add(list, G6(p, q, r));
           fi;
           ##
           G7 := function(p, q, r) ## q | (r - 1), and G \cong (C_q \ltimes C_r) \times C_p^2
@@ -795,8 +792,8 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
               a := Z(r);
               b := Z(p);
               c := Z(q);
-              d := Int(c^k);
-              e := Int(c^l);
+              d := Int(c^l);
+              e := Int(c^k);
               s := a^((r-1)/q);
               t := b^((p-1)/q);
               coll := FromTheLeftCollector(4);
@@ -804,19 +801,36 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
               SetRelativeOrder(coll, 2, r);
               SetRelativeOrder(coll, 3, p);
               SetRelativeOrder(coll, 4, p);
-              SetConjugate(coll, 2, 1, [2, Int(s^l)]);
+              SetConjugate(coll, 2, 1, [2, Int(s^d)]);
               SetConjugate(coll, 3, 1, [3, Int(t)]);
-              SetConjugate(coll, 4, 1, [4, Int(t^d)]);
+              SetConjugate(coll, 4, 1, [4, Int(t^e)]);
               G := PcpGroupByCollector(coll);
             return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
           end;
           ##
           if (r - 1) mod q = 0 and (p - 1) mod q = 0 and q > 2 then
-            for i in [1..q-1] do
-              for j in [0..(q-1)/2] do
-                if not i = j then
+            for j in [0..(q - 3)/2] do
+              Add(list, G9(p, q, r, 0, j));
+            od;
+          fi;
+
+
+          if (r - 1) mod q = 0 and (p - 1) mod q = 0 and q > 2 then
+            for i in [1..(q - 3)/2] do
+              for j in [0..(q - 1)/2] do
                   Add(list, G9(p, q, r, i, j));
-                fi;
+              od;
+            od;
+          fi;
+
+          if (r - 1) mod q = 0 and (p - 1) mod q = 0 and q > 2 then
+            Add(list, G9(p, q, r, (q - 1)/2, (q - 1)/2));
+          fi;
+          
+          if (r - 1) mod q = 0 and (p - 1) mod q = 0 and q > 2 then
+            for i in [(q - 1)/2..q - 2] do
+              for j in [0..(q - 3)/2] do
+                  Add(list, G9(p, q, r, i, j));
               od;
             od;
           fi;
