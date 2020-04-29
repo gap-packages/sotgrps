@@ -84,11 +84,21 @@ isAvailable := function(n) ## tells whether the order is available for construct
 
 ############################################################################
 testMySmallGroups := function(n)
-	local mystuff, lib;
-				mystuff := AsSet(List(MySmallGroups(n),x->IdSmallGroup(x)[2]));
-						lib := [1..NumberSmallGroups(n)];
-							if mystuff = lib then return true;
-							else return false; fi;
+	local mystuff, lib, duplicates, missing;
+				duplicates := [];
+				missing    := [];
+				mystuff    := AsSet(List(MySmallGroups(n),x->IdSmallGroup(x)[2]));
+						lib    := [1..NumberSmallGroups(n)];
+						if not Size(mystuff) = NumberSmallGroups(n) then
+							if Size(mystuff) > NumberSmallGroups(n) then
+								Append(duplicates, Filtered(mystuff, x-> not x in lib));
+								Print(("duplicate groups of order "), n,(" with id "), duplicates);
+							else Append(missing, Filtered(lib, x-> not x in mystuff));
+								Print(("missing groups of order "), n,(" with id "), missing);
+							fi;
+						elif mystuff = lib then return true;
+						else Print(("there is something seriously wrong with order "), n);
+					  fi;
 end;
 ############################################################################
 isIrredundant := function(n)

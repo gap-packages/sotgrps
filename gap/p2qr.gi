@@ -214,9 +214,9 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
       end;
 ############
     Append(s, case2(p, q, r));
-############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p - 1) or qr | (p + 1)
+############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p^2 - 1)
       case3 := function(p, q, r)
-        local  list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, i, j;
+        local  list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, i, j;
           list := [];
           G1 := function(p, q, r) ## qr | (p - 1) and G \cong C_{qr} \ltimes C_{p^2}
             local a, b, c, d, s, t, ii, qq, iii, qqq, coll, G;
@@ -463,7 +463,51 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             Add( list, G10(p, q, r));
           fi;
           ##
-          return  list;
+          G11 := function(p, q, r) ## q | (p - 1), r | (p + 1), and G \cong (C_q \times C_r) \ltimes C_p^2
+            local a, t, matr, coll, G;
+              a := Z(p);
+              t := a^((p - 1)/q);
+              matr := msg.QthRootGL2P(p, r);
+              coll := FromTheLeftCollector(4);
+              SetRelativeOrder(coll, 1, q);
+              SetRelativeOrder(coll, 2, r);
+              SetRelativeOrder(coll, 3, p);
+              SetRelativeOrder(coll, 4, p);
+              SetConjugate(coll, 3, 1, [3, Int(t)]);
+              SetConjugate(coll, 4, 1, [4, Int(t)]);
+              SetConjugate(coll, 3, 2, [3, Int(matr[1][1]), 4, Int(matr[2][1])]);
+              SetConjugate(coll, 4, 2, [3, Int(matr[1][2]), 4, Int(matr[2][2])]);
+              G := PcpGroupByCollector(coll);
+            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+          end;
+          ##
+          if (p + 1) mod r = 0 and (p - 1) mod q = 0 and q > 2 then
+            Add( list, G11(p, q, r));
+          fi;
+          ##
+          G12 := function(p, q, r) ## q | (p + 1), r | (p - 1), and G \cong (C_q \times C_r) \ltimes C_p^2
+            local a, s, matq, coll, G;
+              a := Z(p);
+              s := a^((p - 1)/r);
+              matq := msg.QthRootGL2P(p, q);
+              coll := FromTheLeftCollector(4);
+              SetRelativeOrder(coll, 1, q);
+              SetRelativeOrder(coll, 2, r);
+              SetRelativeOrder(coll, 3, p);
+              SetRelativeOrder(coll, 4, p);
+              SetConjugate(coll, 3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]);
+              SetConjugate(coll, 4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]);
+              SetConjugate(coll, 3, 2, [3, Int(s)]);
+              SetConjugate(coll, 4, 2, [4, Int(s)]);
+              G := PcpGroupByCollector(coll);
+            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+          end;
+          ##
+          if (p - 1) mod r = 0 and (p + 1) mod q = 0 and q > 2 then
+            Add( list, G12(p, q, r));
+          fi;
+          ##
+          return list;
         end;
 ############
       Append(s, case3(p, q, r));
@@ -705,7 +749,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             od;
           fi;
           ##
-          G7 := function(p, q, r) ## q | (r - 1), q > 2, and G \cong (C_q \ltimes C_r) \times C_p^2
+          G7 := function(p, q, r) ## q | (r - 1), and G \cong (C_q \ltimes C_r) \times C_p^2
             local a, b, c, s, t, coll, G;
               a := Z(r);
               b := a^((r - 1)/q);
@@ -719,7 +763,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
           end;
           ##
-          if (r - 1) mod q = 0 and q > 2 then
+          if (r - 1) mod q = 0 then
             Add(list, G7(p, q, r));
           fi;
           ##
@@ -872,7 +916,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           end;
           ##
           if (r - 1) mod p = 0 and (p - 1) mod q = 0 then
-            Add(list, G2(p, q, r));
+            Add(list, G3(p, q, r));
           fi;
           ##
           G4 := function(p, q, r, k) ## q | (p - 1), p | (r - 1), q | (r - 1), and G \cong (C_p \times C_q) \ltimes (C_r \times C_p)
