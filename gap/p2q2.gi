@@ -219,7 +219,11 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 		    if (p - 1) mod q = 0 and q > 2 then
 		    	Append(s, case2(p, q));
 				fi;
-		        ####
+				##
+				if p = 3 and q = 2 then
+		    	Append(s, case2(p, q));
+				fi;
+		    ####
         #### case3: q mid (p + 1), q^2 nmid (p^2 - 1), q neq 2
         case3 := function(p, q)
           local G1, G2;
@@ -277,13 +281,16 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 								SetConjugate(coll, 3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]);
 								SetConjugate(coll, 4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]);
 								G := PcpGroupByCollector(coll);
-								return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-							 end;
-
+							return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+		end;
+		###				 
     if (p + 1) mod (q^2) = 0 and q mod 2 = 1 then
     	Add(s, case4(p, q));
 		fi;
-
+		###
+		if p = 3 and q = 2 then
+    	Add(s, case4(p, q));
+		fi;
     #### case5: q^2 mid (p - 1)
     case5 := function(p, q) #unrefined
       local list, t, i, G1, G2, G3, G4;
@@ -513,7 +520,7 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
             Add(ll, g7(p));
 
 						## semidirect product C_4 \ltimes C_{p^2}, \phi(Q) = C_4
-            g8 := function(p) #unrefined
+            g8 := function(p)
               local coll, G, a, b, r, rr, qq, ii;
 
                 ## find primitive root modulo p^2
