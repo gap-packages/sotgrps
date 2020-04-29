@@ -75,7 +75,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				Add(list, G1(p));
 				Add(list, G2(p));
 				Add(list, G5(p));
-				
+
 
 		##case1 is when p =2
 
@@ -218,7 +218,6 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 			      SetRelativeOrder(coll, 2, p);
 						SetRelativeOrder(coll, 3, p);
 			      SetRelativeOrder(coll, 4, p);
-						SetPower(coll, 1, [2, 1]);
 			      G := PcpGroupByCollector(coll);
 			    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 			  end;

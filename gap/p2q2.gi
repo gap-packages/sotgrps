@@ -280,7 +280,7 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 								return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
 							 end;
 
-    if (p + 1) mod (q^2) = 0 then
+    if (p + 1) mod (q^2) = 0 and q mod 2 = 1 then
     	Add(s, case4(p, q));
 		fi;
 

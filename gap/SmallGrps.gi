@@ -1,4 +1,4 @@
-InstallGlobalFunction( SmallGroups, function(n)
+InstallGlobalFunction( MySmallGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
@@ -85,7 +85,7 @@ isAvailable := function(n) ## tells whether the order is available for construct
 ############################################################################
 testMySmallGroups := function(n)
 	local mystuff, lib;
-				mystuff := AsSet(List(SmallGroups(n),x->IdSmallGroup(x)[2]));
+				mystuff := AsSet(List(MySmallGroups(n),x->IdSmallGroup(x)[2]));
 						lib := [1..NumberSmallGroups(n)];
 							if mystuff = lib then return true;
 							else return false; fi;
@@ -93,7 +93,7 @@ end;
 ############################################################################
 isIrredundant := function(n)
 	local mystuff, lib;
-				mystuff := Size(SmallGroups(n));
+				mystuff := Size(MySmallGroups(n));
 				    lib := NumberSmallGroups(n);
 						if mystuff = lib then return true;
 						else return false; fi;
@@ -111,7 +111,7 @@ end;
 ############################################################################
 testIrredundancy := function(n)
 	local actual, theory;
-		actual := Size(SmallGroups(n));
+		actual := Size(MySmallGroups(n));
 		theory := NumberMySmallGroups(n);
 		if not actual = theory then return false;
 		else 										    return true;

@@ -9,5 +9,5 @@
 ##
 ## The input <n> has to be  ...
 ##
-DeclareGlobalFunction("SmallGroups");
+DeclareGlobalFunction("MySmallGroups");
 DeclareGlobalFunction("NumberMySmallGroups");

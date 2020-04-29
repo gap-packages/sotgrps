@@ -811,9 +811,9 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
       Append(s, case5(p, q, r));
 ############ case 6: nonabelian and Fitting subgroup has order pr -- q | (p - 1)(r - 1) and p | (r - 1)
       case6 := function(p, q, r)
-        local list, G1, G2, G3, i, j;
+        local list, G1, G2, G3, G4, i, j;
           list := [];
-          G1 := function(p, q, r) ## q | (r - 1) and G \cong (C_p \times C_q) \ltimes C_r \times C_p
+          G1 := function(p, q, r) ## q | (r - 1), p | (r - 1), and G \cong (C_p \times C_q) \ltimes C_r \times C_p
             local a, b, c, coll, G;
               a := Z(r);
               b := a^((r-1)/p);
@@ -833,7 +833,28 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             Add(list, G1(p, q, r));
           fi;
           ##
-          G2 := function(p, q, r) ## q | (p - 1), p | (r - 1), and G \cong (C_p \ltimes C_r) \times (C_q \ltimes C_p)
+          G2 := function(p, q, r) ## q | (r - 1), p | (r - 1), and G \cong (C_p \times C_q) \ltimes C_r \times C_p
+            local a, b, c, coll, G;
+              a := Z(r);
+              b := a^((r-1)/p);
+              c := a^((r-1)/q);
+              coll := FromTheLeftCollector(4);
+              SetRelativeOrder(coll, 1, p);
+              SetRelativeOrder(coll, 2, q);
+              SetRelativeOrder(coll, 3, p);
+              SetRelativeOrder(coll, 4, r);
+              SetPower(coll, 1, [3, 1]);
+              SetConjugate(coll, 4, 1, [4, Int(b)]);
+              SetConjugate(coll, 4, 2, [4, Int(c)]);
+              G := PcpGroupByCollector(coll);
+            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+          end;
+          ##
+          if (r - 1) mod p = 0 and (r - 1) mod q = 0 then
+            Add(list, G2(p, q, r));
+          fi;
+          ##
+          G3 := function(p, q, r) ## q | (p - 1), p | (r - 1), and G \cong (C_p \ltimes C_r) \times (C_q \ltimes C_p)
             local a, b, c, d, coll, G;
               a := Z(r);
               b := Z(p);
@@ -854,7 +875,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             Add(list, G2(p, q, r));
           fi;
           ##
-          G3 := function(p, q, r, k) ## q | (p - 1), p | (r - 1), q | (r - 1), and G \cong (C_p \times C_q) \ltimes (C_r \times C_p)
+          G4 := function(p, q, r, k) ## q | (p - 1), p | (r - 1), q | (r - 1), and G \cong (C_p \times C_q) \ltimes (C_r \times C_p)
             local a, b, c, d, e, coll, G;
               a := Z(r);
               b := Z(p);
@@ -875,7 +896,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           ##
           if (r - 1) mod p = 0 and (p - 1) mod q = 0 and (r - 1) mod q = 0 then
             for i in [1..q-1] do
-              Add(list, G3(p, q, r, i));
+              Add(list, G4(p, q, r, i));
             od;
           fi;
           ##
