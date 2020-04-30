@@ -125,12 +125,17 @@ testIrredundancy := function(n)
 		Print("checked ",n,"\n");
 end;
 ############################################################################
-MySmallGroupsInformation := function()
-	Print("SmallGroups(n) constructs all groups of order n up to isomorphism, where n factorises into at most 4 primes, except for n = pqrs.");
-end;
+
 ############################################################################
-MySmallGroupsInformation := function(n)
-	local length, PF, fac, k, p, q, r;
+MySmallGroupsInformation := function(arg)
+	local length, PF, fac, n, k, p, q, r;
+		if Length(arg) = 0 then
+			Print("SmallGroups(n) constructs all groups of order n up to isomorphism, where n factorises into at most 4 primes, except for n = pqrs.");
+		elif Length(arg) = 1 then
+			n := arg;
+		else Error("Too many arguments: input has to be an integer.");
+		fi;
+		
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(Factors(n));
