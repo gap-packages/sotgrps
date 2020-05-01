@@ -1,7 +1,7 @@
-USE_NC := true;
+USE_NC := false;
 USE_PCP := false;
 ##############################
-groupFromData := function(data)
+msg.groupFromData := function(data)
   local coll, i, j, n ,G;
    n := Size(data[1]);
    coll := FromTheLeftCollector(n);

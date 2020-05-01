@@ -15,7 +15,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 					list := [];
 					data1 := [ [p, p], [1, [2, 1]] ];
 					data2 := [ [p, p] ];
-					Append(list, [groupFromData(data1), groupFromData(data2)]);
+					Append(list, [msg.groupFromData(data1), msg.groupFromData(data2)]);
 				return list;
 			end;
 #####################################
@@ -33,7 +33,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 						data4 := [ [p, p, p], [2, 1, [2, 1, 3, 1]] ];
 						data5 := [ [p, p, p], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
 					fi;
-					Append(list, [groupFromData(data1), groupFromData(data2), groupFromData(data3), groupFromData(data4), groupFromData(data5)]);
+					Append(list, [msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3), msg.groupFromData(data4), msg.groupFromData(data5)]);
 				return list;
 			end;
 #####################################
@@ -47,7 +47,7 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				data3 := [ [p, p, p, p], [1, [2, 1]], [3, [4, 1]] ]; ##C_{p^2} \times C_{p^2}
 				data4 := [ [p, p, p, p], [1, [2, 1]] ]; ##C_{p^2} \times Cp^2
 				data5 := [ [p, p, p, p] ]; ##elementary abelian
-				Append(list, [groupFromData(data1), groupFromData(data2), groupFromData(data3), groupFromData(data4), groupFromData(data5)]); ##all abelian
+				Append(list, [msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3), msg.groupFromData(data4), msg.groupFromData(data5)]); ##all abelian
 				if p > 2 then
 				  data6 := [ [p, p, p, p], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ];
 					data7 := [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
@@ -75,8 +75,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				 data14 := [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ];
 			 fi;
 
-			 if p > 2 then Append(list, [groupFromData(data6), groupFromData(data7), groupFromData(data8), groupFromData(data9), groupFromData(data10), groupFromData(data11), groupFromData(data12), groupFromData(data13), groupFromData(data14), groupFromData(data15)]);
-			 else Append(list, [groupFromData(data6), groupFromData(data7), groupFromData(data8), groupFromData(data9), groupFromData(data10), groupFromData(data11), groupFromData(data12), groupFromData(data13), groupFromData(data14)]);
+			 if p > 2 then Append(list, [msg.groupFromData(data6), msg.groupFromData(data7), msg.groupFromData(data8), msg.groupFromData(data9), msg.groupFromData(data10), msg.groupFromData(data11), msg.groupFromData(data12), msg.groupFromData(data13), msg.groupFromData(data14), msg.groupFromData(data15)]);
+			 else Append(list, [msg.groupFromData(data6), msg.groupFromData(data7), msg.groupFromData(data8), msg.groupFromData(data9), msg.groupFromData(data10), msg.groupFromData(data11), msg.groupFromData(data12), msg.groupFromData(data13), msg.groupFromData(data14)]);
 			 fi;
 			 return list;
 		 end;
