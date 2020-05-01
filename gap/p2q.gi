@@ -1,19 +1,3 @@
-
-MY_TEST_ALL := true;
-
-
-
-Info(InfoMSG,2,"this is a test");
-SetInfoLevel(InfoMSG,2);
-
-
-if not MY_TEST_ALL then
-   Print("INFO: code does NOT check consistency of groups\n");
-fi;
-
-
-
-
 ##############################################################
 msg.QthRootGL2P := function(p, q)
 	local a, b;
@@ -28,279 +12,137 @@ msg.QthRootGL2P := function(p, q)
 ##############################################################
 
 InstallGlobalFunction( allGroupsP2Q, function(n)
-	local fac, p, q, NonabelianGroupP2Qcase1, NonabelianGroupsP2Qcase2,
-         NonabelianGroupsP2Qcase3, NonabelianGroupsOrderTwelve, NonabelianGroupsP2Qcase4, s, grp;
+	local fac, p, q, AbelianGroupsP2Q, NonabelianGroupP2Qcase1, NonabelianGroupsP2Qcase2,
+         NonabelianGroupsP2Qcase3, NonabelianGroupsOrderTwelve, NonabelianGroupsP2Qcase4, s;
 ####
-  fac := Factors(n);
-  if not Length(fac) = 3 or fac[1] = fac[3] then
-    Error("Argument has to be of the form p^2*q, where p, q are primes"); fi;
+    fac := Factors(n);
+    if not Length(fac) = 3 or fac[1] = fac[3] then
+        Error("Argument has to be of the form p^2*q, where p, q are primes");
+    fi;
     p := fac[2];
     if fac[2] = fac[1] then
-    q := fac[3];
+      q := fac[3];
     else
-    q := fac[1];
+      q := fac[1];
     fi;
-
+    if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
+      Error("wrong input");
+    fi;
+####
+    s := [];
+    AbelianGroupsP2Q := function(p, q)
+      local data1, data2, list;
+        data1 := [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ];
+        data2 := [ [p, p, q], [2, [3, 1]] ];
+        list := [ msg.groupFromData(data1), msg.groupFromData(data2) ];
+      return list;
+    end;
+    Append(s, AbelianGroupsP2Q(p, q));
 ##case 1: p > q and q > 2 and q divides p + 1
 ####
-	NonabelianGroupP2Qcase1 := function(p, q)
-		  local mat, G, coll;
-		    mat := msg.QthRootGL2P(p, q);
-		    coll := FromTheLeftCollector(3);
-		    SetRelativeOrder(coll, 1, q);
-		    SetRelativeOrder(coll, 2, p);
-		    SetRelativeOrder(coll, 3, p);
-		    SetConjugate(coll, 2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]);
-	      SetConjugate(coll, 3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]);
-		    G := PcpGroupByCollector(coll);
-	    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-	   end;
+  	NonabelianGroupP2Qcase1 := function(p, q) ##C_q \ltimes C_p^2, Q is irreducible in GL(2, p)
+      local data1, G;
+      if p > q and q > 2 and (p + 1) mod q = 0 then
+        data1 := [ [q, p, p], [2, 1, [2, Int(msg.QthRootGL2P(p, q)[1][1]), 3, Int(msg.QthRootGL2P(p, q)[2][1])]], [3, 1, [2, Int(msg.QthRootGL2P(p, q)[1][2]), 3, Int(msg.QthRootGL2P(p, q)[2][2])]] ];
+        G := msg.groupFromData(data1);
+      fi;
+        return G;
+      end;
 ####
-
-##case 2: p > q and q > 2 and q divides p - 1
+    if p > q and q > 2 and (p + 1) mod q = 0 then
+     Add(s, NonabelianGroupP2Qcase1(p, q));
+    fi;
 ####
-	NonabelianGroupsP2Qcase2 := function(p, q)
-		local GroupsP2QTypei, GroupP2QTypeii, GroupP2QTypeiii, i, t, r, list;
-
-            #Info(InfoMSG,2,"start NonabelianGroupsP2Qcase2");
-
-		     GroupsP2QTypei := function(i, p, q)
-			       local coll, r, a, l, j, k, G;
-			         r:= Z(p);
-			         a:= Int(r^((p-1)/q));
-               l:= Z(q);
-			         k:= Int(l^i);
-			         j:= Int((r^((p-1)/q))^k);
-			         coll := FromTheLeftCollector(3);
-			         SetRelativeOrder(coll, 1, q);
-			         SetRelativeOrder(coll, 2, p);
-			         SetRelativeOrder(coll, 3, p);
-			         SetConjugate(coll, 2, 1, [2, a]);
-			         SetConjugate(coll, 3, 1, [3, j]);
-			         G := PcpGroupByCollector(coll);
-		        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		       end;
-		     GroupP2QTypeii := function(p, q)
-			       local coll, r, a, G;
-			         r := Z(p);
-			         a := Int(r^((p-1)/q));
-			         coll := FromTheLeftCollector(3);
-			         SetRelativeOrder(coll, 1, q);
-			         SetRelativeOrder(coll, 2, p);
-			         SetRelativeOrder(coll, 3, p);
-			         SetConjugate(coll, 2, 1, [2, a]);
-			         G := PcpGroupByCollector(coll);
-		        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		       end;
-
-
-        	GroupP2QTypeiii := function(p, q)
-            ## semidirect product of C_{p^2} by C_q, but constructed by a refiend pcp-presentation
-			     local coll, b, r, a, G, t, qq, ii;
-		      ## get primitive root mod p^2
-		           b := ZmodnZObj(Int(Z(p)),p^2);
-			         if not b^(p-1) = ZmodnZObj(1,p^2) then r := b; else r := b+1; fi;
-
-                        #t := Runtime();
-               a := Int(b^(p*(p-1)/q));
- 		        #Print("runtime new ",Runtime()-t,"\n");
-
-			         coll := FromTheLeftCollector(3);
-			         SetRelativeOrder(coll, 1, q);
-			         SetRelativeOrder(coll, 2, p);
-               SetRelativeOrder(coll, 3, p);
-			         SetPower(coll,2,[3,1]);
-                      ## write g_2^{g_1} = g_2^a as g_2^{ii}g_3^{qq} where a = qq*p+ii (div with remainder)
-                        ii := a mod p;
-			                  qq := (a - ii)/p;
-			         SetConjugate(coll, 2, 1, [2, ii, 3, qq]);
-			         SetConjugate(coll, 3, 1, [3, ii]);
-
-                        if MY_TEST_ALL then
-    			     G := PcpGroupByCollector(coll);
-			                  else
-                            G := PcpGroupByCollectorNC(coll);
-                        fi;
-            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		      end;
-
-
-
-##
-        t := (q-1)/2;
+  	NonabelianGroupsP2Qcase2 := function(p, q) ##case 2: p > q and q > 2 and q divides p - 1
+  		local data1, data2_k, data3, k, list;
         list := [];
-        Add(list, GroupP2QTypeii(p, q));
-        for i in [0..t] do Add(list, GroupsP2QTypei(i, p, q)); od;
-        Add(list, GroupP2QTypeiii(p, q));
-    		return list;
-    	end;
-
-####
-##case 3: p > q and q = 2
-      	NonabelianGroupsP2Qcase3 := function(p, q)
-                     local G1, G2, G3, list;
-                     list := [];
-                     G1 := function(p, q)
-                             local coll, G;
-                             coll := FromTheLeftCollector(3);
-                             SetRelativeOrder(coll, 1, 2);
-                             SetRelativeOrder(coll, 2, p);
-                             SetRelativeOrder(coll, 3, p);
-                             SetConjugate(coll, 2, 1, [2, p-1]);
-                             SetConjugate(coll, 3, 1, [3, p-1]);
-                             G := PcpGroupByCollector(coll);
-                     return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-                     end;
-       ##
-                     G2 := function(p, q)
-                             local coll, G;
-                             coll := FromTheLeftCollector(3);
-                             SetRelativeOrder(coll, 1, 2);
-                             SetRelativeOrder(coll, 2, p);
-                             SetRelativeOrder(coll, 3, p);
-                             SetConjugate(coll, 2, 1, [2, p-1]);
-                             #SetConjugate(coll, 3, 1, [3, 1]);
-                             G := PcpGroupByCollector(coll);
-                     return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-                     end;
-       ##
-                     G3 := function(p, q)
-                      ## semidirect product of C_{p^2} by C_2, but constructed by a refined pc-presentation
-                             local coll, G;
-                             coll := FromTheLeftCollector(3);
-                             SetRelativeOrder(coll, 1, 2);
-                             SetRelativeOrder(coll, 2, p);
-                             SetRelativeOrder(coll, 3, p);
-                             SetPower(coll, 2, [3, 1]);
-                             SetConjugate(coll, 2, 1, [2, p-1, 3, p-1]);
-                             SetConjugate(coll, 3, 1, [3, p-1]);
-                             G := PcpGroupByCollector(coll);
-                     return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-                     end;
-             Add(list, G1(p, q));
-             Add(list, G2(p, q));
-             Add(list, G3(p, q));
-             return list;
-             end;
-
-      ####
-      ##order 12
-
-      	 NonabelianGroupsOrderTwelve := function()
-        	  local G1, G2, G3, ss;
-          	 ss := [];
-          	 G1 := function()
-            	   local coll, G;
-            	    coll := FromTheLeftCollector(3);
-            	    SetRelativeOrder(coll, 1, 3);
-            	    SetRelativeOrder(coll, 2, 2);
-            	    SetRelativeOrder(coll, 3, 2);
-            	    SetConjugate(coll, 2, 1, [3, 1]);
-                  SetConjugate(coll, 3, 1, [2, 1, 3, 1]);
-      	          G := PcpGroupByCollector(coll);
-            	return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-            	end;
-            Add(ss, G1());
-          	G2 := function()
-            	  local coll, G;
-            	   coll := FromTheLeftCollector(2);
-            	   SetRelativeOrder(coll, 1, 2);
-            	   SetRelativeOrder(coll, 2, 6);
-            	   SetConjugate(coll, 2, 1, [2, 5]);
-                 G := PcpGroupByCollector(coll);
-            	return PcpGroupToPcGroup(RefinedPcpGroup(G));
-            	end;
-          	Add(ss, G2());
-          	G3 := function()
-            	  local coll, G;
-            	   coll := FromTheLeftCollector(2);
-            	   SetRelativeOrder(coll, 1, 4);
-            	   SetRelativeOrder(coll, 2, 3);
-            	   SetConjugate(coll, 2, 1, [2, 2]);
-      	         G := PcpGroupByCollector(coll);
-            	return PcpGroupToPcGroup(RefinedPcpGroup(G));
-            	end;
-           Add(ss, G3());
-           return ss;
-         end;
-
-      ## case4: q > p and q > 3
-          NonabelianGroupsP2Qcase4 := function(p, q)
-            local G1, G2, G3, ss;
-              ss := [];
-              G1 := function(p, q)
-                local a, r, coll, G;
-                  a := Z(q);
-                  r := Int(a^((q-1)/p));
-                  coll := FromTheLeftCollector(3);
-                  SetRelativeOrder(coll, 1, p);
-                  SetRelativeOrder(coll, 2, p);
-                  SetRelativeOrder(coll, 3, q);
-                  SetConjugate(coll, 3, 1, [3, r]);
-                  G := PcpGroupByCollector(coll);
-            	return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-             end;
-            if (q - 1) mod p = 0 and q > 3 then
-      	         Add(ss, G1(p, q));
-              fi;
-              G2 := function(p, q)
-                ## semidirect product of $C_q by C_{p^2}, constructed by refined pc-presentation
-                local a, r, coll, G;
-                  a := Z(q);
-                  r := Int(a^((q-1)/p));
-                  coll := FromTheLeftCollector(3);
-                  SetRelativeOrder(coll, 1, p);
-                  SetRelativeOrder(coll, 2, p);
-                  SetRelativeOrder(coll, 3, q);
-                  SetPower(coll, 1, [2, 1]);
-                  SetConjugate(coll, 3, 1, [3, r]);
-                  G := PcpGroupByCollector(coll);
-            	  return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-              end;
-              if (q - 1) mod p = 0 and q > 3 then
-        	 Add(ss, G2(p, q));
-          fi;
-              G3 := function(p, q)
-                local coll, a, r, k, G;
-                  a := Z(q);
-                  r := Int(a^((q-1)/(p^2)));
-                  k := Int(a^((q-1)/(p)));
-                  coll := FromTheLeftCollector(3);
-                  SetRelativeOrder(coll, 1, p);
-                  SetRelativeOrder(coll, 2, p);
-                  SetRelativeOrder(coll, 3, q);
-                  SetPower(coll, 1, [2, 1]);
-                  SetConjugate(coll, 3, 1, [3, r]);
-                  SetConjugate(coll, 3, 2, [3, k]);
-                  G := PcpGroupByCollector(coll);
-            	  return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-              end;
-              if (q - 1) mod (p^2) = 0 then
-            Add(ss, G3(p, q)); fi;
-              return ss;
+        ##
+        if (p - 1) mod q = 0 then
+          data1 := [ [q, p, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]; ##(C_q \ltimes C_p) times C_p
+          Add(s, msg.groupFromData(data1));
+          data2_k := function(i) ##C_q \ltimes C_p^2
+              local data, a, b, c, G;
+                a:= (Z(p))^((p-1)/q);
+                b:= Int((Z(q))^i);
+                c:= a^b;
+                data := [ [q, p, p], [2, 1, [2, Int(a)]], [3, 1, [3, Int(c)]] ];
+              return data;
           end;
+          ##
+          for k in [0..(q - 1)/2] do Add(list, msg.groupFromData(data2_k(k))); od;
+                #Info(InfoMSG,2,"start NonabelianGroupsP2Qcase2");
+          ##
+          data3 := function(p, q) ##C_q \ltimes C_{p^2}
+            local data, a, b, c, qq, ii;
+              a := ZmodnZObj(Int(Z(p)),p^2);
+              if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1;
+              fi;
+              c := Int(b^(p*(p-1)/q));
+              ii := c mod p;
+              qq := (c - ii)/p;
+              data := [ [q, p, p], [2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]] ];
+            return data;
+          end;
+          Add(s, msg.groupFromData(data3(p, q)));
+        fi;
+        return list;
+      end;
+####
+    if p > q and q > 2 and (p - 1) mod q = 0 then
+      Append(s, NonabelianGroupsP2Qcase2(p, q));
+    fi;
+####
+    NonabelianGroupsP2Qcase3 := function(p, q) ##case 3: p > q and q = 2
+      local data1, data2, data3, list;
+        data3 := [ [2, p, p], [2, 1, [2, p - 1]], [3, 1, [3, p - 1]] ]; ##C_2 \ltimes C_p^2
+        data2 := [ [2, p, p], [2, 1, [2, p - 1]] ]; ##D_p \times C_p
+        data1 := [ [2, p, p], [2, [3, 1]], [2, 1, [2, p - 1, 3, p - 1]], [3, 1, [3, p - 1]] ]; ##D_{p^2}
+        list  := [ msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3) ];
+      return list;
+    end;
+####
+    if p > q and q = 2 then
+      Append(s, NonabelianGroupsP2Qcase3(p, q));
+    fi;
+####
+    NonabelianGroupsOrderTwelve := function()       ##order 12
+      local data1, data2, data3, list;
+        data1 := [ [3, 2, 2], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ];
+        data2 := [ [2, 2, 3], [2, [3, 1]], [2, 1, [2, 1, 3, 2]], [3, 1, [3, 2]] ];
+        data3 := [ [2, 2, 3], [1, [2, 1]], [3, 1, [3, 2]] ];
+        list := [ msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3) ];
+        return list;
+      end;
+####
+    if p = 2 and q = 3 then
+      Append(s, NonabelianGroupsOrderTwelve());
+    fi;
+####
+    NonabelianGroupsP2Qcase4 := function(p, q) ## case4: q > p and q > 3
+      local data1, data2, data3, list, a;
+        a := Z(q);
+        if (q - 1) mod p = 0 and q > 3 then
+          data1 := [ [p, p, q], [3, 1, [3, Int(a^((q - 1)/p))]] ]; ##C_p \times (C_p \ltimes C_q)
+          data2 := [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(a^((q - 1)/p))]] ]; ## C_{p^2} \ltimes C_q
+        fi;
+        if (q - 1) mod (p^2) = 0 and q > 2 then
+          data3 := [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(a^((q - 1)/(p^2)))]], [3, 2, [3, Int(a^((q - 1)/p))]]]; ## C_{p^2} \ltimes C_q
+        fi;
 
+        list := [];
+        if (q - 1) mod p = 0 and q > 3 then
+          Append(list, [msg.groupFromData(data1), msg.groupFromData(data2)]);
+        fi;
+        if (q - 1) mod (p^2) = 0 and q > 2 then
+          Add(list, msg.groupFromData(data3));
+        fi;
+      return list;
+    end;
+####
+    if q > p and q > 3 then
+      Append(s, NonabelianGroupsP2Qcase4(p, q));
+    fi;
 ##now add all groups in by case distinction
-  if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
-	Error("wrong input");
-	fi;
-	s := [];
-	Add(s, AbelianGroup([p^2*q]));
-	Add(s, AbelianGroup([p, p*q]));
-	if p > q and q > 2 and (p + 1) mod q = 0 then
-	 Add(s, NonabelianGroupP2Qcase1(p, q));
-	fi;
-	if p > q and q > 2 and (p - 1) mod q = 0 then
-		Append(s, NonabelianGroupsP2Qcase2(p, q));
-	fi;
-	if p > q and q = 2 then
-		for grp in NonabelianGroupsP2Qcase3(p, q) do
-			Add(s, grp); od;
-	fi;
-	if p = 2 and q = 3 then for grp in NonabelianGroupsOrderTwelve() do Add(s, grp); od;
-	fi;
-	if q > p and q > 3 then for grp in NonabelianGroupsP2Qcase4(p, q) do Add(s, grp); od;
-	fi;
 return s;
 end );
 

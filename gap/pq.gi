@@ -7,40 +7,25 @@ deltaDivisibility := function(x, y)
   end;
     ###################################
 InstallGlobalFunction( allGroupsPQ, function(n)
-    local fac, p, q, coll, r, abelian, nonabelian, s;
+    local fac, p, q, abelian, nonabelian, s;
       s := [];
+
       fac := Factors(n);
       if Length(fac) > 2 then
         Error("Argument must be a product of two distinct primes"); fi;
       q := fac[1];
       p := fac[2];
-      abelian := function(p, q)
-        local coll, G;
-        coll := FromTheLeftCollector(2);
-        SetRelativeOrder(coll, 1, p);
-        SetRelativeOrder(coll, 2, q);
-        G := PcpGroupByCollector(coll);
-      return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-    end;
 
-      Add(s, abelian(p, q));
+      abelian := [ [p, q] ];
+
+      Add(s, msg.groupFromData(abelian));
 
       if not (p - 1) mod q = 0 then
         return s; fi;
 
-      nonabelian := function(p, q)
-        local G, coll, r;
-          r := Int((Z(p))^((p-1)/q));
-          coll := FromTheLeftCollector(2);
-          SetRelativeOrder(coll, 1, q);
-          SetRelativeOrder(coll, 2, p);
-          SetConjugate(coll, 2, 1, [2, r]);
-          G := PcpGroupByCollector(coll);
-        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-      end;
-
       if (p - 1) mod q = 0 then
-        Add(s, nonabelian(p, q));fi;
+        nonabelian := [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ];
+        Add(s, msg.groupFromData(nonabelian));fi;
       return s;
     end);
 
