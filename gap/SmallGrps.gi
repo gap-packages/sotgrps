@@ -89,7 +89,9 @@ testMySmallGroups := function(n)
 				missing    := [];
 				mygroups   := List(MySmallGroups(n),x->IdSmallGroup(x)[2]);
 						lib    := [1..NumberSmallGroups(n)];
-						if not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
+						if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
+							return true;
+						elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
 								Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
 								Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
 							  Append(missing, Filtered(lib, x-> not x in mygroups));
@@ -135,7 +137,7 @@ MySmallGroupsInformation := function(arg)
 			n := arg;
 		else Error("Too many arguments: input has to be an integer.");
 		fi;
-		
+
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(Factors(n));

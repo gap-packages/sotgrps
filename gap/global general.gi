@@ -1,7 +1,8 @@
 USE_NC := true;
+USE_PCP := false;
 ##############################
 groupFromData := function(data)
-  local coll, i, j, n;
+  local coll, i, j, n ,G;
    n := Size(data[1]);
    coll := FromTheLeftCollector(n);
    for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
@@ -13,6 +14,13 @@ groupFromData := function(data)
       fi;
    od;
    UpdatePolycyclicCollector(coll);
-  if USE_NC then return PcpGroupByCollectorNC(coll); else return PcpGroupByCollector(coll); fi;
+  if USE_NC then
+    G := PcpGroupByCollectorNC(coll);
+  else G := PcpGroupByCollector(coll);
+  fi;
+  if USE_PCP = false then
+    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+  else return G;
+  fi;
 end;
 ##############################
