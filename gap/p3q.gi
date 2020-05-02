@@ -56,54 +56,27 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
         local G1, G2, G3, G4, l;
           l := [];
           G1 := function(p, q)
-            local coll, G;
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, p);
-              SetRelativeOrder(coll, 2, p);
-              SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, q);
-              SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-              G := PcpGroupByCollector(coll);
-            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-          end;
+            local data;
+              data := [ [p, p, p, q], [2, 1, [2, 1, 3, 1]] ];
+              return msg.groupFromData(data);
+            end;
 
           G2 := function(p, q)
-            local coll, G;
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, p);
-  						SetRelativeOrder(coll, 2, p);
-  						SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, q);
-  						SetPower(coll, 1, [3, 1]);
-  						SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-  						G := PcpGroupByCollector(coll);
-  					return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            local data;
+              data := [ [p, p, p, q], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
+  					return msg.groupFromData(data);
   				end;
 
           G3 := function(q)
-            local coll, G;
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, 2);
-              SetRelativeOrder(coll, 2, 2);
-              SetRelativeOrder(coll, 3, 2);
-              SetRelativeOrder(coll, 4, q);
-              SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-              G := PcpGroupByCollector(coll);
-            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            local data;
+              data := [ [2, 2, 2, q], [2, 1, [2, 1, 3, 1]] ];
+            return msg.groupFromData(data);
           end;
 
           G4 := function(q)
-            local coll, G;
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, 2);
-              SetRelativeOrder(coll, 2, 2);
-              SetRelativeOrder(coll, 3, 2);
-              SetRelativeOrder(coll, 4, q);
-              SetPower(coll, 1, [3, 1]);
-              SetPower(coll, 2, [3, 1]);
-              SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-              G := PcpGroupByCollector(coll);
-            return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            local data;
+              data := [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
+            return msg.groupFromData(data);
           end;
 
           if p > 2 then Append(l, [G1(p, q), G2(p, q)]);
@@ -122,168 +95,121 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
               class1 := function(p, q)
                 local list, G1, G2, G3;
                   list := [];
+
                   G1 := function(p, q) ## G1 exists only when p divides (q - 1)
-                    local coll, c, r, G;
-                      c := Z(q);
-                      r := Int(c^((q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 4, 1, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                    local data;
+                      data := [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int((Z(q))^((q-1)/p))]]];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod p = 0 then Add(list, G1(p, q)); fi;
+
                   G2 := function(p, q) ## G2 exists only when p^2 divides (q - 1)
-                    local coll, c, r1, r2, G;
+                    local c, r1, r2, data;
                       c := Z(q);
                       r1 := Int(c^((q-1)/p));
                       r2 := Int(c^((q-1)/(p^2)));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 4, 1, [4, r2]);
-                      SetConjugate(coll, 4, 2, [4, r1]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, r2]], [4, 2, [4, r1]] ];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod (p^2) = 0 then Add(list, G2(p, q)); fi;
+
                   G3 := function(p, q) ## G3 exists only when p^3 divides (q - 1)
-                    local coll, c, r1, r2, r3, G;
+                    local c, r1, r2, r3, data;
                       c := Z(q);
                       r1 := Int(c^((q-1)/p));
                       r2 := Int(c^((q-1)/(p^2)));
                       r3 := Int(c^((q-1)/(p^3)));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 4, 1, [4, r3]);
-                      SetConjugate(coll, 4, 2, [4, r2]);
-                      SetConjugate(coll, 4, 3, [4, r1]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, r3]], [4, 2, [4, r2]], [4, 3, [4, r1]] ];
+                    return msg.groupFromData(data);
                   end;
-                if (q - 1) mod (p^3) = 0 then Add(list, G3(p, q)); fi;
+
+                  if (q - 1) mod (p^3) = 0 then Add(list, G3(p, q)); fi;
                 return list;
               end;
+
               Append(l, class1(p, q));
+
               ## class 2: when P = C_{p^2} \times C_p, there are three isom types of semidirect products of P \ltimes Q
               class2 := function(p, q)
                 local list, G1, G2, G3;
                   list := [];
                   G1 := function(p, q) ## G1 exists only when p divides (q - 1)
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(q);
                       r := Int(c^((q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetConjugate(coll, 4, 3, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [1, [2, 1]], [4, 3, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod p = 0 then Add(list, G1(p, q)); fi;
+
                   G2 := function(p, q) ## G2 exists only when p divides (q - 1)
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(q);
                       r := Int(c^((q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetConjugate(coll, 4, 1, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [1, [2, 1]], [4, 1, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod p = 0 then Add(list, G2(p, q)); fi;
+
                   G3 := function(p, q) ## G3 exists only when p^2 divides (q - 1)
-                    local coll, c, r1, r2, G;
+                    local c, r1, r2, data;
                       c := Z(q);
                       r1 := Int(c^((q-1)/p));
                       r2 := Int(c^((q-1)/(p^2)));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 1, [2, 1]);
-                      SetConjugate(coll, 4, 1, [4, r2]);
-                      SetConjugate(coll, 4, 2, [4, r1]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [1, [2, 1]], [4, 1, [4, r2]], [4, 2, [4, r1]] ];
+                    return msg.groupFromData(data);
                   end;
-                if (q - 1) mod (p^2) = 0 then Add(list, G3(p, q)); fi;
+
+                  if (q - 1) mod (p^2) = 0 then Add(list, G3(p, q)); fi;
+
                 return list;
               end;
+
               Append(l, class2(p, q));
+
               ## class 3: when P is elementary abelian, there is a unique isom type of P \ltimes Q
               class3 := function(p, q) ##class 3 exists only when p divides (q - 1)
-                local coll, G, c, r;
+                local data, c, r;
                   c := Z(q);
                   r := Int(c^((q-1)/p));
-                  coll := FromTheLeftCollector(4);
-                  SetRelativeOrder(coll, 1, p);
-                  SetRelativeOrder(coll, 2, p);
-                  SetRelativeOrder(coll, 3, p);
-                  SetRelativeOrder(coll, 4, q);
-                  SetConjugate(coll, 4, 1, [4, r]);
-                  G := PcpGroupByCollector(coll);
-                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                  data := [ [p, p, p, q], [4, 1, [4, r]] ];
+                return msg.groupFromData(data);
               end;
+
               if (q - 1) mod p = 0 then
-                Add(l, class3(p, q)); fi;
+                Add(l, class3(p, q));
+              fi;
+
               ## class 4: when P is extraspecial + type, there is a unique isom type of P \ltimes Q
               class4 := function(p, q)
                 local list, G1, G2;
                   list := [];
                   G1 := function(p, q)
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(q);
                       r := Int(c^((q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetConjugate(coll, 3, 1, [2, 1, 3, 1]);
-                      SetConjugate(coll, 4, 1, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [[p, p, p, q], [3, 1, [2, 1, 3, 1]], [4, 1, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
+
                 if (q - 1) mod p = 0 then
-                  Add(list, G1(p, q)); fi;
+                  Add(list, G1(p, q));
+                fi;
+
                   G2 := function(q)
-                    local coll, G;
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, 2);
-                      SetRelativeOrder(coll, 2, 2);
-                      SetRelativeOrder(coll, 3, 2);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-                      SetConjugate(coll, 4, 1, [4, q-1]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                    local data;
+                      data := [ [2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q-1]] ];
+                      return msg.groupFromData(data);
                   end;
+
                 if (q - 1) mod p = 0 and p = 2 then
-                    Add(list, G2(q)); fi;
+                    Add(list, G2(q));
+                fi;
+
                 return list;
               end;
             if (q - 1) mod p = 0 then
@@ -293,60 +219,43 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                 local list, t, G1, G2;
                   list := [];
                   G1 := function(k, p, q)
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(q);
                       r := Int(c^(k*(q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-                      SetConjugate(coll, 4, 1, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod p = 0 and p > 2 then for t in [1..p-1]
-                    do Add(list, G1(t, p, q)); od; fi;
+                    do Add(list, G1(t, p, q));
+                    od;
+                  fi;
+
                   G2 := function(p, q)
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(q);
                       r := Int(c^((q-1)/p));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, p);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, q);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-                      SetConjugate(coll, 4, 2, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 2, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
+
                   if (q - 1) mod p = 0 and p > 2 then
                     Add(list, G2(p, q)); fi;
                   return list;
                 end;
+
               if (q - 1) mod p = 0 and p > 2 then
                 Append(l, class5(p, q)); fi;
               ## class 6: when P = Q_8, there is a unique isom type of P \ltimes Q
               class6 := function(q)
-                local coll, G;
-                  coll := FromTheLeftCollector(4);
-                  SetRelativeOrder(coll, 1, 2);
-                  SetRelativeOrder(coll, 2, 2);
-                  SetRelativeOrder(coll, 3, 2);
-                  SetRelativeOrder(coll, 4, q);
-                  SetPower(coll, 1, [3, 1]);
-                  SetPower(coll, 2, [3, 1]);
-                  SetConjugate(coll, 2, 1, [2, 1, 3, 1]);
-                  SetConjugate(coll, 4, 1, [4, q - 1]);
-                  G := PcpGroupByCollector(coll);
-                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                local data;
+                  data := [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ];
+                return msg.groupFromData(data);
               end;
+
             if p = 2 and q > p then
               Add(l, class6(q)); fi;
+
             return l;
             end;
 ############ case 3 exists only when (q - 1) mod p = 0
@@ -359,25 +268,17 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
               l := [];
               ## class 1: when P is cyclic, there is a unique isom type of semidirect products of Q \ltimes P
               class1 := function(p, q)
-                local coll, i, ii, q1, r3, a, b, G;
-                  a := ZmodnZObj(Int(Z(p)),p^3);
-                  if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
-                  r3 := Int(b^((p^3-p^2)/q));
+                local i, ii, q1, r3, a, b, data;
+                  a := ZmodnZObj(Int(Z(p)), p^3);
+                  if not a^(p - 1) = ZmodnZObj(1, p^2) then
+                    b := a;
+                  else b := a+1; fi;
+                  r3 := Int(b^((p^3 - p^2)/q));
                   i := r3 mod p;
                   ii := (r3 - i)/p mod p;
                   q1 := ((r3 - i)/p - ii)/p;
-                  coll := FromTheLeftCollector(4);
-                  SetRelativeOrder(coll, 1, q);
-                  SetRelativeOrder(coll, 2, p);
-                  SetRelativeOrder(coll, 3, p);
-                  SetRelativeOrder(coll, 4, p);
-                  SetPower(coll, 2, [3, 1]);
-                  SetPower(coll, 3, [4, 1]);
-                  SetConjugate(coll, 2, 1, [2, i, 3, ii, 4, q1]);
-                  SetConjugate(coll, 3, 1, [3, i, 4, ii]);
-                  SetConjugate(coll, 4, 1, [4, i]);
-                  G := PcpGroupByCollector(coll);
-                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                  data := [ [q, p, p, p], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, i, 3, ii, 4, q1]], [3, 1, [3, i, 4, ii]], [4, 1, [4, i]] ];
+                return msg.groupFromData(data);
               end;
 
               if (p - 1) mod q = 0 then
@@ -385,74 +286,54 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
 
               ## class 2: when P = C_{p^2} \times C_p, there are (q + 1) isomorphism types of Q \ltimes P
               class2 := function(p, q)
-                local list, G1, G2, G3;
+                local list, G1, G2, G3, t;
                   list := [];
                   G1 := function(p, q)  ## C_q \ltimes C_p \times C_{p^2}
-                    local coll, G, c, r;
+                    local data, c, r;
                       c := Z(p);
                       r := Int(c^((p-1)/q));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetPower(coll, 3, [4, 1]);
-                      SetConjugate(coll, 2, 1, [2, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [3, [4, 1]], [2, 1, [2, r]] ];
+                    return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G1(p, q)); fi;
 
                   G2 := function(p, q)  ## C_q \ltimes C_{p^2} \times C_p
-                    local coll, G, a, b, r, ii, qq;
+                    local data, a, b, r, ii, qq;
                       a := ZmodnZObj(Int(Z(p)),p^2);
-                      if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
+                      if not a^(p - 1) = ZmodnZObj(1, p^2) then
+                        b := a;
+                      else b := a + 1; fi;
                       r := Int(b^((p^2-p)/q));
                       ii := r mod p;
                       qq := (r - ii)/p;
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetPower(coll, 2, [3, 1]);
-                      SetConjugate(coll, 2, 1, [2, ii, 3, qq]);
-                      SetConjugate(coll, 3, 1, [3, ii]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]] ];
+                    return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G2(p, q)); fi;
 
-                  G3 := function(p, q)  ## C_q \ltimes (C_{p^2} \times C_p)
-                    local tmp, t, Gtmp;
-                      tmp := [];
-                      Gtmp := function(k, p, q)
-                        local coll, G, a, b, r, rr, ii, qq;
-                          a := ZmodnZObj(Int(Z(p)),p^2);
-                          if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
+                  G3 := function(k, p, q)  ## C_q \ltimes (C_{p^2} \times C_p)
+                    local data, a, b, r, rr, ii, qq;
+                          a := ZmodnZObj(Int(Z(p)), p^2);
+                          if not a^(p - 1) = ZmodnZObj(1, p^2) then
+                            b := a;
+                          else b := a+1; fi;
                           r := Int(b^(k*(p^2-p)/q));
                           rr := (Int(b^((p^2-p)/q))) mod p;
                           ii := r mod p;
                           qq := (r - ii)/p;
-                          coll := FromTheLeftCollector(4);
-                          SetRelativeOrder(coll, 1, q);
-                          SetRelativeOrder(coll, 2, p);
-                          SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-                          SetPower(coll, 2, [3, 1]);
-                          SetConjugate(coll, 2, 1, [2, ii, 3, qq]);
-                          SetConjugate(coll, 3, 1, [3, ii]);
-                          SetConjugate(coll, 4, 1, [4, rr]);
-                          G := PcpGroupByCollector(coll);
-                        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                          data := [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]], [4, 1, [4, rr]] ];
+                        return msg.groupFromData(data);
                       end;
-                    for t in [1.. q - 1] do Add(tmp, Gtmp(t, p, q)); od;
-                    return tmp;
-                  end;
 
-                  if (p - 1 ) mod q = 0 then Append(list, G3(p, q)); fi;
+
+                  if (p - 1 ) mod q = 0 then
+                    for t in [1..(q - 1)] do
+                      Add(list, G3(t, p, q));
+                    od;
+                  fi;
+
                 return list;
               end;
 
@@ -461,177 +342,117 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
 
               ## class 3: when P is elementary abelian
               class3 := function(p, q)
-                local list, G1, G2, G3, G4, G5;
+                local list, G1, G2, G3, G4, G5, t;
                   list := [];
                   G1 := function(p, q) ## C_q \ltimes C_p \times C_p^2
-                    local coll, c, r, G;
+                    local c, r, data;
                       c := Z(p);
                       r := Int(c^((p - 1)/q));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                      SetRelativeOrder(coll, 2, p);
-                      SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetConjugate(coll, 4, 1, [4, r]);
-                      G := PcpGroupByCollector(coll);
-                    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [4, 1, [4, r]] ];
+                    return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G1(p, q)); fi;
 
-                  G2 := function(p, q) ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-                    local tmp, t, Gtmp;
-                      tmp := [];
-                      Gtmp := function(k, p, q)
-                        local coll, r, a, l, j, i, G;
-                          r:= Z(p);
-                          a:= Int(r^((p-1)/q));
-                          l:= Z(q);
-                          a:= Int(r^((p-1)/q));
-                          l:= Z(q);
-           			          i:= Int(l^k);
-           			          j:= Int(r^(i*(p-1)/q));
-           			          coll := FromTheLeftCollector(4);
-           			          SetRelativeOrder(coll, 1, q);
-           			          SetRelativeOrder(coll, 2, p);
-           			          SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-           			          SetConjugate(coll, 2, 1, [2, a]);
-           			          SetConjugate(coll, 3, 1, [3, j]);
-           			          G := PcpGroupByCollector(coll);
-           		         return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-           		       end;
-                     if (p - 1) mod q = 0 and q > 2 then for t in [0..(q-1)/2] do Add(tmp, Gtmp(t, p, q)); od; fi;
-                     if q = 2 then Add(tmp, Gtmp(0, p, 2)); fi;
-                     return tmp;
-                  end;
+                  G2 := function(k, p, q) ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
+                    local r, a, l, j, i, data;
+                      r:= Z(p);
+                      a:= Int(r^((p-1)/q));
+                      l:= Z(q);
+                      i:= Int(l^k);
+           			      j:= Int(r^(i*(p-1)/q));
+                      data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, j]] ];
+           		      return msg.groupFromData(data);
+           		    end;
 
-                  if (p - 1) mod q = 0 then Append(list, G2(p, q)); fi;
+                  if (p - 1) mod q = 0 and q > 2 then for t in [0..(q-1)/2] do Add(list, G2(t, p, q)); od; fi;
+                  if q = 2 then Add(list, G2(0, p, 2)); fi;
 
                   G3 := function(p, q) ## (C_q \ltimes C_p^2) \times C_p when q | (p + 1)
-                    local mat, G, coll;
+                    local mat, data;
               		    mat := msg.QthRootGL2P(p, q);
-              		    coll := FromTheLeftCollector(4);
-              		    SetRelativeOrder(coll, 1, q);
-              		    SetRelativeOrder(coll, 2, p);
-              		    SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-              		    SetConjugate(coll, 2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]);
-              	      SetConjugate(coll, 3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]);
-              		    G := PcpGroupByCollector(coll);
-              	    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ];
+              	    return msg.groupFromData(data);
                   end;
 
                   if (p + 1) mod q = 0 and q > 2 then Add(list, G3(p, q)); fi;
 
 
                   G4 := function(p, q) ## (C_q \ltimes C_p^3) when q | (p - 1)
-                    local a, r, t, tmp, Gtmp1, Gtmp2, Gtmp3, func, Gtmp4;
+                    local a, r, t, tmp, data1, data2, data3, func, data4;
                       tmp :=[];
                       a := Int(Z(p)^((p-1)/q));
                       r := Z(q);
-                      Gtmp1 := function(i, p, q)
-                        local ltmp, coll, G, x, k;
-                          ltmp := [];
+                      data1 := function(i)
+                        local x, k, data;
                           x := Int(r^i);
-                          k := Int(Z(p)^(x*(p-1)/q));
-                          coll := FromTheLeftCollector(4);
-                          SetRelativeOrder(coll, 1, q);
-                          SetRelativeOrder(coll, 2, p);
-                  		    SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-                          SetConjugate(coll, 2, 1, [2, a]);
-                          SetConjugate(coll, 3, 1, [3, a]);
-                          SetConjugate(coll, 4, 1, [4, k]);
-                          G := PcpGroupByCollector(coll);
-                        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                          k := Int(Z(p)^(x*(p - 1)/q));
+                          data := [ [q, p, p ,p], [2, 1, [2, a]], [3, 1, [3, a]], [4, 1, [4, k]] ];
+                        return msg.groupFromData(data);
                       end;
 
-                      if q = 2 then Add(tmp, Gtmp1(0, p, q)); fi;
+                      if q = 2 then Add(tmp, data1(0)); fi;
                       if (p - 1) mod 3 = 0 and q = 3 then
-                        for t in [0, 1] do Add(tmp, Gtmp1(t, p, q)); od; fi;
+                        for t in [0, 1] do Add(tmp, data1(t)); od; fi;
                       if (p - 1) mod q = 0 and q > 3 then
-                        for t in Filtered([1..q-2], x-> not x = (q-1)/2)
-                          do Add(tmp, Gtmp1(t, p, q)); od; fi;
+                        for t in Filtered([1..(q - 2)], x-> not x = (q - 1)/2)
+                          do Add(tmp, data1(t)); od; fi;
 
-                      Gtmp2 := function(i, p, q)
-                        local coll, G, x, y, k, k2;
+                      data2 := function(i)
+                        local data, x, y, k, k2;
                           x := Int(r^i);
                           y := Int(r^(-i));
                           k := Int(Z(p)^(x*(p-1)/q));
                           k2 := Int(Z(p)^(y*(p-1)/q));
-                          coll := FromTheLeftCollector(4);
-                          SetRelativeOrder(coll, 1, q);
-                          SetRelativeOrder(coll, 2, p);
-                    		   SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-                          SetConjugate(coll, 2, 1, [2, a]);
-                          SetConjugate(coll, 3, 1, [3, k]);
-                          SetConjugate(coll, 4, 1, [4, k2]);
-                          G := PcpGroupByCollector(coll);
-                        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                          data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, k]], [4, 1, [4, k2]] ];
+                        return msg.groupFromData(data);
                       end;
 
                       if (p - 1) mod q = 0 and q mod 3 = 1 then
-                        for t in Filtered([1..(q-1)/2], x->not x = (q-1)/3 and not x = 2*(q-1)/3)
-                          do Add(tmp, Gtmp2(t, p, q)); od; fi;
+                        for t in Filtered([1..(q - 1)/2], x->not x = (q - 1)/3 and not x = 2*(q - 1)/3)
+                          do Add(tmp, data2(t)); od; fi;
                       if (p - 1) mod q = 0 and q mod 3 = 2 and q > 2 then
-                        for t in [1..(q-1)/2]
-                          do Add(tmp, Gtmp2(t, p, q)); od; fi;
+                        for t in [1..(q - 1)/2]
+                          do Add(tmp, data2(t)); od; fi;
 
-                      Gtmp3 := function(i, p, q)
-                        local coll, G, x, y, k, k2;
+                      data3 := function(i)
+                        local data, x, y, k, k2;
                           x := Int(r^i);
                           y := Int(r^(-i));
                           k := Int(Z(p)^(x*(p-1)/q));
                           k2 := Int(Z(p)^(y*(p-1)/q));
-                          coll := FromTheLeftCollector(4);
-                          SetRelativeOrder(coll, 1, q);
-                          SetRelativeOrder(coll, 2, p);
-                    		   SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-                          SetConjugate(coll, 2, 1, [2, a]);
-                          SetConjugate(coll, 3, 1, [3, k]);
-                          SetConjugate(coll, 4, 1, [4, k2]);
-                          G := PcpGroupByCollector(coll);
-                        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                          data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, k]], [4, 1, [4, k2]] ];
                       end;
 
-                      if (p - 1) mod q = 0 and q mod 3 = 1 then for t in [0, (q-1)/3] do Add(tmp, Gtmp3(t, p, q)); od; fi;
-                      if (p - 1) mod q = 0 and q > 3 and q mod 3 = 2 then Add(tmp, Gtmp3(0, p, q)); fi;
+                      if (p - 1) mod q = 0 and q mod 3 = 1 then for t in [0, (q - 1)/3] do Add(tmp, data3(t)); od; fi;
+                      if (p - 1) mod q = 0 and q > 3 and q mod 3 = 2 then Add(tmp, data3(0)); fi;
 
                     func := function(q)
-                      local i, j, k, x, ll;
+                      local i, j, ll, aa, bb;
                         ll := [];
-                        for i in [1..q-2] do
-                          for j in [i+1..q-2] do
-                            for k in [j+1..q-2] do
-                              if (i+j+k) mod (q-1) = 0 then Add(ll, [-i mod (q-1), j, k]); fi;
-                              od;
+                        for i in [1..(2*q - 5)/3]
+                          do for j in [i+1..q - 2]
+                            do  aa := 2*(q - 1) - i - j;
+                                bb := aa - (q - 1);
+                                if (j < bb and bb < q - 1) or (j < aa and aa < q - 1) then
+                                  Add(ll, [-i mod (q - 1), j]);
+                                fi;
                             od;
                           od;
-                        return List(ll, x->[x[1],x[2]]);
+                        return ll;
                       end;
 
-                      Gtmp4 := function(i, p, q)
-                        local coll, G, x, y, k, k2;
+                      data4 := function(i)
+                        local data, x, y, k, k2;
                           x := Int(r^(i[1]));
                           y := Int(r^(i[2]));
-                          k := Int(Z(p)^(x*(p-1)/q));
-                          k2 := Int(Z(p)^(y*(p-1)/q));
-                          coll := FromTheLeftCollector(4);
-                          SetRelativeOrder(coll, 1, q);
-                          SetRelativeOrder(coll, 2, p);
-                          SetRelativeOrder(coll, 3, p);
-                          SetRelativeOrder(coll, 4, p);
-                          SetConjugate(coll, 2, 1, [2, a]);
-                          SetConjugate(coll, 3, 1, [3, k]);
-                          SetConjugate(coll, 4, 1, [4, k2]);
-                          G := PcpGroupByCollector(coll);
-                        return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                          k := Int(Z(p)^(x*(p - 1)/q));
+                          k2 := Int(Z(p)^(y*(p - 1)/q));
+                          data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, k]], [4, 1, [4, k2]] ];
+                        return msg.groupFromData(data);
                       end;
 
-                      if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, Gtmp4(t, p, q)); od; fi;
+                      if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, data4(t, p, q)); od; fi;
 
                     return tmp;
                   end;
@@ -639,18 +460,13 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                   if (p - 1) mod q = 0 then Append(list, G4(p, q)); fi;
 
                   G5 := function(p, q) ## (C_q \ltimes C_p^3) when q | (p^2 + p + 1)
-                    local mat, coll, G;
+                    local mat, data;
                       mat := msg.QthRootGL3P(p, q);
-                      coll := FromTheLeftCollector(4);
-              		    SetRelativeOrder(coll, 1, q);
-              		    SetRelativeOrder(coll, 2, p);
-              		    SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-              		    SetConjugate(coll, 2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1]), 4, Int(mat[3][1])]);
-              	      SetConjugate(coll, 3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2]), 4, Int(mat[3][2])]);
-                      SetConjugate(coll, 4, 1, [2, Int(mat[1][3]), 3, Int(mat[2][3]), 4, Int(mat[3][3])]);
-              		    G := PcpGroupByCollector(coll);
-              	    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p],
+                      [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1]), 4, Int(mat[3][1])]],
+                      [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2]), 4, Int(mat[3][2])]],
+                      [4, 1, [2, Int(mat[1][3]), 3, Int(mat[2][3]), 4, Int(mat[3][3])]] ];
+              	    return msg.groupFromData(data);
                   end;
 
                   if (p^2 + p + 1 ) mod q = 0 and q > 3 then Add(list, G5(p, q)); fi;
@@ -664,77 +480,47 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                 local list, t, G1, G2, G3, G4, G5;
                   list := [];
                   G1 := function(p, q) ## q | (p - 1), Z(G) = C_p
-                    local coll, G, r, a, b;
+                    local data, r, a, b;
                       r := Z(p);
                       a := Int(r^((p-1)/q));
                       b := Int(r^((1-p)/q));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-              		    SetRelativeOrder(coll, 2, p);
-              		    SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 3, 1, [3, a]);
-                      SetConjugate(coll, 2, 1, [2, b]);
-                      G := PcpGroupByCollector(coll);
-              	    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [3, 1, [3, a]], [2, 1, [2, b]] ];
+              	    return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G1(p, q)); fi;
 
                   G2 := function(p, q) ## q | (p - 1), Z(G) = 1
-                    local coll, G, r, a;
+                    local data, r, a;
                       r := Z(p);
                       a := Int(r^((p-1)/q));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                		  SetRelativeOrder(coll, 2, p);
-                		  SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 4, 1, [4, a]);
-                      SetConjugate(coll, 2, 1, [2, a]);
-                      G := PcpGroupByCollector(coll);
-                	   return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [4, 1, [4, a]], [2, 1, [2, a]] ];
+                	   return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G2(p, q)); fi;
 
                   G3 := function(i, p, q) ## q | (p - 1), Z(G) = 1
-                    local r, a, b, c, coll, G;
+                    local r, a, b, c, data;
                       r := Z(p);
                       a := Int(r^((p-1)/q));
                       b := Int(r^(i*(p-1)/q));
                       c := Int(r^((q+1-i)*(p-1)/q));
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                		  SetRelativeOrder(coll, 2, p);
-                		  SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 4, 1, [4, a]);
-                      SetConjugate(coll, 3, 1, [3, b]);
-                      SetConjugate(coll, 2, 1, [2, c]);
-                      G := PcpGroupByCollector(coll);
-                	   return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [4, 1, [4, a]], [3, 1, [3, b]], [2, 1, [2, c]] ];
+                	   return msg.groupFromData(data);
                   end;
 
-                  if (p - 1) mod q = 0 and q > 2 then for t in [2..(q+1)/2] do
+                  if (p - 1) mod q = 0 and q > 2 then for t in [2..(q + 1)/2] do
                     Add(list, G3(t, p, q)); od; fi;
 
                   G4 := function(p, q) ## q | (p + 1), Z(G) = C_p
-                    local coll, G, mat;
+                    local data, mat;
                       mat := msg.QthRootGL2P(p, q);
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                  		SetRelativeOrder(coll, 2, p);
-                  		SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]);
-                      SetConjugate(coll, 3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]);
-                      G := PcpGroupByCollector(coll);
-                	  return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p],
+                      [3, 2, [3, 1, 4, 1]],
+                      [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]],
+                      [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ];
+                	  return msg.groupFromData(data);
                   end;
 
                   if (p + 1) mod q = 0 and q > 2 and p > 2 then Add(list, G4(p, q)); fi;
@@ -749,23 +535,16 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                 local list, G1;
                   list := [];
                   G1 := function(p, q)
-                    local coll, a, b, r, qq, ii, G;
+                    local a, b, r, qq, ii, data;
                       a := ZmodnZObj(Int(Z(p)),p^2);
-                      if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
+                      if not a^(p - 1) = ZmodnZObj(1,p^2) then
+                        b := a;
+                      else b := a + 1; fi;
                       r := Int(b^(p*(p-1)/q));
                       ii := r mod p;
                       qq := (r - ii)/p;
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, q);
-                  		SetRelativeOrder(coll, 2, p);
-                  		SetRelativeOrder(coll, 3, p);
-                      SetRelativeOrder(coll, 4, p);
-                      SetPower(coll, 3, [4, 1]);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 3, 1, [3, ii, 4, qq]);
-                      SetConjugate(coll, 4, 1, [4, ii]);
-                      G := PcpGroupByCollector(coll);
-                	  return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                      data := [ [q, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ];
+                	  return msg.groupFromData(data);
                   end;
 
                   if (p - 1) mod q = 0 then Add(list, G1(p, q)); fi;
@@ -781,19 +560,9 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                   list := [];
 
                   G1 := function(p, q)
-                    local coll, G;
-                      coll := FromTheLeftCollector(4);
-                      SetRelativeOrder(coll, 1, 3);
-                  		SetRelativeOrder(coll, 2, 2);
-                  		SetRelativeOrder(coll, 3, 2);
-                      SetRelativeOrder(coll, 4, 2);
-                      SetPower(coll, 2, [4, 1]);
-                      SetPower(coll, 3, [4, 1]);
-                      SetConjugate(coll, 3, 2, [3, 1, 4, 1]);
-                      SetConjugate(coll, 2, 1, [3, 1]);
-                      SetConjugate(coll, 3, 1, [2, 1, 3, 1]);
-                      G := PcpGroupByCollector(coll);
-                	  return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+                    local data;
+                      data := [ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ];
+                	  return msg.groupFromData(data);
                   end;
 
                   if p = 2 and q = 3 then Add(list, G1(p, q)); fi;
