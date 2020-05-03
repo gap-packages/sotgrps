@@ -30,8 +30,8 @@ msg.QthRootGL2P := function(p, q)
    end;
 ############################################################################
 InstallGlobalFunction( allGroupsP2QR, function(n)
-  local fac, primefac, p, q, r, coll, case1, case2, case3, case4, case5, case6, case7, case8, s;
-    s := [];
+  local fac, primefac, p, q, r, coll, case1, case2, case3, case4, case5, case6, case7, case8, all;
+    all := [];
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
       Error("Argument must be of the form of p^2qr"); fi;
@@ -49,7 +49,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
         end;
     p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
 ############ add abelian groups in:
-    Append(s, [AbelianGroup([n]), AbelianGroup([p*q*r, p])]);
+    Append(all, [AbelianGroup([n]), AbelianGroup([p*q*r, p])]);
 ############ case 1: nonabelian and Fitting subgroup has order r -- unique isomorphism type iff p^2q | (r - 1)
       case1 := function(p, q, r)
         local a, b, c, d, data;
@@ -61,7 +61,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
         return msg.groupFromData(data);
       end;
 
-    if (r - 1) mod (p^2*q) = 0 then Add(s, case1(p, q, r)); fi;
+    if (r - 1) mod (p^2*q) = 0 then Add(all, case1(p, q, r)); fi;
 ############ case 2: nonabelian and Fitting subgroup has order qr -- p^2 | (q - 1)(r - 1) or p | (q - 1)(r - 1)
       case2 := function(p, q, r)
         local  list, G1, G2, G3, G4, G5, G6, i;
@@ -152,7 +152,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
         return  list;
       end;
 ############
-    Append(s, case2(p, q, r));
+    Append(all, case2(p, q, r));
 ############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p^2 - 1)
       case3 := function(p, q, r)
         local  list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, i, j;
@@ -176,7 +176,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           fi;
           ##
           G2 := function(p, q, r) ## qr | (p - 1) and G \cong (C_q \ltimes C_p) \times (C_r \ltimes C_p)
-            local a, t, data;
+            local a, s, t, data;
               a := Z(p);
               s := a^((p-1)/q);
               t := a^((p-1)/r);
@@ -356,7 +356,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           return list;
         end;
 ############
-      Append(s, case3(p, q, r));
+      Append(all, case3(p, q, r));
 ############ case 4: nonabelian and Fitting subgroup has order p^2q -- r | (p - 1) or r | (p + 1)
       case4 := function(p, q, r)
         local list, G1, G2, G3, G4, i;
@@ -369,7 +369,6 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
             ii := s mod p;
             qq := (s - ii)/p;
             data := [ [r, p, p, q], [2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]] ];
-            coll := FromTheLeftCollector(4);
           return msg.groupFromData(data);
         end;
         ##
@@ -378,7 +377,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
         fi;
         ##
         G2 := function(p, q, r) ## r | (p - 1) and G \cong (C_r \ltimes C_p) \times (C_p \times C_q)
-          local a, t, data;
+          local a, s, data;
             a := Z(p);
             s := Int(a^((p-1)/r));
             data := [ [r, p, p, q], [2, 1, [2, s]] ];
@@ -428,7 +427,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
         return list;
       end;
 ############
-      Append(s, case4(p, q, r));
+      Append(all, case4(p, q, r));
 ############ case 5: nonabelian and Fitting subgroup has order p^2r -- q | (p - 1)(r - 1) or q | (p + 1)(r - 1)
       case5 := function(p, q, r)
         local list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, i, j;
@@ -614,7 +613,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           return list;
         end;
 ############
-      Append(s, case5(p, q, r));
+      Append(all, case5(p, q, r));
 ############ case 6: nonabelian and Fitting subgroup has order pr -- q | (p - 1)(r - 1) and p | (r - 1)
       case6 := function(p, q, r)
         local list, G1, G2, G3, G4, i, j;
@@ -651,7 +650,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
               b := Z(p);
               c := a^((r-1)/p);
               d := b^((p-1)/q);
-              data := [ [p, r, q, q], [2, 1, [2, Int(c)]], [4, 3, [4, Int(d)]] ];
+              data := [ [p, r, q, p], [2, 1, [2, Int(c)]], [4, 3, [4, Int(d)]] ];
             return msg.groupFromData(data);
           end;
           ##
@@ -666,7 +665,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
               c := a^((r-1)/p);
               d := a^((r-1)/q);
               e := b^((p-1)/q);
-              data := [ [p, q, r, q], [3, 1, [3, Int(c)]], [3, 2, [3, Int(d)]], [4, 2, [4, Int(e^k)]] ];
+              data := [ [p, q, r, p], [3, 1, [3, Int(c)]], [3, 2, [3, Int(d)]], [4, 2, [4, Int(e^k)]] ];
             return msg.groupFromData(data);
           end;
           ##
@@ -679,7 +678,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           return list;
         end;
 ############
-        Append(s, case6(p, q, r));
+        Append(all, case6(p, q, r));
 ############ case 7: nonabelian and Fitting subgroup has order pqr -- p | (r - 1)(q - 1)
         case7 := function(p, q, r)
           local list, G1, G2, G3, i, j;
@@ -727,7 +726,7 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           return list;
         end;
 ############
-        Append(s, case7(p, q, r));
+        Append(all, case7(p, q, r));
 ############  case 8: nonabelian and Fitting subgroup has order pqr -- p | (r - 1)(q - 1)
         case8 := function(p, q, r)
           local list, G1, G2, G3, i, j;
@@ -775,13 +774,13 @@ InstallGlobalFunction( allGroupsP2QR, function(n)
           return list;
         end;
 ############
-        Append(s, case8(p, q, r));
+        Append(all, case8(p, q, r));
 ############
         if n = 60 then
-          Add(s, AlternatingGroup(5));
+          Add(all, AlternatingGroup(5));
         fi;
 ############
-        return s;
+        return all;
       end);
 
 ######################################################
