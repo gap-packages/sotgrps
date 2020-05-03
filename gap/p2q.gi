@@ -173,6 +173,7 @@ NumberGroupsP2Q := function(n)
 end;
 ######################################################
 
+msg.isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 2, 1 ], [ 1, 2 ] ];
 
 
 testMyallGroupsP2Q := function(n)

@@ -422,15 +422,21 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                           k := Int(Z(p)^(x*(p-1)/q));
                           k2 := Int(Z(p)^(y*(p-1)/q));
                           data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, k]], [4, 1, [4, k2]] ];
+                          return msg.groupFromData(data);
                       end;
 
                       if (p - 1) mod q = 0 and q mod 3 = 1 then for t in [0, (q - 1)/3] do Add(tmp, data3(t)); od; fi;
                       if (p - 1) mod q = 0 and q > 3 and q mod 3 = 2 then Add(tmp, data3(0)); fi;
 
                     func := function(q)
-                      local i, j, ll, aa, bb;
+                      local i, j, ll, aa, bb, m;
                         ll := [];
-                        for i in [1..(2*q - 5)/3]
+                        
+                        if q mod 3 = 1 then m := (2*q - 5)/3;
+                        else m := (2*q - 7)/3;
+                        fi;
+
+                        for i in [1..m]
                           do for j in [i+1..q - 2]
                             do  aa := 2*(q - 1) - i - j;
                                 bb := aa - (q - 1);
@@ -452,7 +458,7 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                         return msg.groupFromData(data);
                       end;
 
-                      if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, data4(t, p, q)); od; fi;
+                      if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, data4(t)); od; fi;
 
                     return tmp;
                   end;
@@ -477,12 +483,14 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                 Append(l, class3(p, q)); fi;
 
               class4 := function(p, q) ##when P is extraspecial of type +,
-                local list, t, G1, G2, G3, G4, G5;
+                local list, t, r, a, G1, G2, G3, G4, G5;
                   list := [];
+                  r := Z(p);
+                  if (p - 1) mod q = 0 then
+                    a := Int(r^((p-1)/q));
+                  fi;
                   G1 := function(p, q) ## q | (p - 1), Z(G) = C_p
-                    local data, r, a, b;
-                      r := Z(p);
-                      a := Int(r^((p-1)/q));
+                    local data, b;
                       b := Int(r^((1-p)/q));
                       data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [3, 1, [3, a]], [2, 1, [2, b]] ];
               	    return msg.groupFromData(data);
@@ -491,9 +499,7 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                   if (p - 1) mod q = 0 then Add(list, G1(p, q)); fi;
 
                   G2 := function(p, q) ## q | (p - 1), Z(G) = 1
-                    local data, r, a;
-                      r := Z(p);
-                      a := Int(r^((p-1)/q));
+                    local data;
                       data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [4, 1, [4, a]], [2, 1, [2, a]] ];
                 	   return msg.groupFromData(data);
                   end;
@@ -501,9 +507,7 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
                   if (p - 1) mod q = 0 then Add(list, G2(p, q)); fi;
 
                   G3 := function(i, p, q) ## q | (p - 1), Z(G) = 1
-                    local r, a, b, c, data;
-                      r := Z(p);
-                      a := Int(r^((p-1)/q));
+                    local b, c, data;
                       b := Int(r^(i*(p-1)/q));
                       c := Int(r^((q+1-i)*(p-1)/q));
                       data := [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [4, 1, [4, a]], [3, 1, [3, b]], [2, 1, [2, c]] ];
@@ -606,3 +610,5 @@ InstallGlobalFunction( allGroupsP3Q, function(n)
               + 10*deltafunction(q,2) + 3*deltafunction(n,24) + deltafunction(n,56); fi;
         return m;
       end;
+######################################################
+msg.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 3, 1 ], [ 1, 3 ] ];

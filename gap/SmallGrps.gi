@@ -161,8 +161,8 @@ MySmallGroupsInformation := function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
 			Print("SmallGroups(n) constructs all groups of order n up to isomorphism, where n factorises into at most 4 primes, except for n = pqrs.");
-		elif Length(arg) = 1 then
-			n := arg;
+		elif Length(n) = 1 then
+			n := arg[1];
 		else Error("Too many arguments: input has to be an integer.");
 		fi;
 

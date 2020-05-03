@@ -1,6 +1,3 @@
-
-
-
 ############################################################################
 msg.QthRootGL2P := function(p, q)
 	local a, b;
@@ -53,98 +50,65 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 
 		    #### case2: q mid (p - 1), q^2 nmid (p^2 - 1)
 		    case2 := function(p, q)
-		      local t, i, G1, G2, G3, G4, G5, G6, G7, list;
+		      local t, c, l, i, G1, G2, G3, G4, G5, G6, G7, list;
 		        list := [];
+						c := Z(p);
+						l := Z(q);
 						if not (p - 1) mod q = 0 then return list; else
 		        ##G1 semidirect product of C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_q
 		          G1 := function(p, q) #refined
-		            local a, b, coll, r, qq, ii, G;
+		            local a, b, r, qq, ii, data;
 		            ## get primitive root mod p^2
-		              a := ZmodnZObj(Int(Z(p)),p^2);
-		              if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
+		              a := ZmodnZObj(Int(Z(p)), p^2);
+		              if not a^(p - 1) = ZmodnZObj(1,p^2) then
+										b := a;
+									else b := a + 1; fi;
 		              r := Int(b^(p*(p-1)/q));
-		              coll := FromTheLeftCollector(4);
-		              SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		              SetRelativeOrder(coll, 3, p);
-		              SetRelativeOrder(coll, 4, p);
-		              SetPower(coll, 1, [2, 1]);
-		              SetPower(coll, 3, [4, 1]);
-		              ## write g_2^{g_1} = g_2^a as g_2^{ii}g_3^{qq} where a = qq*p+ii (div with remainder)
-		                ii := r mod p;
-		                qq := (r - ii)/p;
-		              SetConjugate(coll, 3, 1, [3, ii, 4, qq]);
-		              SetConjugate(coll, 4, 1, [4, ii]);
-		              G := PcpGroupByCollector(coll);
-		              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		            end;
+									ii := r mod p;
+									qq := (r - ii)/p;
+									data := [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ];
+		            return msg.groupFromData(data);
+		          end;
 		          ##
 		          Add(list, G1(p, q));
 		          ##
-		          ##G2 semidirect product of C_q^2 \ltimes C_{p^2}, \phi(Q) = C_q
-		            G2 := function(p, q) #refined
-		              local a, b, coll, r, qq, ii, G;
-		              ## get primitive root mod p^2
+		        ##G2 semidirect product of C_q^2 \ltimes C_{p^2}, \phi(Q) = C_q
+		          G2 := function(p, q) #refined
+		            local a, b, r, qq, ii, data;
+		            ## get primitive root mod p^2
 		              a := ZmodnZObj(Int(Z(p)),p^2);
-		                if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
-		                r := Int(b^(p*(p-1)/q));
-		                coll := FromTheLeftCollector(4);
-		                SetRelativeOrder(coll, 1, q);
-		                SetRelativeOrder(coll, 2, q);
-		                SetRelativeOrder(coll, 3, p);
-		                SetRelativeOrder(coll, 4, p);
-		                SetPower(coll, 3, [4, 1]);
-		                ## write g_2^{g_1} = g_2^a as g_2^{ii}g_3^{qq} where a = qq*p+ii (div with remainder)
-		                  ii := r mod p;
-		                  qq := (r - ii)/p;
-		                SetConjugate(coll, 3, 1, [3, ii, 4, qq]);
-		                SetConjugate(coll, 4, 1, [4, ii]);
-		                G := PcpGroupByCollector(coll);
-		                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		              end;
+		              if not a^(p-1) = ZmodnZObj(1, p^2) then
+										b := a;
+									else b := a + 1; fi;
+		              r := Int(b^(p*(p - 1)/q));
+									ii := r mod p;
+									qq := (r - ii)/p;
+									data := [ [q, q, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ];
+		            return msg.groupFromData(data);
+		          end;
 		          ##
 		          Add(list, G2(p, q));
 		          ##
 		          ##G3 semidirect product C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
 		          G3 := function(p, q) #refined
-		            local coll, c, r, G;
-		              c := Z(p);
-		              r := Int(c^((p-1)/q));
-		              coll := FromTheLeftCollector(4);
-		              SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		              SetRelativeOrder(coll, 3, p);
-		              SetRelativeOrder(coll, 4, p);
-		              SetPower(coll, 1, [2, 1]);
-		              SetConjugate(coll, 3, 1, [3, r]);
-		              G := PcpGroupByCollector(coll);
-		              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+		            local data;
+									data := [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(c^((p-1)/q))]] ];
+		              return msg.groupFromData(data);
 		            end;
 		          ##
 		          Add(list, G3(p, q));
 		          ##
 		          ##G4 semidirect product C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
 		          G4 := function(i, p, q) #refined
-		          	local coll, c, r, l, j, k, G;
-		          		c := Z(p);
-		          		r := Int(c^((p-1)/q));
-		              l := Z(q);
+		          	local j, k, data;
 		          		k := Int(l^i);
-		          		j := Int((c^((p-1)/q))^k);
-		          		coll := FromTheLeftCollector(4);
-		          		SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		          		SetRelativeOrder(coll, 3, p);
-		          		SetRelativeOrder(coll, 4, p);
-		              SetPower(coll, 1, [2,1]);
-		          		SetConjugate(coll, 3, 1, [3, r]);
-		          		SetConjugate(coll, 4, 1, [4, j]);
-		          		G := PcpGroupByCollector(coll);
-		          		return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		          	end;
+		          		j := Int(c^(k*(p-1)/q));
+									data := [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(c^((p-1)/q))]], [4, 1, [4, j]] ];
+		          	return msg.groupFromData(data);
+		          end;
 		          ##
 							if (p - 1) mod q = 0 and q mod 2 = 1 then
-		          t := (q-1)/2;
+		          t := (q - 1)/2;
 							else t := 0;
 							fi;
 
@@ -152,42 +116,24 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 		          ##
 		          ##G5 direct product of C_{qp} and semidirect product: C_q \times (C_q \ltimes C_p) \times C_p, \phi(Q) = C_q
 		          G5 := function(p, q) #refined
-		            local coll, c, r, G;
-		              c := Z(p);
-		              r := Int(c^((p-1)/q));
-		              coll := FromTheLeftCollector(4);
-		              SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		              SetRelativeOrder(coll, 3, p);
-		              SetRelativeOrder(coll, 4, p);
-		              SetConjugate(coll, 3, 1, [3, r]);
-		              G := PcpGroupByCollector(coll);
-		              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		            end;
+		            local data;
+									data := [ [q, q, p, p], [3, 1, [3, Int(c^((p-1)/q))]] ];
+		            return msg.groupFromData(data);
+		          end;
 		          ##
 		          Add(list, G5(p, q));
 		          ##
 		          ##G6 direct products of C_q and semidirect product: C_q \times (C_q \ltimes C_p^2), \phi(Q) = C_q
 		          G6 := function(i, p, q) #refined
-		          	local coll, c, r, l, j, k, G;
-		          		c:= Z(p);
-		          		r:= Int(c^((p-1)/q));
-		              l:= Z(q);
+		          	local j, k, data;
 		          		k:= Int(l^i);
 		          		j:= Int((c^((p-1)/q))^k);
-		          		coll := FromTheLeftCollector(4);
-		          		SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		          		SetRelativeOrder(coll, 3, p);
-		          		SetRelativeOrder(coll, 4, p);
-		          		SetConjugate(coll, 3, 1, [3, r]);
-		          		SetConjugate(coll, 4, 1, [4, j]);
-		          		G := PcpGroupByCollector(coll);
-		          		return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		          	end;
+									data := [ [q, q, p, p], [3, 1, [3, Int(c^((p-1)/q))]], [4, 1, [4, j]] ];
+		          	return msg.groupFromData(data);
+		          end;
 		          ##
 							if (p - 1) mod q = 0 and q mod 2 = 1 then
-		          t := (q-1)/2;
+		          t := (q - 1)/2;
 							else t := 0;
 							fi;
 
@@ -196,19 +142,10 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 		          ##
 		          ##G7 semidirect product ((C_q \times C_q) \ltimes C_p) \times C_p, \phi(Q) = C_q^2
 		          G7 := function(p, q) #refined
-		            local coll, c, r, G;
-		              c := Z(p);
-		              r := Int(c^((p-1)/q));
-		              coll := FromTheLeftCollector(4);
-		              SetRelativeOrder(coll, 1, q);
-		              SetRelativeOrder(coll, 2, q);
-		              SetRelativeOrder(coll, 3, p);
-		              SetRelativeOrder(coll, 4, p);
-		              SetConjugate(coll, 3, 1, [3, r]);
-		              SetConjugate(coll, 4, 2, [4, r]);
-		              G := PcpGroupByCollector(coll);
-		              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-		            end;
+		            local data;
+									data := [ [q, q, p, p], [3, 1, [3, Int(c^((p-1)/q))]], [4, 2, [4, Int(c^((p-1)/q))]] ];
+		            return msg.groupFromData(data);
+		          end;
 
 		          ##
 		          Add(list, G7(p, q));
@@ -229,35 +166,24 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
           local G1, G2;
             ##G1 direct product of C_q and semidirect product: C_q \times (C_q \ltimes C_p^2)
             G1 := function(p, q) #refined
-              local mat, G, coll;
-        		  mat := msg.QthRootGL2P(p, q);
-        		  coll := FromTheLeftCollector(4);
-        		  SetRelativeOrder(coll, 1, q);
-        		  SetRelativeOrder(coll, 2, q);
-        		  SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-        		  SetConjugate(coll, 3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]);
-        		  SetConjugate(coll, 4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]);
-        		  G := PcpGroupByCollector(coll);
-        	    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+              local mat, data;
+	        		  mat := msg.QthRootGL2P(p, q);
+								data := [ [q, q, p , p],
+								[3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
+								[4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]] ];
+        	  	return msg.groupFromData(data);
             end;
-           ## G2 semidirect product C_{q^2} \ltimes C_p^2
-           G2 := function(p, q) #refined
-              local mat, G, coll;
-              mat := msg.QthRootGL2P(p, q);
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, q);
-              SetRelativeOrder(coll, 2, q);
-              SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-              SetPower(coll, 1, [2, 1]);
-              SetConjugate(coll, 3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]);
-              SetConjugate(coll, 4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]);
-              G := PcpGroupByCollector(coll);
-             return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-           end;
+            ## G2 semidirect product C_{q^2} \ltimes C_p^2
+            G2 := function(p, q) #refined
+               local mat, data;
+	               mat := msg.QthRootGL2P(p, q);
+								 data := [ [q, q, p , p], [1, [2, 1]],
+								 [3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
+								 [4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]] ];
+              return msg.groupFromData(data);
+            end;
           return [G1(p, q), G2(p, q)];
-          end;
+        end;
 
     if (p + 1) mod q = 0 and q mod 2 = 1 then
       Append(s, case3(p, q));
@@ -267,23 +193,17 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
     #### case4: q^2 mid (p + 1)
     case4 := function(p, q) #refined
 				  ## semidirect product C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
-				      local mat, matq, G, coll;
-				      	mat := msg.QsquaredthRootGL2P(p, q);
-								matq := mat^q;
-				        coll := FromTheLeftCollector(4);
-				        SetRelativeOrder(coll, 1, q);
-								SetRelativeOrder(coll, 2, q);
-								SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 1, [2, 1]);
-								SetConjugate(coll, 3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]);
-								SetConjugate(coll, 4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]);
-								SetConjugate(coll, 3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]);
-								SetConjugate(coll, 4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]);
-								G := PcpGroupByCollector(coll);
-							return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+			local mat, matq, data;
+				mat := msg.QsquaredthRootGL2P(p, q);
+				matq := mat^q;
+				data := [ [q, q, p, p], [1, [2, 1]],
+				[3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
+				[4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]],
+				[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+				[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ];
+			return msg.groupFromData(data);
 		end;
-		###				 
+		###
     if (p + 1) mod (q^2) = 0 and q mod 2 = 1 then
     	Add(s, case4(p, q));
 		fi;
@@ -293,111 +213,62 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 		fi;
     #### case5: q^2 mid (p - 1)
     case5 := function(p, q) #unrefined
-      local list, t, i, G1, G2, G3, G4;
+      local list, i, G1, G2, G3, G4;
         list := [];
           ##G1 semidirect product of $C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_{q^2}
           G1 := function(p, q)
-            local a, b, coll, r, rr, qq, ii, qqq, iii, G;
+            local a, b, r, rr, qq, ii, qqq, iii, data;
             ## get primitive root mod p^2
             	a := ZmodnZObj(Int(Z(p)),p^2);
-              if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
+              if not a^(p - 1) = ZmodnZObj(1, p^2) then b := a; else b := a + 1; fi;
               r := Int(b^(p*(p-1)/(q^2)));
 							rr := Int(b^(p*(p - 1)/q));
 							ii := r mod p;
 							qq := (r-ii)/p;
 							iii := rr mod p;
 							qqq := (rr-iii)/p;
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, q);
-							SetRelativeOrder(coll, 2, q);
-							SetPower(coll, 1, [2, 1]);
-							SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-							SetPower(coll, 3, [4, 1]);
-							SetConjugate(coll, 3, 1, [3, ii, 4, qq]);
-							SetConjugate(coll, 4, 1, [4, ii]);
-              SetConjugate(coll, 3, 2, [3, iii, 4, qqq]);
-							SetConjugate(coll, 4, 2, [4, iii]);
-              G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-            end;
+							data := [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, iii, 4, qqq]], [4, 2, [4, iii]] ];
+            return msg.groupFromData(data);
+          end;
           ##
           Add(list, G1(p, q));
           ##G2 semidirect product of $C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
           G2 := function(p, q)
-            local a, b, coll, r, rr, G;
+            local a, b, r, rr, data;
               a := Z(p);
-              r := Int(a^((p-1)/(q^2)));
-							rr := Int(a^((p-1)/q));
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, q);
-							SetRelativeOrder(coll, 2, q);
-              SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-							SetPower(coll, 1, [2, 1]);
-              SetConjugate(coll, 3, 1, [3, r]);
-							SetConjugate(coll, 3, 2, [3, rr]);
-              G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-            end;
+              r := Int(a^((p - 1)/(q^2)));
+							rr := Int(a^((p - 1)/q));
+							data := [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, r]], [3, 2, [3, rr]] ];
+            return msg.groupFromData(data);
+          end;
           ##
           Add(list, G2(p, q));
           ##G3 semidirect product C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
           G3 := function(i, p, q)
-            local coll, a, b, c, r, rr, j, jj, k, G;
+            local a, b, c, r, rr, j, jj, k, data;
               c := Z(p);
               r := Int(c^((p-1)/(q^2)));
 							rr := Int(c^((p-1)/q));
-
-              ## get primitive root mod q^2 for powers
               a := ZmodnZObj(Int(Z(q)),q^2);
-                if not a^(q-1) = ZmodnZObj(1,q^2) then b := a; else b := a+1; fi;
+							if not a^(q - 1) = ZmodnZObj(1,q^2) then b := a; else b := a + 1; fi;
               k := Int(b^i);
-
 							j := Int((c^((p-1)/(q^2)))^k);
 							jj := Int((c^((p-1)/q))^k);
-
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, q);
-							SetRelativeOrder(coll, 2, q);
-              SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-							SetPower(coll, 1, [2, 1]);
-              SetConjugate(coll, 3, 1, [3, r]);
-              SetConjugate(coll, 4, 1, [4, j]);
-							SetConjugate(coll, 3, 2, [3, rr]);
-              SetConjugate(coll, 4, 2, [4, jj]);
-              G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-            end;
+							data := [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, r]], [4, 1, [4, j]], [3, 2, [3, rr]], [4, 2, [4, jj]] ];
+            return msg.groupFromData(data);
+          end;
           ##
-          t := (q^2-q)/2;
-
-          for i in [0..t] do Add(list, G3(i, p, q)); od;
-
+          for i in [0..(q^2 - q)/2] do Add(list, G3(i, p, q)); od;
           ##
-          G4 := function(i, p, q)
-            local coll, a, b, c, r, rr, j, jj, k, G;
+          G4 := function(k, p, q)
+            local c, r, data;
               c := Z(p);
               r := c^((p-1)/(q^2));
-              j := Int(r^(i*q));
-              coll := FromTheLeftCollector(4);
-              SetRelativeOrder(coll, 1, q);
-							SetRelativeOrder(coll, 2, q);
-              SetRelativeOrder(coll, 3, p);
-              SetRelativeOrder(coll, 4, p);
-							SetPower(coll, 1, [2, 1]);
-              SetConjugate(coll, 3, 1, [3, Int(r)]);
-							SetConjugate(coll, 3, 2, [3, Int(r^q)]);
-              SetConjugate(coll, 4, 1, [4, j]);
-              G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-            end;
+							data := [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(r)]], [3, 2, [3, Int(r^q)]], [4, 1, [4, Int(r^(k*q))]] ];
+            return msg.groupFromData(data);
+          end;
           ##
-          t := (q - 1);
-
-          for i in [1..t] do Add(list, G4(i, p, q)); od;
-
+          for i in [1..(q - 1)] do Add(list, G4(i, p, q)); od;
           ##
           return list;
           end;
@@ -407,245 +278,130 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 
     ####case6 q = 2
         case6 := function(p)
-          local ll, g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12, g13;
-            ll := [];
-
-            ## semidirect product C_4 \ltimes C_{p^2}, \phi(Q) = C_2
-            g1 := function(p) #unrefined
-              local coll, G;
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-								SetPower(coll, 1, [2, 1]);
-                SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 3, [4, 1]);
-                SetConjugate(coll, 3, 1, [3, p-1, 4, p-1]);
-								SetConjugate(coll, 4, 1, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-              end;
-            Add(ll, g1(p));
+          local list, G1, G2, G3, G4, G5, G6, G7, G8, G9, G10, G11, G12, G13;
+            list := [];
+            G1 := function(p) ## semidirect product C_4 \ltimes C_{p^2}, \phi(Q) = C_2
+              local data;
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, p-1, 4, p-1]], [4, 1, [4, p-1]] ];
+              return msg.groupFromData(data);
+            end;
+            Add(list, G1(p));
 
 						## semidirect product C_4 \ltimes C_p^2 \phi(Q) = C_2
-						g2 := function(p)
-							local coll, G;
-								coll := FromTheLeftCollector(4);
-								SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-								SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 1, [2, 1]);
-								SetConjugate(coll, 3, 1, [3, p-1]);
-								G := PcpGroupByCollector(coll);
-							return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+						G2 := function(p)
+							local data;
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, (p - 1)]] ];
+							return msg.groupFromData(data);
 						end;
 
-						g3 := function(p)
-							local coll, G;
-								coll := FromTheLeftCollector(4);
-								SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-								SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 1, [2, 1]);
-								SetConjugate(coll, 3, 1, [3, p-1]);
-								SetConjugate(coll, 4, 1, [4, p-1]);
-								G := PcpGroupByCollector(coll);
-							return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+						G3 := function(p)
+							local data;
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, p-1]] ];
+							return msg.groupFromData(data);
 						end;
 
-						Add(ll, g2(p));
-						Add(ll, g3(p));
+						Append(list, [G2(p), G3(p)]);
 
 						# semidirect product C_2^2 \ltimes C_{p^2}, \phi(Q) = C_2
-						g4 := function(p) #unrefined
-							local coll, G;
-						  	coll := FromTheLeftCollector(4);
-								SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-								SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 3, [4, 1]);
-								SetConjugate(coll, 3, 1, [3, p-1, 4, p-1]);
-								SetConjugate(coll, 4, 1, [4, p-1]);
-								G := PcpGroupByCollector(coll);
-							return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+						G4 := function(p) #unrefined
+							local data;
+						  	data := [ [2, 2, p, p], [3, [4, 1]], [3, 1, [3, p-1, 4, p-1]], [4, 1, [4, p-1]] ];
+							return msg.groupFromData(data);
 						end;
 
-						Add(ll, g4(p));
+						Add(list, G4(p));
 
             ## semidirect product C_2^2 \ltimes C_p^2, \phi(Q) = C_2
-            g5 := function(p)
-              local coll, G;
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetConjugate(coll, 3, 1, [3, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            G5 := function(p)
+              local data;
+                data := [ [2, 2, p, p], [3, 1, [3, p - 1]] ];
+              return msg.groupFromData(data);
             end;
 
-            g6 := function(p)
-              local coll, G;
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetConjugate(coll, 3, 1, [3, p-1]);
-                SetConjugate(coll, 4, 1, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            G6 := function(p)
+              local data;
+                data := [ [2, 2, p, p], [3, 1, [3, p - 1]], [4, 1, [4, p - 1]] ];
+              return msg.groupFromData(data);
             end;
+
+						Append(list, [G5(p), G6(p)]);
 
             ## semidirect product C_2^2 \ltimes C_p^2 \phi(Q) = C_2^2
-            g7 := function(p)
-              local coll, G;
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetConjugate(coll, 3, 1, [3, p-1]);
-                SetConjugate(coll, 4, 2, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            G7 := function(p)
+              local data;
+                data := [ [2, 2, p, p], [3, 1, [3, p-1]], [4, 2, [4, p-1]] ];
+              return msg.groupFromData(data);
             end;
 
-            Add(ll, g5(p));
-            Add(ll, g6(p));
-            Add(ll, g7(p));
+            Add(list, G7(p));
 
 						## semidirect product C_4 \ltimes C_{p^2}, \phi(Q) = C_4
-            g8 := function(p)
-              local coll, G, a, b, r, rr, qq, ii;
-
-                ## find primitive root modulo p^2
+            G8 := function(p)
+              local data, a, b, r, rr, qq, ii;
                 a := ZmodnZObj(Int(Z(p)),p^2);
-                if not a^(p-1) = ZmodnZObj(1,p^2) then b := a; else b := a+1; fi;
-
+                if not a^(p - 1) = ZmodnZObj(1, p^2) then b := a; else b := a + 1; fi;
                 r := Int(a^((p^2-p)/4));
 								ii := r mod p;
-								qq := (r-ii)/p;
-
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-								SetPower(coll, 1, [2, 1]);
-                SetRelativeOrder(coll, 3, p);
-								SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 3, [4, 1]);
-                SetConjugate(coll, 3, 1, [3, ii, 4, qq]);
-								SetConjugate(coll, 4, 1, [4, ii]);
-								SetConjugate(coll, 3, 2, [3, p-1, 4, p-1]);
-								SetConjugate(coll, 4, 2, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-                return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+								qq := (r - ii)/p;
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, p-1, 4, p-1]], [4, 2, [4, p-1]] ];
+                return msg.groupFromData(data);
               end;
+
             if p mod 4 = 1 then
-            Add(ll, g8(p)); fi;
+            Add(list, G8(p)); fi;
 
             ## semidirect product C_4 \ltimes C_p^2 \phi(Q) = C_4
-            g9 := function(p)
-              local coll, G, a, r;
-                a := Z(p);
-                r := Int(a^((p - 1)/4));
-
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetPower(coll, 1, [2, 1]);
-                SetConjugate(coll, 3, 1, [3, r]);
-                SetConjugate(coll, 3, 2, [3, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+            G9 := function(p)
+              local data;
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int((Z(p))^((p - 1)/4))]], [3, 2, [3, p - 1]] ];
+              return msg.groupFromData(data);
             end;
 
-            g10 := function(p)
-              local coll, G, a, r;
+            G10 := function(p)
+              local data, a, r;
                 a := Z(p);
                 r := Int(a^((p - 1)/4));
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetPower(coll, 1, [2, 1]);
-                SetConjugate(coll, 3, 1, [3, r]);
-                SetConjugate(coll, 3, 2, [3, p-1]);
-                SetConjugate(coll, 4, 1, [4, r]);
-                SetConjugate(coll, 4, 2, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, r]], [3, 2, [3, p-1]], [4, 1, [4, r]], [4, 2, [4, p-1]] ];
+              return msg.groupFromData(data);
             end;
 
-						g11 := function(p)
-              local coll, G, a, r, k;
+						G11 := function(p)
+              local data, a, r, k;
                 a := Z(p);
                 r := Int(a^((p - 1)/4));
                 k := Int((a^((p - 1)/4))^3);
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetPower(coll, 1, [2, 1]);
-                SetConjugate(coll, 3, 1, [3, r]);
-                SetConjugate(coll, 3, 2, [3, p-1]);
-                SetConjugate(coll, 4, 1, [4, k]);
-                SetConjugate(coll, 4, 2, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, r]], [3, 2, [3, p-1]], [4, 1, [4, k]], [4, 2, [4, p-1]] ];
+              return msg.groupFromData(data);
             end;
 
-            g12 := function(p)
-              local coll, G, a, r;
+            G12 := function(p)
+              local data, a, r;
                 a := Z(p);
                 r := Int(a^((p - 1)/4));
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-                SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-                SetPower(coll, 1, [2, 1]);
-                SetConjugate(coll, 3, 1, [3, p-1]);
-                SetConjugate(coll, 4, 1, [4, r]);
-                SetConjugate(coll, 4, 2, [4, p-1]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+								data := [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, r]], [4, 2, [4, p-1]] ];
+              return msg.groupFromData(data);
             end;
 
             if p mod 4 = 1 then
-             Append(ll, [g9(p), g10(p), g11(p), g12(p)]);
+             Append(list, [G9(p), G10(p), G11(p), G12(p)]);
 						fi;
 
-            g13 := function(p)
-              local coll, G, mat, mat2;
+            G13 := function(p)
+              local data, mat, mat2;
                 mat := msg.QsquaredthRootGL2P(p, 2);
 								mat2 := mat^2;
-                coll := FromTheLeftCollector(4);
-                SetRelativeOrder(coll, 1, 2);
-								SetRelativeOrder(coll, 2, 2);
-                SetRelativeOrder(coll, 3, p);
-                SetRelativeOrder(coll, 4, p);
-								SetPower(coll, 1, [2, 1]);
-                SetConjugate(coll, 3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]);
-                SetConjugate(coll, 4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]);
-								SetConjugate(coll, 3, 2, [3, Int(mat2[1][1]), 4, Int(mat2[2][1])]);
-								SetConjugate(coll, 4, 2, [3, Int(mat2[1][2]), 4, Int(mat2[2][2])]);
-                G := PcpGroupByCollector(coll);
-              return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+								data := [ [2, 2, p, p], [1, [2, 1]],
+								[3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
+								[4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]],
+								[3, 2, [3, Int(mat2[1][1]), 4, Int(mat2[2][1])]],
+								[4, 2, [3, Int(mat2[1][2]), 4, Int(mat2[2][2])]] ];
+              return msg.groupFromData(data);
             end;
 
             if p mod 4 = 3 then
-            Add(ll, g13(p)); fi;
+            Add(list, G13(p)); fi;
 
-            return ll;
+            return list;
           end;
     if q = 2 and p > 3 then
 			Append(s, case6(p)); fi;
@@ -677,11 +433,5 @@ InstallGlobalFunction( allGroupsP2Q2, function(n)
 			return w;
 		end;
 ############################################################################
-	IsP2Q2 := function(n)
-	 local fac;
-	       fac := Factors(n);
-	 if not Length(fac)= 4 or not Length(Collected(fac)) = 2 or not fac[1] = fac[2] or not fac[3] = fac[4] then
-	 		 return false;
-	 else return true;
-	 fi;
-	 end;
+
+msg.isp2q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2]) = [ 2, 2 ];
