@@ -1,14 +1,3 @@
-msg.QthRootGL2P := function(p, q)
-  	local a, b;
-  	if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
-  	 Error("Arguments has to be coprime, where q divides (p^2 - 1).\n");
-  	 else
-  	 a := PrimitiveElement(GF(p^2));
-  	 b := a^((p^2-1)/q);
-  	fi;
-     return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
-   end;
-############################################################################
 msg.allGroupsP2QR := function(n)
   local fac, primefac, p, q, r, coll, case1, case2, case3, case4, case5, case6, case7, case8, all;
     all := [];
