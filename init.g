@@ -22,11 +22,5 @@ DeclareInfoClass( "InfoMSG" );
 ##
 #D Read .gd files
 ##
-ReadPackage(mysmallgrpsPkgName,"gap/pq.gd");                #preliminary functions
-ReadPackage(mysmallgrpsPkgName,"gap/p2q.gd");
-ReadPackage(mysmallgrpsPkgName,"gap/p2q2.gd");
-ReadPackage(mysmallgrpsPkgName,"gap/pqr.gd");
-ReadPackage(mysmallgrpsPkgName,"gap/p3q.gd");
-ReadPackage(mysmallgrpsPkgName,"gap/p2qr.gd");
-ReadPackage(mysmallgrpsPkgName,"gap/lowpowerPGroups.gd");
+
 ReadPackage(mysmallgrpsPkgName,"gap/SmallGrps.gd");
