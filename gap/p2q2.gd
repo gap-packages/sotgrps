@@ -9,4 +9,4 @@
 ##
 ## The input <n> has to be  ...
 ##
-DeclareGlobalFunction("allGroupsP2Q2");
+##DeclareGlobalFunction("allGroupsP2Q2");

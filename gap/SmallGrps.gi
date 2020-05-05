@@ -24,8 +24,6 @@ msg.groupFromData := function(data)
   fi;
 end;
 ##############################
-
-
 InstallGlobalFunction( MySmallGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
@@ -34,31 +32,31 @@ InstallGlobalFunction( MySmallGroups, function(n)
 		if Length(fac) = 1 then
 			p := PF[1];
 			k := length;
-			return lowpowerPGroups(p, k);
+			return msg.lowpowerPGroups(p, k);
 		fi;
 
 		if length = 2 and Length(fac) = 2 then
-			return allGroupsPQ(n);
+			return msg.allGroupsPQ(n);
 		fi;
 
 		if length = 3 and Length(fac) = 2 then
-			return allGroupsP2Q(n);
+			return msg.allGroupsP2Q(n);
 		fi;
 
 		if length = 3 and Length(fac) = 3 then
-			return allGroupsPQR(n);
+			return msg.allGroupsPQR(n);
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-			return allGroupsP2Q2(n);
+			return msg.allGroupsP2Q2(n);
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-			return allGroupsP3Q(n);
+			return msg.allGroupsP3Q(n);
 		fi;
 
 		if length = 4 and Length(fac) = 3 then
-			return allGroupsP2QR(n);
+			return msg.allGroupsP2QR(n);
 		fi;
 	end);
 
@@ -71,36 +69,36 @@ InstallGlobalFunction( NumberMySmallGroups, function(n)
 		if Length(fac) = 1 then
 			p := PF[1];
 			k := length;
-			return NumberPGroups(n);
+			return msg.NumberPGroups(n);
 		fi;
 
 		if length = 2 and Length(fac) = 2 then
-			return NumberGroupsPQ(n);
+			return msg.NumberGroupsPQ(n);
 		fi;
 
 		if length = 3 and Length(fac) = 2 then
-			return NumberGroupsP2Q(n);
+			return msg.NumberGroupsP2Q(n);
 		fi;
 
 		if length = 3 and Length(fac) = 3 then
-			return NumberGroupsPQR(n);
+			return msg.NumberGroupsPQR(n);
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-			return NumberGroupsP2Q2(n);
+			return msg.NumberGroupsP2Q2(n);
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-			return NumberGroupsP3Q(n);
+			return msg.NumberGroupsP3Q(n);
 		fi;
 
 		if length = 4 and Length(fac) = 3 then
-			return NumberGroupsP2QR(n);
+			return msg.NumberGroupsP2QR(n);
 		fi;
 	end);
 
 ############################################################################
-isAvailable := function(n) ## tells whether the order is available for construction
+msg.isAvailable := function(n) ## tells whether the order is available for construction
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
@@ -111,41 +109,42 @@ isAvailable := function(n) ## tells whether the order is available for construct
 	end;
 
 ############################################################################
-testMySmallGroups := function(n)
+msg.testMySmallGroups := function(n)
 	local mygroups, lib, duplicates, missing;
 				duplicates := [];
 				missing    := [];
 				mygroups   := List(MySmallGroups(n),x->IdSmallGroup(x)[2]);
 						lib    := [1..NumberSmallGroups(n)];
-						if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
-							return true;
-						elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
-								Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
-								Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
-							  Append(missing, Filtered(lib, x-> not x in mygroups));
-								Print(("missing groups of order "), n,(" with id "), missing, ".");
-					  fi;
-end;
-############################################################################
-isIrredundant := function(n)
-	local mystuff, lib;
-				mystuff := Size(MySmallGroups(n));
-				    lib := NumberSmallGroups(n);
-						if mystuff = lib then return true;
-						else return false; fi;
-		end;
-############################################################################
-testMyNumberSmallGroups := function(n)
-	local mystuff, lib;
-	 			mystuff := NumberMySmallGroups(n);
-				lib 		 := NumberSmallGroups(n);
-				if not mystuff = lib then return false;
-				else 										 return true;
+				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
+					return true;
+				elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
+					Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
+					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
+					 Append(missing, Filtered(lib, x-> not x in mygroups));
+					Print(("missing groups of order "), n,(" with id "), missing, ".");
 				fi;
-				Print("checked ",n,"\n");
 end;
 ############################################################################
-testIrredundancy := function(n)
+msg.isIrredundant := function(n)
+	local mystuff, lib;
+		mystuff := Size(MySmallGroups(n));
+			  lib := NumberSmallGroups(n);
+		if mystuff = lib then return true;
+		else
+  return false; fi;
+end;
+############################################################################
+msg.testMyNumberSmallGroups := function(n)
+	local mystuff, lib;
+	 	mystuff := NumberMySmallGroups(n);
+	      lib := NumberSmallGroups(n);
+		if not mystuff = lib then return false;
+		else 										 return true;
+		fi;
+	Print("checked ",n,"\n");
+end;
+############################################################################
+msg.testIrredundancy := function(n)
 	local actual, theory;
 		actual := Size(MySmallGroups(n));
 		theory := NumberMySmallGroups(n);
@@ -197,23 +196,23 @@ MySmallGroupsInformation := function(arg)
 		if length = 3 and Length(fac) = 2 then
 			if not (PF[1] - 1) mod PF[3] = 0 and not (PF[3] - 1) mod PF[1] = 0 then
 				Print(("There are two isomorphism types of order "), n, (": one is cyclic, and one is isomorphic to AbelianGroup("), p*q, p, (")."));
-			else Print(("There are "), NumberGroupsP2Q(n), (" isomorphism types of groups of order "), n, ("."));
+			else Print(("There are "), msg.NumberGroupsP2Q(n), (" isomorphism types of groups of order "), n, ("."));
 			fi;
 		fi;
 
 		if length = 3 and Length(fac) = 3 then
-			Print(("There are "), NumberGroupsPQR(n), (" isomorphism types of squarefree groups of order "), n, ("."));
+			Print(("There are "), msg.NumberGroupsPQR(n), (" isomorphism types of squarefree groups of order "), n, ("."));
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-			Print(("There are "), NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
+			Print(("There are "), msg.NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
 		fi;
 
 		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-			Print(("There are "), NumberGroupsP3Q(n), (" isomorphism types of groups of order "), n, ("."));
+			Print(("There are "), msg.NumberGroupsP3Q(n), (" isomorphism types of groups of order "), n, ("."));
 		fi;
 
 		if length = 4 and Length(fac) = 3 then
-			Print(("There are "), NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
+			Print(("There are "), msg.NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
 		fi;
 end;

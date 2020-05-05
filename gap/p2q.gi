@@ -1,17 +1,7 @@
-##############################################################
-msg.QthRootGL2P := function(p, q)
-	local a, b;
-	if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2-1) mod q = 0 then
-	 Error("Arguments has to be primes p, q, where q divides (p^2 - 1).\n");
-	 else
-	 a := PrimitiveElement(GF(p^2));
-	 b := a^((p^2-1)/q);
-	fi;
-   return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
- end;
+
 ##############################################################
 
-InstallGlobalFunction( allGroupsP2Q, function(n)
+msg.allGroupsP2Q := function(n)
 	local fac, p, q, AbelianGroupsP2Q, NonabelianGroupP2Qcase1, NonabelianGroupsP2Qcase2,
          NonabelianGroupsP2Qcase3, NonabelianGroupsOrderTwelve, NonabelianGroupsP2Qcase4, s;
 ####
@@ -144,17 +134,11 @@ InstallGlobalFunction( allGroupsP2Q, function(n)
     fi;
 ##now add all groups in by case distinction
 return s;
-end );
+end;
+
 
 ######################################################
-deltaDivisibility := function(x, y)
-  local w;
-    if x mod y = 0 then w := 1;
-    else w := 0; fi;
-  return w;
-  end;
-######################################################
-NumberGroupsP2Q := function(n)
+msg.NumberGroupsP2Q := function(n)
   local fac, p, q, w;
     fac := Factors(n);
     if not Length(fac) = 3 or fac[1] = fac[3] then
@@ -166,52 +150,11 @@ NumberGroupsP2Q := function(n)
       q := fac[1];
       fi;
     if q = 2 then w := 5;
-    elif p > q then w := 2 + deltaDivisibility((p+1), q) + (q+5)*deltaDivisibility((p-1), q)/2;
-    else w := 2 + 2*deltaDivisibility((q-1), p) + deltaDivisibility((q-1), p^2);
+    elif p > q then w := 2 + msg.deltaDivisibility((p+1), q) + (q+5)*msg.deltaDivisibility((p-1), q)/2;
+    else w := 2 + 2*msg.deltaDivisibility((q-1), p) + msg.deltaDivisibility((q-1), p^2);
     fi;
   return w;
 end;
 ######################################################
 
 msg.isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 2, 1 ], [ 1, 2 ] ];
-
-
-testMyallGroupsP2Q := function(n)
-local mystuff, lib, i, j;
-  ## this SHOULD be the set 1,2,3,.., NumberSmallGroups(p^2*q)
-  Display("start");
-   mystuff := AsSet(List(allGroupsP2Q(n),x->IdSmallGroup(x)[2]));
-
-   		if not mystuff = [1..NumberSmallGroups(n)] then
-     	 Error("ARRGGG... shit... revise!");
-  		 else
-         Display("end");
-      return true;
-   fi;
-end;
-
-
-
-
-
-testAllPrimesPQ := function()
-local p,q;
-  for p in Primes do
-    Print("start prime ",p,"\n");
-    for q in Primes do
-       if not p = q then testMyallGroupsP2Q(p^2*q); fi;
-    od;
-  od;
-  return true;
-end;
-
-testAllPrimes2PQ := function()
-local p,q;
-  for p in Primes2 do
-    Print("start prime ",p,"\n");
-    for q in Primes do
-       if not p = q then testMyallGroupsP2Q(p^2*q); fi;
-    od;
-  od;
-  return true;
-end;

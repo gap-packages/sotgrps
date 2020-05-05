@@ -1,45 +1,42 @@
-
-############################################################################
-InstallGlobalFunction( lowpowerPGroups, function(p, k)
+msg.lowpowerPGroups := function(p, k)
 	local l, allGrpsP, allGrpsP2, allGrpsP3, allGrpsP4;
-
-			allGrpsP := function(p)
-				local list;
+		allGrpsP := function(p)
+			local list;
 				list := [];
 				Add(list, AbelianGroup([p]));
-				return list;
-			end;
+			return list;
+		end;
 #####################################
-			allGrpsP2 := function(p)
-				local data1, data2, list;
-					list := [];
-					data1 := [ [p, p], [1, [2, 1]] ];
-					data2 := [ [p, p] ];
-					Append(list, [msg.groupFromData(data1), msg.groupFromData(data2)]);
-				return list;
-			end;
+		allGrpsP2 := function(p)
+			local data1, data2, list;
+				list := [];
+				data1 := [ [p, p], [1, [2, 1]] ];
+				data2 := [ [p, p] ];
+				Append(list, [msg.groupFromData(data1), msg.groupFromData(data2)]);
+			return list;
+		end;
 #####################################
-			allGrpsP3 := function(p)
-				local list, data1, data2, data3, data4, data5;
-					list :=[];
-					data1 := [ [p, p, p], [1, [2, 1]], [2, [3, 1]] ]; ##cyclic
-					data2 := [ [p, p, p], [1, [2, 1]] ]; ##C_{p^2} \times C_p
-					data3 := [ [p, p, p] ]; ##elementary abelian
-					##case1 is when p =2
-					if p = 2 then ##case1 when p =2
-						data4 := [ [2, 2, 2], [2, 1, [2, 1, 3, 1]] ];
-						data5 := [ [2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
-					else 					##case2 when p is odd
-						data4 := [ [p, p, p], [2, 1, [2, 1, 3, 1]] ];
-						data5 := [ [p, p, p], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
-					fi;
-					Append(list, [msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3), msg.groupFromData(data4), msg.groupFromData(data5)]);
-				return list;
-			end;
+		allGrpsP3 := function(p)
+			local list, data1, data2, data3, data4, data5;
+				list :=[];
+				data1 := [ [p, p, p], [1, [2, 1]], [2, [3, 1]] ]; ##cyclic
+				data2 := [ [p, p, p], [1, [2, 1]] ]; ##C_{p^2} \times C_p
+				data3 := [ [p, p, p] ]; ##elementary abelian
+				##case1 is when p =2
+				if p = 2 then ##case1 when p =2
+					data4 := [ [2, 2, 2], [2, 1, [2, 1, 3, 1]] ];
+					data5 := [ [2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
+				else 					##case2 when p is odd
+					data4 := [ [p, p, p], [2, 1, [2, 1, 3, 1]] ];
+					data5 := [ [p, p, p], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ];
+				fi;
+				Append(list, [msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3), msg.groupFromData(data4), msg.groupFromData(data5)]);
+			return list;
+		end;
 #####################################
 
-			##construct groups of order p^4
-			allGrpsP4:=function(p)
+		##construct groups of order p^4
+		allGrpsP4:=function(p)
 			local list, data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12, data13, data14, data15, data16, data17, data18, data19, data20;
 				list := [];
 				data1 := [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]] ]; ##cyclic
@@ -59,8 +56,8 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 				 data13 := [ [p, p, p, p], [3, 1, [2, 1, 3, 1]] ];
 				 data14 := [ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ];
 					if p = 3 then
-					  data15 := [ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(Z(p)), 4, 1]] ];
-				  elif p > 3 then
+						data15 := [ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(Z(p)), 4, 1]] ];
+					elif p > 3 then
 						data15 := [ [p, p, p, p], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ];
 					fi;
 				else
@@ -90,10 +87,9 @@ InstallGlobalFunction( lowpowerPGroups, function(p, k)
 			allGrpsP3(p); fi;
 			if k = 4 then return
 			allGrpsP4(p); fi;
-end);
-
-############################################################################
-NumberPGroups := function(n)
+end;
+######################################
+msg.NumberPGroups := function(n)
 	local power, prime, w;
 		prime := Collected(Factors(n))[1][1];
 		power := Collected(Factors(n))[1][2];
