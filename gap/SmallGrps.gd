@@ -10,4 +10,6 @@
 ## The input <n> has to be  ...
 ##
 DeclareGlobalFunction("MySmallGroups");
-DeclareGlobalFunction("NumberMySmallGroups");
+DeclareGlobalFunction("MyNumberOfGroups");
+DeclareGlobalFunction("MySmallGroupIsAvailable");
+DeclareGlobalFunction("MySmallGroupsInformation");

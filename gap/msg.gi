@@ -1,3 +1,28 @@
+USE_NC := false;
+USE_PCP := false;
+############################################################################
+msg.groupFromData := function(data)
+  local coll, i, j, n ,G;
+   n := Size(data[1]);
+   coll := FromTheLeftCollector(n);
+   for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
+   for i in [2..Length(data)] do
+      if IsInt(data[i][2]) then
+         SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
+      else
+         SetPowerNC(coll,data[i][1],data[i][2]);
+      fi;
+   od;
+   UpdatePolycyclicCollector(coll);
+  if USE_NC then
+    G := PcpGroupByCollectorNC(coll);
+  else G := PcpGroupByCollector(coll);
+  fi;
+  if USE_PCP = false then
+    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+  else return G;
+  fi;
+end;
 ############################################################################
 msg.deltaDivisibility := function(x, y)
   local w;
@@ -53,3 +78,50 @@ msg.QthRootGL3P := function(p, q)
   fi;
   return [ [0, 0, 1], [1, 0, -b^(p+1)-b^(p^2+1)-b^(p^2+p)], [0, 1, b+b^p+b^(p^2)] ] * One(GF(p));
 end;
+
+############################################################################
+msg.testMySmallGroups := function(n)
+	local mygroups, lib, duplicates, missing;
+				duplicates := [];
+				missing    := [];
+				mygroups   := List(MySmallGroups(n),x->IdSmallGroup(x)[2]);
+						lib    := [1..NumberSmallGroups(n)];
+				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
+					return true;
+				elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
+					Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
+					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
+					 Append(missing, Filtered(lib, x-> not x in mygroups));
+					Print(("missing groups of order "), n,(" with id "), missing, ".");
+				fi;
+end;
+############################################################################
+msg.isIrredundant := function(n)
+	local mystuff, lib;
+		mystuff := Size(MySmallGroups(n));
+			  lib := NumberSmallGroups(n);
+		if mystuff = lib then return true;
+		else
+  return false; fi;
+end;
+############################################################################
+msg.testMyNumberSmallGroups := function(n)
+	local mystuff, lib;
+	 	mystuff := MyNumberOfGroups(n);
+	      lib := NumberSmallGroups(n);
+		if not mystuff = lib then return false;
+		else 										 return true;
+		fi;
+	Print("checked ",n,"\n");
+end;
+############################################################################
+msg.testIrredundancy := function(n)
+	local actual, theory;
+		actual := Size(MySmallGroups(n));
+		theory := MyNumberOfGroups(n);
+		if not actual = theory then return false;
+		else 										    return true;
+		fi;
+		Print("checked ",n,"\n");
+end;
+############################################################################
