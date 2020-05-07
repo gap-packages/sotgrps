@@ -316,3 +316,33 @@ msg.allGroupsPQRS := function(n)
 
   return all;
 end;
+######################################################
+msg.NumberGroupsPQRS := function(n)
+  local fac, p, q, r, s, m;
+    fac := Factors(n);
+    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
+      Error("Argument must be of the form of pqrs");
+    else
+      p := fac[1];
+      q := fac[2];
+      r := fac[3];
+      s := fac[4];
+    fi;
+    m := 1 + msg.deltaDivisibility((s - 1), p*q*r)
+    + msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((s - 1), p*q)
+    + (p - 1)*(q - 1)*msg.deltaDivisibility((s - 1), p*q)*msg.deltaDivisibility((r - 1), p*q)
+    + (p - 1)*(msg.deltaDivisibility((s - 1), p)*msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p*q))
+    + (q - 1)*(msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p*q))
+    + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q) + msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p)
+    + msg.deltaDivisibility((s - 1), p*r) + msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), r)
+    + (p - 1)*msg.deltaDivisibility((s - 1), p*r)*msg.deltaDivisibility((q - 1), p)
+    + msg.deltaDivisibility((s - 1), q*r)
+    + msg.deltaDivisibility((q - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((r - 1), p))
+    + msg.deltaDivisibility((s - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((q - 1), p))
+    + msg.deltaDivisibility((r - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((s - 1), p))
+    + (p - 1)^2 * msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p)
+    + msg.deltaDivisibility((s - 1), q) +  + msg.deltaDivisibility((r - 1), q) + (q - 1) * msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), q)
+    + msg.deltaDivisibility((s - 1), r);
+
+  return m;
+end;

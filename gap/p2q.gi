@@ -151,7 +151,7 @@ msg.NumberGroupsP2Q := function(n)
       fi;
     if q = 2 then w := 5;
     elif p > q then w := 2 + msg.deltaDivisibility((p+1), q) + (q+5)*msg.deltaDivisibility((p-1), q)/2;
-    else w := 2 + 2*msg.deltaDivisibility((q-1), p) + msg.deltaDivisibility((q-1), p^2);
+    else w := 2 + 2*msg.deltaDivisibility((q-1), p) + msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((q-1), p^2);
     fi;
   return w;
 end;

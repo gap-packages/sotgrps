@@ -779,14 +779,14 @@ msg.NumberGroupsP2QR := function(n)
     fi;
     if q > 2 and not n = 60 then
       m := 2 + (p^2 - p)*msg.deltaDivisibility((q - 1), (p^2))*msg.deltaDivisibility((r - 1), (p^2))
-      + (p - 1)*(msg.deltaDivisibility((q - 1), (p^2))*msg.deltaDivisibility((r - 1),p) + msg.deltaDivisibility((r - 1), (p^2))*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p))
+      + (p - 1)*(msg.deltaDivisibility((q - 1), (p^2))*msg.deltaDivisibility((r - 1), p) + msg.deltaDivisibility((r - 1), (p^2))*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p))
       + (q - 1)*(q + 4)*msg.deltaDivisibility((p - 1), q)*msg.deltaDivisibility((r - 1), q)/2
       + (q - 1)*(msg.deltaDivisibility((p + 1), q)*msg.deltaDivisibility((r - 1), q) + msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p - 1), (q*r)) + 2*msg.deltaDivisibility((r - 1), (p*q))*msg.deltaDivisibility((p - 1), q))/2
       + (q*r + 1)*msg.deltaDivisibility((p - 1), (q*r))/2
       + (r + 5)*msg.deltaDivisibility((p - 1), r)*(1 + msg.deltaDivisibility((p - 1), q))/2
       + msg.deltaDivisibility((p^2 - 1), (q*r)) + 2*msg.deltaDivisibility((r - 1), (p*q)) + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((r - 1), (p^2*q))
       + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p) + 3*msg.deltaDivisibility((p - 1), q) + 2*msg.deltaDivisibility((r - 1), p)
-      + 2*msg.deltaDivisibility((r - 1), q) + msg.deltaDivisibility((r - 1), (p^2)) + msg.deltaDivisibility((p + 1), r) + msg.deltaDivisibility((p + 1), q);
+      + 2*msg.deltaDivisibility((r - 1), q) + msg.deltaDivisibility((r - 1), (p^2)) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((p + 1), r) + msg.deltaDivisibility((p + 1), q);
     fi;
     return m;
   end;

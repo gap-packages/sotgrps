@@ -72,6 +72,10 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 		if length = 4 and Length(fac) = 3 then
 			return msg.NumberGroupsP2QR(n);
 		fi;
+
+		if length = 4 and Length(fac) = 4 then
+			return msg.NumberGroupsPQRS(n);
+		fi;
 	end);
 
 ############################################################################
@@ -87,7 +91,7 @@ end);
 InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
-			Display("MySmallGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes, except for # = pqrs.");
+			Display("MySmallGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes.");
     fi;
 		if Length(arg) = 1 then
 			n := arg[1];
@@ -139,6 +143,10 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 
   		if length = 4 and Length(fac) = 3 then
   			Print(("There are "), msg.NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
+  		fi;
+
+			if length = 4 and Length(fac) = 4 then
+				Print(("There are "), msg.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
   		fi;
 
     elif Length(arg) > 1 then Error("Too many arguments: input has to be an integer.");

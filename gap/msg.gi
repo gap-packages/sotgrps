@@ -96,32 +96,5 @@ msg.testMySmallGroups := function(n)
 				fi;
 end;
 ############################################################################
-msg.isIrredundant := function(n)
-	local mystuff, lib;
-		mystuff := Size(MySmallGroups(n));
-			  lib := NumberSmallGroups(n);
-		if mystuff = lib then return true;
-		else
-  return false; fi;
-end;
-############################################################################
-msg.testMyNumberSmallGroups := function(n)
-	local mystuff, lib;
-	 	mystuff := MyNumberOfGroups(n);
-	      lib := NumberSmallGroups(n);
-		if not mystuff = lib then return false;
-		else 										 return true;
-		fi;
-	Print("checked ",n,"\n");
-end;
-############################################################################
-msg.testIrredundancy := function(n)
-	local actual, theory;
-		actual := Size(MySmallGroups(n));
-		theory := MyNumberOfGroups(n);
-		if not actual = theory then return false;
-		else 										    return true;
-		fi;
-		Print("checked ",n,"\n");
-end;
+
 ############################################################################

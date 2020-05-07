@@ -34,3 +34,14 @@ local todo, i, my, gap;
    od;
    return true;
 end;
+
+msg.testAllEnumeration := function(from,to)
+local todo, i, my, gap;
+   todo:=Filtered([from..to], x->MySmallGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
+   for i in todo do Display(i); my:=MyNumberOfGroups(i); gap:=NumberSmallGroups(i);
+      if not my = gap then
+         Error("ERROR at order ",i,"\n");
+      fi;
+   od;
+   return true;
+end;
