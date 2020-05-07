@@ -33,8 +33,8 @@ msg.deltaDivisibility := function(x, y)
   ############################################################################
 msg.QthRootGL2P := function(p, q)
   local a, b;
-    if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2-1) mod q = 0 then
-  	 Error("Arguments has to be primes p, q, where q divides (p^2 - 1).\n");
+    if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
+  	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n");
   	 else
   	 a := PrimitiveElement(GF(p^2));
   	 b := a^((p^2-1)/q);
@@ -46,7 +46,7 @@ end;
 msg.QsquaredthRootGL2P := function(p, q)
   local a, b;
    	if not Gcd(p,q)=1 or not (p^2-1) mod (q^2) = 0 then
-   	 Error("Arguments has to be primes p, q, where q^2 divides (p^2 - 1).\n");
+   	 Error("Arguments have to be primes p, q, where q^2 divides (p^2 - 1).\n");
    	 else
    	 a := PrimitiveElement(GF(p^2));
    	 b := a^((p^2-1)/(q^2));
@@ -71,7 +71,7 @@ msg.groupofunitsP2 := function(p)
 msg.QthRootGL3P := function(p, q)
   local a, b;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^3-1) mod q = 0 then
-   Error("Arguments has to be primes p, q, where q divides (p^3 - 1).\n");
+   Error("Arguments have to be primes p, q, where q divides (p^3 - 1).\n");
   else
     a := PrimitiveElement(GF(p^3));
     b := a^((p^3-1)/q);
