@@ -32,7 +32,11 @@ InstallGlobalFunction( MySmallGroups, function(n)
 		if length = 4 and Length(fac) = 3 then
 			return msg.allGroupsP2QR(n);
 		fi;
-	end);
+
+		if length = 4 and Length(fac) = 4 then
+			return msg.allGroupsPQRS(n);
+		fi;
+end);
 ############################################################################
 InstallGlobalFunction( MyNumberOfGroups, function(n)
 	local length, PF, fac, k, p, q, r;
@@ -77,7 +81,6 @@ InstallGlobalFunction( MySmallGroupIsAvailable, function(n) ## tells whether the
 		length := Length(PF);
 		fac := Collected(Factors(n));
 		if length > 4 then return false; fi;
-		if length = 4 and Length(fac) = 4 then return false; fi;
 		return true;
 end);
 ############################################################################
