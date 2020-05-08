@@ -36,6 +36,10 @@ InstallGlobalFunction( MySmallGroups, function(n)
 		if length = 4 and Length(fac) = 4 then
 			return msg.allGroupsPQRS(n);
 		fi;
+
+		if length > 4 then
+			Print(("Groups of order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+		fi;
 end);
 ############################################################################
 InstallGlobalFunction( MyNumberOfGroups, function(n)
@@ -46,7 +50,9 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 		if Length(fac) = 1 then
 			p := PF[1];
 			k := length;
-			return msg.NumberPGroups(n);
+			if length < 5 then
+				return msg.NumberPGroups(n);
+			fi;
 		fi;
 
 		if length = 2 and Length(fac) = 2 then
@@ -76,6 +82,10 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 		if length = 4 and Length(fac) = 4 then
 			return msg.NumberGroupsPQRS(n);
 		fi;
+
+		if length > 4 then
+			Print(("Order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+		fi;
 	end);
 
 ############################################################################
@@ -91,7 +101,7 @@ end);
 InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
-			Display("MySmallGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes.");
+			Print("MySmallGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes.");
     fi;
 		if Length(arg) = 1 then
 			n := arg[1];
@@ -102,7 +112,7 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
   		if Length(fac) = 1 then ##p-groups
   			p := PF[1];
   			k := length;
-  			if k = 1 then Print(("There is a unique group of order "),n(", up to isomorphism, and it is cyclic.") );
+  			if k = 1 then Print(("There is a unique group of order"), n, ("up to isomorphism, and it is cyclic.") );
   			fi;
   			if k = 2 then Print(("There are two isomorphism types of p-groups of order "),n,(": there is one cyclic group, and one elementary abelian group."));
   			fi;
@@ -148,6 +158,10 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 			if length = 4 and Length(fac) = 4 then
 				Print(("There are "), msg.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
   		fi;
+
+			if length > 4 then
+				Print(("Order "), n, (" is not available in mysmallgrps."));
+			fi;
 
     elif Length(arg) > 1 then Error("Too many arguments: input has to be an integer.");
     fi;
