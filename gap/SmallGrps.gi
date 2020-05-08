@@ -84,7 +84,7 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 		fi;
 
 		if length > 4 then
-			Print(("Order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+			Print(("Order "), n, (" is not available in mysmallgrps: MyNumberOfGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes."));
 		fi;
 	end);
 
