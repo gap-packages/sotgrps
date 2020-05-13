@@ -35,20 +35,13 @@ msg.GroupPQ := function(n, i)
       Error("Argument must be a product of two distinct primes."); fi;
     q := fac[1];
     p := fac[2];
-    if not (p - 1) mod q = 0 then
-      all := [ [ [p, q] ] ];
-    else
-      all := [ [ [p, q] ], [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ] ];
-    fi; 
-    if not (p - 1) mod q = 0 then
-      if i = 1 then G := msg.groupFromData(all[1]);
-      else Error(("There is a unique group of order "), n, (", up to isomorphism."));
-      fi;
-    fi;
+    all := [ [ [p, q] ] ];
     if (p - 1) mod q = 0 then
-      if i < 3 then G := msg.groupFromData(all[i]);
-      else Error(("There are two isomorphism types of groups of order "), n, ("."));
-      fi;
+      Add(all, [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]);
+    fi;
+
+    if i < (msg.MyNumberOfGroups(n) + 1) then
+      G := msg.groupFromData(all[i]);
     fi;
   return G;
 end;

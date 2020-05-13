@@ -45,7 +45,7 @@ msg.testnew := function(from, to)
         od;
       return all;
     end;
-    todo:=Filtered([from..to], x->Length(Factors(x)) = 4 and Length(Collected(Factors(x))) = 4);;
+    todo:=Filtered([from..to], x->MySmallGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
     for n in todo do
       gap:=AllSmallGroups(n);
       Display(n);

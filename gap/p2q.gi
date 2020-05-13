@@ -220,7 +220,6 @@ msg.GroupP2Q := function(n, i)
 
     if i < (msg.NumberGroupsP2Q(n) + 1) then
       G := msg.groupFromData(all[i]);
-    else Error(("There are "), msg.NumberGroupsP2Q(n), (" isomorphism types of groups of order "), n, ("."));
-    fi;
-  return G;
+		fi;
+	return G;
 end;

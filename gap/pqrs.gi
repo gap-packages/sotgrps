@@ -479,7 +479,6 @@ msg.GroupPQRS := function(n, i)
 
     if i < (msg.NumberGroupsPQRS(n) + 1) then
       G := msg.groupFromData(all[i]);
-    else Error(("There are "), msg.NumberGroupsPQRS, (" isomorphism types of groups of order "), n, ("."));
     fi;
   return G;
 end;

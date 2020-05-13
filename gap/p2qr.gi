@@ -1081,7 +1081,6 @@ msg.GroupP2QR := function(n, i)
       G := msg.groupFromData(all[i]);
     elif n = 60 and i = msg.NumberGroupsP2QR(n) then
       G := AlternatingGroup(5);
-    else Error(("There are "), msg.NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
     fi;
   return G;
 end;

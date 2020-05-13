@@ -754,8 +754,6 @@ msg.GroupP3Q := function(n, i)
 
     if i < (msg.NumberGroupsP3Q(n) + 1) then
       G := msg.groupFromData(all[i]);
-    else Error(("There are "), msg.NumberGroupsP3Q(n), (" isomorphism types of groups of order "), n, ("."));
     fi;
-
   return G;
 end;
