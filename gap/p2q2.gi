@@ -140,7 +140,7 @@ msg.allGroupsP2Q2 := function(n)
         G1 := function(p, q) #refined
           local mat, data;
 	        		mat := msg.QthRootGL2P(p, q);
-							data := [ [q, q, p , p],
+							data := [ [q, q, p, p],
 							[3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
 							[4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]] ];
         	return msg.groupFromData(data);
@@ -149,7 +149,7 @@ msg.allGroupsP2Q2 := function(n)
         G2 := function(p, q) #refined
           local mat, data;
 	          mat := msg.QthRootGL2P(p, q);
-						data := [ [q, q, p , p], [1, [2, 1]],
+						data := [ [q, q, p, p], [1, [2, 1]],
 						[3, 1, [3, Int(mat[1][1]), 4, Int(mat[2][1])]],
 						[4, 1, [3, Int(mat[1][2]), 4, Int(mat[2][2])]] ];
           return msg.groupFromData(data);
@@ -400,3 +400,127 @@ msg.NumberGroupsP2Q2 := function(n)
 ############################################################################
 
 msg.isp2q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2]) = [ 2, 2 ];
+
+############################################################################ all groups P2Q2
+msg.GroupP2Q2 := function(n, i)
+  local fac, p, q, a, b, c, d, qq, ii, qqq, iii, all, G, k, t, matq, matq2, matp, matp2;
+    fac := Factors(n);
+    if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
+      Error("Argument has to be of the form p^2*q^2, where p, q are primes");
+		fi;
+    q := fac[1];
+    p := fac[4];
+    #### case1: q nmid (p-1), q nmid (p^2 -1), q > 2
+    all := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, q, q], [3, [4, 1]] ], [ [p, p, q, q], [1, [2, 1]] ], [ [p, p, q, q], [2, [3, 1]] ] ];
+
+    a := Z(p);
+    b := Z(q);
+
+    c := ZmodnZObj(Int(Z(p)), p^2);
+    if not c^(p - 1) = ZmodnZObj(1, p^2) then
+      d := c;
+    else d := c + 1;
+    fi;
+
+    #### case2: q mid (p - 1), q^2 nmid (p^2 - 1)
+    if (p - 1) mod q = 0 and q > 2 or n = 36 then
+      ii := Int(d^(p*(p-1)/q)) mod p;
+      qq := (Int(d^(p*(p-1)/q)) - ii)/p;
+      Append(all, [ [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_q
+      [ [q, q, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_q^2 \ltimes C_{p^2}, \phi(Q) = C_q
+      [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]] ] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
+      if q mod 2 = 1 then
+        t := (q - 1)/2;
+      else t := 0;
+      fi;
+      for k in [0..t] do
+        Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
+      od;
+      Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]] ]); ##C_q \times (C_q \ltimes C_p) \times C_p, \phi(Q) = C_q
+      for k in [0..k] do
+        Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int((a^(Int(b^k)*(p-1)/q)))]] ]); ##C_q \times (C_q \ltimes C_p^2), \phi(Q) = C_q
+      od;
+      Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int(a^((p-1)/q))]] ]); ##((C_q \times C_q) \ltimes C_p) \times C_p, \phi(Q) = C_q^2
+    fi;
+
+    #### case3: q mid (p + 1), q^2 nmid (p^2 - 1)
+    if (p + 1) mod q = 0 and q mod 2 = 1 then
+      matq := msg.QthRootGL2P(p, q);
+      Append(all, [ [ [q, q, p, p],
+      [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+      [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ], ##C_q \times (C_q \ltimes C_p^2)
+      [ [q, q, p, p], [1, [2, 1]],
+      [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+      [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ] ]); ##C_{q^2} \ltimes C_p^2
+    fi;
+    if n = 36 then
+      matq := msg.QthRootGL2P(2, 3);
+      Append(all, [ [ [3, 3, 2, 2],
+      [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+      [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ], ##C_2 \times (C_2 \ltimes C_3^2)
+      [ [3, 3, 2, 2], [1, [2, 1]],
+      [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+      [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ] ]); ##C_4 \ltimes C_3^2
+    fi;
+    #### case4: q^2 mid (p + 1)
+    if ( p + 1) mod (q^2) = 0 and q > 2 or n = 36 then
+      matq2 := msg.QsquaredthRootGL2P(p, q);
+      matq := matq2^q;
+      Add(all, [ [q, q, p, p], [1, [2, 1]],
+				[3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
+				[4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
+				[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+				[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+		fi;
+
+    #### case5: q^2 mid (p - 1)
+    if (p - 1) mod (q^2) = 0 and q > 2 then
+      ii := Int(d^(p*(p-1)/(q^2))) mod p;
+      qq := (Int(d^(p*(p-1)/(q^2))) - ii)/p;
+      iii := Int(d^(p*(p - 1)/q)) mod p;
+      qqq := (Int(d^(p*(p - 1)/q)) - iii)/p;
+      Append(all, [ [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, iii, 4, qqq]], [4, 2, [4, iii]] ],  ##C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_{q^2}
+      [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/(q^2)))]], [3, 2, [3, Int(a^((p - 1)/q))]] ] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+      for k in [0..(q^2 - q)/2] do
+        Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/(q^2)))]], [4, 1, [4, Int((a^(Int(d^k)*(p-1)/(q^2))))]], [3, 2, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int((a^(Int(d^k)*(p-1)/q)))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+      od;
+      for k in [1..(q - 1)] do
+        Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/(q^2)))]], [3, 2, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(k*(p-1)/q))]] ]);
+      od;
+    fi;
+
+    ####case6 q = 2 and p > 3
+    if q = 2 and p > 3 then
+      Append(all, [ [ [2, 2, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, p-1, 4, p-1]], [4, 1, [4, p-1]] ], ##C_4 \ltimes C_{p^2}, \phi(Q) = C_2
+      [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, (p - 1)]] ], ##C_4 \ltimes C_p^2 \phi(Q) = C_2
+      [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, p-1]] ],
+      [ [2, 2, p, p], [3, [4, 1]], [3, 1, [3, p-1, 4, p-1]], [4, 1, [4, p-1]] ], ##C_2^2 \ltimes C_{p^2}, \phi(Q) = C_2
+      [ [2, 2, p, p], [3, 1, [3, p - 1]] ], ##C_2^2 \ltimes C_p^2, \phi(Q) = C_2
+      [ [2, 2, p, p], [3, 1, [3, p - 1]], [4, 1, [4, p - 1]] ],
+      [ [2, 2, p, p], [3, 1, [3, p-1]], [4, 2, [4, p-1]] ] ]); ##C_2^2 \ltimes C_p^2 \phi(Q) = C_2^2
+      if p mod 4 = 1 then
+        ii := Int(d^((p^2-p)/4)) mod p;
+        qq := (Int(d^((p^2-p)/4)) - ii)/p;
+        Append(all, [ [ [2, 2, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, p - 1, 4, p - 1]], [4, 2, [4, p - 1]] ],  ##C_4 \ltimes C_{p^2}, \phi(Q) = C_4
+        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int((Z(p))^((p - 1)/4))]], [3, 2, [3, p - 1]] ], ##C_4 \ltimes C_p^2 \phi(Q) = C_4
+        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/4))]], [3, 2, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ],
+        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/4))]], [3, 2, [3, p-1]], [4, 1, [4, Int(a^(3*(p - 1)/4))]], [4, 2, [4, p-1]] ],
+        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ] ]);
+      fi;
+      if p mod 4 = 3 then
+        matq2 := msg.QsquaredthRootGL2P(p, 2);
+        matq := matq2^q;
+        Add(all, [ [2, 2, p, p], [1, [2, 1]],
+        [3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
+        [4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
+        [3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+        [4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
+      fi;
+    fi;
+
+    if i < (msg.NumberGroupsP2Q2(n) + 1) then
+      G := msg.groupFromData(all[i]);
+    else Error(("There are "), msg.NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
+    fi;
+  return G;
+end;

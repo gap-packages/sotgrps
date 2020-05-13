@@ -98,6 +98,50 @@ InstallGlobalFunction( MySmallGroupIsAvailable, function(n) ## tells whether the
 		return true;
 end);
 ############################################################################
+InstallGlobalFunction( MySmallGroup, function(n, i)
+	local length, PF, fac, k, p, q, r;
+		PF := Factors(n);
+		length := Length(PF);
+		fac := Collected(Factors(n));
+		if Length(fac) = 1 then
+			p := PF[1];
+			k := length;
+			return msg.PGroup(p, k, i);
+		fi;
+
+		if length = 2 and Length(fac) = 2 then
+			return msg.GroupPQ(n, i);
+		fi;
+
+		if length = 3 and Length(fac) = 2 then
+			return msg.GroupP2Q(n, i);
+		fi;
+
+		if length = 3 and Length(fac) = 3 then
+			return msg.GroupPQR(n, i);
+		fi;
+
+		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+			return msg.GroupP2Q2(n, i);
+		fi;
+
+		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+			return msg.GroupP3Q(n, i);
+		fi;
+
+		if length = 4 and Length(fac) = 3 then
+			return msg.GroupP2QR(n, i);
+		fi;
+
+		if length = 4 and Length(fac) = 4 then
+			return msg.GroupPQRS(n, i);
+		fi;
+
+		if length > 4 then
+			Print(("Groups of order "), n, (" is not available in mysmallgrps."));
+		fi;
+end);
+############################################################################
 InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then

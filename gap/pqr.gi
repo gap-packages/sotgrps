@@ -79,3 +79,40 @@ msg.NumberGroupsPQR := function(n)
     w := 1 + msg.deltaDivisibility((q-1), r) + msg.deltaDivisibility((p - 1), r) + (r - 1) * msg.deltaDivisibility((q - 1), r) * msg.deltaDivisibility((p - 1), r) + msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p - 1), r) * msg.deltaDivisibility((p - 1), q);
   return w;
 end;
+##############################################
+msg.GroupPQR := function(n, i)
+  local fac, all, p, q, r, a, b, k, G;
+    fac := Factors(n);
+    if not Length(fac) = 3 then
+      Error("Argument must be a product of three distinct primes"); fi;
+    r := fac[1];
+    q := fac[2];
+    p := fac[3];
+    all := [ [ [r, q, p] ] ];
+    a := Z(p);
+    b := Z(q);
+
+    if (q - 1) mod r = 0 then
+      Add(all, [ [r, q, p], [2, 1, [2, Int(b^((q-1)/r))]] ]);fi;
+
+    if (p - 1) mod r = 0 then
+      Add(all, [ [r, q, p], [3, 1, [3, Int(a^((p-1)/r))]] ]);fi;
+
+    if (q - 1) mod r = 0 and (p - 1) mod r = 0 then
+      for k in [1..(r - 1)] do
+        Add(all, [ [r, q, p], [2, 1, [2, Int(b^((q-1)/r))]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
+      od;
+    fi;
+
+    if (p - 1) mod q = 0 then
+      Add(all, [ [r, q, p], [3, 2, [3, Int(a^((p-1)/q))]] ]);fi;
+
+    if (p - 1) mod r = 0 and (p - 1) mod q = 0 then
+      Add(all, [ [r, q, p], [3, 1, [3, Int(a^((p-1)/r))]], [3, 2, [3, Int(a^((p-1)/q))]] ]);fi;
+
+    if i < (msg.NumberGroupsPQR(n) + 1) then
+      G := msg.groupFromData(all[i]);
+      return G;
+    else Error(("There are "), msg.NumberGroupsPQR(n), (" isomorphism types of groups of order "), n, ("."));
+    fi;
+end;

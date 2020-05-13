@@ -35,6 +35,27 @@ local todo, i, my, gap;
    return true;
 end;
 
+msg.testnew := function(from, to)
+  local todo, n, i, my, gap;
+    my := function(n)
+      local all;
+        all := [];
+        for i in [1..MyNumberOfGroups(n)] do
+          Add(all, MySmallGroup(n, i));
+        od;
+      return all;
+    end;
+    todo:=Filtered([from..to], x->Length(Factors(x)) = 4 and Length(Collected(Factors(x))) = 4);;
+    for n in todo do
+      gap:=AllSmallGroups(n);
+      Display(n);
+      if not Size(my(n))=Size(gap) or not AsSet(List(my(n),IdGroup))=AsSet(List(gap,IdGroup)) then
+        Error("ERROR at order ",n,"\n");
+      fi;
+    od;
+  return true;
+end;
+
 msg.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
    todo:=Filtered([from..to], x->MySmallGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
