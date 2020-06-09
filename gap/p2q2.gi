@@ -403,7 +403,7 @@ msg.isp2q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), 
 
 ############################################################################ all groups P2Q2
 msg.GroupP2Q2 := function(n, i)
-  local fac, p, q, a, b, c, d, qq, ii, qqq, iii, all, G, k, t, matq, matq2, matp, matp2;
+  local fac, p, q, a, b, c, d, e, f, qq, ii, qqq, iii, all, G, k, t, matq, matq2, matp, matp2;
     fac := Factors(n);
     if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
       Error("Argument has to be of the form p^2*q^2, where p, q are primes");
@@ -422,6 +422,12 @@ msg.GroupP2Q2 := function(n, i)
     else d := c + 1;
     fi;
 
+    e := ZmodnZObj(Int(Z(q)), q^2);
+    if not e^(q - 1) = ZmodnZObj(1, q^2) then
+      f := e;
+    else f := e + 1;
+    fi;
+
     #### case2: q mid (p - 1), q^2 nmid (p^2 - 1)
     if (p - 1) mod q = 0 and q > 2 or n = 36 then
       ii := Int(d^(p*(p-1)/q)) mod p;
@@ -437,7 +443,7 @@ msg.GroupP2Q2 := function(n, i)
         Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
       od;
       Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]] ]); ##C_q \times (C_q \ltimes C_p) \times C_p, \phi(Q) = C_q
-      for k in [0..k] do
+      for k in [0..t] do
         Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int((a^(Int(b^k)*(p-1)/q)))]] ]); ##C_q \times (C_q \ltimes C_p^2), \phi(Q) = C_q
       od;
       Add(all, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int(a^((p-1)/q))]] ]); ##((C_q \times C_q) \ltimes C_p) \times C_p, \phi(Q) = C_q^2
@@ -482,7 +488,7 @@ msg.GroupP2Q2 := function(n, i)
       Append(all, [ [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, iii, 4, qqq]], [4, 2, [4, iii]] ],  ##C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_{q^2}
       [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/(q^2)))]], [3, 2, [3, Int(a^((p - 1)/q))]] ] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
       for k in [0..(q^2 - q)/2] do
-        Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/(q^2)))]], [4, 1, [4, Int((a^(Int(d^k)*(p-1)/(q^2))))]], [3, 2, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int((a^(Int(d^k)*(p-1)/q)))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+        Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/(q^2)))]], [4, 1, [4, Int((a^(Int(f^k)*(p-1)/(q^2))))]], [3, 2, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int((a^(Int(f^k)*(p-1)/q)))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
       od;
       for k in [1..(q - 1)] do
         Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/(q^2)))]], [3, 2, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(k*(p-1)/q))]] ]);

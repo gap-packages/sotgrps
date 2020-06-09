@@ -92,8 +92,8 @@ msg.allGroupsP2QR := function(n)
           local a, b, s, t, data;
             a := Z(q);
             b := Z(r);
-            s := a^(k*(q-1)/p);
-            t := b^((r-1)/(p^2));
+            s := a^((q-1)/p);
+            t := b^(k*(r-1)/(p^2));
             data := [ [p, p, q, r], [1, [2, 1]], [3, 1, [3, Int(s)]], [4, 1, [4, Int(t)]], [4, 2, [4, Int(t^p)]] ];
           return msg.groupFromData(data);
         end;
@@ -503,13 +503,13 @@ msg.allGroupsP2QR := function(n)
           Add(list, G7(p, q, r));
         fi;
         ##
-        G8 := function(p, q, r, l) ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p^2)
+        G8 := function(p, q, r, l) ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p) \time C_p
           local a, b, s, t, data;
             a := Z(r);
             b := Z(p);
             s := a^((r-1)/q);
             t := b^((p-1)/q);
-            data := [ [q, r, p, p], [2, 1, [2, Int(s^l)]], [3, 1, [3, Int(t)]] ];
+            data := [ [q, r, p, p], [2, 1, [2, Int(s)]], [3, 1, [3, Int(t^l)]] ];
           return msg.groupFromData(data);
         end;
         ##
@@ -866,7 +866,7 @@ msg.GroupP2QR := function(n, i)
     fi;
     if (r - 1) mod (p^2) = 0 and (q - 1) mod p = 0 then ## p | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
       for k in [1..p-1]
-        do Add(all, [ [p, p, q, r], [1, [2, 1]], [3, 1, [3, Int(c^(k*(q-1)/p))]], [4, 1, [4, Int(a^((r-1)/(p^2)))]], [4, 2, [4, Int(a^((r-1)/p))]] ]);
+        do Add(all, [ [p, p, q, r], [1, [2, 1]], [3, 1, [3, Int(c^((q-1)/p))]], [4, 1, [4, Int(a^(k*(r-1)/(p^2)))]], [4, 2, [4, Int(a^(k*(r-1)/p))]] ]);
       od;
     fi;
     if (r - 1) mod p = 0 and (q - 1) mod p = 0 then ## p | (q - 1), p | (r - 1), and G \cong (C_p \ltimes C_q) \times (C_p \ltimes C_r)
@@ -985,15 +985,15 @@ msg.GroupP2QR := function(n, i)
     if (p - 1) mod q = 0 and q = 2 then
       Add(all, [ [q, p, p, r], [2, 1, [2, Int(b^((p-1)/q))]], [3, 1, [3, Int(b^(Int((p-1)/q)))]] ]);
     fi;
-    if (p + 1) mod q = 0 and q > 2 then ## q | (p + 1), and G \cong C_q \ltimes (C_r \times C_p^2)
+    if (p + 1) mod q = 0 and q > 2 then ## q | (p + 1), and G \cong (C_q \ltimes C_p^2) \times C_r
       Add(all, [ [q, r, p, p], [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]], [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
     fi;
     if (r - 1) mod q = 0 then ## q | (r - 1), and G \cong (C_q \ltimes C_r) \times C_p^2
       Add(all, [ [q, r, p, p], [2, 1, [2, Int(a^((r - 1)/q))]] ]);
     fi;
-    if (r - 1) mod q = 0 and (p - 1) mod q = 0 then ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p^2)
+    if (r - 1) mod q = 0 and (p - 1) mod q = 0 then ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p) \times C_p
       for k in [1..q-1] do
-        Add(all, [ [q, r, p, p], [2, 1, [2, Int(a^(k*(r-1)/q))]], [3, 1, [3, Int(b^((p-1)/q))]] ]);
+        Add(all, [ [q, r, p, p], [2, 1, [2, Int(a^((r-1)/q))]], [3, 1, [3, Int(b^(k*(p-1)/q))]] ]);
       od;
     fi;
     if (r - 1) mod q = 0 and (p - 1) mod q = 0 and q > 2 then ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p^2)

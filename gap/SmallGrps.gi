@@ -143,7 +143,7 @@ InstallGlobalFunction( MySmallGroup, function(n, i)
 			fi;
 		fi;
 
-		if i > MyNumberOfGroups(n) then
+		if Length(fac) > 1 and i > MyNumberOfGroups(n) then
 			Print(("Wrong input: there are "), MyNumberOfGroups(n), (" isomorphism types of groups of order "), n, ("."));
 		fi;
 

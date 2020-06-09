@@ -123,7 +123,7 @@ msg.allGroupsP3Q := function(n)
             Add(l, class3(p, q));
           fi;
 
-          ## class 4: when P is extraspecial + type, there is a unique isom type of P \ltimes Q
+          ## class 4: when P is extraspecial + type, there is a unique isom type of P \ltimes Q if p > 2, else there are two isom types of such groups
           class4 := function(p, q)
             local list, G1, G2;
               list := [];
@@ -258,11 +258,10 @@ msg.allGroupsP3Q := function(n)
                 if not a^(p - 1) = ZmodnZObj(1, p^2) then
                   b := a;
                 else b := a+1; fi;
-                r := Int(b^(k*(p^2-p)/q));
-                rr := (Int(b^((p^2-p)/q))) mod p;
+                r := Int(b^((p^2-p)/q));
                 ii := r mod p;
                 qq := (r - ii)/p;
-                data := [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]], [4, 1, [4, rr]] ];
+                data := [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, ii, 3, qq]], [3, 1, [3, ii]], [4, 1, [4, Int(Z(p)^(k*(p - 1)/q))]] ];
               return msg.groupFromData(data);
             end;
 
@@ -347,24 +346,11 @@ msg.allGroupsP3Q := function(n)
                 end;
 
                 if (p - 1) mod q = 0 and q mod 3 = 1 then
-                  for t in Filtered([1..(q - 1)/2], x->not x = (q - 1)/3 and not x = 2*(q - 1)/3)
+                  for t in [0..(q - 1)/2]
                     do Add(tmp, data2(t)); od; fi;
                 if (p - 1) mod q = 0 and q mod 3 = 2 and q > 2 then
-                  for t in [1..(q - 1)/2]
+                  for t in [0..(q - 1)/2]
                     do Add(tmp, data2(t)); od; fi;
-
-                data3 := function(i)
-                  local data, x, y, k, k2;
-                    x := Int(r^i);
-                    y := Int(r^(-i));
-                    k := Int(Z(p)^(x*(p-1)/q));
-                    k2 := Int(Z(p)^(y*(p-1)/q));
-                    data := [ [q, p, p, p], [2, 1, [2, a]], [3, 1, [3, k]], [4, 1, [4, k2]] ];
-                  return msg.groupFromData(data);
-                end;
-
-                if (p - 1) mod q = 0 and q mod 3 = 1 then for t in [0, (q - 1)/3] do Add(tmp, data3(t)); od; fi;
-                if (p - 1) mod q = 0 and q > 3 and q mod 3 = 2 then Add(tmp, data3(0)); fi;
 
                 func := function(q)
                   local i, j, ll, aa, bb, m;
@@ -383,7 +369,7 @@ msg.allGroupsP3Q := function(n)
                   return ll;
                 end;
 
-                data4 := function(i)
+                data3 := function(i)
                   local data, x, y, k, k2;
                   x := Int(r^(i[1]));
                   y := Int(r^(i[2]));
@@ -393,7 +379,7 @@ msg.allGroupsP3Q := function(n)
                 return msg.groupFromData(data);
               end;
 
-              if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, data4(t)); od; fi;
+              if (p - 1) mod q = 0 and q > 3 then for t in func(q) do Add(tmp, data3(t)); od; fi;
 
               return tmp;
             end;
@@ -518,13 +504,13 @@ msg.NumberGroupsP3Q := function(n)
         if n mod 2 = 1 and q > 3 then
           m := 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
             + msg.deltaDivisibility((q-1), p^3) + (36+q^2+13*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)/6
-            + 2*msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q);
-          elif n mod 2 = 1 and q = 3 then
-            m := 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-              + msg.deltaDivisibility((q-1), p^3) + (36+q^2+13*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)/6
-              + 2*msg.deltaDivisibility((p+1), q);
-            else m := 5 + 7*msg.deltafunction(p,2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
-              + 10*msg.deltafunction(q,2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n,56); fi;
+            + 2*msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3));
+        elif n mod 2 = 1 and q = 3 then
+          m := 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
+            + msg.deltaDivisibility((q-1), p^3) + (36+q^2+13*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)/6
+            + 2*msg.deltaDivisibility((p+1), q);
+        else m := 5 + 7*msg.deltafunction(p,2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
+            + 10*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56); fi;
         return m;
       end;
 ######################################################
@@ -575,7 +561,7 @@ msg.GroupP3Q := function(n, i)
     if (q - 1) mod (p^3) = 0 then
       Add(all, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int(r3)]], [4, 2, [4, Int(r2)]], [4, 3, [4, Int(r1)]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_{p^3}
     fi;
-    ## class 2: when P = C_{p^2} \times C_p, there are at most three isom types of semidirect products of P \ltimes Q
+    ## class 2: when P = C_{p^2} \times C_p, there are at most two isom types of semidirect products of P \ltimes Q
     if (q - 1) mod p = 0 then
       Append(all, [ [ [p, p, p, q], [1, [2, 1]], [4, 3, [4, Int(r1)]] ], [ [p, p, p, q], [1, [2, 1]], [4, 1, [4, Int(r1)]] ] ]);
     fi;
@@ -640,7 +626,7 @@ msg.GroupP3Q := function(n, i)
       Append(all, [ [ [q, p, p, p], [3, [4, 1]], [2, 1, [2, Int(s1)]] ], ## (C_q \ltimes C_p) \times C_{p^2}
       [ [q, p, p, p], [2, [3, 1]], [2, 1, [2, iii, 3, qqq]], [3, 1, [3, iii]] ] ]); ## (C_q \ltimes C_{p^2}) \times C_p
       for k in [1..(q - 1)] do
-        Add(all, [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, (Int(s2^k) mod p), 3, ((Int(s2^k) - (Int(s2^k) mod p))/p)]], [3, 1, [3, (Int(s2^k) mod p)]], [4, 1, [4, iii]] ]); ## C_q \ltimes (C_{p^2} \times C_p)
+        Add(all, [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, (Int(s2) mod p), 3, ((Int(s2) - (Int(s2) mod p))/p)]], [3, 1, [3, (Int(s2) mod p)]], [4, 1, [4, Int(s1^k)]] ]); ## C_q \ltimes (C_{p^2} \times C_p)
       od;
     fi;
     ## class 3: when P is elementary abelian
@@ -676,41 +662,31 @@ msg.GroupP3Q := function(n, i)
       od;
     fi;
     if (p - 1) mod q = 0 and q mod 3 = 1 then
-      for k in Filtered([1..(q - 1)/2], x->not x = (q - 1)/3 and not x = 2*(q - 1)/3)
-        do Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(b^(-k)))]] ]);
+      for k in [0..(q - 1)/2]
+        do Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
       od;
     fi;
     if (p - 1) mod q = 0 and q mod 3 = 2 and q > 2 then
-      for k in [1..(q - 1)/2]
-        do Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(b^(-k)))]] ]);
+      for k in [0..(q - 1)/2]
+        do Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
       od;
-    fi;
-    if (p - 1) mod q = 0 and q mod 3 = 1 then
-      for k in [0, (q - 1)/3] do
-        Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-      od;
-    fi;
-    if (p - 1) mod q = 0 and q > 3 and q mod 3 = 2 then
-      Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1)]], [4, 1, [4, Int(s1)]] ]);
     fi;
 
     func := function(q)
-      local i, j, ll, aa, bb, m;
+      local i, j, ll, m;
         ll := [];
         if q mod 3 = 1 then m := (2*q - 5)/3;
         else m := (2*q - 7)/3;
         fi;
         for i in [1..m]
-          do for j in [i+1..q - 2]
-            do  aa := 2*(q - 1) - i - j;
-                bb := aa - (q - 1);
-                if (j < bb and bb < q - 1) or (j < aa and aa < q - 1) then
-                  Add(ll, [-i mod (q - 1), j]);
-                fi;
-            od;
+          do for j in [i+1..Int(q - 1 - i/2)] do
+            if (j < (q - 1) - i - j) or (j < 2*(q - 1) - i - j and (q - 1) - i - j < 0) then
+              Add(ll, [-i mod (q - 1), j]);
+            fi; od;
           od;
-        return ll;
+      return ll;
     end;
+
     if (p - 1) mod q = 0 and q > 3 then
       for k in func(q) do
         Add(all, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]] ]);

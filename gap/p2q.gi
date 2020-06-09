@@ -83,9 +83,9 @@ msg.allGroupsP2Q := function(n)
 ####
     NonabelianGroupsP2Qcase3 := function(p, q) ##case 3: p > q and q = 2
       local data1, data2, data3, list;
-        data3 := [ [2, p, p], [2, 1, [2, p - 1]], [3, 1, [3, p - 1]] ]; ##C_2 \ltimes C_p^2
-        data2 := [ [2, p, p], [2, 1, [2, p - 1]] ]; ##D_p \times C_p
-        data1 := [ [2, p, p], [2, [3, 1]], [2, 1, [2, p - 1, 3, p - 1]], [3, 1, [3, p - 1]] ]; ##D_{p^2}
+        data2 := [ [2, p, p], [2, 1, [2, p - 1]], [3, 1, [3, p - 1]] ]; ##C_2 \ltimes C_p^2
+        data1 := [ [2, p, p], [2, 1, [2, p - 1]] ]; ##D_p \times C_p
+        data3 := [ [2, p, p], [2, [3, 1]], [2, 1, [2, p - 1, 3, p - 1]], [3, 1, [3, p - 1]] ]; ##D_{p^2}
         list  := [ msg.groupFromData(data1), msg.groupFromData(data2), msg.groupFromData(data3) ];
       return list;
     end;
@@ -184,7 +184,7 @@ msg.GroupP2Q := function(n, i)
       d := c; else d := c + 1;
     fi;
     all := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
-##case 1: p > q and q > 2 and q divides (p + 1)
+##case 1: p > q > 2 and q divides (p + 1)
     if p > q and q > 2 and (p + 1) mod q = 0 then
 			mat := msg.QthRootGL2P(p, q);
      Add(all, [ [q, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ]);
@@ -201,8 +201,8 @@ msg.GroupP2Q := function(n, i)
     fi;
 ####case 3: p > q and q = 2
     if p > q and q = 2 then
-      Append(all, [ [ [2, p, p], [2, 1, [2, p - 1]], [3, 1, [3, p - 1]] ], ##C_2 \ltimes C_p^2
-      [ [2, p, p], [2, 1, [2, p - 1]] ], ##D_p \times C_p
+      Append(all, [ [ [2, p, p], [2, 1, [2, p - 1]] ], ##D_p \times C_p
+      [ [2, p, p], [2, 1, [2, p - 1]], [3, 1, [3, p - 1]] ], ##C_2 \ltimes C_p^2
       [ [2, p, p], [2, [3, 1]], [2, 1, [2, p - 1, 3, p - 1]], [3, 1, [3, p - 1]] ] ]); ##D_{p^2}
     fi;
 ####order 12
@@ -214,7 +214,7 @@ msg.GroupP2Q := function(n, i)
       Append(all, [ [ [p, p, q], [3, 1, [3, Int(b^((q - 1)/p))]] ], ##C_p \times (C_p \ltimes C_q)
       [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/p))]] ] ]); ## C_{p^2} \ltimes C_q
     fi;
-    if (q - 1) mod (p^2) = 0 and q > 2 then
+    if (q - 1) mod (p^2) = 0 then
       Add(all, [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/(p^2)))]], [3, 2, [3, Int(b^((q - 1)/p))]]]); ## C_{p^2} \ltimes C_q
     fi;
 
