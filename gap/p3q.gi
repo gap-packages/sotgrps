@@ -353,19 +353,16 @@ msg.allGroupsP3Q := function(n)
                     do Add(tmp, data2(t)); od; fi;
 
                 func := function(q)
-                  local i, j, ll, aa, bb, m;
-                    ll := [];
-                    if q mod 3 = 1 then m := (2*q - 5)/3;
-                    else m := (2*q - 7)/3; fi;
-                    for i in [1..m]
-                      do for j in [i+1..q - 2]
-                        do  aa := 2*(q - 1) - i - j;
-                            bb := aa - (q - 1);
-                          if (j < bb and bb < q - 1) or (j < aa and aa < q - 1) then
-                            Add(ll, [-i mod (q - 1), j]);
-                          fi;
-                        od;
-                      od;
+                  local i, j, k, ll;
+                  ll := [];
+                  for i in [1..Int((q - 3)/3)] do
+                    for j in [i + 1..Int((q - 1 - i)/2)] do
+                      if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+                        Add(ll, [(-i) mod (q - 1), j]);
+                        Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+                      fi;
+                    od;
+                  od;
                   return ll;
                 end;
 
@@ -673,19 +670,19 @@ msg.GroupP3Q := function(n, i)
     fi;
 
     func := function(q)
-      local i, j, ll, m;
-        ll := [];
-        if q mod 3 = 1 then m := (2*q - 5)/3;
-        else m := (2*q - 7)/3;
-        fi;
-        for i in [1..m]
-          do for j in [i+1..Int(q - 1 - i/2)] do
-            if (j < (q - 1) - i - j) or (j < 2*(q - 1) - i - j and (q - 1) - i - j < 0) then
-              Add(ll, [-i mod (q - 1), j]);
-            fi; od;
-          od;
+      local i, j, k, ll;
+      ll := [];
+      for i in [1..Int((q - 3)/3)] do
+        for j in [i + 1..Int((q - 1 - i)/2)] do
+          if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+            Add(ll, [(-i) mod (q - 1), j]);
+            Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+          fi;
+        od;
+      od;
       return ll;
     end;
+    #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.deltaDivisibility((q - 1), 3));
 
     if (p - 1) mod q = 0 and q > 3 then
       for k in func(q) do
