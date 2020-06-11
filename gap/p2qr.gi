@@ -711,7 +711,7 @@ msg.allGroupsP2QR := function(n)
           Add(list, G1(p, q, r));
         fi;
         ##
-        G2 := function(p, q, r) ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_q
+        G2 := function(p, q, r) ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_r
           local a, b, data;
             a := Z(q);
             b := a^((q-1)/p);
@@ -723,7 +723,7 @@ msg.allGroupsP2QR := function(n)
           Add(list, G2(p, q, r));
         fi;
         ##
-        G3 := function(p, q, r, k) ## P \cong C_{p^2} and G \cong C_{p^2} \ltimes (C_q \times C_r)
+        G3 := function(p, q, r, k) ## P \cong C_p^2 and G \cong C_{p^2} \ltimes (C_q \times C_r)
           local a, b, c, d, data;
             a := Z(q);
             b := Z(r);
@@ -874,33 +874,33 @@ msg.GroupP2QR := function(n, i)
     fi;
 
 ############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p^2 - 1)
-    if (p - 1) mod q = 0 and (p - 1) mod r = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_{p^2}
+    if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_{p^2}
       Add(all, [ [q, r, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [3, 2, [3, iii, 4, qqq]], [4, 1, [4, ii]], [4, 2, [4, iii]] ]);
     fi;
-    if (p - 1) mod q = 0 and (p - 1) mod r = 0 then ## qr | (p - 1) and G \cong (C_q \ltimes C_p) \times (C_r \ltimes C_p)
+    if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong (C_q \ltimes C_p) \times (C_r \ltimes C_p)
       Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [4, 2, [4, Int(b^((p-1)/r))]] ]);
     fi;
-    if (p - 1) mod q = 0 and (p - 1) mod r = 0 then ## qr | (p - 1) and G \cong (C_{qr} \ltimes C_p) \times C_p
+    if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong (C_{qr} \ltimes C_p) \times C_p
       Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [3, 2, [3, Int(b^((p-1)/r))]] ]);
     fi;
-    if (p-1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
+    if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
       for k in [1..(q - 1)] do
         Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [3, 2, [3, Int(b^((p-1)/r))]], [4, 1, [4, Int(b^(k*(p-1)/q))]] ]);
       od;
     fi;
-    if (p - 1) mod (q*r) = 0 then  ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
+    if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
       for k in [1..(r - 1)] do
         Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [3, 2, [3, Int(b^((p-1)/r))]], [4, 2, [4, Int(b^(k*(p-1)/r))]] ]);
       od;
     fi;
-    if (p-1) mod (q*r) = 0 and q > 2 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
+    if (p - 1) mod (q*r) = 0 and q > 2 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
       for k in [0..(q - 1)/2] do
         for l in [0..(r - 1)/2] do
           Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [3, 2, [3, Int(b^((p-1)/r))]], [4, 1, [4, Int(b^(Int(c^k)*(p-1)/q))]], [4, 2, [4, Int(b^(Int(a^l)*(p-1)/r))]] ]);
         od;
       od;
     fi;
-    if (p-1) mod (q*r) =0 and q > 2 then
+    if (p - 1) mod (q*r) =0 and q > 2 then
       for k in [1..(q-3)/2] do
         for l in [(r+1)/2..(r-1)] do
           Add(all, [ [q, r, p, p], [3, 1, [3, Int(b^((p-1)/q))]], [3, 2, [3, Int(b^((p-1)/r))]], [4, 1, [4, Int(b^(Int(c^k)*(p-1)/q))]], [4, 2, [4, Int(b^(Int(a^l)*(p-1)/r))]] ]);
@@ -1057,14 +1057,13 @@ msg.GroupP2QR := function(n, i)
       od;
     fi;
 
-############  case 8: nonabelian and Fitting subgroup has order pqr -- p | (r - 1)(q - 1)
     if (r - 1) mod p = 0 then ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_q
       Add(all, [ [p, p, q, r], [4, 1, [4, Int(a^((r-1)/p))]] ]);
     fi;
-    if (q - 1) mod p = 0 then ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_q
+    if (q - 1) mod p = 0 then ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_r
       Add(all, [ [p, p, q, r], [3, 1, [3, Int(c^((q-1)/p))]] ]);
     fi;
-    if (r - 1) mod p = 0 and (q - 1) mod p = 0 then ## P \cong C_{p^2} and G \cong C_{p^2} \ltimes (C_q \times C_r)
+    if (r - 1) mod p = 0 and (q - 1) mod p = 0 then ## P \cong C_p^2 and G \cong C_p^2 \ltimes (C_q \times C_r)
       for k in [1..p-1] do
         Add(all, [ [p, p, q, r], [3, 1, [3, Int(c^((q-1)/p))]], [4, 1, [4, Int(a^(k*(r-1)/p))]] ]);
       od;
