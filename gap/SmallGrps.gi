@@ -217,3 +217,49 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
     elif Length(arg) > 1 then Error("Too many arguments: input has to be an integer.");
     fi;
 end);
+
+######################################################
+InstallGlobalFunction( MyIdSmallGroup, function(group)
+	local length, n, PF, fac, k, p, q, r;
+    n := Size(group);
+		PF := Factors(n);
+		length := Length(PF);
+		fac := Collected(Factors(n));
+		if Length(fac) = 1 then
+			p := PF[1];
+			k := length;
+			return msg.IdPGroup(group);
+		fi;
+
+		if length = 2 and Length(fac) = 2 then
+			return msg.IdGroupPQ(group);
+		fi;
+
+		if length = 3 and Length(fac) = 2 then
+			return msg.IdGroupP2Q(group);
+		fi;
+
+		if length = 3 and Length(fac) = 3 then
+			return msg.IdGroupPQR(group);
+		fi;
+
+		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+			return msg.IdGroupP2Q2(group);
+		fi;
+
+		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+			return msg.IdGroupP3Q(group);
+		fi;
+
+		if length = 4 and Length(fac) = 3 then
+			return msg.IdGroupP2QR(group);
+		fi;
+
+		if length = 4 and Length(fac) = 4 then
+			return msg.IdGroupPQRS(group);
+		fi;
+
+		if length > 4 then
+			Print(("Groups of order "), n, (" is not available in mysmallgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+		fi;
+end);

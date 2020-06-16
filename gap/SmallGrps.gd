@@ -14,3 +14,4 @@ DeclareGlobalFunction("MySmallGroup");
 DeclareGlobalFunction("MyNumberOfGroups");
 DeclareGlobalFunction("MySmallGroupIsAvailable");
 DeclareGlobalFunction("MySmallGroupsInformation");
+DeclareGlobalFunction("MyIdSmallGroup");
