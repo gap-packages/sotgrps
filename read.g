@@ -20,6 +20,7 @@ ReadPackage(mysmallgrpsPkgName, "gap/p2qr.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/pqrs.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/lowpowerPGroups.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/SmallGrps.gi");
+ReadPackage(mysmallgrpsPkgName, "gap/IdFunc.gi");
 
 
 ### quick test against SmallGroups Library

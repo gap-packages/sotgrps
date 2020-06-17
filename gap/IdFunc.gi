@@ -709,357 +709,340 @@ end;
 
 ######################################################
 msg.IdGroupP3Q := function(group)
-local n, fac, p, q, P, Q, O, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, x, y, k, l, lst,
-Id, gens, pc, pcgs, G, matGL2, matGL3, func, func2, tmp, ev, evm;
-  n := Size(group);
-  fac := Factors(n);
-  if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
-    Error("Argument must be of the form of p^3q"); fi;
-  p := fac[2];
-  if fac[1] = fac[2] then
-  q := fac[4]; elif fac[3] = fac[4] then
-  q := fac[1]; fi;
-  func := function(q)
-    local i, j, k, ll;
-      ll := [];
-      for i in [1..Int((q - 3)/3)] do
-        for j in [i + 1..Int((q - 1 - i)/2)] do
-          if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-            Add(ll, AsSet([AsSet([-i mod (q - 1), j]), AsSet([-j mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), i])]));
-            Add(ll, AsSet([AsSet([-i mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), j]), AsSet([-j mod (q - 1), i])]));
-          fi;
+  local n, fac, p, q, P, Q, O, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, x, y, k, l, tst, lst,
+  Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm,
+  c1, c2, c3, c4, c5, c6, c7, c8, c9, c10;
+    n := Size(group);
+    fac := Factors(n);
+    if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
+      Error("Argument must be of the form of p^3q"); fi;
+    p := fac[2];
+    if fac[1] = fac[2] then
+    q := fac[4]; elif fac[3] = fac[4] then
+    q := fac[1]; fi;
+    func := function(q)
+      local i, j, k, ll;
+        ll := [];
+        for i in [1..Int((q - 3)/3)] do
+          for j in [i + 1..Int((q - 1 - i)/2)] do
+            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+              Add(ll, AsSet([AsSet([-i mod (q - 1), j]), AsSet([-j mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), i])]));
+              Add(ll, AsSet([AsSet([-i mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), j]), AsSet([-j mod (q - 1), i])]));
+            fi;
+          od;
         od;
-      od;
-    return ll;
-  end;
+      return ll;
+    end;
 
-  func2 := function(q)
-    local i, ll;
-      ll := [[0, 0, 0]];
-      for i in [1..(q - 1)/2] do
-        Add(ll, AsSet([AsSet([-i mod (q - 1), i]), AsSet([-i mod (q - 1), (-2*i) mod (q - 1)]), AsSet([2*i mod (q - 1), i])]));
-      od;
-    return ll;
-  end;
+    func2 := function(q)
+      local i, ll;
+        ll := [[0, 0, 0]];
+        for i in [1..(q - 1)/2] do
+          Add(ll, AsSet([AsSet([-i mod (q - 1), i]), AsSet([-i mod (q - 1), (-2*i) mod (q - 1)]), AsSet([2*i mod (q - 1), i])]));
+        od;
+      return ll;
+    end;
 
-  lst := function(set)
-    local st;
-      st := AsSet([AsSet([set[1], set[2]]), AsSet([(-set[2]) mod (q - 1), (set[1] - set[2]) mod (q - 1)]), AsSet([(set[2] - set[1]) mod (q - 1), -set[1] mod (q - 1)])]);
-    return st;
-  end;
-  a := Z(p);
-  b := Z(q);
-  if (q - 1) mod p = 0 then
-    r1 := b^((q-1)/p);
-  fi;
-  if (q - 1) mod (p^2) = 0 then
-    r2 := b^((q-1)/(p^2));
-  fi;
-  if (q - 1) mod (p^3) = 0 then
-    r3 := b^((q-1)/(p^3));
-  fi;
-  P := SylowSubgroup(group, p);
-  Q := SylowSubgroup(group, q);
-############ abelian groups:
-  if IsAbelian(group) then
-    if IsCyclic(P) then Id := [n, 1];
-    elif Exponent(P) = p^2 then Id := [n, 2];
-    elif Exponent(P) = p then Id := [n, 3];
+    lst := function(set)
+      local st;
+        st := AsSet([AsSet([set[1], set[2]]), AsSet([(-set[2]) mod (q - 1), (set[1] - set[2]) mod (q - 1)]), AsSet([(set[2] - set[1]) mod (q - 1), -set[1] mod (q - 1)])]);
+      return st;
+    end;
+    a := Z(p);
+    b := Z(q);
+    if (q - 1) mod p = 0 then
+      r1 := b^((q-1)/p);
     fi;
-  fi;
-############ case 1: no normal Sylow subgroup -- necessarily n = 24
-  if not IsNormal(group, P) and not IsNormal(group, Q) then Id := [24, 4]; fi;
-############ interlude: n = 24
-  if n = 24 and not IsAbelian(group) then
-    if [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [true, true, 4, 8] then
-      Id := [24, 5];
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [true, true, 4, 2] then
-      Id := [24, 6];
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [false, true, 8, 2] then
-      Id := [24, 7];
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2)), Size(Centre(group))] = [false, true, 4, 4, 4] then
-      O := Omega(P, 2);
-      if IsNormal(group, O) then Id := [24, 9];
-      else Id := [24, 8];
-      fi;
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2)), Size(Centre(group))] = [false, true, 4, 4, 2] then
-      Id := [24, 10];
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [false, true, 2, 8] then
-      Id := [24, 11];
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [false, true, 4, 8] then
-      O := Omega(P, 2);
-      if IsNormal(group, O) then Id := [24, 13];
-      else Id := [24, 12];
-      fi;
-    elif [IsNormal(group, P), IsNormal(group, P), Exponent(P), Size(Omega(P, 2))] = [ true, false, 4, 2 ] then
-      Id := [24, 14];
+    if (q - 1) mod (p^2) = 0 then
+      r2 := b^((q-1)/(p^2));
     fi;
-  fi;
-
-############ case 2: nonabelian and every Sylow subgroup is normal, namely, P \times Q -- determined by the isomorphism type of P
-  if p > 2 and IsNormal(group, P) and IsNormal(group, Q) and IsAbelian(group) = false then
-    if Exponent(P) = p then Id := [n, 4];
-    elif Exponent(P) = p^2 then Id := [n, 5];
+    if (q - 1) mod (p^3) = 0 then
+      r3 := b^((q-1)/(p^3));
     fi;
-  elif p = 2 and q > 3 and IsNilpotent(group) and IsAbelian(group) = false then
-    if Size(Omega(P, 2)) = 8 then Id := [n, 4];
-    elif Size(Omega(P, 2)) = 2 then Id := [n, 5];
+    P := SylowSubgroup(group, p);
+    Q := SylowSubgroup(group, q);
+
+    tst := [IsNormal(group, P), IsNormal(group, Q), IsElementaryAbelian(P), Exponent(P), Size(Centre(group))];
+    if p = 2 then Add(tst, Size(Omega(P, 2))); fi;
+  ############ enumeration
+    c1 := msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3);
+    c2 := 2*msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2);
+    c3 := msg.deltaDivisibility((q - 1), p);
+    c4 := msg.deltaDivisibility((q - 1), p) + msg.deltafunction(p, 2);
+    c5 := p*msg.deltaDivisibility((q - 1), p)*(1 - msg.deltafunction(p, 2)) + msg.deltafunction(p, 2);
+    c6 := msg.deltaDivisibility((p - 1), q);
+    c7 := (q + 1)*msg.deltaDivisibility((p - 1), q);
+    c8 := (1 - msg.deltafunction(q, 2))*(
+    1/6*(q^2 + 4*q + 9 + 4*msg.deltaDivisibility((q - 1), 3))*msg.deltaDivisibility((p - 1), q)
+    + msg.deltaDivisibility(((p + 1)*(p^2 + q + 1)), q)*(1 - msg.deltaDivisibility((p - 1), q)))
+    + 3*msg.deltafunction(q, 2);
+    c9 := 1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2))
+    + 2*msg.deltafunction(q, 2);
+  ############ abelian groups:
+    if IsAbelian(group) then
+      if IsCyclic(P) then return [n, 1];
+      elif Exponent(P) = p^2 then return [n, 2];
+      elif Exponent(P) = p then return [n, 3];
+      fi;
     fi;
-  fi;
-
-############ case 3: nonabelian and only Sylow q-subgroup is normal, namely, P \ltimes Q
-  if n <> 24 and IsNormal(group, Q) and not IsNormal(group, P) then ##it follows that (q - 1) mod p = 0
-    ## class 1: when P = C_{p^3}
-    if IsCyclic(P) and (q - 1) mod p = 0 then
-      if Size(Centre(group)) = p^2 then Id := [n, 6];
-      elif (q - 1) mod (p^2) = 0 and Size(Centre(group)) = p then Id := [n, 7];
-      elif (q - 1) mod (p^3) = 0 and Size(Centre(group)) = 1 then Id := [n, 8];
-      fi;
-    ## class 2: when P = C_{p^2} \times C_p, there are at most three isom types of semidirect products of P \ltimes Q
-    elif IsAbelian(P) and Exponent(P) = p^2 then
-      if Exponent(Centre(group)) = p^2 then
-        Id := [n, 7 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      elif Exponent(Centre(group)) = p and Size(Centre(group)) = p^2 then
-        Id := [n, 8 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      elif (q - 1) mod (p^2) = 0 and Size(Centre(group)) = p then
-        Id := [n, 9 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      fi;
-    ## class 3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
-    elif IsElementaryAbelian(P) and (q - 1) mod p = 0 then Id := [n, 9 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
-    elif not IsAbelian(P) and Exponent(P) = p and p > 2 then Id := [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif not IsAbelian(P) and Exponent(P) = 4 and Size(Omega(P, 2)) = 8 then
-      gens := Pcgs(group);
-      c := Filtered(Elements(P), x->Order(x) = 4)[1];
-      d := Filtered(gens, x->Order(x) = q)[1];
-      if d^c = d then
-        Id := [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      else Id := [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      fi;
-    ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
-    elif not IsAbelian(P) and Exponent(P) = p^2 and p > 2 then
-      gens := Pcgs(group);
-      c := Filtered(gens, x->Order(x) = p and not x in Centre(P))[1];
-      d := Filtered(gens, x->Order(x) = q)[1];
-      k := LogFFE(ExponentsOfPcElement(gens, d^c)[4]*One(GF(q)), r1) mod p;
-      if k > 0 then
-        Id := [n, 10 + k + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      else
-        Id := [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3) + (p - 1)];
-      fi;
-    ## class 6: when P = Q_8, there is a unique isom type of P \ltimes Q
-    elif not IsAbelian(P) and Size(Omega(P, 2)) = 2 then Id := [n, 12 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    fi;
-  fi;
-############ case 4: nonabelian and only the Sylow p-subgroup is normal
-  if n <> 24 and IsNormal(group, P) and not IsNormal(group, Q) then
-    if (p - 1) mod q = 0 then
-      s1 := a^((p - 1)/q);
-
-      c := ZmodnZObj(Int(Z(p)), p^3);
-      if not c^(p - 1) = ZmodnZObj(1, p^2) then
-        d := c;
-      else d := c + 1;
-      fi;
-      s3 := d^((p^3 - p^2)/q);
-
-      e := ZmodnZObj(Int(Z(p)), p^2);
-      if not e^(p - 1) = ZmodnZObj(1, p^2) then
-        f := e;
-      else f := e + 1;
-      fi;
-
-      s2 := f^((p^2-p)/q);
-    fi;
-
-    ## class 1: when P is cyclic, there is at most isom type of semidirect products of Q \ltimes P #it follows that (p - 1) mod q = 0
-    if IsCyclic(P) then
-      Id := [n, 6 + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    ## class 2: when P = C_{p^2} \times C_p, there are at most (q + 1) isomorphism types of Q \ltimes P
-    elif IsAbelian(P) and Exponent(P) = p^2 and Size(Centre(group)) = p^2 then ## (C_q \ltimes C_p) \times C_{p^2}
-      Id := [n, 7 + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsAbelian(P) and Exponent(P) = p^2 and Size(Centre(group)) = p then ## (C_q \ltimes C_{p^2}) \times C_p
-      Id := [n, 8 + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsAbelian(P) and Exponent(P) = p^2 and Size(Centre(group)) = 1 and q > 2 then ## C_q \ltimes (C_{p^2} \times C_p)
-      gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p, Filtered(Pcgs(P), x->Order(x) = p and not x = Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p)[1]];
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-      x := Inverse(LogMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3]*p + ExponentsOfPcElement(G, gens[2]^gens[1])[2], Int(s2), p^2)) mod q;
-      pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
-      pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-      k := LogFFE(ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[4]*One(GF(p)), s1) mod q;
-      Id := [n, 8 + k + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsAbelian(P) and Exponent(P) = p^2 and Size(Centre(group)) = 1 and q = 2 then ## C_q \ltimes (C_{p^2} \times C_p)
-      Id := [n, 9];
-    ## class 3: when P is elementary abelian
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = p^2 then ## (C_q \ltimes C_p) \times C_p^2
-      Id := [n, 9 + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = p and (p - 1) mod q = 0 and q > 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-      gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[2], Filtered(Pcgs(group), x->Order(x) = p and x in Centre(group))[1]];
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-      x := Inverse(LogFFE(Eigenvalues(GF(p),
-      [[ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3]],
-      [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3]]]* One(GF(p)))[1], s1)) mod q;
-      pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
-      pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-      matGL2 := [ [ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2], ExponentsOfPcElement(G, pcgs[2]^pcgs[1])[3]],
-      [ExponentsOfPcElement(pc, pcgs[3]^gens[1])[2], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3]] ] * One(GF(p));
-      if LogFFE((LogFFE(DeterminantMat(matGL2), s1) - 1)*One(GF(q)), b) mod (q - 1) < (q + 1)/2 then
-        k := LogFFE((LogFFE(DeterminantMat(matGL2), s1) - 1)*One(GF(q)), b) mod (q - 1);
-      else k := (q - 1) - LogFFE((LogFFE(DeterminantMat(matGL2), s1) - 1)*One(GF(q)), b) mod (q - 1);
-      fi;
-      Id := [n, 10 + k + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = p and q = 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-      Id := [n, 10 + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = p and (p + 1) mod q = 0 and q > 2 then
-      Id := [n, 6 + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    ## below: (C_q \ltimes C_p^3) when q | (p - 1)
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and q = 2 then
-      Id := [n, 11 + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and (p - 1) mod 3 = 0 and q = 3 then
-      gens := [Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(P)[3]];
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-      ev := Eigenvalues(GF(p), [ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-      [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-      [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)));
-      if Length(ev) = 1 then
-        Id := [n, 10 + (q + 1)/2*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)
-        + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      else
-        evm := msg.EigenvaluesWithMultiplicitiesGL3P([ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)), p);
-        x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
-        matGL3 := ([ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ])^x * One(GF(p));
-        if LogFFE((LogFFE(DeterminantMat(matGL3), s1) - 2)*One(GF(q)), b) mod (q - 1) < (q + 1)/2 then
-          k := LogFFE((LogFFE(DeterminantMat(matGL3), s1) - 2)*One(GF(q)), b) mod (q - 1);
-        else k := (q - 1) - LogFFE((LogFFE(DeterminantMat(matGL3), s1) - 2)*One(GF(q)), b) mod (q - 1);
+  ############ case 1: no normal Sylow subgroup -- necessarily n = 24
+    if not IsNormal(group, P) and not IsNormal(group, Q) then return [24, 4]; fi;
+  ############ interlude: n = 24
+    if n = 24 and not IsAbelian(group) then
+      if [tst[1], tst[2], tst[4], tst[6]] = [ true, true, 4, 8 ] then
+        return [24, 5];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ true, true, 4, 2 ] then
+        return [24, 6];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 8, 2 ] then
+        return [24, 7];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 4 ] then
+        O := Omega(P, 2);
+        if IsNormal(group, O) then return [24, 9];
+        else return [24, 8];
         fi;
-        Id := [n, 10 + k + (q + 1)/2*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)
-        + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      fi;
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and (p - 1) mod q = 0 and q > 3 then
-      gens := [Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(P)[3]];
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-      ev := Eigenvalues(GF(p), [ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-      [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-      [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)));
-      if Length(ev) = 1 then
-        Id := [n, 10 + (q - 3)*msg.deltaDivisibility((p - 1), q)
-        + (q + 1)/2*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)
-        + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p)
-        + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-      fi;
-      if Length(ev) <> 1 then
-        if Length(ev) = 2 then
-          evm := msg.EigenvaluesWithMultiplicitiesGL3P([ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-          [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-          [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)), p);
-          x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
-        elif Length(ev) = 3 then
-          x := Inverse(LogFFE(
-          Eigenvalues(GF(p), [ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-          [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-          [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)))[1],
-          s1)) mod q;
+      elif [tst[1], tst[2], tst[4], tst[6], tst[5]] = [ false, true, 2, 8, 4 ] then
+        return [24, 10];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 8 ] then
+        d := Pcgs(Q)[1];
+        c := Filtered(Pcgs(P), x->not x in Centre(P) and d*x=x*d)[1];
+        O := Group([c, d, Pcgs(Centre(group))[1]]);
+        if IsCyclic(O) then return [24, 12];
+        else return [24, 11];
         fi;
-        matGL3 := ([ [ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3], ExponentsOfPcElement(G, gens[2]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3], ExponentsOfPcElement(G, gens[3]^gens[1])[4]],
-        [ExponentsOfPcElement(G, gens[4]^gens[1])[2], ExponentsOfPcElement(G, gens[4]^gens[1])[3], ExponentsOfPcElement(G, gens[4]^gens[1])[4]] ] * One(GF(p)))^x;
-        l := Eigenvalues(GF(p), matGL3);
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 2 ] then
+        return [24, 13];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ true, false, 2, 8 ] then
+        return [24, 14];
+      elif [tst[1], tst[2], tst[4], tst[6]] = [ true, false, 4, 2 ] then
+        return [24, 15];
+      fi;
+    fi;
 
-        if Length(l) = 3 then
-          tmp := func(q);
-          y := List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
-          if lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))) in tmp then
-            k := Position(tmp, lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-            Id := [n, 6 + k + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-            + msg.deltaDivisibility((q-1), p^3) + 3*q*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))
-            + msg.deltaDivisibility((p+1), q)*(1 - msg.deltafunction(q, 2)) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-          else k := Position(func2(q), lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-            Id := [n, 9 + k + (q - 3)*msg.deltaDivisibility((p - 1), q) + (q + 1)/2*msg.deltaDivisibility((p - 1), q)
-            + msg.deltaDivisibility((p + 1), q) + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p)
-            + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
-          fi;
+  ############ case 2: nonabelian and every Sylow subgroup is normal, namely, P \times Q -- determined by the isomorphism type of P
+    if p > 2 and [tst[1], tst[2]] = [true, true] and IsAbelian(group) = false then
+      if tst[4] = p then return [n, 4];
+      elif tst[4] = p^2 then return [n, 5];
+      fi;
+    elif p = 2 and q > 3 and IsNilpotent(group) and IsAbelian(group) = false then
+      if tst[6] = 8 then return [n, 4];
+      elif tst[6] = 2 then return [n, 5];
+      fi;
+    fi;
 
-        elif Length(l) = 2 and List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q))) = [b^((q - 1)/2)] then
-          Id := [n, 9 + ((q + 1)/2 + q - 3)*msg.deltaDivisibility((p - 1), q)
-          + (q + 1)/2*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)
-          + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p)
-          + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+  ############ case 3: nonabelian and only Sylow q-subgroup is normal, namely, P \ltimes Q
+    if n <> 24 and [tst[1], tst[2]] = [false, true] then ##it follows that (q - 1) mod p = 0
+      ## class 1: when P = C_{p^3}
+      if IsCyclic(P) and (q - 1) mod p = 0 then
+        if tst[5] = p^2 then return [n, 6];
+        elif (q - 1) mod (p^2) = 0 and tst[5] = p then return [n, 7];
+        elif (q - 1) mod (p^3) = 0 and tst[5] = 1 then return [n, 8];
+        fi;
+      ## class 2: when P = C_{p^2} \times C_p, there are at most three isom types of semidirect products of P \ltimes Q
+      elif IsAbelian(P) and tst[4] = p^2 then
+        if Exponent(Centre(group)) = p^2 then
+          return [n, 7 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        elif Exponent(Centre(group)) = p and tst[5] = p^2 then
+          return [n, 8 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        elif (q - 1) mod (p^2) = 0 and tst[5] = p then
+          return [n, 9 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        fi;
+      ## class 3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
+      elif tst[3] = true and (q - 1) mod p = 0 then return [n, 9 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+      ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
+      elif not IsAbelian(P) and tst[4] = p and p > 2 then return [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+      elif not IsAbelian(P) and tst[4] = 4 and tst[6] = 8 then
+        if IsCyclic(SylowSubgroup(FrattiniSubgroup(group), p)) then
+          return [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        else return [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        fi;
+      ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
+      elif not IsAbelian(P) and Exponent(P) = p^2 and p > 2 then
+        gens := Pcgs(group);
+        c := Filtered(Pcgs(P), x -> not x in Centre(P) and IsCyclic(Group([x, Pcgs(Centre(P))])))[1];
+        d := Filtered(gens, x->Order(x) = q)[1];
+        k := LogFFE(ExponentsOfPcElement(gens, d^c)[4]*One(GF(q)), r1) mod p;
+        if k > 0 then
+          return [n, 10 + k + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
         else
-          k := Position(Filtered([1..(q - 2)], x-> not x = (q - 1)/2), LogFFE(LogFFE(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1)[1], s1)*One(GF(q)), b) mod (q - 1));
-          Id := [n, 9 + k + (q + 1)/2*msg.deltaDivisibility((p - 1), q)
-          + msg.deltaDivisibility((p + 1), q) + (q - 1) + (5 + p)*msg.deltaDivisibility((q - 1), p)
-          + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+          return [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3) + (p - 1)];
         fi;
-      fi;
-    elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and (p^2 + p + 1 ) mod q = 0 and q > 3 then
-      Id := [n, 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-        + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-        + msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-    ## class 4: when P is extraspecial of type +
-    elif (not IsAbelian(P) and Exponent(P) = p and (p - 1) mod q = 0) then
-      if Size(Centre(group)) = p then ## q | (p - 1), Z(G) = C_p
-        if n mod 2 = 1 then
-          Id := [n, 7 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-            + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-            + msg.deltaDivisibility((p+1), q)*(1 - msg.deltafunction(q, 2)) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-        else Id := [n, 5 + 7*msg.deltafunction(p, 2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
-          + 8*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
-        fi;
-      elif Size(Centre(group)) = 1 then ## q | (p - 1), Z(G) = 1
-        if Size(DerivedSubgroup(group)) = p^2 and q > 2 then
-          Id := [n, 8 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-          + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-          + msg.deltaDivisibility((p+1), q)*(1 - msg.deltafunction(q, 2)) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-        elif Size(DerivedSubgroup(group)) = p^2 and q = 2 then
-          Id := [n, 5 + 7*msg.deltafunction(p,2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
-            + 9*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
-        elif Size(DerivedSubgroup(group)) = p^3 and q > 2 then
-          gens := [Pcgs(Q)[1], Filtered(Pcgs(P), x -> not x in Centre(P))[1], Filtered(Pcgs(P), x -> not x in Centre(P))[2], Filtered(Pcgs(P), x->x in Centre(P))[1]];
-          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(p)), s1)) mod q;
-          pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
-          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-          matGL3 := [ [ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[3], ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[4]],
-          [ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[4]],
-          [ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[3], ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[4]] ] * One(GF(p));
-          y := List(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1), x -> LogFFE(x, s1) mod q)[1];
-          if y > (q + 1)/2 then
-            k := Position([2..(q + 1)/2], (q + 1) - y);
-          else k := Position([2..(q + 1)/2], y);
-          fi;
-          Id := [n, 8 + k + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-          + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-          + msg.deltaDivisibility((p+1), q)*(1 - msg.deltafunction(q, 2)) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-        fi;
-      fi;
-    elif not IsAbelian(P) and Exponent(P) = p and (p + 1) mod q = 0 and q > 2 and p > 2 then
-      Id := [n, 6 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-        + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-        + msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-    ## class 5: when P is extraspecial of type -,
-    elif not IsAbelian(P) and Exponent(P) = p^2 and (p - 1) mod q = 0 then
-      if n mod 2 = 1 then
-        Id := [n, 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
-        + msg.deltaDivisibility((q-1), p^3) + (36+q^2+13*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
-        + 2*msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
-      else
-        Id := [n, 5 + 7*msg.deltafunction(p,2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
-          + 10*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
+      ## class 6: when P = Q_8, there is a unique isom type of P \ltimes Q
+      elif not IsAbelian(P) and tst[6] = 2 then return [n, 12 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
       fi;
     fi;
-  fi;
-  return Id;
+  ############ case 4: nonabelian and only the Sylow p-subgroup is normal
+    if n <> 24 and [tst[1], tst[2]] = [true, false] then
+      if (p - 1) mod q = 0 then
+        s1 := a^((p - 1)/q);
+
+        c := ZmodnZObj(Int(Z(p)), p^3);
+        if not c^(p - 1) = ZmodnZObj(1, p^2) then
+          d := c;
+        else d := c + 1;
+        fi;
+        s3 := d^((p^3 - p^2)/q);
+
+        e := ZmodnZObj(Int(Z(p)), p^2);
+        if not e^(p - 1) = ZmodnZObj(1, p^2) then
+          f := e;
+        else f := e + 1;
+        fi;
+
+        s2 := f^((p^2-p)/q);
+      fi;
+
+      ## class 1: when P is cyclic, there is at most isom type of semidirect products of Q \ltimes P #it follows that (p - 1) mod q = 0
+      if IsCyclic(P) then
+        return [n, 6];
+      ## class 2: when P = C_{p^2} \times C_p, there are at most (q + 1) isomorphism types of Q \ltimes P
+    elif IsAbelian(P) and tst[4] = p^2 and tst[5] = p^2 then ## (C_q \ltimes C_p) \times C_{p^2}
+        return [n, 7];
+      elif IsAbelian(P) and tst[4] = p^2 and tst[5] = p then ## (C_q \ltimes C_{p^2}) \times C_p
+        return [n, 8];
+      elif IsAbelian(P) and tst[4] = p^2 and tst[5] = 1 and q > 2 then ## C_q \ltimes (C_{p^2} \times C_p)
+        gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p, Filtered(Pcgs(P), x->Order(x) = p and not x = Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p)[1]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+        x := Inverse(LogMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3]*p + ExponentsOfPcElement(G, gens[2]^gens[1])[2], Int(s2), p^2)) mod q;
+        k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(p)), s1) mod q;
+        return [n, 8 + k];
+      elif IsAbelian(P) and tst[4] = p^2 and tst[5] = 1 and q = 2 then ## C_q \ltimes (C_{p^2} \times C_p)
+        return [n, 9];
+      ## class 3: when P is elementary abelian
+    elif tst[3] = true and tst[5] = p^2 then ## (C_q \ltimes C_p) \times C_p^2
+        return [n, 9 + (q - 1)];
+      elif tst[3] = true and tst[5] = p and (p - 1) mod q = 0 and q > 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
+        gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[2], Filtered(Pcgs(group), x->Order(x) = p and x in Centre(group))[1]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+        exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
+        exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+        x := Inverse(LogFFE(Eigenvalues(GF(p), [exp1{[2, 3]}, exp2{[2, 3]}]* One(GF(p)))[1], s1)) mod q;
+        pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
+        pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
+        matGL2 := [exp1{[2, 3]}, exp2{[2, 3]}]^x * One(GF(p));
+        det := LogFFE((LogFFE(DeterminantMat(matGL2), s1) - 1)*One(GF(q)), b) mod (q - 1);
+        if det < (q + 1)/2 then
+          k := det;
+        else k := (q - 1) - det;
+        fi;
+        return [n, 10 + k + (q - 1)];
+      elif tst[3] = true and tst[5] = p and q = 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
+        return [n, 10 + (q - 1)];
+      elif tst[3] = true and tst[5] = p and (p + 1) mod q = 0 and q > 2 then
+        return [n, 6 + (5 + p)*msg.deltaDivisibility((q - 1), p)];
+      ## below: (C_q \ltimes C_p^3) when q | (p - 1)
+      elif tst[3] = true and tst[5] = 1 and q = 2 then
+        return [n, 11];
+      elif tst[3] = true and tst[5] = 1 and (p - 1) mod 3 = 0 and q = 3 then
+        gens := [Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(P)[3]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+        exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
+        exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+        exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+        ev := Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)));
+        if Length(ev) = 1 then
+          return [n, 10 + (q + 1)/2 + (q - 1)];
+        else
+          evm := msg.EigenvaluesWithMultiplicitiesGL3P([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]} ] * One(GF(p)), p);
+          x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
+          matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
+          det := LogFFE((LogFFE(DeterminantMat(matGL3), s1) - 2)*One(GF(q)), b) mod (q - 1);
+          if det < (q + 1)/2 then
+            k := det;
+          else k := (q - 1) - det;
+          fi;
+          return [n, 10 + k + (q + 1)/2 + (q - 1)];
+        fi;
+      elif tst[3] = true and tst[5] = 1 and (p - 1) mod q = 0 and q > 3 then
+        gens := [Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(P)[3]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+        exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
+        exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+        exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+        ev := Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)));
+        if Length(ev) = 1 then
+          return [n, 10 + (q - 3) + (q + 1)/2 + (q - 1)];
+        fi;
+        if Length(ev) <> 1 then
+          if Length(ev) = 2 then
+            evm := msg.EigenvaluesWithMultiplicitiesGL3P([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)), p);
+            x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
+          elif Length(ev) = 3 then
+            x := Inverse(LogFFE(
+            Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)))[1],
+            s1)) mod q;
+          fi;
+          matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
+          l := Eigenvalues(GF(p), matGL3);
+          if Length(l) = 3 then
+            tmp := func(q);
+            y := List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
+            if lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))) in tmp then
+              k := Position(tmp, lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
+              return [n, 6 + k + 3*q + msg.deltaDivisibility((p^2+p+1), q)];
+            else k := Position(func2(q), lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
+              return [n, 9 + k + (q - 3) + (q + 1)/2 + (q - 1)];
+            fi;
+
+          elif Length(l) = 2 and List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q))) = [b^((q - 1)/2)] then
+            return [n, 9 + 2*q - 2];
+          else
+            k := Position(Filtered([1..(q - 2)], x-> not x = (q - 1)/2), LogFFE(LogFFE(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1)[1], s1)*One(GF(q)), b) mod (q - 1));
+            return [n, 9 + k + (q + 1)/2 + (q - 1)];
+          fi;
+        fi;
+      elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and (p^2 + p + 1) mod q = 0 and q > 3 then
+        return [n, 5 + (5+p)*msg.deltaDivisibility((q-1), p) + 2*msg.deltaDivisibility((q-1), p^2)
+          + msg.deltaDivisibility((q-1), p^3) + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))*msg.deltaDivisibility((p-1), q)*(1 - msg.deltafunction(q, 2))/6
+          + msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
+      ## class 4: when P is extraspecial of type +
+      elif (not IsAbelian(P) and Exponent(P) = p and (p - 1) mod q = 0) then
+        if Size(Centre(group)) = p then ## q | (p - 1), Z(G) = C_p
+          if n mod 2 = 1 then
+            return [n, 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8];
+          else return [n, 5 + 7*msg.deltafunction(p, 2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
+            + 8*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
+          fi;
+        elif Size(Centre(group)) = 1 then ## q | (p - 1), Z(G) = 1
+          if Size(DerivedSubgroup(group)) = p^2 and q > 2 then
+            return [n, 8 + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))/6 + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
+          elif Size(DerivedSubgroup(group)) = p^2 and q = 2 then
+            return [n, 5 + 7*msg.deltafunction(p,2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
+              + 9*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
+          elif Size(DerivedSubgroup(group)) = p^3 and q > 2 then
+            gens := [Pcgs(Q)[1], Filtered(Pcgs(P), x -> not x in Centre(P))[1], Filtered(Pcgs(P), x -> not x in Centre(P))[2], Filtered(Pcgs(P), x->x in Centre(P))[1]];
+            G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+            exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
+            exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+            exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+            x := Inverse(LogFFE(exp3[4] * One(GF(p)), s1)) mod q;
+            matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
+            y := List(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1), x -> LogFFE(x, s1) mod q)[1];
+            if y > (q + 1)/2 then
+              k := Position([2..(q + 1)/2], (q + 1) - y);
+            else k := Position([2..(q + 1)/2], y);
+            fi;
+            return [n, 8 + k + (15+q^2+10*q+4*msg.deltaDivisibility((q-1),3))/6 + msg.deltaDivisibility((p^2+p+1), q)*(1 - msg.deltafunction(q, 3))];
+          fi;
+        fi;
+      elif not IsAbelian(P) and Exponent(P) = p and (p + 1) mod q = 0 and q > 2 and p > 2 then
+        return [n, 7];
+      ## class 5: when P is extraspecial of type -,
+      elif not IsAbelian(P) and Exponent(P) = p^2 and (p - 1) mod q = 0 then
+        if n mod 2 = 1 then
+          return [n, 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9];
+        else
+          return [n, 5 + 7*msg.deltafunction(p, 2) + 2*msg.deltaDivisibility((q-1),4) + msg.deltaDivisibility((q-1), 8)
+            + 10*msg.deltafunction(q, 2) + 3*msg.deltafunction(n,24) + msg.deltafunction(n, 56)];
+        fi;
+      fi;
+    fi;
 end;
 
 ######################################################
 msg.IdGroupP2QR := function(group)
   local n, fac, primefac, p, q, r, P, Q, R, a, b, c, u, v, G, gens, pc, pcgs,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
-  matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x;
+  matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, ev;
     n := Size(group);
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
@@ -1203,8 +1186,6 @@ msg.IdGroupP2QR := function(group)
             (not b^0 in Eigenvalues(GF(p), matq)) then ## Q and R act nontrivially on both the generators of P
             x := Inverse(LogFFE(Eigenvalues(GF(p), matq)[1], b^((p-1)/q))) mod q;
             y := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
-            pcgs := [gens[1]^x, gens[2]^y, gens[3], gens[4]];
-            pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             if (p-1) mod (q*r) = 0 and q > 2 then
               tmp := [];
               for k in [0..(q - 1)/2] do
@@ -1259,48 +1240,22 @@ msg.IdGroupP2QR := function(group)
         if IsCyclic(P) and Size(Centre(group)) = q then ## r | (p - 1) and G \cong (C_r \ltimes C_{p^2}) \times C_q
           return [n, 3 + c1 + c2 + c3];
         elif Size(Centre(group)) = p*q then ## r | (p - 1) and G \cong (C_r \ltimes C_p) \times (C_p \times C_q)
-          return [n, 3 + msg.deltaDivisibility((p - 1), r)
-          + 1/2*(q*r + q + r + 5)*msg.deltaDivisibility((p - 1), q*r)*(1 - msg.deltafunction(q, 2))
-          + msg.deltaDivisibility((p + 1), q*r)
-          + msg.deltaDivisibility((p - 1), q)*msg.deltaDivisibility((p + 1), r)
-          + msg.deltaDivisibility((p + 1), q)*msg.deltaDivisibility((p - 1), r)
-          + 1/2*(3*r + 7)*msg.deltafunction(q, 2)*msg.deltaDivisibility((p - 1), r)
-          + 2*msg.deltafunction(q, 2)*msg.deltaDivisibility((p + 1), r)
-          + msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)
-          + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p^2)
-          + msg.deltaDivisibility((r - 1), p^2) + (p^2 - p)*msg.deltaDivisibility((q - 1), p^2)*msg.deltaDivisibility((r - 1), p^2)
-          + (p - 1)*msg.deltaDivisibility((q - 1), p^2)*msg.deltaDivisibility((r - 1), p)
-          + msg.deltaDivisibility((r - 1), (p^2*q)) + msg.deltaDivisibility((q - 1), (p^2))];
+          return [n, 3 + c1 + c2 + c3
+          + msg.deltaDivisibility((p - 1), r)];
         elif IsElementaryAbelian(P) and Size(Centre(group)) = q and (p - 1) mod r = 0 then ## r | (p - 1) and G \cong (C_r \ltimes C_p^2) \times C_q
           gens := [Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(Q)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          x := Inverse(LogFFE(Eigenvalues(GF(p),
-          [[ExponentsOfPcElement(G, gens[2]^gens[1])[2], ExponentsOfPcElement(G, gens[2]^gens[1])[3]],
-          [ExponentsOfPcElement(G, gens[3]^gens[1])[2], ExponentsOfPcElement(G, gens[3]^gens[1])[3]]]*One(GF(p)))[1], b^((p-1)/r))) mod r;
-          pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
-          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-          if LogFFE((LogFFE(DeterminantMat(
-            [[ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[3]],
-            [ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3]]]*One(GF(p))), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1) < (r + 1)/2 then
-            k := LogFFE((LogFFE(DeterminantMat(
-            [[ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[3]],
-            [ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3]]]*One(GF(p))), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
-          else k := (r - 1) - LogFFE((LogFFE(DeterminantMat(
-          [[ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[3]],
-          [ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[2], ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3]]]*One(GF(p))), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
+          expp1r := ExponentsOfPcElement(G, gens[2]^gens[1]);
+          expp2r := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          matr := [expp1r{[2, 3]}, expp2r{[2, 3]}]*One(GF(p));
+          x := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
+          detr := LogFFE((LogFFE(DeterminantMat(matr^x), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1)
+          if detr < (r + 1)/2 then
+            k := detr;
+          else k := (r - 1) - detr;
           fi;
-          return [n, 3 + k + 2*msg.deltaDivisibility((p - 1), r)
-          + 1/2*(q*r + q + r + 5)*msg.deltaDivisibility((p - 1), q*r)*(1 - msg.deltafunction(q, 2))
-          + msg.deltaDivisibility((p + 1), q*r)
-          + msg.deltaDivisibility((p - 1), q)*msg.deltaDivisibility((p + 1), r)
-          + msg.deltaDivisibility((p + 1), q)*msg.deltaDivisibility((p - 1), r)
-          + 1/2*(3*r + 7)*msg.deltafunction(q, 2)*msg.deltaDivisibility((p - 1), r)
-          + 2*msg.deltafunction(q, 2)*msg.deltaDivisibility((p + 1), r)
-          + msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)
-          + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p^2)
-          + msg.deltaDivisibility((r - 1), p^2) + (p^2 - p)*msg.deltaDivisibility((q - 1), p^2)*msg.deltaDivisibility((r - 1), p^2)
-          + (p - 1)*msg.deltaDivisibility((q - 1), p^2)*msg.deltaDivisibility((r - 1), p)
-          + msg.deltaDivisibility((r - 1), (p^2*q)) + msg.deltaDivisibility((q - 1), (p^2))];
+          return [n, 3 + k + c1 + c2 + c3
+          + 2*msg.deltaDivisibility((p - 1), r)];
         elif IsElementaryAbelian(P) and Size(Centre(group)) = q and (p + 1) mod r = 0 then ## r | (p - 1) and G \cong (C_r \ltimes C_p^2) \times C_q
           return [n, 3 + c1 + c2 + c3];
         fi;

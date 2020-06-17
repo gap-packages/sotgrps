@@ -1,5 +1,5 @@
 msg.lowpowerPGroups := function(p, k)
-	local PG, P2, P3, order8, P4, order16, order81, G;
+	local PG, P2, P3, order8, P4, order16, order81, list;
 		if p > 1 then
 			PG := [ [p] ];
 			P2 := [ [ [p, p], [1, [2, 1]] ], [ [p, p] ] ];
@@ -37,44 +37,23 @@ msg.lowpowerPGroups := function(p, k)
 			[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1,[2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ],
 			[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ],
 			[ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ] ];
-			if k = 1 then
-				if i = 1 then list := List(PG, x -> msg.groupFromData(x));
-				else Error("There is a unique group of prime order up to isomorphism.");
-				fi;
+			if k = 1 then list := List(PG, x -> msg.groupFromData(x));
 			fi;
 
-			if k = 2 then
-				if i < 3 then List :=(P2, x -> msg.groupFromData(x));
-				else Error("There are two groups of prime-squared order up to isomorphism: one is cyclic and the other elementary abelian.");
-				fi;
+			if k = 2 then list := List(P2, x -> msg.groupFromData(x));
 			fi;
 
-			if p > 2 and k = 3 then
-				if i < 6 then List :=(P3, x -> msg.groupFromData(x));
-				else Error("There are five isomorphism types of groups of prime-cubed order.");
-				fi;
-			elif p = 2 and k = 3 then
-				if i < 6 then List :=(order8, x -> msg.groupFromData(x));
-				else Error("There are five isomorphism types of groups of order 8.");
-				fi;
+			if p > 2 and k = 3 then list := List(P3, x -> msg.groupFromData(x));
+			elif p = 2 and k = 3 then list := List(order8, x -> msg.groupFromData(x));
 			fi;
 
-			if p > 3 and k = 4 then
-				if i < 16 then List :=(P4, x -> msg.groupFromData(x));
-				else Error("There are 15 isomorphism types of groups of this order.");
-				fi;
-			elif p = 3 and k = 4 then
-				if i < 16 then List :=(order81, x -> msg.groupFromData(x));
-				else Error("There are 15 isomorphism types of groups of order 81.");
-				fi;
-			elif p = 2 and k = 4 then
-				if i < 15 then List :=(order16, x -> msg.groupFromData(x));
-				else Error("There are 14 isomorphism types of groups of order 16.");
-				fi;
+			if p > 3 and k = 4 then list := List(P4, x -> msg.groupFromData(x));
+			elif p = 3 and k = 4 then list := List(order81, x -> msg.groupFromData(x));
+			elif p = 2 and k = 4 then list := List(order16, x -> msg.groupFromData(x));
 			fi;
 
 			if k > 4 then
-				Error("MySmallGroup is not available for p-groups of order not dividing p^4.");
+				Error("MySmallGroups is not available for p-groups of order not dividing p^4.");
 			fi;
 		else List := [AbelianGroup([1])];
 		fi;
