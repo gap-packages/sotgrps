@@ -37,7 +37,7 @@ msg.lowpowerPGroups := function(p, k)
 			[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1,[2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ],
 			[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ],
 			[ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ] ];
-			if k = 1 then list := List(PG, x -> msg.groupFromData(x));
+			if k = 1 then list := [AbelianGroup([p])];
 			fi;
 
 			if k = 2 then list := List(P2, x -> msg.groupFromData(x));
@@ -55,7 +55,7 @@ msg.lowpowerPGroups := function(p, k)
 			if k > 4 then
 				Error("MySmallGroups is not available for p-groups of order not dividing p^4.");
 			fi;
-		else List := [AbelianGroup([1])];
+		else list := [AbelianGroup([1])];
 		fi;
 	return list;
 end;

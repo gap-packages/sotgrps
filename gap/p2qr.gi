@@ -380,7 +380,7 @@ msg.GroupP2QR := function(n, i)
     + (p^2 - p)*msg.deltaDivisibility((r - 1), p^2)*msg.deltaDivisibility((q - 1), p^2)
     + msg.deltaDivisibility((r - 1), p^2) + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p^2)
     + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p);;
-    c3 := 1/2*(q*r+q+r+5)*msg.deltaDivisibility((p - 1), q*r)
+    c3 := 1/2*(q*r+q+r+7)*msg.deltaDivisibility((p - 1), q*r)
     + msg.deltaDivisibility((p^2 - 1), q*r)*(1 - msg.deltaDivisibility((p - 1), q*r))*(1 - msg.deltafunction(q, 2))
     + 2*msg.deltaDivisibility((p + 1), r)*msg.deltafunction(q, 2);;
     c4 := 1/2*(r + 5)*msg.deltaDivisibility((p - 1), r) + msg.deltaDivisibility((p + 1), r);;

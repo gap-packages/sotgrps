@@ -40,7 +40,7 @@ msg.GroupPQ := function(n, i)
       Add(all, [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]);
     fi;
 
-    if i < (msg.MyNumberOfGroups(n) + 1) then
+    if i < 2 + msg.deltaDivisibility((p - 1), q) then
       G := msg.groupFromData(all[i]);
     fi;
   return G;

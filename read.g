@@ -70,11 +70,11 @@ end;
 
 test := function(a, b)
 	local i, x, idgroup, groupbyid;
-		for x in Filtered([a..b], m -> List(Collected(Factors(m)), n -> n[2]) =[2, 2]) do
+		for x in Filtered([a..b], m -> Length(Factors(m)) < 5) do
 			Print(x, "\n");
-			idgroup := List(MySmallGroups(x), a->msg.IdGroupP2Q2(a)[2]);
+			idgroup := List(MySmallGroups(x), a->MyIdSmallGroup(a)[2]);
 			groupbyid := [];
-			for i in [1..MyNumberOfGroups(x)] do Add(groupbyid, msg.IdGroupP2Q2(Image(IsomorphismPermGroup(MySmallGroup(x, i))))[2]); od;
+			for i in [1..MyNumberOfGroups(x)] do Add(groupbyid, MyIdSmallGroup(Image(IsomorphismPermGroup(MySmallGroup(x, i))))[2]); od;
 			if not idgroup = groupbyid then return false;
 			fi;
 		od;

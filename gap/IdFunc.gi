@@ -364,7 +364,7 @@ msg.IdGroupPQRS := function(group)
           + (q - 1)*msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), (p*q))
           + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q) ];
         fi;
-      elif (s - 1) mod p = 0 and (r - 1) mod (p*q) = 0 and expsq[4] = 1 then
+      elif expsq[4] = 1 then
         if exprp[3] <> 1 and exprq[3]<> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
           y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
@@ -386,8 +386,8 @@ msg.IdGroupPQRS := function(group)
           + (p - 1)*msg.deltaDivisibility((s - 1), p)*msg.deltaDivisibility((r - 1), (p*q))
           + (q - 1)*msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), (p*q))
           + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q) ];
-        fi;
-      elif (s - 1) mod q = 0 and (r - 1) mod (p*q) = 0 and expsp[4] = 1 then
+          fi;
+      elif expsp[4] = 1 then
         if exprp[3] <> 1 and exprq[3] <> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
           y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod p;
@@ -1085,7 +1085,7 @@ msg.IdGroupP2QR := function(group)
     + (p^2 - p)*msg.deltaDivisibility((r - 1), p^2)*msg.deltaDivisibility((q - 1), p^2)
     + msg.deltaDivisibility((r - 1), p^2) + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p^2)
     + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p);;
-    c3 := 1/2*(q*r+q+r+5)*msg.deltaDivisibility((p - 1), q*r)
+    c3 := 1/2*(q*r+q+r+7)*msg.deltaDivisibility((p - 1), q*r)
     + msg.deltaDivisibility((p^2 - 1), q*r)*(1 - msg.deltaDivisibility((p - 1), q*r))*(1 - msg.deltafunction(q, 2))
     + 2*msg.deltaDivisibility((p + 1), r)*msg.deltafunction(q, 2);;
     c4 := 1/2*(r + 5)*msg.deltaDivisibility((p - 1), r) + msg.deltaDivisibility((p + 1), r);;
@@ -1477,7 +1477,7 @@ msg.IdGroupP2QR := function(group)
           + (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p)
           + msg.deltaDivisibility((r - 1), p)];
         elif IsElementaryAbelian(P) and Size(Centre(group)) = p then ## P \cong C_p^2 and G \cong C_{p^2} \ltimes (C_q \times C_r)
-          gens := [Pcgs(P)[1], Pcgs(P)[2], Pcgs(Q)[1], Pcgs(R)[1]];
+          gens := [Filtered(Pcgs(P), x->not x in Centre(group))[1], Filtered(Pcgs(P), x->x in Centre(group))[1], Pcgs(Q)[1], Pcgs(R)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
           k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p));
