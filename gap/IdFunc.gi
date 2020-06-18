@@ -547,7 +547,7 @@ msg.IdGroupP2Q2 := function(group)
       Append(gens, Filtered(Pcgs(Q), x-> not x in Centre(group)));
       Append(gens, Filtered(Pcgs(Q), x-> not x in gens));
       Append(gens, Pcgs(P));
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
       ind := [IsCyclic(P), IsCyclic(Q), Size(Centre(group))];
     fi;
 
@@ -627,10 +627,10 @@ msg.IdGroupP2Q2 := function(group)
       elif ind = [false, true, p] then
         return [n, 12 + q];
       elif ind = [false, true, 1] then
-        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        x := Inverse(LogFFE(
-        Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p)))[1], a^((p - 1)/q))) mod q;
+        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
+        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
+        x := Inverse(LogFFE(Filtered(
+        Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
         pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
         pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
         pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
@@ -709,7 +709,7 @@ end;
 
 ######################################################
 msg.IdGroupP3Q := function(group)
-  local n, fac, p, q, P, Q, O, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, x, y, k, l, tst, lst,
+  local n, fac, p, q, P, Q, O, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
   Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10;
     n := Size(group);
@@ -857,10 +857,13 @@ msg.IdGroupP3Q := function(group)
         fi;
       ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
       elif not IsAbelian(P) and Exponent(P) = p^2 and p > 2 then
-        gens := Pcgs(group);
-        c := Filtered(Pcgs(P), x -> not x in Centre(P) and IsCyclic(Group([x, Pcgs(Centre(P))])))[1];
-        d := Filtered(gens, x->Order(x) = q)[1];
-        k := LogFFE(ExponentsOfPcElement(gens, d^c)[4]*One(GF(q)), r1) mod p;
+        c := Filtered(Pcgs(P), x -> not x in Centre(P) and not IsCyclic(Group([x, Pcgs(Centre(P))[1]])))[1];;
+        d := Pcgs(Q)[1];;
+        g := Filtered(Pcgs(P), x->x <> c)[1];;
+        h := Filtered(Pcgs(P), x->x <> c)[2];;
+        gens := [g, h, c, d];;
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+        k := LogFFE(ExponentsOfPcElement(G, d^c)[4]*One(GF(q)), r1) mod p;
         if k > 0 then
           return [n, 10 + k + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
         else
@@ -911,7 +914,7 @@ msg.IdGroupP3Q := function(group)
     elif tst[3] = true and tst[5] = p^2 then ## (C_q \ltimes C_p) \times C_p^2
         return [n, 9 + (q - 1)];
       elif tst[3] = true and tst[5] = p and (p - 1) mod q = 0 and q > 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-        gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[1], Filtered(Pcgs(P), x->Order(x) = p and not x in Centre(group))[2], Filtered(Pcgs(group), x->Order(x) = p and x in Centre(group))[1]];
+        gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->not x in Centre(group))[1], Filtered(Pcgs(P), x->not x in Centre(group))[2], Filtered(Pcgs(P), x->x in Centre(group))[1]];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
         exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
         exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -1249,7 +1252,7 @@ msg.IdGroupP2QR := function(group)
           expp2r := ExponentsOfPcElement(G, gens[3]^gens[1]);
           matr := [expp1r{[2, 3]}, expp2r{[2, 3]}]*One(GF(p));
           x := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
-          detr := LogFFE((LogFFE(DeterminantMat(matr^x), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1)
+          detr := LogFFE((LogFFE(DeterminantMat(matr^x), b^((p-1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
           if detr < (r + 1)/2 then
             k := detr;
           else k := (r - 1) - detr;

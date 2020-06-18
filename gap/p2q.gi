@@ -115,7 +115,7 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 	if i < 3 then
 		l0 := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
 		data := l0[i];
-
+		return msg.groupFromData(data);
 ###case 1: p > q > 2 and q divides (p + 1)
 	elif p > q and q > 2 and (p + 1) mod q = 0 and i = 3 then
 		mat := msg.QthRootGL2P(p, q);
@@ -160,5 +160,5 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 		data := l4[i - 2];
 		return msg.groupFromData(data);
 	fi;
-	
+
 end;
