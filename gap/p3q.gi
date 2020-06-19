@@ -195,6 +195,7 @@ msg.allGroupsP3Q := function(n)
       od;
     fi;
     if (p + 1) mod q = 0 and q > 2 and p > 2 then
+      matGL2 := msg.QthRootGL2P(p, q);;
       Add(all, [ [q, p, p, p],
       [3, 2, [3, 1, 4, 1]],
       [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]],
@@ -490,6 +491,7 @@ msg.GroupP3Q := function(n, i)
         od;
       fi;
       if (p + 1) mod q = 0 and q > 2 and p > 2 then
+        matGL2 := msg.QthRootGL2P(p, q);
         Add(l9, [ [q, p, p, p],
         [3, 2, [3, 1, 4, 1]],
         [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]],
