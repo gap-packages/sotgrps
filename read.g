@@ -80,3 +80,23 @@ test := function(a, b)
 		od;
 	return true;
 end;
+
+testorder := function(n)
+	local i, x, idgroup, groupbyid;
+			idgroup := List(MySmallGroups(n), a->MyIdSmallGroup(a)[2]);
+			groupbyid := [];
+			for i in [1..MyNumberOfGroups(n)] do Add(groupbyid, MyIdSmallGroup(Image(IsomorphismPermGroup(MySmallGroup(n, i))))[2]); od;
+			if not idgroup = groupbyid then return false;
+			fi;
+	return true;
+end;
+
+testorder := function(n)
+	local i, x, idgroup, groupbyid;
+			idgroup := List(MySmallGroups(n), a->MyIdSmallGroup(a)[2]);
+			groupbyid := [];
+			for i in [1..MyNumberOfGroups(n)] do Add(groupbyid, MyIdSmallGroup(MySmallGroup(n, i))[2]); od;
+			if not idgroup = groupbyid then return false;
+			fi;
+	return true;
+end;

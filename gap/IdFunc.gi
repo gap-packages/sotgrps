@@ -65,7 +65,6 @@ msg.IdPGroup := function(group)
         elif flag = [p, false, p, true, p, p] then
           return [n, 14];
         elif flag = [p^2, false, p, true, p, p] and p > 3 then
-          c := Filtered(Pcgs(F), x -> x in Centre(group))[1];
           d := Filtered(Pcgs(F), x -> not x in Centre(group))[1];
           N := Centralizer(group, F);
           if Exponent(N) = p then return [n, 15];
@@ -314,8 +313,8 @@ msg.IdGroupPQRS := function(group)
         exprq[3] <> 1 and
         expsp[4] <> 1 and
         expsq[4] <> 1 then
-        x := Inverse(LogFFE(exprp[3][3]*One(GF(r)), v^((r - 1)/p))) mod p;
-        y := Inverse(LogFFE(exprq[3][3]*One(GF(r)), v^((r - 1)/q))) mod q;
+        x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
+        y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
         k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
         l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
         return [n, 2 + c1
@@ -774,7 +773,7 @@ msg.IdGroupP3Q := function(group)
     c7 := (q + 1)*msg.deltaDivisibility((p - 1), q);
     c8 := (1 - msg.deltafunction(q, 2))*(
     1/6*(q^2 + 4*q + 9 + 4*msg.deltaDivisibility((q - 1), 3))*msg.deltaDivisibility((p - 1), q)
-    + msg.deltaDivisibility(((p + 1)*(p^2 + q + 1)), q)*(1 - msg.deltaDivisibility((p - 1), q)))
+    + msg.deltaDivisibility(((p + 1)*(p^2 + p + 1)), q)*(1 - msg.deltaDivisibility((p - 1), q)))
     + 3*msg.deltafunction(q, 2);
     c9 := 1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2))
     + 2*msg.deltafunction(q, 2);
@@ -934,7 +933,7 @@ msg.IdGroupP3Q := function(group)
         return [n, 6 + (5 + p)*msg.deltaDivisibility((q - 1), p)];
       ## below: (C_q \ltimes C_p^3) when q | (p - 1)
       elif tst[3] = true and tst[5] = 1 and q = 2 then
-        return [n, 11];
+        return [n, 12];
       elif tst[3] = true and tst[5] = 1 and (p - 1) mod 3 = 0 and q = 3 then
         gens := [Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2], Pcgs(P)[3]];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
