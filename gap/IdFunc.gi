@@ -121,8 +121,7 @@ msg.IdGroupPQ := function(group)
     n := Size(group);
     p := Factors(n)[2];
     q := Factors(n)[1];
-    if (q - 1) mod p <> 0 then return [n, 1];
-    elif IsAbelian(group) then return [n, 1];
+    if IsAbelian(group) then return [n, 1];
     else return [n, 2];
     fi;
 end;
@@ -225,7 +224,7 @@ msg.IdGroupPQR := function(group)
 
     if IsAbelian(group) then return [n, 1];
     elif Size(Centre(group)) = p then return [n, 2]; ##r | (q - 1)
-    elif Size(Centre(group)) = q then return [n, 2 + c2]; ##r |(p - 1)
+    elif Size(Centre(group)) = q then return [n, 2 + c1]; ##r |(p - 1)
     elif (q - 1) mod r = 0 and (p - 1) mod r = 0 and Size(FittingSubgroup(group)) = p * q then ##r |(p - 1) and r | (q - 1)
       pcgs := [Pcgs(R)[1], Pcgs(Q)[1], Pcgs(P)[1]];
       pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
@@ -681,11 +680,11 @@ msg.IdGroupP2Q2 := function(group)
         mat2 := [gexp3{[3, 4]}, gexp4{[3, 4]}]*One(GF(p));
         x := DeterminantMat(mat1);
         y := DeterminantMat(mat2);
-        if [Int(x), Int(y)] = [p - 1, 1] then
+        if AsSet([Int(x), Int(y)]) = AsSet([p - 1, 1]) then
           return [n, 14];
-        elif [Int(x), Int(y)] = [1, 1] then
+        elif AsSet([Int(x), Int(y)]) = AsSet([1, 1]) then
           return [n, 15];
-        elif [Int(x), Int(y)] = [Int(-a^((p - 1)/4)), p - 1] then
+        elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
           return [n, 16];
         fi;
       elif p mod 4 = 3 and ind = [false, true, 1] then
@@ -764,7 +763,7 @@ msg.IdGroupP3Q := function(group)
     tst := [IsNormal(group, P), IsNormal(group, Q), IsElementaryAbelian(P), Exponent(P), Size(Centre(group))];
     if p = 2 then Add(tst, Size(Omega(P, 2))); fi;
   ############ enumeration
-    c1 := msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3);
+    c1 := msg.deltafunction(n, 24) + msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3);
     c2 := 2*msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2);
     c3 := msg.deltaDivisibility((q - 1), p);
     c4 := msg.deltaDivisibility((q - 1), p) + msg.deltafunction(p, 2);
@@ -773,10 +772,12 @@ msg.IdGroupP3Q := function(group)
     c7 := (q + 1)*msg.deltaDivisibility((p - 1), q);
     c8 := (1 - msg.deltafunction(q, 2))*(
     1/6*(q^2 + 4*q + 9 + 4*msg.deltaDivisibility((q - 1), 3))*msg.deltaDivisibility((p - 1), q)
-    + msg.deltaDivisibility(((p + 1)*(p^2 + p + 1)), q)*(1 - msg.deltaDivisibility((p - 1), q)))
+    + msg.deltaDivisibility((p^2 + p + 1), q)*(1 - msg.deltafunction(q, 3))
+    + msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2)))
     + 3*msg.deltafunction(q, 2);
-    c9 := 1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2))
+    c9 := (1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q))*(1 - msg.deltafunction(q, 2))*(1 - msg.deltafunction(p, 2))
     + 2*msg.deltafunction(q, 2);
+    c10 := msg.deltaDivisibility((p - 1), q);
   ############ abelian groups:
     if IsAbelian(group) then
       if IsCyclic(P) then return [n, 1];
@@ -803,7 +804,7 @@ msg.IdGroupP3Q := function(group)
         return [24, 10];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 8 ] then
         d := Pcgs(Q)[1];
-        c := Filtered(Pcgs(P), x->not x in Centre(P) and d*x=x*d)[1];
+        repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
         O := Group([c, d, Pcgs(Centre(group))[1]]);
         if IsCyclic(O) then return [24, 12];
         else return [24, 11];
@@ -850,13 +851,15 @@ msg.IdGroupP3Q := function(group)
       ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
       elif not IsAbelian(P) and tst[4] = p and p > 2 then return [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
       elif not IsAbelian(P) and tst[4] = 4 and tst[6] = 8 then
-        if IsCyclic(SylowSubgroup(FrattiniSubgroup(group), p)) then
-          return [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+        d := Pcgs(Q)[1];
+        repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
+        O := Group([c, d, Pcgs(Centre(group))[1]]);
+        if IsCyclic(O) then return [n, 11 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
         else return [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
         fi;
       ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
       elif not IsAbelian(P) and Exponent(P) = p^2 and p > 2 then
-        c := Filtered(Pcgs(P), x -> not x in Centre(P) and not IsCyclic(Group([x, Pcgs(Centre(P))[1]])))[1];;
+        repeat c := Random(Elements(P)); until not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
         d := Pcgs(Q)[1];;
         g := Filtered(Pcgs(P), x->x <> c)[1];;
         h := Filtered(Pcgs(P), x->x <> c)[2];;
@@ -1476,7 +1479,8 @@ msg.IdGroupP2QR := function(group)
           + (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p)
           + msg.deltaDivisibility((r - 1), p)];
         elif IsElementaryAbelian(P) and Size(Centre(group)) = p then ## P \cong C_p^2 and G \cong C_{p^2} \ltimes (C_q \times C_r)
-          gens := [Filtered(Pcgs(P), x->not x in Centre(group))[1], Filtered(Pcgs(P), x->x in Centre(group))[1], Pcgs(Q)[1], Pcgs(R)[1]];
+          repeat b := Random(Elements(P)); until Order(b) > 1 and b in Centre(group);
+          gens := [Filtered(Pcgs(P), x->not x in Centre(group))[1], b, Pcgs(Q)[1], Pcgs(R)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
           k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p));

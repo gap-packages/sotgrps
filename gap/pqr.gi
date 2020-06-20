@@ -66,7 +66,7 @@ msg.GroupPQR := function(n, i)
     if i > 1 and i < 2 + c1 and (q - 1) mod r = 0 then
       return msg.groupFromData([ [r, q, p], [2, 1, [2, Int(b^((q-1)/r))]] ]);
     fi;
-    ####case 2: r | (p - 1), Z(G) \cong C_q, G \cong (C_r \ltimes C_r) \times C_p
+    ####case 2: r | (p - 1), Z(G) \cong C_q, G \cong (C_r \ltimes C_p) \times C_q
     if i > 1 + c1 and i < 2 + c1 + c2 and (p - 1) mod r = 0 then
       Add(all, [ [r, q, p], [3, 1, [3, Int(a^((p-1)/r))]] ]);
       return msg.groupFromData(all[i - c1]);

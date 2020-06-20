@@ -173,32 +173,34 @@ msg.GroupP2Q2 := function(n, i)
     else f := e + 1;
     fi;
     #### Enumeration
-    c1 := msg.deltaDivisibility((p - 1), q)*(q + 6)*(1 - msg.deltafunction(q, 2)) + 7*msg.deltafunction(q, 36);
-    c2 := 2*msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2)) + msg.deltafunction(n, 36);
+    c1 := msg.deltaDivisibility((p - 1), q)*(q + 6)*(1 - msg.deltafunction(q, 2)) + 7*msg.deltafunction(n, 36);
+    c2 := 2*msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2)) + 2*msg.deltafunction(n, 36);
     c3 := msg.deltaDivisibility((p + 1), q^2)*(1 - msg.deltafunction(q, 2)) + msg.deltafunction(n, 36);
-    c4 := msg.deltaDivisibility((p - 1), q^2)*(2 + (q^2 - q + 2)/2 + (q - 1))*(1 - msg.deltafunction(q, 2));
+    c4 := msg.deltaDivisibility((p - 1), q^2)*((q^2 + q + 4)/2)*(1 - msg.deltafunction(q, 2));
     c5 := msg.deltafunction(q, 2)*(7*(1 - msg.deltafunction(p, 3)) + 5*msg.deltaDivisibility((p - 1), 4) + msg.deltaDivisibility((p + 1), 4));
     #### case2: q mid (p - 1), q^2 nmid (p^2 - 1)
-    if (i > 4 and i < 5 + c1) and ((p - 1) mod q = 0 and q > 2 or n = 36) then
-      lst := [];
-      ii := Int(d^(p*(p-1)/q)) mod p;
-      qq := (Int(d^(p*(p-1)/q)) - ii)/p;
-      Append(lst, [ [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_q
-      [ [q, q, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_q^2 \ltimes C_{p^2}, \phi(Q) = C_q
-      [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]] ] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
-      if q mod 2 = 1 then
-        t := (q - 1)/2;
-      else t := 0;
+    if i > 4 and i < 5 + c1 then
+      if ((p - 1) mod q = 0 and q > 2 or n = 36) then
+        lst := [];
+        ii := Int(d^(p*(p-1)/q)) mod p;
+        qq := (Int(d^(p*(p-1)/q)) - ii)/p;
+        Append(lst, [ [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_{q^2} \ltimes C_{p^2}, \phi(Q) = C_q
+        [ [q, q, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ], ##C_q^2 \ltimes C_{p^2}, \phi(Q) = C_q
+        [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]] ] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
+        if q mod 2 = 1 then
+          t := (q - 1)/2;
+        else t := 0;
+        fi;
+        for k in [0..t] do
+          Add(lst, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
+        od;
+        Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]] ]); ##C_q \times (C_q \ltimes C_p) \times C_p, \phi(Q) = C_q
+        for k in [0..t] do
+          Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int((a^(Int(b^k)*(p-1)/q)))]] ]); ##C_q \times (C_q \ltimes C_p^2), \phi(Q) = C_q
+        od;
+        Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int(a^((p-1)/q))]] ]); ##((C_q \times C_q) \ltimes C_p) \times C_p, \phi(Q) = C_q^2
+        return msg.groupFromData(lst[i - 4]);
       fi;
-      for k in [0..t] do
-        Add(lst, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_q
-      od;
-      Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]] ]); ##C_q \times (C_q \ltimes C_p) \times C_p, \phi(Q) = C_q
-      for k in [0..t] do
-        Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 1, [4, Int((a^(Int(b^k)*(p-1)/q)))]] ]); ##C_q \times (C_q \ltimes C_p^2), \phi(Q) = C_q
-      od;
-      Add(lst, [ [q, q, p, p], [3, 1, [3, Int(a^((p-1)/q))]], [4, 2, [4, Int(a^((p-1)/q))]] ]); ##((C_q \times C_q) \ltimes C_p) \times C_p, \phi(Q) = C_q^2
-      return msg.groupFromData(lst[i - 4]);
     fi;
 
     #### case3: q mid (p + 1), q^2 nmid (p^2 - 1)
@@ -225,17 +227,19 @@ msg.GroupP2Q2 := function(n, i)
       return msg.groupFromData(lst[i - 4 - c1]);
     fi;
     #### case4: q^2 mid (p + 1)
-    if (i > 4 + c1 + c2 and i < 5 + c1 + c2 + c3) and ((p + 1) mod (q^2) = 0 and q > 2 or n = 36) then
-      lst := [];
-      matq2 := msg.QsquaredthRootGL2P(p, q);
-      matq := matq2^q;
-      Add(lst, [ [q, q, p, p], [1, [2, 1]],
-				[3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
-				[4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
-				[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
-				[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
-        return msg.groupFromData(lst[i - 4 - c1 - c2]);
-		fi;
+    if (i > 4 + c1 + c2 and i < 5 + c1 + c2 + c3) then
+      if (p + 1) mod (q^2) = 0 and q > 2 or n = 36 then
+        lst := [];
+        matq2 := msg.QsquaredthRootGL2P(p, q);
+        matq := matq2^q;
+        Add(lst, [ [q, q, p, p], [1, [2, 1]],
+  				[3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
+  				[4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
+  				[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+  				[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+          return msg.groupFromData(lst[i - 4 - c1 - c2]);
+  		fi;
+    fi;
 
     #### case5: q^2 mid (p - 1)
     if i > 4 + c1 + c2 + c3 and i < 5 + c1 + c2 + c3 + c4 and (p - 1) mod (q^2) = 0 and q > 2 then
@@ -272,7 +276,7 @@ msg.GroupP2Q2 := function(n, i)
         [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int((Z(p))^((p - 1)/4))]], [3, 2, [3, p - 1]] ], ##C_4 \ltimes C_p^2 \phi(Q) = C_4
         [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/4))]], [3, 2, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ],
         [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, Int(a^((p - 1)/4))]], [3, 2, [3, p-1]], [4, 1, [4, Int(a^(3*(p - 1)/4))]], [4, 2, [4, p-1]] ],
-        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ] ]);
+        [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p - 1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p - 1]] ] ]);
       fi;
       if p mod 4 = 3 then
         matq2 := msg.QsquaredthRootGL2P(p, 2);

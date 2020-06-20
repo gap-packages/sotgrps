@@ -263,7 +263,7 @@ msg.GroupP3Q := function(n, i)
       r3 := b^((q-1)/(p^3));
     fi;
     ######## enumeration
-    c1 := msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3);
+    c1 := msg.deltafunction(n, 24) + msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3);
     c2 := 2*msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((q - 1), p^2);
     c3 := msg.deltaDivisibility((q - 1), p);
     c4 := msg.deltaDivisibility((q - 1), p) + msg.deltafunction(p, 2);
@@ -275,7 +275,7 @@ msg.GroupP3Q := function(n, i)
     + msg.deltaDivisibility((p^2 + p + 1), q)*(1 - msg.deltafunction(q, 3))
     + msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2)))
     + 3*msg.deltafunction(q, 2);
-    c9 := (1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q))*(1 - msg.deltafunction(q, 2))
+    c9 := (1/2*(q + 3)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p + 1), q))*(1 - msg.deltafunction(q, 2))*(1 - msg.deltafunction(p, 2))
     + 2*msg.deltafunction(q, 2);
     c10 := msg.deltaDivisibility((p - 1), q);
 ############ add abelian groups in:
@@ -290,14 +290,14 @@ msg.GroupP3Q := function(n, i)
     if i > 3 and i < 6 and p > 2 then
       Append(all, [ [ [p, p, p, q], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p, q], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
       return msg.groupFromData(all[i]);
-    elif i > 3 and i < 6 and p = 2 then
+    elif i > 3 + msg.deltafunction(n, 24) and i < 6 + msg.deltafunction(n, 24) and p = 2 then
       Append(all, [ [ [2, 2, 2, q], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
-      return msg.groupFromData(all[i]);
+      return msg.groupFromData(all[i - msg.deltafunction(n, 24)]);
     fi;
 
 ############ case 3: nonabelian and only Sylow q-subgroup is normal, namely, P \ltimes Q
     ## class 1: when P = C_{p^3}
-    if i > 5 and i < 6 + c1 then
+    if i > 5 + msg.deltafunction(n, 24) and i < 6 + c1 then
       l1 := [];
       if (q - 1) mod p = 0 then
         Add(l1, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int(r1)]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_p
@@ -308,7 +308,7 @@ msg.GroupP3Q := function(n, i)
       if (q - 1) mod (p^3) = 0 then
         Add(l1, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int(r3)]], [4, 2, [4, Int(r2)]], [4, 3, [4, Int(r1)]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_{p^3}
       fi;
-      return msg.groupFromData(l1[i - 5]);
+      return msg.groupFromData(l1[i - 5 - msg.deltafunction(n, 24)]);
     fi;
     ## class 2: when P = C_{p^2} \times C_p, there are at most two isom types of semidirect products of P \ltimes Q
     if i > 5 + c1 and i < 6 + c1 + c2 then
