@@ -62,7 +62,7 @@ msg.allGroupsP3Q := function(n)
     if p = 2 then
       Add(all, [ [2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ]);
     fi;
-    ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
+    ## class 5: when P is extraspecial - type, there are at most p isom types of P \ltimes Q
     if (q - 1) mod p = 0 and p > 2 then
       for k in [1..p - 1] do
         Add(all, [ [p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, Int(r1^k)]] ]);

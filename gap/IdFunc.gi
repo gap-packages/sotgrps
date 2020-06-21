@@ -201,7 +201,7 @@ msg.IdGroupP2Q := function(group)
 end;
 ######################################################
 msg.IdGroupPQR := function(group)
-  local n, fac, p, q, r, a, b, k, G, Q, R, P, c1, c2, c3, c4, c5, pcgs, newpcgs, pcp, gens, rels, pc, newpc, x;
+  local n, fac, p, q, r, a, b, k, G, Q, R, P, c1, c2, c3, c4, c5, pcgs, pcp, pc, x;
     n := Size(group);
     fac := Factors(n);
     if not Length(fac) = 3 then
@@ -228,10 +228,8 @@ msg.IdGroupPQR := function(group)
     elif (q - 1) mod r = 0 and (p - 1) mod r = 0 and Size(FittingSubgroup(group)) = p * q then ##r |(p - 1) and r | (q - 1)
       pcgs := [Pcgs(R)[1], Pcgs(Q)[1], Pcgs(P)[1]];
       pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-      x := Inverse(ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2]*One(GF(q)))*(b^((q-1)/r));
-      newpcgs := [pcgs[1], pcgs[2]^(Int(x)), pcgs[3]];
-      newpc := PcgsByPcSequence(FamilyObj(newpcgs[1]), newpcgs);
-      k := LogFFE(ExponentsOfPcElement(newpc, newpcgs[3]^newpcgs[1])[3]*One(GF(p)), a^((p-1)/r)) mod r;
+      x := Inverse(ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2]*One(GF(q)))*(b^((q-1)/r)) mod q;
+      k := LogFFE(ExponentsOfPcElement(pc, pcgs[3]^(pcgs[1]^x))[3]*One(GF(p)), a^((p-1)/r)) mod r;
       return [n, 3 + k];
 
     elif (p - 1) mod q = 0 and Size(Centre(group)) = r then
@@ -840,16 +838,16 @@ msg.IdGroupP3Q := function(group)
       ## class 2: when P = C_{p^2} \times C_p, there are at most three isom types of semidirect products of P \ltimes Q
       elif IsAbelian(P) and tst[4] = p^2 then
         if Exponent(Centre(group)) = p^2 then
-          return [n, 7 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+          return [n, 6 + c1];
         elif Exponent(Centre(group)) = p and tst[5] = p^2 then
-          return [n, 8 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+          return [n, 7 + c1];
         elif (q - 1) mod (p^2) = 0 and tst[5] = p then
-          return [n, 9 + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+          return [n, 8 + c1];
         fi;
       ## class 3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
-      elif tst[3] = true and (q - 1) mod p = 0 then return [n, 9 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+      elif tst[3] = true and (q - 1) mod p = 0 then return [n, 6 + c1 + c2];
       ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
-      elif not IsAbelian(P) and tst[4] = p and p > 2 then return [n, 10 + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
+      elif not IsAbelian(P) and tst[4] = p and p > 2 then return [n, 6 + c1 + c2 + c3];
       elif not IsAbelian(P) and tst[4] = 4 and tst[6] = 8 then
         d := Pcgs(Q)[1];
         repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
@@ -859,13 +857,14 @@ msg.IdGroupP3Q := function(group)
         fi;
       ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
       elif not IsAbelian(P) and Exponent(P) = p^2 and p > 2 then
-        repeat c := Random(Elements(P)); until not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
-        d := Pcgs(Q)[1];;
-        g := Filtered(Pcgs(P), x->x <> c)[1];;
-        h := Filtered(Pcgs(P), x->x <> c)[2];;
-        gens := [g, h, c, d];;
-        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-        k := LogFFE(ExponentsOfPcElement(G, d^c)[4]*One(GF(q)), r1) mod p;
+        repeat c := Random(Elements(P)); until Order(c) = p and not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
+        d := Pcgs(Q)[1];
+        repeat g := Random(Elements(P)); until Order(g) = p^2 and g^p in Centre(P);
+        h := g^p;
+        gens := [c, g, h, d];;
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+        x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
+        k := LogFFE(ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4]*One(GF(q)), r1) mod p;
         if k > 0 then
           return [n, 10 + k + 2*msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((q - 1), p^3)];
         else
