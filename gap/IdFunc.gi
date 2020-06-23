@@ -556,6 +556,9 @@ msg.IdGroupP2Q2 := function(group)
       elif ind = [false, true, q*p] then
         return [n, 7];
       elif ind = [false, true, q] then
+        g := Filtered(Pcgs(Q), x -> Order(x) = q^2)[1];
+        gens := [g, g^q, Pcgs(P)[1], Pcgs(P)[2]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
         gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
         x := Inverse(LogFFE(
@@ -576,6 +579,10 @@ msg.IdGroupP2Q2 := function(group)
       elif ind = [false, false, q * p] and q = 2 then
         return [n, 9];
       elif ind = [false, false, q] and q > 2 then
+        g := Filtered(Pcgs(Q), x -> not x in Centre(group))[1];
+        h := Pcgs(Centre(group))[1];
+        gens := [g, h, Pcgs(P)[1], Pcgs(P)[2]];
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
         gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
         x := Inverse(LogFFE(
@@ -625,43 +632,27 @@ msg.IdGroupP2Q2 := function(group)
         return [n, 12 + q];
       elif ind = [false, true, 1] then
         g := Filtered(Pcgs(Q), x -> Order(x)=q^2)[1];
-        h := Filtered(Pcgs(P), x -> x^g <> x)[1];
+        h := Filtered(Pcgs(P), x -> not x in Centre(Group([g^q, Pcgs(P)[1], Pcgs(P)[2]])))[1];
         if Size(Centre(Group([g^q, Pcgs(P)[1], Pcgs(P)[2]]))) = p then
           gens := [g, g^q, h, Pcgs(Centre(Group([g^q, Pcgs(P)[1], Pcgs(P)[2]])))[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
           x := Inverse(LogFFE(Filtered(
-          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
-          pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
-          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-          pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
-          pcexp2 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
-          pcexp3 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
-          pcexp4 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
-          mat1 := [ pcexp1{[3, 4]}, pcexp2{[3, 4]} ]*One(GF(p));
-          mat2 := [ pcexp3{[3, 4]}, pcexp4{[3, 4]} ]*One(GF(p));
-          ev := List(Eigenvalues(GF(p), mat1), x -> LogFFE(x, a^((p - 1)/(q^2))) mod q);
-          if Length(ev) = 1 then k := 1;
-          else k := Filtered(ev, x -> x <> 1)[1];
-          fi;
+          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
+          mat1 := [gexp1{[3, 4]}, gexp2{[3, 4]}]^x*One(GF(p));
+          ev := List(Eigenvalues(GF(p), mat1), x -> LogFFE(x, a^((p - 1)/(q^2))));
+          k := Filtered(ev, x -> x <> 1)[1]/q;
           return [n, 12 + q + (q^2 - q + 2)/2 + k];
         else
-          gens := [g, g^q, h, Filtered(Pcgs(P), x -> x <>h)[1]];
+          gens := [g, g^q, h, Filtered(Pcgs(P), x -> x <> h)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
-          x := Inverse(LogFFE(Filtered(
-          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
-          pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
-          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-          pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
-          pcexp2 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
-          pcexp3 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
-          pcexp4 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
-          mat1 := [ pcexp1{[3, 4]}, pcexp2{[3, 4]} ]*One(GF(p));
-          mat2 := [ pcexp3{[3, 4]}, pcexp4{[3, 4]} ]*One(GF(p));
-          ev := List(Eigenvalues(GF(p), mat2), x -> LogMod(LogFFE(x, a^((p - 1)/q)), Int(f), q^2) mod (q^2 - q));
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          x := Inverse(LogFFE(
+          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p)))[1], a^((p - 1)/(q^2)))) mod q^2;
+          mat1 := [gexp1{[3, 4]}, gexp2{[3, 4]}]^x*One(GF(p));
+          ev := List(Eigenvalues(GF(p), mat1), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
           if Length(ev) = 1 then k := 0;
             return [n, 12 + q + k + 1];
           elif Length(ev) > 1 then
