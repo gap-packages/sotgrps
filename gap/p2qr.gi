@@ -199,7 +199,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr,
       Add(all, [ [q, r, p, p], [2, 1, [2, Int(a^((r - 1)/q))]] ]);
     fi;
     if (r - 1) mod q = 0 and (p - 1) mod q = 0 then ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p) \times C_p
-      for k in [1..q-1] do
+      for k in [1..q - 1] do
         Add(all, [ [q, r, p, p], [2, 1, [2, Int(a^((r-1)/q))]], [3, 1, [3, Int(b^(k*(p-1)/q))]] ]);
       od;
     fi;

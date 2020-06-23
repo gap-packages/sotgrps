@@ -1,7 +1,7 @@
 
 ######################################################
 msg.IdPGroup := function(group)
-  local n, PF, length, fac, p, k, i, Id, flag, a, b, c, d, F, N, gens, pcgs, G, m, x;
+  local n, PF, length, fac, p, k, i, Id, flag, a, b, c, d, F, N, gens, pcgs, G, m, x, y;
     n := Size(group);
     PF := Factors(n);
     length := Length(PF);
@@ -73,8 +73,9 @@ msg.IdPGroup := function(group)
             b := Filtered(Pcgs(N), x->Order(x) = p^2 and x^p in Centre(group))[1];
             pcgs := [a, b, b^p, d];
             G := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-            x := ExponentsOfPcElement(G, pcgs[4]^pcgs[1])[3];
-            if Legendre(x, p) = 1 then return [n, 12];
+            x := Inverse(ExponentsOfPcElement(G, pcgs[2]^pcgs[1])[4]) mod p;
+            y := ExponentsOfPcElement(G, pcgs[4]^(pcgs[1]^x))[3];
+            if Legendre(y, p) = 1 then return [n, 12];
             else return [n, 13];
             fi;
           fi;
@@ -228,7 +229,7 @@ msg.IdGroupPQR := function(group)
     elif (q - 1) mod r = 0 and (p - 1) mod r = 0 and Size(FittingSubgroup(group)) = p * q then ##r |(p - 1) and r | (q - 1)
       pcgs := [Pcgs(R)[1], Pcgs(Q)[1], Pcgs(P)[1]];
       pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-      x := Inverse(ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2]*One(GF(q)))*(b^((q-1)/r)) mod q;
+      x := Inverse(LogFFE(ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2]*One(GF(q)), b^((q-1)/r))) mod r;
       k := LogFFE(ExponentsOfPcElement(pc, pcgs[3]^(pcgs[1]^x))[3]*One(GF(p)), a^((p-1)/r)) mod r;
       return [n, 3 + k];
 
@@ -386,7 +387,7 @@ msg.IdGroupPQRS := function(group)
       elif expsp[4] = 1 then
         if exprp[3] <> 1 and exprq[3] <> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
-          y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod p;
+          y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
           l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
           return [n, 2 + c1
           + msg.deltaDivisibility((r - 1), (p*q))
@@ -507,7 +508,7 @@ msg.IdGroupPQRS := function(group)
 end;
 ######################################################
 msg.IdGroupP2Q2 := function(group)
-  local n, fac, p, q, P, Q, a, b, c, d, e, f, ind, gens, G, pcgs, pc,
+  local n, fac, p, q, P, Q, a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, pcexp1, pcexp2, pcexp3, pcexp4, Id, k, l, x, y, mat, det, mat1, mat2;
     n := Order(group);
     fac := Factors(n);
@@ -623,29 +624,54 @@ msg.IdGroupP2Q2 := function(group)
       elif ind = [false, true, p] then
         return [n, 12 + q];
       elif ind = [false, true, 1] then
-        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
-        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
-        x := Inverse(LogFFE(Filtered(
-        Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
-        pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
-        pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-        pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
-        pcexp2 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
-        pcexp3 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
-        pcexp4 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
-        mat1 := [ pcexp1{[3, 4]}, pcexp2{[3, 4]} ]*One(GF(p));
-        mat2 := [ pcexp3{[3, 4]}, pcexp4{[3, 4]} ]*One(GF(p));
-        l := LogFFE(DeterminantMat(mat2), a^((p - 1)/q)) mod q;
-        if l <> 1 then
-          k := LogMod((LogFFE(DeterminantMat(mat1), a^((p - 1)/(q^2))) - 1), Int(f), q^2) mod (q^2 - q);
-          if k > (q^2 - q)/2 then
-            return [n, 12 + q + (q^2 - q - k) + 1];
-          else
-            return [n, 12 + q + k + 1];
+        g := Filtered(Pcgs(Q), x -> Order(x)=q^2)[1];
+        h := Filtered(Pcgs(P), x -> x^g <> x)[1];
+        if Size(Centre(Group([g^q, Pcgs(P)[1], Pcgs(P)[2]]))) = p then
+          gens := [g, g^q, h, Pcgs(Centre(Group([g^q, Pcgs(P)[1], Pcgs(P)[2]])))[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
+          x := Inverse(LogFFE(Filtered(
+          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
+          pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
+          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
+          pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
+          pcexp2 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
+          pcexp3 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
+          pcexp4 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
+          mat1 := [ pcexp1{[3, 4]}, pcexp2{[3, 4]} ]*One(GF(p));
+          mat2 := [ pcexp3{[3, 4]}, pcexp4{[3, 4]} ]*One(GF(p));
+          ev := List(Eigenvalues(GF(p), mat1), x -> LogFFE(x, a^((p - 1)/(q^2))) mod q);
+          if Length(ev) = 1 then k := 1;
+          else k := Filtered(ev, x -> x <> 1)[1];
           fi;
-        elif l = 1 then
-          k := (LogFFE(DeterminantMat(mat1), a^((p - 1)/(q^2))) - 1)/q mod q;
           return [n, 12 + q + (q^2 - q + 2)/2 + k];
+        else
+          gens := [g, g^q, h, Filtered(Pcgs(P), x -> x <>h)[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[2]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[2]);
+          x := Inverse(LogFFE(Filtered(
+          Eigenvalues(GF(p), [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p))), x-> x<>Z(p)^0)[1], a^((p - 1)/q))) mod q;
+          pcgs := [gens[1]^x, gens[2]^x, gens[3], gens[4]];
+          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
+          pcexp1 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
+          pcexp2 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
+          pcexp3 := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
+          pcexp4 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
+          mat1 := [ pcexp1{[3, 4]}, pcexp2{[3, 4]} ]*One(GF(p));
+          mat2 := [ pcexp3{[3, 4]}, pcexp4{[3, 4]} ]*One(GF(p));
+          ev := List(Eigenvalues(GF(p), mat2), x -> LogMod(LogFFE(x, a^((p - 1)/q)), Int(f), q^2) mod (q^2 - q));
+          if Length(ev) = 1 then k := 0;
+            return [n, 12 + q + k + 1];
+          elif Length(ev) > 1 then
+            k := Filtered(ev, x -> x <> 0)[1];
+            if k > (q^2 - q)/2 then
+              return [n, 12 + q + (q^2 - q - k) + 1];
+            else
+              return [n, 12 + q + k + 1];
+            fi;
+          fi;
         fi;
       fi;
     fi;
@@ -706,7 +732,7 @@ end;
 ######################################################
 msg.IdGroupP3Q := function(group)
   local n, fac, p, q, P, Q, O, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
-  Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm,
+  Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10;
     n := Size(group);
     fac := Factors(n);
@@ -904,9 +930,11 @@ msg.IdGroupP3Q := function(group)
       elif IsAbelian(P) and tst[4] = p^2 and tst[5] = p then ## (C_q \ltimes C_{p^2}) \times C_p
         return [n, 8];
       elif IsAbelian(P) and tst[4] = p^2 and tst[5] = 1 and q > 2 then ## C_q \ltimes (C_{p^2} \times C_p)
-        gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p, Filtered(Pcgs(P), x->Order(x) = p and not x = Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p)[1]];
+        repeat g := Random(Elements(P)); until Order(g) = p and not g in FrattiniSubgroup(P);
+        h := Filtered(Pcgs(P), x -> Order(x) = p^2)[1];
+        gens:= [Pcgs(Q)[1], h, h^p, g];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-        x := Inverse(LogMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3]*p + ExponentsOfPcElement(G, gens[2]^gens[1])[2], Int(s2), p^2)) mod q;
+        x := Inverse(LogMod(ExponentsOfPcElement(G, gens[3]^gens[1])[3], Int(s2), p)) mod q;
         k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(p)), s1) mod q;
         return [n, 8 + k];
       elif IsAbelian(P) and tst[4] = p^2 and tst[5] = 1 and q = 2 then ## C_q \ltimes (C_{p^2} \times C_p)
@@ -1044,9 +1072,9 @@ end;
 
 ######################################################
 msg.IdGroupP2QR := function(group)
-  local n, fac, primefac, p, q, r, P, Q, R, a, b, c, u, v, G, gens, pc, pcgs,
+  local n, fac, primefac, p, q, r, P, Q, R, a, b, c, u, v, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
-  matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, ev;
+  matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2;
     n := Size(group);
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
@@ -1156,72 +1184,81 @@ msg.IdGroupP2QR := function(group)
     elif Size(FittingSubgroup(group)) = p^2 and IsCyclic(P) and Size(Centre(group)) = 1 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_{p^2}
         return [n, 3 + c1 + c2];
       elif Size(FittingSubgroup(group)) = p^2 and IsElementaryAbelian(P) and Size(Centre(group)) = 1 and (p - 1) mod (q*r) = 0 then
-        if Pcgs(Q)[1]*Pcgs(P)[1]*Pcgs(R)[1]*Pcgs(P)[2] = Pcgs(R)[1]*Pcgs(P)[2]*Pcgs(Q)[1]*Pcgs(P)[1] or
-          Pcgs(Q)[1]*Pcgs(P)[2]*Pcgs(R)[1]*Pcgs(P)[1] = Pcgs(R)[1]*Pcgs(P)[1]*Pcgs(Q)[1]*Pcgs(P)[2]
-          then ## qr | (p - 1) and G \cong (C_q \ltimes C_p) \times (C_r \ltimes C_p)
-          return [n, 3 + c1 + c2
-          + msg.deltaDivisibility((p - 1), q*r)];
-        else
+        N1 := Group([Pcgs(Q)[1], Pcgs(P)[1], Pcgs(P)[2]]);
+        N2 := Group([Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2]]);
+        if Size(Centre(N1)) = p and Size(Centre(N2)) = p then
+           return [n, 3 + c1 + c2 + msg.deltaDivisibility((p - 1), q*r)];
+        elif Pcgs(R)[1]^Pcgs(Q)[1] = Pcgs(R)[1] and Size(Centre(N2)) = p and Size(Centre(N1)) = 1 then ##R acts trivially on one of the generators of P
+          gens := [Pcgs(Q)[1]*Pcgs(R)[1], Pcgs(Q)[1], Filtered(Pcgs(P), x-> x^Pcgs(Q)[1] <> x and x^Pcgs(R)[1] <> x)[1], Pcgs(Centre(N2))[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          exp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          exp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          mat := [exp1{[3, 4]}, exp2{[3, 4]}]*One(GF(p));
+          ev := Eigenvalues(GF(p), mat);
+          if Length(ev) = 1 then k := 1;
+          else x := Inverse(LogFFE(Filtered(ev, x->Order(x) = q*r)[1], b^((p - 1)/(q*r)))) mod (q*r);
+          matq := mat^x;
+          k := LogFFE(Filtered(Eigenvalues(GF(p), matq), x->Order(x) = q)[1], b^((p - 1)/(q*r))) mod q;
+          fi;
+          return [n, 3 + (k - 1) + c1 + c2
+          + 3*msg.deltaDivisibility((p - 1), q*r)];
+        elif Pcgs(R)[1]^Pcgs(Q)[1] = Pcgs(R)[1] and Size(Centre(N1)) = p and Size(Centre(N2)) = 1 then ##Q acts trivially on one of the generators of P
+          gens := [Pcgs(Q)[1]*Pcgs(R)[1], Pcgs(R)[1], Filtered(Pcgs(P), x-> x^Pcgs(Q)[1] <> x and x^Pcgs(R)[1] <> x)[1], Pcgs(Centre(N1))[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          exp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          exp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          mat := [exp1{[3, 4]}, exp2{[3, 4]}]*One(GF(p));
+          ev := Eigenvalues(GF(p), mat);
+          if Length(ev) = 1 then k := 1;
+          else x := Inverse(LogFFE(Filtered(ev, x->Order(x) = q*r)[1], b^((p - 1)/(q*r)))) mod (q*r);
+          matr := mat^x;
+          k := LogFFE(Filtered(Eigenvalues(GF(p), matr), x->Order(x) = r)[1], b^((p - 1)/(q*r))) mod r;
+          fi;
+          return [n, 3 + (k - 1) + c1 + c2
+          + 3*msg.deltaDivisibility((p - 1), q*r)
+          + (q - 1) * msg.deltaDivisibility((p - 1), q*r)];
+        elif Pcgs(R)[1]^Pcgs(Q)[1] = Pcgs(R)[1] and Size(Centre(N1)) = 1 and Size(Centre(N2)) = 1 then ## Q and R act nontrivially on both the generators of P
           gens := [Pcgs(Q)[1], Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           expp1q := ExponentsOfPcElement(G, gens[3]^gens[1]);
           expp2q := ExponentsOfPcElement(G, gens[4]^gens[1]);
           expp1r := ExponentsOfPcElement(G, gens[3]^gens[2]);
           expp2r := ExponentsOfPcElement(G, gens[4]^gens[2]);
-          matq := [expp1q{[3, 4]}, expp2q{[3, 4]}]*One(GF(p));
-          matr := [expp1r{[3, 4]}, expp2r{[3, 4]}]*One(GF(p));
-          if b^0 in Eigenvalues(GF(p), matr) then ##R acts trivially on one of the generators of P
-            x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), matq), x-> x <> b^0)[1], b^((p-1)/q))) mod q;
-            pcgs := [gens[1]^x, gens[2], Filtered(Pcgs(P), x -> not IsAbelian(Group([x, gens[2]])))[1], Filtered(Pcgs(P), x -> IsAbelian(Group([x, gens[2]])))[1]];
-            pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-            k := LogFFE(ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[4]*One(GF(p)), b^((p - 1)/q)) mod q;
-            return [n, 3 + (k - 1) + c1 + c2
-            + 3*msg.deltaDivisibility((p - 1), q*r)];
-          elif b^0 in Eigenvalues(GF(p), matq) and gens[1]*gens[2] = gens[2]*gens[1] then ##Q acts trivially on one of the generators of P
-            y := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), matr), x-> x <> b^0)[1], b^((p-1)/r))) mod r;
-            pcgs := [gens[1], gens[2]^y, Filtered(Pcgs(P), x -> not IsAbelian(Group([x, gens[1]])))[1], Filtered(Pcgs(P), x -> IsAbelian(Group([x, gens[1]])))[1]];
-            pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-            k := LogFFE(ExponentsOfPcElement(pc, pcgs[4]^gens[2])[4]*One(GF(p)), b^((p - 1)/r)) mod r;
-            return [n, 3 + (k - 1) + c1 + c2
-            + 3*msg.deltaDivisibility((p - 1), q*r)
-            + (q - 1) * msg.deltaDivisibility((p - 1), q*r)];
-          elif gens[1]*gens[2] = gens[2]*gens[1] and
-            (not b^0 in Eigenvalues(GF(p), matr)) and
-            (not b^0 in Eigenvalues(GF(p), matq)) then ## Q and R act nontrivially on both the generators of P
-            x := Inverse(LogFFE(Eigenvalues(GF(p), matq)[1], b^((p-1)/q))) mod q;
-            y := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
-            if (p-1) mod (q*r) = 0 and q > 2 then
-              tmp := [];
-              for k in [0..(q - 1)/2] do
-                for l in [0..(r - 1)/2] do
-                  Add(tmp, AsSet([[-k mod (q - 1), -l mod (r - 1)], [k, l]]));
-                od;
+          matq := [expp1q{[3, 4]}, expp2q{[3, 4]}] * One(GF(p));
+          matr := [expp1r{[3, 4]}, expp2r{[3, 4]}] * One(GF(p));
+          x := Inverse(LogFFE(Eigenvalues(GF(p), matq)[1], b^((p-1)/q))) mod q;
+          y := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
+          if (p-1) mod (q*r) = 0 and q > 2 then
+            tmp := [];
+            for k in [0..(q - 1)/2] do
+              for l in [0..(r - 1)/2] do
+                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
               od;
-              for k in [1..(q-3)/2] do
-                for l in [(r+1)/2..(r-1)] do
-                  Add(tmp, AsSet([[-k mod (q - 1), -l mod (r - 1)], [k, l]]));
-                od;
+            od;
+            for k in [1..(q-3)/2] do
+              for l in [(r+1)/2..(r-1)] do
+                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
               od;
-            fi;
-            if (p-1) mod (q*r) = 0 and q = 2 then
-              tmp := [];
-              for l in [0..(r-1)/2] do
-                Add(tmp, AsSet([[0, l], [0, -l mod (r - 1)]]));
-              od;
-            fi;
-            detq := DeterminantMat(matq^x);
-            k := LogFFE((LogFFE(detq, b^((p - 1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
-            detr := DeterminantMat(matr^y);
-            l := LogFFE((LogFFE(detr, b^((p - 1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
-            m := Position(tmp, AsSet([[k, l], [-k mod (q - 1), -l mod (r - 1)]]));
-            return [n, 3 + (m - 1) + c1 + c2
-            + 3*msg.deltaDivisibility((p - 1), q*r)
-            + (r - 1 + q - 1) * msg.deltaDivisibility((p - 1), q*r)];
-          elif q = 2 and gens[1]*gens[2] <> gens[2]*gens[1] then ##q = 2, r | (p - 1), and G \cong (C_2 \ltimes C_r) \ltimes C_p^2
-            return [n, 3 + c1 + c2
-            + 3*msg.deltaDivisibility((p - 1), q*r)
-            + ((r + 1)/2 + r - 1 + q - 1) * msg.deltaDivisibility((p - 1), q*r)];
+            od;
           fi;
+          if (p-1) mod (q*r) = 0 and q = 2 then
+            tmp := [];
+            for l in [0..(r-1)/2] do
+              Add(tmp, AsSet([[0, l], [0, (-l) mod (r - 1)]]));
+            od;
+          fi;
+          detq := DeterminantMat(matq^x);
+          k := LogFFE((LogFFE(detq, b^((p - 1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
+          detr := DeterminantMat(matr^y);
+          l := LogFFE((LogFFE(detr, b^((p - 1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
+          m := Position(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
+          return [n, 3 + (m - 1) + c1 + c2
+          + 3*msg.deltaDivisibility((p - 1), q*r)
+          + (r - 1 + q - 1) * msg.deltaDivisibility((p - 1), q*r)];
+        elif q = 2 and Pcgs(R)[1]^Pcgs(Q)[1] <> Pcgs(R)[1] then ##q = 2, r | (p - 1), and G \cong (C_2 \ltimes C_r) \ltimes C_p^2
+          return [n, 3 + c1 + c2
+          + 3*msg.deltaDivisibility((p - 1), q*r)
+          + ((r + 1)/2 + r - 1 + q - 1) * msg.deltaDivisibility((p - 1), q*r)];
         fi;
       elif Size(FittingSubgroup(group)) = p^2 and IsElementaryAbelian(P) and Size(Centre(group)) = p then  ## qr | (p - 1) and G \cong (C_{qr} \ltimes C_p) \times C_p
         return [n, 3 + c1 + c2
@@ -1273,7 +1310,7 @@ msg.IdGroupP2QR := function(group)
         elif IsCyclic(P) and Size(Centre(group)) = 1 then ## q \mid (p - 1), q | (r - 1) and G \cong C_q \ltimes (C_{p^2} \times C_r)
           gens:= [Pcgs(Q)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1], Filtered(Pcgs(P), x->Order(x) = p^2)[1]^p, Pcgs(R)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          x := Inverse(LogMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3]*p + ExponentsOfPcElement(G, gens[2]^gens[1])[2], Int(v^((p^2-p)/q)), p^2)) mod q;
+          x := Inverse(LogMod(ExponentsOfPcElement(G, gens[3]^gens[1])[3], Int(v^((p^2-p)/q)), p)) mod q;
           pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           k := LogFFE(ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[4]*One(GF(r)), a^((r - 1)/q)) mod q;
@@ -1353,17 +1390,17 @@ msg.IdGroupP2QR := function(group)
         elif IsElementaryAbelian(P) and Size(Centre(group)) = 1 and q > 2 and (r - 1) mod q = 0 and (p - 1) mod q = 0 then ##(r - 1) mod q = 0 and (p - 1) mod q = 0, G \cong C_q \ltimes (C_r \times C_p^2)
           tmp := [];
           for k in [0..(q - 3)/2] do
-            Add(tmp, [0, k]);
+            Add(tmp, AsSet([[0, k], [0, (- k) mod (q - 1)]]));
           od;
           for l in [1..(q - 3)/2] do
             for k in [0..(q - 1)/2] do
-              Add(tmp, [l, k]);
+              Add(tmp, AsSet([[l, k], [(l - k) mod (q - 1), (- k) mod (q - 1)]]));
             od;
           od;
-          Add(tmp, [(q - 1)/2, (q - 1)/2]);
+          Add(tmp, AsSet([[(q - 1)/2, (q - 1)/2], [0, (q - 1)/2]]));
           for l in [(q - 1)/2..q - 2] do
             for k in [0..(q - 3)/2] do
-              Add(tmp, [l, k]);
+              Add(tmp, AsSet([[l, k], [(l - k) mod (q - 1), (- k) mod (q - 1)]]));
             od;
           od;
           gens := [Pcgs(Q)[1], Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2]];
@@ -1371,15 +1408,18 @@ msg.IdGroupP2QR := function(group)
           expp1q := ExponentsOfPcElement(G, gens[3]^gens[1]);
           expp2q := ExponentsOfPcElement(G, gens[4]^gens[1]);
           matq := [expp1q{[3, 4]}, expp2q{[3, 4]}]* One(GF(p));
-          x := Inverse(LogFFE(Eigenvalues(GF(p), matq)[1], b^((p-1)/q))) mod q;
-          pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
-          pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-          k := LogFFE((LogFFE(DeterminantMat(matq^x*One(GF(p))), b^((p - 1)/q)) - 1)
-          *One(GF(q)), c) mod (q - 1);
-          l := LogFFE(LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2]*One(GF(r)), a^((r - 1)/q))*One(GF(q)), c) mod (q - 1);
-          if [l, k] in tmp then
-            m := Position(tmp, [l, k]);
-          else m := Position(tmp, [(l - k) mod ( q - 1), -k mod (q - 1)]);
+          ev := List(Eigenvalues(GF(p), matq), x->LogFFE(LogFFE(x, b^((p - 1)/q))*One(GF(q)), c) mod (q - 1));
+          if Length(ev) = 1 then
+            x := LogFFE(LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2]*One(GF(r)), a^((r - 1)/q))*One(GF(q)), c) mod (q - 1);
+            y := ev[1];
+            z := ev[1];
+          else
+            x := LogFFE(LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2]*One(GF(r)), a^((r - 1)/q))*One(GF(q)), c) mod (q - 1);
+            y := ev[1];
+            z := ev[2];
+          fi;
+          if AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(x - z) mod (q - 1), (y - z) mod (q - 1)]]) in tmp then
+            m := Position(tmp, AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(x - z) mod (q - 1), (y - z) mod (q - 1)]]));
           fi;
           return [n, 3 + (m - 1) + c1 + c2 + c3 + c4
           + msg.deltaDivisibility((r - 1), q)
@@ -1478,7 +1518,7 @@ msg.IdGroupP2QR := function(group)
           + (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p)
           + msg.deltaDivisibility((r - 1), p)];
         elif IsElementaryAbelian(P) and Size(Centre(group)) = p then ## P \cong C_p^2 and G \cong C_{p^2} \ltimes (C_q \times C_r)
-          repeat b := Random(Elements(P)); until Order(b) > 1 and b in Centre(group);
+          b := Pcgs(Centre(group))[1];
           gens := [Filtered(Pcgs(P), x->not x in Centre(group))[1], b, Pcgs(Q)[1], Pcgs(R)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
