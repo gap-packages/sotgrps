@@ -1007,7 +1007,7 @@ msg.IdGroupP3Q := function(group)
             fi;
 
           elif Length(l) = 2 and List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q))) = [b^((q - 1)/2)] then
-            return [n, 9 + 2*q - 2];
+            return [n, 9 + 3*q - 3];
           else
             k := Position(Filtered([1..(q - 2)], x-> not x = (q - 1)/2), LogFFE(LogFFE(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1)[1], s1)*One(GF(q)), b) mod (q - 1));
             return [n, 9 + k + (q + 1)/2 + (q - 1)];
