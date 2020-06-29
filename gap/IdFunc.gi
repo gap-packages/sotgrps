@@ -318,7 +318,7 @@ msg.IdGroupPQRS := function(group)
         return [n, 2 + c1
         + msg.deltaDivisibility((r - 1), (p*q))
         + msg.deltaDivisibility((s - 1), (p*q))
-        + l + (k - 1)*(p - 1) - 1 ];
+        + l + (k - 1)*(q - 1) - 1 ];
       elif (r - 1) mod p = 0 and (s - 1) mod (p*q) = 0 and exprq[3] = 1 then
         if expsp[4] <> 1 and expsq[4] <> 1 then
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
@@ -488,9 +488,9 @@ msg.IdGroupPQRS := function(group)
       fi;
     fi;
     if Order(FittingSubgroup(group)) = p * r * s then
-      if Order(Centre(group)) = p * s then
+      if expsq[4] = 1 and exprq[3] <> 1 then
         return [n, 2 + c1 + c2 + c3 + c4 + c5];
-      elif Order(Centre(group)) = p * r then
+      elif expsq[4] <> 1 and exprq[3] = 1 then
         return [n, 2 + c1 + c2 + c3 + c4 + c5
         + msg.deltaDivisibility((r - 1), q) ];
       elif exprq[3] <> 1 then
@@ -1411,6 +1411,10 @@ msg.IdGroupP2QR := function(group)
           fi;
           if AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(x - z) mod (q - 1), (y - z) mod (q - 1)]]) in tmp then
             m := Position(tmp, AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(x - z) mod (q - 1), (y - z) mod (q - 1)]]));
+          elif AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(y - x) mod (q - 1), (y - z) mod (q - 1)]]) in tmp then
+            m := Position(tmp, AsSet([[(x - y) mod (q - 1), (z - y) mod (q - 1)], [(y - x) mod (q - 1), (y - z) mod (q - 1)]]));
+          else
+            m := Position(tmp, AsSet([[(x - z) mod (q - 1), (y - z) mod (q - 1)], [(z - x) mod (q - 1), (z - y) mod (q - 1)]]));
           fi;
           return [n, 3 + (m - 1) + c1 + c2 + c3 + c4
           + msg.deltaDivisibility((r - 1), q)
