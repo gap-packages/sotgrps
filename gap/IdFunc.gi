@@ -1209,26 +1209,22 @@ msg.IdGroupP2QR := function(group)
           + 3*msg.deltaDivisibility((p - 1), q*r)
           + (q - 1) * msg.deltaDivisibility((p - 1), q*r)];
         elif Pcgs(R)[1]^Pcgs(Q)[1] = Pcgs(R)[1] and Size(Centre(N1)) = 1 and Size(Centre(N2)) = 1 then ## Q and R act nontrivially on both the generators of P
-          gens := [Pcgs(Q)[1], Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2]];
+          gens := [Pcgs(Q)[1]*Pcgs(R)[1], Pcgs(R)[1], Pcgs(P)[1], Pcgs(P)[2]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          expp1q := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          expp2q := ExponentsOfPcElement(G, gens[4]^gens[1]);
-          expp1r := ExponentsOfPcElement(G, gens[3]^gens[2]);
-          expp2r := ExponentsOfPcElement(G, gens[4]^gens[2]);
-          matq := [expp1q{[3, 4]}, expp2q{[3, 4]}] * One(GF(p));
-          matr := [expp1r{[3, 4]}, expp2r{[3, 4]}] * One(GF(p));
-          x := Inverse(LogFFE(Eigenvalues(GF(p), matq)[1], b^((p-1)/q))) mod q;
-          y := Inverse(LogFFE(Eigenvalues(GF(p), matr)[1], b^((p-1)/r))) mod r;
+          exp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          exp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          mat := [exp1{[3, 4]}, exp2{[3, 4]}] * One(GF(p));
+          x := Eigenvalues(GF(p), mat);
           if (p-1) mod (q*r) = 0 and q > 2 then
             tmp := [];
             for k in [0..(q - 1)/2] do
               for l in [0..(r - 1)/2] do
-                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
+                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]])); #AsSet([[(k) mod (q - 1), (-l) mod (r - 1)], [(-k) mod (q - 1), (l) mod (r - 1)]])]));
               od;
             od;
             for k in [1..(q-3)/2] do
               for l in [(r+1)/2..(r-1)] do
-                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
+                Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]])); #AsSet([[(k) mod (q - 1), (-l) mod (r - 1)], [(-k) mod (q - 1), (l) mod (r - 1)]])]));
               od;
             od;
           fi;
@@ -1238,10 +1234,11 @@ msg.IdGroupP2QR := function(group)
               Add(tmp, AsSet([[0, l], [0, (-l) mod (r - 1)]]));
             od;
           fi;
-          detq := DeterminantMat(matq^x);
-          k := LogFFE((LogFFE(detq, b^((p - 1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
-          detr := DeterminantMat(matr^y);
-          l := LogFFE((LogFFE(detr, b^((p - 1)/r)) - 1)*One(GF(r)), a) mod (r - 1);
+          if Length(x) = 1 then k := 0;
+                                l := 0;
+          else k := LogFFE(LogFFE(x[2], x[1])*One(GF(q)), c) mod (q - 1);
+               l := LogFFE(LogFFE(x[2], x[1])*One(GF(r)), a) mod (r - 1);
+          fi;
           m := Position(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
           return [n, 3 + (m - 1) + c1 + c2
           + 3*msg.deltaDivisibility((p - 1), q*r)
