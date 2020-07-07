@@ -22,7 +22,7 @@ msg.allGroupsPQR := function(n)
         Add(all, [ [r, q, p], [2, 1, [2, Int(b^((q-1)/r))]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
       od;
     fi;
-    ####case4: q | (p - 1) and Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
+    ####case4: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
     if (p - 1) mod q = 0 then
       Add(all, [ [r, q, p], [3, 2, [3, Int(a^((p-1)/q))]] ]);fi;
     ####case5: r | (p - 1) and q | (p - 1), Z(G) = 1, and G \cong (C_r \times C_q) \ltimes C_p
@@ -80,7 +80,7 @@ msg.GroupPQR := function(n, i)
       return msg.groupFromData(all[i - c1 - c2]);
     fi;
 
-    ####case4: q | (p - 1) and Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
+    ####case4: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
     if i > 1 + c1 + c2 + c3 and i < 2 + c1 + c2 + c3 + c4 and (p - 1) mod q = 0 then
       Add(all, [ [r, q, p], [3, 2, [3, Int(a^((p-1)/q))]] ]);
       return msg.groupFromData(all[i - c1 - c2 - c3]);
