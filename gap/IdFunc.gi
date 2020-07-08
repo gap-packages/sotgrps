@@ -92,21 +92,19 @@ msg.IdPGroup := function(group)
       if IsAbelian(group) then
         flag := [Exponent(group), Size(Agemo(group, 2))];
         if flag[1] = 16 then return [16, 1];
-        elif flag[1] = 8 then return [n, 2];
-        elif flag = [4, 4] then return [n, 3];
-        elif flag = [4, 2] then return [n, 4];
-        else return [n, 5];
+        elif flag[1] = 8 then return [16, 2];
+        elif flag = [4, 4] then return [16, 3];
+        elif flag = [4, 2] then return [16, 4];
+        else return [16, 5];
         fi;
       else
         flag := [Exponent(Centre(group)), Size(Agemo(group, 2)), Size(Centre(group)), Size(Omega(group, 2))];
         if flag{[1, 2]} = [4, 2] then return [16, 6];
         elif flag{[1, 2]} = [4, 4] then return [16, 11];
-        elif flag{[1, 3, 4]} = [2, 4, 16] then return [16, 7];
-        elif flag{[1, 3, 4]} = [2, 4, 8] then return [16, 8];
-        elif flag{[1, 3, 4]} = [2, 4, 4] then
-          if Size(NormalSubgroups(group)) = 19 then return [16, 9];
-          else return [16, 10];
-          fi;
+        elif flag{[1, 2, 3, 4]} = [2, 2, 4, 16] then return [16, 7];
+        elif flag{[1, 2, 3, 4]} = [2, 4, 4, 8] then return [16, 8];
+        elif flag{[1, 2, 3, 4]} = [2, 2, 4, 4] then return [16, 9];
+        elif flag{[1, 2, 3, 4]} = [2, 4, 4, 4] then return [16, 10];
         elif flag{[3, 4]} = [2, 8] then return [16, 12];
         elif flag{[3, 4]} = [2, 16] then return [16, 13];
         else return [16, 14];
