@@ -2,42 +2,31 @@ InstallGlobalFunction( MySmallGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
-		fac := Collected(Factors(n));
+		fac := Collected(PF);
 		if Length(fac) = 1 then
 			p := PF[1];
 			k := length;
 			return msg.lowpowerPGroups(p, k);
 		fi;
 
-		if length = 2 and Length(fac) = 2 then
+		if List(fac, x -> x[2]) = [1, 1] then
 			return msg.allGroupsPQ(n);
-		fi;
-
-		if length = 3 and Length(fac) = 2 then
+		elif length = 3 and Length(fac) = 2 then
 			return msg.allGroupsP2Q(n);
-		fi;
-
-		if length = 3 and Length(fac) = 3 then
+		elif List(fac, x -> x[2]) = [1, 1, 1] then
 			return msg.allGroupsPQR(n);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+		elif List(fac, x -> x[2]) = [2, 2] then
 			return msg.allGroupsP2Q2(n);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
 			return msg.allGroupsP3Q(n);
-		fi;
-
-		if length = 4 and Length(fac) = 3 then
+		elif length = 4 and Length(fac) = 3 then
 			return msg.allGroupsP2QR(n);
-		fi;
-
-		if length = 4 and Length(fac) = 4 then
-			return msg.allGroupsPQRS(n);
-		fi;
-
-		if length > 4 then
+		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
+			if USE_pqrsbyCentre = true then
+				return msg.allGroupsPQRSbyCentre(n);
+			else return msg.allGroupsPQRS(n);
+			fi;
+		elif length > 4 then
 			Print(("Groups of order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes."));
 		fi;
 end);
@@ -46,7 +35,7 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
-		fac := Collected(Factors(n));
+		fac := Collected(PF);
 		if Length(fac) = 1 then
 			p := PF[1];
 			k := length;
@@ -55,35 +44,21 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 			fi;
 		fi;
 
-		if length = 2 and Length(fac) = 2 then
+		if List(fac, x -> x[2]) = [1, 1] then
 			return msg.NumberGroupsPQ(n);
-		fi;
-
-		if length = 3 and Length(fac) = 2 then
+		elif length = 3 and Length(fac) = 2 then
 			return msg.NumberGroupsP2Q(n);
-		fi;
-
-		if length = 3 and Length(fac) = 3 then
+		elif length = 3 and Length(fac) = 3 then
 			return msg.NumberGroupsPQR(n);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
 			return msg.NumberGroupsP2Q2(n);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
 			return msg.NumberGroupsP3Q(n);
-		fi;
-
-		if length = 4 and Length(fac) = 3 then
+		elif length = 4 and Length(fac) = 3 then
 			return msg.NumberGroupsP2QR(n);
-		fi;
-
-		if length = 4 and Length(fac) = 4 then
+		elif length = 4 and Length(fac) = 4 then
 			return msg.NumberGroupsPQRS(n);
-		fi;
-
-		if length > 4 then
+		elif length > 4 then
 			Print(("Order "), n, (" is not available in mysmallgrps: MyNumberOfGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes."));
 		fi;
 	end);
@@ -102,43 +77,31 @@ InstallGlobalFunction( MySmallGroup, function(n, i)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
-		fac := Collected(Factors(n));
+		fac := Collected(PF);
 		if i < (MyNumberOfGroups(n) + 1) then
 			if Length(fac) = 1 then
 				p := PF[1];
 				k := length;
 				return msg.PGroup(p, k, i);
-			fi;
-
-			if length = 2 and Length(fac) = 2 then
+			elif length = 2 and Length(fac) = 2 then
 				return msg.GroupPQ(n, i);
-			fi;
-
-			if length = 3 and Length(fac) = 2 then
+			elif length = 3 and Length(fac) = 2 then
 				return msg.GroupP2Q(n, i);
-			fi;
-
-			if length = 3 and Length(fac) = 3 then
+			elif length = 3 and Length(fac) = 3 then
 				return msg.GroupPQR(n, i);
-			fi;
-
-			if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+			elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
 				return msg.GroupP2Q2(n, i);
-			fi;
-
-			if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+			elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
 				return msg.GroupP3Q(n, i);
-			fi;
-
-			if length = 4 and Length(fac) = 3 then
+			elif length = 4 and Length(fac) = 3 then
 				return msg.GroupP2QR(n, i);
-			fi;
-
-			if length = 4 and Length(fac) = 4 then
-				return msg.GroupPQRS(n, i);
-			fi;
-
-			if length > 4 then
+			elif length = 4 and Length(fac) = 4 then
+				if USE_pqrsbyCentre = true then
+					return msg.GroupPQRSbyCentre(n, i);
+				else
+					return msg.GroupPQRS(n, i);
+				fi;
+			elif length > 4 then
 				Print(("Groups of order "), n, (" is not available in mysmallgrps."));
 			fi;
 		fi;
@@ -158,18 +121,15 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
 			n := arg[1];
       PF := Factors(n);
   		length := Length(PF);
-  		fac := Collected(Factors(n));
+  		fac := Collected(PF);
 
   		if Length(fac) = 1 then ##p-groups
   			p := PF[1];
   			k := length;
   			if k = 1 then Print(("There is a unique group of order"), n, ("up to isomorphism, and it is cyclic.") );
-  			fi;
-  			if k = 2 then Print(("There are two isomorphism types of p-groups of order "),n,(": there is one cyclic group, and one elementary abelian group."));
-  			fi;
-  			if k = 3 then Print(("There are five isomorpshim types of p-groups of order "), n, (": there are 3 abelian groups, and 3 extraspecial groups."));
-  			fi;
-  			if k = 4 then
+  			elif k = 2 then Print(("There are two isomorphism types of p-groups of order "),n,(": there is one cyclic group, and one elementary abelian group."));
+  			elif k = 3 then Print(("There are five isomorpshim types of p-groups of order "), n, (": there are 3 abelian groups, and 3 extraspecial groups."));
+  			elif k = 4 then
   				if p = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
   				else Print(("There are 15 isomorphism types of groups of order "), n, (": there are 5 abelian groups, and 10 nonabelian groups."));
   				fi;
@@ -181,36 +141,22 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
   				Print(("There are two isomorphism types of squarefree groups of order "), n, (": there is one abelian group, and one nonebalian group."));
   			else Print(("There is a unique group of order "), n, (", up to isomorphism, and it is abelian."));
   			fi;
-  		fi;
-
-  		if length = 3 and Length(fac) = 2 then
+  		elif length = 3 and Length(fac) = 2 then
   			if not (PF[1] - 1) mod PF[3] = 0 and not (PF[3] - 1) mod PF[1] = 0 then
   				Print(("There are two isomorphism types of order "), n, (": one is cyclic, and one is isomorphic to AbelianGroup("), p*q, p, (")."));
   			else Print(("There are "), msg.NumberGroupsP2Q(n), (" isomorphism types of groups of order "), n, ("."));
   			fi;
-  		fi;
-
-  		if length = 3 and Length(fac) = 3 then
+  		elif length = 3 and Length(fac) = 3 then
   			Print(("There are "), msg.NumberGroupsPQR(n), (" isomorphism types of squarefree groups of order "), n, ("."));
-  		fi;
-
-  		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+  		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
   			Print(("There are "), msg.NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
-  		fi;
-
-  		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+  		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
   			Print(("There are "), msg.NumberGroupsP3Q(n), (" isomorphism types of groups of order "), n, ("."));
-  		fi;
-
-  		if length = 4 and Length(fac) = 3 then
+  		elif length = 4 and Length(fac) = 3 then
   			Print(("There are "), msg.NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
-  		fi;
-
-			if length = 4 and Length(fac) = 4 then
+  		elif length = 4 and Length(fac) = 4 then
 				Print(("There are "), msg.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
-  		fi;
-
-			if length > 4 then
+  		elif length > 4 then
 				Print(("Order "), n, (" is not available in mysmallgrps."));
 			fi;
 
@@ -233,33 +179,23 @@ InstallGlobalFunction( MyIdSmallGroup, function(group)
 
 		if length = 2 and Length(fac) = 2 then
 			return msg.IdGroupPQ(group);
-		fi;
-
-		if length = 3 and Length(fac) = 2 then
+		elif length = 3 and Length(fac) = 2 then
 			return msg.IdGroupP2Q(group);
-		fi;
-
-		if length = 3 and Length(fac) = 3 then
+		elif length = 3 and Length(fac) = 3 then
 			return msg.IdGroupPQR(group);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
 			return msg.IdGroupP2Q2(group);
-		fi;
-
-		if length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
 			return msg.IdGroupP3Q(group);
-		fi;
-
-		if length = 4 and Length(fac) = 3 then
+		elif length = 4 and Length(fac) = 3 then
 			return msg.IdGroupP2QR(group);
-		fi;
-
-		if length = 4 and Length(fac) = 4 then
-			return msg.IdGroupPQRS(group);
-		fi;
-
-		if length > 4 then
+		elif length = 4 and Length(fac) = 4 then
+			if USE_pqrsbyCentre = true then
+				return msg.IdGroupPQRSbyCentre(group);
+			else
+				return msg.IdGroupPQRS(group);
+			fi;
+		elif length > 4 then
 			Print(("Groups of order "), n, (" is not available in mysmallgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes."));
 		fi;
 end);

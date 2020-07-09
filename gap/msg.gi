@@ -1,5 +1,6 @@
 USE_NC := false;
 USE_PCP := false;
+USE_pqrsbyCentre := true;
 ############################################################################
 msg.groupFromData := function(data)
   local coll, i, j, n ,G;
