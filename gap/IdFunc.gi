@@ -1537,7 +1537,7 @@ msg.IdGroupP2QR := function(group)
     fi;
 end;
 ##########################################
-msg.IdGroupPQRSbyCentre := function(group)
+msg.IdGroupPQRSII := function(group)
   local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
   G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
   c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,

@@ -22,8 +22,8 @@ InstallGlobalFunction( MySmallGroups, function(n)
 		elif length = 4 and Length(fac) = 3 then
 			return msg.allGroupsP2QR(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
-			if USE_pqrsbyCentre = true then
-				return msg.allGroupsPQRSbyCentre(n);
+			if USE_pqrsII = true then
+				return msg.allGroupsPQRSII(n);
 			else return msg.allGroupsPQRS(n);
 			fi;
 		elif length > 4 then
@@ -96,8 +96,8 @@ InstallGlobalFunction( MySmallGroup, function(n, i)
 			elif length = 4 and Length(fac) = 3 then
 				return msg.GroupP2QR(n, i);
 			elif length = 4 and Length(fac) = 4 then
-				if USE_pqrsbyCentre = true then
-					return msg.GroupPQRSbyCentre(n, i);
+				if USE_pqrsII = true then
+					return msg.GroupPQRSII(n, i);
 				else
 					return msg.GroupPQRS(n, i);
 				fi;
@@ -190,8 +190,8 @@ InstallGlobalFunction( MyIdSmallGroup, function(group)
 		elif length = 4 and Length(fac) = 3 then
 			return msg.IdGroupP2QR(group);
 		elif length = 4 and Length(fac) = 4 then
-			if USE_pqrsbyCentre = true then
-				return msg.IdGroupPQRSbyCentre(group);
+			if USE_pqrsII = true then
+				return msg.IdGroupPQRSII(group);
 			else
 				return msg.IdGroupPQRS(group);
 			fi;

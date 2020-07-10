@@ -343,7 +343,7 @@ msg.GroupPQRS := function(n, i)
     fi;
 end;
 ######################################################
-msg.allGroupsPQRSbyCentre := function(n)
+msg.allGroupsPQRSII := function(n)
   local all, fac, p, q, r, s, u, v, w, k, l, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, listall;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -494,7 +494,7 @@ msg.allGroupsPQRSbyCentre := function(n)
   return listall;
 end;
 ######################################################
-msg.GroupPQRSbyCentre := function(n, i)
+msg.GroupPQRSII := function(n, i)
   local all, fac, p, q, r, s, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, data;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
