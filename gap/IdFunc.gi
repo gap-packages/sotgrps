@@ -1327,8 +1327,7 @@ msg.IdGroupP2QR := function(group)
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           expp1q := ExponentsOfPcElement(G, gens[2]^gens[1]);
           expp2q := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          x := Inverse(LogFFE(Eigenvalues(GF(p),
-          [expp1q{[2, 3]}, expp2q{[2, 3]}]* One(GF(p)))[1], b^((p-1)/q))) mod q;
+          x := Inverse(LogFFE(Eigenvalues(GF(p), [expp1q{[2, 3]}, expp2q{[2, 3]}]* One(GF(p)))[1], b^((p-1)/q))) mod q;
           pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           matq := [expp1q{[2, 3]}, expp2q{[2, 3]}]^x * One(GF(p));
