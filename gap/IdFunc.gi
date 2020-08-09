@@ -519,18 +519,7 @@ msg.IdGroupPQRS := function(group)
       return [n, 2 + c1 + c2 + c3 + c4 + c5 + c6];
     fi;
 end;
-######################################################
-msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
-  local l, det, evm;
-    l := Eigenvalues(GF(p), mat);
-    if Length(l) <> 2 then return false; fi;
-    det := DeterminantMat(mat);
-    if det = l[1]^2*l[2] then
-      evm := [[l[1], 2], [l[2], 1]];
-    else evm := [[l[1], 1], [l[2], 2]];
-    fi;
-  return evm;
-end;
+
 ######################################################
 msg.IdGroupP2Q2 := function(group)
   local n, fac, p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,

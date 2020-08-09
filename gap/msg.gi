@@ -79,7 +79,18 @@ msg.QthRootGL3P := function(p, q)
   fi;
   return [ [0, 0, 1], [1, 0, -b^(p+1)-b^(p^2+1)-b^(p^2+p)], [0, 1, b+b^p+b^(p^2)] ] * One(GF(p));
 end;
-
+######################################################
+msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
+  local l, det, evm;
+    l := Eigenvalues(GF(p), mat);
+    if Length(l) <> 2 then return false; fi;
+    det := DeterminantMat(mat);
+    if det = l[1]^2*l[2] then
+      evm := [[l[1], 2], [l[2], 1]];
+    else evm := [[l[1], 1], [l[2], 2]];
+    fi;
+  return evm;
+end;
 ############################################################################
 msg.testMySmallGroups := function(n)
 	local mygroups, lib, duplicates, missing;
