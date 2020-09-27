@@ -318,18 +318,18 @@ msg.NumberGroupsP2QR := function(n)
     if n = 60 then m := 13;
     fi;
     if q = 2 then
-      m := 10 + (2*r + 7)*msg.deltaDivisibility((p - 1), r) + 3*msg.deltaDivisibility((p + 1), r) + 6*msg.deltaDivisibility((r - 1), p) + 2*msg.deltaDivisibility((r - 1), (p^2));
+      m := 10 + (2*r + 7)*msg.w((p - 1), r) + 3*msg.w((p + 1), r) + 6*msg.w((r - 1), p) + 2*msg.w((r - 1), (p^2));
     fi;
     if q > 2 and not n = 60 then
-      m := 2 + (p^2 - p)*msg.deltaDivisibility((q - 1), (p^2))*msg.deltaDivisibility((r - 1), (p^2))
-      + (p - 1)*(msg.deltaDivisibility((q - 1), (p^2))*msg.deltaDivisibility((r - 1), p) + msg.deltaDivisibility((r - 1), (p^2))*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p))
-      + (q - 1)*(q + 4)*msg.deltaDivisibility((p - 1), q)*msg.deltaDivisibility((r - 1), q)/2
-      + (q - 1)*(msg.deltaDivisibility((p + 1), q)*msg.deltaDivisibility((r - 1), q) + msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p - 1), (q*r)) + 2*msg.deltaDivisibility((r - 1), (p*q))*msg.deltaDivisibility((p - 1), q))/2
-      + (q*r + 1)*msg.deltaDivisibility((p - 1), (q*r))/2
-      + (r + 5)*msg.deltaDivisibility((p - 1), r)*(1 + msg.deltaDivisibility((p - 1), q))/2
-      + msg.deltaDivisibility((p^2 - 1), (q*r)) + 2*msg.deltaDivisibility((r - 1), (p*q)) + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((r - 1), (p^2*q))
-      + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p) + 2*msg.deltaDivisibility((q - 1), p) + 3*msg.deltaDivisibility((p - 1), q) + 2*msg.deltaDivisibility((r - 1), p)
-      + 2*msg.deltaDivisibility((r - 1), q) + msg.deltaDivisibility((r - 1), (p^2)) + msg.deltaDivisibility((q - 1), p^2) + msg.deltaDivisibility((p + 1), r) + msg.deltaDivisibility((p + 1), q);
+      m := 2 + (p^2 - p)*msg.w((q - 1), (p^2))*msg.w((r - 1), (p^2))
+      + (p - 1)*(msg.w((q - 1), (p^2))*msg.w((r - 1), p) + msg.w((r - 1), (p^2))*msg.w((q - 1), p) + 2*msg.w((r - 1), p)*msg.w((q - 1), p))
+      + (q - 1)*(q + 4)*msg.w((p - 1), q)*msg.w((r - 1), q)/2
+      + (q - 1)*(msg.w((p + 1), q)*msg.w((r - 1), q) + msg.w((p - 1), q) + msg.w((p - 1), (q*r)) + 2*msg.w((r - 1), (p*q))*msg.w((p - 1), q))/2
+      + (q*r + 1)*msg.w((p - 1), (q*r))/2
+      + (r + 5)*msg.w((p - 1), r)*(1 + msg.w((p - 1), q))/2
+      + msg.w((p^2 - 1), (q*r)) + 2*msg.w((r - 1), (p*q)) + msg.w((r - 1), p)*msg.w((p - 1), q) + msg.w((r - 1), (p^2*q))
+      + msg.w((r - 1), p)*msg.w((q - 1), p) + 2*msg.w((q - 1), p) + 3*msg.w((p - 1), q) + 2*msg.w((r - 1), p)
+      + 2*msg.w((r - 1), q) + msg.w((r - 1), (p^2)) + msg.w((q - 1), p^2) + msg.w((p + 1), r) + msg.w((p + 1), q);
     fi;
     return m;
   end;
@@ -371,9 +371,9 @@ msg.GroupP2QR := function(n, i)
     if (q - 1) mod p = 0 then rootqp := Int(c^((q-1)/p)); fi;
     if (q - 1) mod (p^2) = 0 then rootqp2 := Int(c^((q-1)/(p^2))); fi;
 
-    u := ZmodnZObj(Int(Z(p)), p^2);
-    if not u^(p-1) = ZmodnZObj(1, p^2) then v := u;
-    else v := u + 1;
+    if not Int(b)^(p-1) mod p^2 = 1 then 
+      v := ZmodnZObj(Int(b), p^2);
+    else v := ZmodnZObj(Int(b) + p, p^2);
     fi;
     if (p - 1) mod q = 0 then
       ii := Int(v^((p^2-p)/q)) mod p;
@@ -395,25 +395,25 @@ msg.GroupP2QR := function(n, i)
       matq := msg.QthRootGL2P(p, q);
     fi;
 ############ enumeration of distinct cases
-    c1 := msg.deltaDivisibility((r - 1), p^2*q);;
-    c2 := msg.deltaDivisibility((q - 1), p^2) + (p - 1)*msg.deltaDivisibility((q - 1), p^2)*msg.deltaDivisibility((r - 1), p)
-    + (p^2 - p)*msg.deltaDivisibility((r - 1), p^2)*msg.deltaDivisibility((q - 1), p^2)
-    + msg.deltaDivisibility((r - 1), p^2) + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p^2)
-    + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((q - 1), p);;
-    c3 := 1/2*(q*r+q+r+7)*msg.deltaDivisibility((p - 1), q*r)
-    + msg.deltaDivisibility((p^2 - 1), q*r)*(1 - msg.deltaDivisibility((p - 1), q*r))*(1 - msg.deltafunction(q, 2))
-    + 2*msg.deltaDivisibility((p + 1), r)*msg.deltafunction(q, 2);;
-    c4 := 1/2*(r + 5)*msg.deltaDivisibility((p - 1), r) + msg.deltaDivisibility((p + 1), r);;
-    c5 := 8*msg.deltafunction(q, 2)
-    + (1 - msg.deltafunction(q, 2))*(1/2*(q - 1)*(q + 4)*msg.deltaDivisibility((p - 1), q)*msg.deltaDivisibility((r - 1), q)
-    + 1/2*(q - 1)*msg.deltaDivisibility((p + 1), q)*msg.deltaDivisibility((r - 1), q)
-    + 1/2*(q + 5)*msg.deltaDivisibility((p - 1), q)
-    + 2*msg.deltaDivisibility((r - 1), q)
-    + msg.deltaDivisibility((p + 1), q));;
-    c6 := msg.deltaDivisibility((r - 1), p)*(msg.deltaDivisibility((p - 1), q)*(1 + (q - 1)*msg.deltaDivisibility((r - 1), q))
-    + 2*msg.deltaDivisibility((r - 1), q));;
-    c7 := 2*(msg.deltaDivisibility((q - 1), p) + msg.deltaDivisibility((r - 1), p) +
-    (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p));
+    c1 := msg.w((r - 1), p^2*q);;
+    c2 := msg.w((q - 1), p^2) + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
+    + (p^2 - p)*msg.w((r - 1), p^2)*msg.w((q - 1), p^2)
+    + msg.w((r - 1), p^2) + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p^2)
+    + msg.w((r - 1), p)*msg.w((q - 1), p);;
+    c3 := 1/2*(q*r+q+r+7)*msg.w((p - 1), q*r)
+    + msg.w((p^2 - 1), q*r)*(1 - msg.w((p - 1), q*r))*(1 - msg.delta(q, 2))
+    + 2*msg.w((p + 1), r)*msg.delta(q, 2);;
+    c4 := 1/2*(r + 5)*msg.w((p - 1), r) + msg.w((p + 1), r);;
+    c5 := 8*msg.delta(q, 2)
+    + (1 - msg.delta(q, 2))*(1/2*(q - 1)*(q + 4)*msg.w((p - 1), q)*msg.w((r - 1), q)
+    + 1/2*(q - 1)*msg.w((p + 1), q)*msg.w((r - 1), q)
+    + 1/2*(q + 5)*msg.w((p - 1), q)
+    + 2*msg.w((r - 1), q)
+    + msg.w((p + 1), q));;
+    c6 := msg.w((r - 1), p)*(msg.w((p - 1), q)*(1 + (q - 1)*msg.w((r - 1), q))
+    + 2*msg.w((r - 1), q));;
+    c7 := 2*(msg.w((q - 1), p) + msg.w((r - 1), p) +
+    (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p));
 
 ############ add abelian groups in:
     l0 := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];

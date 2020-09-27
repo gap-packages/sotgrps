@@ -61,7 +61,7 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "Loading mysmallgrps 0.2 ... \n",
+BannerString := "Loading mysmallgrps 0.3 ... \n",
 Autoload := false,
 TestFile := "tst/autoTest.tst",
 Keywords := ["construction of groups","irreducible matrix subgroups of degree 2"]

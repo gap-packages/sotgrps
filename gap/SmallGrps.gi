@@ -74,7 +74,7 @@ InstallGlobalFunction( MySmallGroupIsAvailable, function(n) ## tells whether the
 end);
 ############################################################################
 InstallGlobalFunction( MySmallGroup, function(n, i)
-	local length, PF, fac, k, p, q, r;
+	local length, PF, fac, k, p, q, r, G;
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(PF);
@@ -84,23 +84,35 @@ InstallGlobalFunction( MySmallGroup, function(n, i)
 				k := length;
 				return msg.PGroup(p, k, i);
 			elif length = 2 and Length(fac) = 2 then
-				return msg.GroupPQ(n, i);
+				G := msg.GroupPQ(n, i);
+				SetMySmallGroup_id(G,[n,i]);
+				return G;
 			elif length = 3 and Length(fac) = 2 then
-				return msg.GroupP2Q(n, i);
+				G := msg.GroupP2Q(n, i);
+				SetMySmallGroup_id(G,[n,i]);
+				return G;
 			elif length = 3 and Length(fac) = 3 then
-				return msg.GroupPQR(n, i);
+				G := msg.GroupPQR(n, i);
+				SetMySmallGroup_id(G,[n,i]);
+				return G;
 			elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-				return msg.GroupP2Q2(n, i);
+				G := msg.GroupP2Q2(n, i);
+				SetMySmallGroup_id(G,[n,i]);
+				return G;
 			elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-				return msg.GroupP3Q(n, i);
+				G := msg.GroupP3Q(n, i);
+				SetMySmallGroup_id(G, [n, i]);
+				return G;
 			elif length = 4 and Length(fac) = 3 then
 				return msg.GroupP2QR(n, i);
 			elif length = 4 and Length(fac) = 4 then
 				if USE_pqrsII = true then
-					return msg.GroupPQRSII(n, i);
+					G := msg.GroupPQRSII(n, i);
 				else
-					return msg.GroupPQRS(n, i);
+					G := msg.GroupPQRS(n, i);
 				fi;
+				SetMySmallGroup_id(G, [n, i]);
+				return G;
 			elif length > 4 then
 				Print(("Groups of order "), n, (" is not available in mysmallgrps."));
 			fi;
@@ -167,6 +179,7 @@ end);
 ######################################################
 InstallGlobalFunction( MyIdSmallGroup, function(group)
 	local length, n, PF, fac, k, p, q, r;
+		if HasMySmallGroup_id(group) then return MySmallGroup_id(group); fi;
     n := Size(group);
 		PF := Factors(n);
 		length := Length(PF);

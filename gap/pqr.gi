@@ -45,7 +45,7 @@ msg.NumberGroupsPQR := function(n)
     r := fac[1];
     q := fac[2];
     p := fac[3];
-    w := 1 + msg.deltaDivisibility((q-1), r) + msg.deltaDivisibility((p - 1), r) + (r - 1) * msg.deltaDivisibility((q - 1), r) * msg.deltaDivisibility((p - 1), r) + msg.deltaDivisibility((p - 1), q) + msg.deltaDivisibility((p - 1), r) * msg.deltaDivisibility((p - 1), q);
+    w := 1 + msg.w((q-1), r) + msg.w((p - 1), r) + (r - 1) * msg.w((q - 1), r) * msg.w((p - 1), r) + msg.w((p - 1), q) + msg.w((p - 1), r) * msg.w((p - 1), q);
   return w;
 end;
 ##############################################
@@ -67,11 +67,11 @@ msg.GroupPQR := function(n, i)
     if (p - 1) mod q = 0 then rootpq := Int(a^((p-1)/q)); fi;
     if (q - 1) mod r = 0 then rootqr := Int(b^((q-1)/r)); fi;
     ####enumeration
-    c1 := msg.deltaDivisibility((q - 1), r);
-    c2 := msg.deltaDivisibility((p - 1), r);
-    c3 := (r - 1)*msg.deltaDivisibility((q - 1), r) * msg.deltaDivisibility((p - 1), r);
-    c4 := msg.deltaDivisibility((p - 1), q);
-    c5 := msg.deltaDivisibility((p - 1), q*r);
+    c1 := msg.w((q - 1), r);
+    c2 := msg.w((p - 1), r);
+    c3 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
+    c4 := msg.w((p - 1), q);
+    c5 := msg.w((p - 1), q*r);
     ####case 1: r | (q - 1), Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
     if i > 1 and i < 2 + c1 and (q - 1) mod r = 0 then
       return msg.groupFromData([ [r, q, p], [2, 1, [2, rootqr]] ]);

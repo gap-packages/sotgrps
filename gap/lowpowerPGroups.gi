@@ -1,23 +1,41 @@
-msg.lowpowerPGroups := function(p, k)
-	local PG, P2, P3, order8, r, P4, order16, order81, list;
+msg.lowpowerPGroups := function(arg)
+	local p, k, PG, P2, P3, order8, r, P4, order16, order81, list;
+			p := arg[1];
+			k := arg[2];
 			if p > 1 and k = 1 then
-				list := [msg.groupFromData([ [p] ])];
+				if Length(arg) = 2 then
+					list := [msg.groupFromData([ [p] ])];
+				else
+					list := [ [ [p] ] ];
+				fi;
 				return list;
 			fi;
 
 			if k = 2 then
 				P2 := [ [ [p, p], [1, [2, 1]] ], [ [p, p] ] ];
-				list := List(P2, x -> msg.groupFromData(x));
+				if Length(arg) = 2 then
+					list := List(P2, x -> msg.groupFromData(x));
+				else
+					list := P2;
+				fi;
 				return list;
 			fi;
 
 			if p > 2 and k = 3 then
 				P3 := [ [ [p, p, p], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p], [1, [2, 1]] ], [ [p, p, p] ], [ [p, p, p], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ];
-				list := List(P3, x -> msg.groupFromData(x));
+				if Length(arg) = 2 then
+					list := List(P3, x -> msg.groupFromData(x));
+				else
+					list := P3;
+				fi;
 				return list;
 			elif p = 2 and k = 3 then
 				order8 := [ [ [2, 2, 2], [1, [2, 1]], [2, [3, 1]] ], [ [2, 2, 2], [1, [2, 1]] ], [ [2, 2, 2] ], [ [2, 2, 2], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ];
-				list := List(order8, x -> msg.groupFromData(x));
+				if Length(arg) = 2 then
+					list := List(order8, x -> msg.groupFromData(x));
+				else
+					list := order8;
+				fi;
 				return list;
 			fi;
 
@@ -27,29 +45,36 @@ msg.lowpowerPGroups := function(p, k)
 				[ [p, p, p, p], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ],
-				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1, 4, 1]] ],
+				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]] ],
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ] ];
-				list := List(P4, x -> msg.groupFromData(x));
+				if Length(arg) = 2 then
+					list := List(P4, x -> msg.groupFromData(x));
+				else
+					list := P4;
+				fi;
 				return list;
 			elif p = 3 and k = 4 then
-				r := Int(Z(p));
 				order81 := [ [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]] ], [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, p], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, p, p], [1, [2, 1]] ], [ [p, p, p, p] ],
 				[ [p, p, p, p], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ],
-				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1, 4, 1]] ],
+				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]] ],
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]] ],
-				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ],
+				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 2, 4, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ],
-				[ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ] ];
-				list := List(order81, x -> msg.groupFromData(x));
+				[ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 2, 4, 1]] ] ];
+				if Length(arg) = 2 then
+					list := List(order81, x -> msg.groupFromData(x));
+				else
+					list := order81;
+				fi;
 				return list;
 			elif p = 2 and k = 4 then
 				order16 := [ [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]] ], [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, p], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, p, p], [1, [2, 1]] ], [ [p, p, p, p] ],
@@ -62,7 +87,11 @@ msg.lowpowerPGroups := function(p, k)
 				[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1,[2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ],
 				[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ],
 				[ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ] ];
-				list := List(order16, x -> msg.groupFromData(x));
+				if Length(arg) = 2 then
+					list := List(order16, x -> msg.groupFromData(x));
+				else
+					list := order16;
+				fi;
 				return list;
 			fi;
 
@@ -88,31 +117,52 @@ msg.NumberPGroups := function(n)
 	return w;
 end;
 #####################################
-msg.PGroup := function(p, k, i)
-	local PG, P2, P3, order8, P4, order16, order81, r, G;
+msg.PGroup := function(arg)
+	local p, k, i, PG, P2, P3, order8, P4, order16, order81, r, G;
+		p := arg[1]; k := arg[2]; i := arg[3];
 		if p > 1 then
 			if k = 1 then
 				PG := [ [p] ];
-				if i = 1 then G := msg.groupFromData(PG);
+				if i = 1 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(PG);
+					elif Length(arg) = 4 then
+						G := PG;
+					fi;
 				else Error("There is a unique group of prime order up to isomorphism.");
 				fi;
 			fi;
 
 			if k = 2 then
 				P2 := [ [ [p, p], [1, [2, 1]] ], [ [p, p] ] ];
-				if i < 3 then G := msg.groupFromData(P2[i]);
+				if i < 3 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(P2[i]);
+					elif Length(arg) = 4 then
+						G := P2[i];
+					fi;
 				else Error("There are two groups of prime-squared order up to isomorphism: one is cyclic and the other elementary abelian.");
 				fi;
 			fi;
 
 			if p > 2 and k = 3 then
 				P3 := [ [ [p, p, p], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p], [1, [2, 1]] ], [ [p, p, p] ], [ [p, p, p], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ];
-				if i < 6 then G := msg.groupFromData(P3[i]);
+				if i < 6 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(P3[i]);
+					elif Length(arg) = 4 then
+						G := P3[i];
+					fi;
 				else Error("There are five isomorphism types of groups of prime-cubed order.");
 				fi;
 			elif p = 2 and k = 3 then
 				order8 := [ [ [2, 2, 2], [1, [2, 1]], [2, [3, 1]] ], [ [2, 2, 2], [1, [2, 1]] ], [ [2, 2, 2] ], [ [2, 2, 2], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ];
-				if i < 6 then G := msg.groupFromData(order8[i]);
+				if i < 6 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(order8[i]);
+					elif Length(arg) = 4 then
+						G := order8[i];
+					fi;
 				else Error("There are five isomorphism types of groups of order 8.");
 				fi;
 			fi;
@@ -130,7 +180,12 @@ msg.PGroup := function(p, k, i)
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ] ];
-				if i < 16 then G := msg.groupFromData(P4[i]);
+				if i < 16 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(P4[i]);
+					elif Length(arg) = 4 then
+						G := P4[i];
+					fi;
 				else Error("There are 15 isomorphism types of groups of this order.");
 				fi;
 			elif p = 3 and k = 4 then
@@ -146,7 +201,12 @@ msg.PGroup := function(p, k, i)
 				[ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ],
 				[ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ],
 				[ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ] ];
-				if i < 16 then G := msg.groupFromData(order81[i]);
+				if i < 16 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(order81[i]);
+					elif Length(arg) = 4 then
+						G := order81[i];
+					fi;
 				else Error("There are 15 isomorphism types of groups of order 81.");
 				fi;
 			elif p = 2 and k = 4 then
@@ -160,7 +220,12 @@ msg.PGroup := function(p, k, i)
 				[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1,[2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ],
 				[ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ],
 				[ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ] ];
-				if i < 15 then G := msg.groupFromData(order16[i]);
+				if i < 15 then
+					if Length(arg) = 3 then
+						G := msg.groupFromData(order16[i]);
+					elif Length(arg) = 4 then
+						G := order16[i];
+					fi;
 				else Error("There are 14 isomorphism types of groups of order 16.");
 				fi;
 			fi;

@@ -18,9 +18,9 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
 ####
 	a := Z(p);
 	b := Z(q);
-	c := ZmodnZObj(Int(Z(p)),p^2);
-	if not c^(p - 1) = ZmodnZObj(1, p^2) then
-		d := c; else d := c + 1;
+	if not a^(p - 1) mod p^2 = 1 then
+		d := ZmodnZObj(Int(a), p^2);
+	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
 	all := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
 ##case 1: p > q > 2 and q divides (p + 1)
@@ -74,8 +74,8 @@ msg.NumberGroupsP2Q := function(n)
       q := fac[1];
       fi;
     if q = 2 then w := 5;
-    elif p > q then w := 2 + msg.deltaDivisibility((p+1), q) + (q+5)*msg.deltaDivisibility((p-1), q)/2;
-    else w := 2 + 2*msg.deltaDivisibility((q-1), p) + msg.deltaDivisibility((p+1), q) + msg.deltaDivisibility((q-1), p^2);
+    elif p > q then w := 2 + msg.w((p+1), q) + (q+5)*msg.w((p-1), q)/2;
+    else w := 2 + 2*msg.w((q-1), p) + msg.w((p+1), q) + msg.w((q-1), p^2);
     fi;
   return w;
 end;
@@ -101,16 +101,15 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 		Error("wrong input");
 	fi;
 ####enumeration:
-	c1 := msg.deltaDivisibility((p + 1), q);
-	c2 := 1/2*(q + 5)*msg.deltaDivisibility((p - 1), q);
-	c3 := 3*msg.deltafunction(q, 2);
-	c4 := 2*msg.deltaDivisibility((q - 1), p)*(1 - msg.deltafunction(q, 3)) + msg.deltaDivisibility((q - 1), p^2);
+	c1 := msg.w((p + 1), q);
+	c2 := 1/2*(q + 5)*msg.w((p - 1), q);
+	c3 := 3*msg.delta(q, 2);
+	c4 := 2*msg.w((q - 1), p)*(1 - msg.delta(q, 3)) + msg.w((q - 1), p^2);
 	a := Z(p);
 	b := Z(q);
-	c := ZmodnZObj(Int(Z(p)),p^2);
-###
-	if not c^(p - 1) = ZmodnZObj(1, p^2) then
-		d := c; else d := c + 1;
+	if not a^(p - 1) mod p^2 = 1 then
+		d := ZmodnZObj(Int(a), p^2);
+	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
 	if i < 3 then
 		l0 := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];

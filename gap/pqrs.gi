@@ -144,21 +144,21 @@ msg.NumberGroupsPQRS := function(n)
       r := fac[3];
       s := fac[4];
     fi;
-    m := 1 + msg.deltaDivisibility((s - 1), p*q*r)
-    + msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((s - 1), p*q)
-    + (p - 1)*(q - 1)*msg.deltaDivisibility((s - 1), p*q)*msg.deltaDivisibility((r - 1), p*q)
-    + (p - 1)*(msg.deltaDivisibility((s - 1), p)*msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p*q))
-    + (q - 1)*(msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), p*q) + msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p*q))
-    + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q) + msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p)
-    + msg.deltaDivisibility((s - 1), p*r) + msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), r)
-    + (p - 1)*msg.deltaDivisibility((s - 1), p*r)*msg.deltaDivisibility((q - 1), p)
-    + msg.deltaDivisibility((s - 1), q*r)
-    + msg.deltaDivisibility((q - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((r - 1), p))
-    + msg.deltaDivisibility((s - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((q - 1), p))
-    + msg.deltaDivisibility((r - 1), p)*(1 + (p - 1)*msg.deltaDivisibility((s - 1), p))
-    + (p - 1)^2 * msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p)
-    + msg.deltaDivisibility((s - 1), q) +  + msg.deltaDivisibility((r - 1), q) + (q - 1) * msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), q)
-    + msg.deltaDivisibility((s - 1), r);
+    m := 1 + msg.w((s - 1), p*q*r)
+    + msg.w((r - 1), p*q) + msg.w((s - 1), p*q)
+    + (p - 1)*(q - 1)*msg.w((s - 1), p*q)*msg.w((r - 1), p*q)
+    + (p - 1)*(msg.w((s - 1), p)*msg.w((r - 1), p*q) + msg.w((r - 1), p)*msg.w((s - 1), p*q))
+    + (q - 1)*(msg.w((s - 1), q)*msg.w((r - 1), p*q) + msg.w((r - 1), q)*msg.w((s - 1), p*q))
+    + msg.w((r - 1), p)*msg.w((s - 1), q) + msg.w((r - 1), q)*msg.w((s - 1), p)
+    + msg.w((s - 1), p*r) + msg.w((q - 1), p)*msg.w((s - 1), r)
+    + (p - 1)*msg.w((s - 1), p*r)*msg.w((q - 1), p)
+    + msg.w((s - 1), q*r)
+    + msg.w((q - 1), p)*(1 + (p - 1)*msg.w((r - 1), p))
+    + msg.w((s - 1), p)*(1 + (p - 1)*msg.w((q - 1), p))
+    + msg.w((r - 1), p)*(1 + (p - 1)*msg.w((s - 1), p))
+    + (p - 1)^2 * msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
+    + msg.w((s - 1), q) +  + msg.w((r - 1), q) + (q - 1) * msg.w((r - 1), q)*msg.w((s - 1), q)
+    + msg.w((s - 1), r);
 
   return m;
 end;
@@ -180,31 +180,31 @@ msg.GroupPQRS := function(n, i)
     v := Z(r);
     w := Z(s);
     ### enumeration
-		c1 := msg.deltaDivisibility((s - 1), (p*q*r));
-		c2 := msg.deltaDivisibility((r - 1), (p*q))
-		+ msg.deltaDivisibility((s - 1), (p*q))
-		+ (p - 1)*(q - 1)*msg.deltaDivisibility((s - 1), (p*q))*msg.deltaDivisibility((r - 1), (p*q))
-		+ (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), (p*q))
-		+ (q - 1)*msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), (p*q))
-		+ (p - 1)*msg.deltaDivisibility((s - 1), p)*msg.deltaDivisibility((r - 1), (p*q))
-		+ (q - 1)*msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), (p*q))
-		+ msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q)
-		+ msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p);
-		c3 := msg.deltaDivisibility((s - 1), p*r)
-		+ msg.deltaDivisibility((s - 1), r)*msg.deltaDivisibility((q - 1), p)
-		+ (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), (p*r));
-		c4 := msg.deltaDivisibility((s - 1), (q*r));
-		c5 := msg.deltaDivisibility((q - 1), p)
-		+ msg.deltaDivisibility((r - 1), p)
-		+ msg.deltaDivisibility((s - 1), p)
-		+ (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)
-		+ (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), p)
-		+ (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p)
-		+ (p - 1)^2*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p);
-		c6 := msg.deltaDivisibility((r - 1), q)
-		+ msg.deltaDivisibility((s - 1), q)
-		+ (q - 1)*msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), q);
-		c7 := msg.deltaDivisibility((s - 1), r);
+		c1 := msg.w((s - 1), (p*q*r));
+		c2 := msg.w((r - 1), (p*q))
+		+ msg.w((s - 1), (p*q))
+		+ (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
+		+ (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
+		+ (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
+		+ (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
+		+ (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
+		+ msg.w((r - 1), p)*msg.w((s - 1), q)
+		+ msg.w((r - 1), q)*msg.w((s - 1), p);
+		c3 := msg.w((s - 1), p*r)
+		+ msg.w((s - 1), r)*msg.w((q - 1), p)
+		+ (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r));
+		c4 := msg.w((s - 1), (q*r));
+		c5 := msg.w((q - 1), p)
+		+ msg.w((r - 1), p)
+		+ msg.w((s - 1), p)
+		+ (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
+		+ (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
+		+ (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
+		+ (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p);
+		c6 := msg.w((r - 1), q)
+		+ msg.w((s - 1), q)
+		+ (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q);
+		c7 := msg.w((s - 1), r);
 
     if i = 1 then return msg.groupFromData(all[1]); fi;
     ### case 1: |F| = s, pqr | (s - 1), and G \cong C_{pqr} \ltimes C_s
@@ -531,23 +531,23 @@ msg.GroupPQRSII := function(n, i)
       rootqp := Int(u^((q - 1)/p));
     fi;
     ##enumeration of each case by size of the centre
-    c1 := msg.deltaDivisibility((s - 1), r) + msg.deltaDivisibility((s - 1), q) + msg.deltaDivisibility((r - 1), q)
-        + msg.deltaDivisibility((s - 1), p) + msg.deltaDivisibility((r - 1), p) + msg.deltaDivisibility((q - 1), p);
-    c2 := (q - 1)*msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), q) + msg.deltaDivisibility((s - 1), (q*r))
-        + (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p) + msg.deltaDivisibility((s - 1), (p*r))
-        + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), p) + msg.deltaDivisibility((s - 1), (p*q))
-        + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p) + msg.deltaDivisibility((r - 1), (p*q));
-    c3 := (p - 1)^2*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), p)
-        + (p - 1)*(q - 1)*msg.deltaDivisibility((s - 1), (p*q))*msg.deltaDivisibility((r - 1), (p*q))
-        + (p - 1)*msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), (p*q))
-        + (q - 1)*msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), (p*q))
-        + (p - 1)*msg.deltaDivisibility((s - 1), p)*msg.deltaDivisibility((r - 1), (p*q))
-        + (q - 1)*msg.deltaDivisibility((s - 1), q)*msg.deltaDivisibility((r - 1), (p*q))
-        + msg.deltaDivisibility((r - 1), p)*msg.deltaDivisibility((s - 1), q)
-        + msg.deltaDivisibility((r - 1), q)*msg.deltaDivisibility((s - 1), p)
-        + msg.deltaDivisibility((s - 1), r)*msg.deltaDivisibility((q - 1), p)
-        + (p - 1)*msg.deltaDivisibility((q - 1), p)*msg.deltaDivisibility((s - 1), (p*r))
-        + msg.deltaDivisibility((s - 1), (p*q*r));
+    c1 := msg.w((s - 1), r) + msg.w((s - 1), q) + msg.w((r - 1), q)
+        + msg.w((s - 1), p) + msg.w((r - 1), p) + msg.w((q - 1), p);
+    c2 := (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q) + msg.w((s - 1), (q*r))
+        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*r))
+        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*q))
+        + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p) + msg.w((r - 1), (p*q));
+    c3 := (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
+        + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
+        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
+        + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
+        + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
+        + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
+        + msg.w((r - 1), p)*msg.w((s - 1), q)
+        + msg.w((r - 1), q)*msg.w((s - 1), p)
+        + msg.w((s - 1), r)*msg.w((q - 1), p)
+        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r))
+        + msg.w((s - 1), (p*q*r));
 
     if i = 1 then return msg.groupFromData(all[1]);
     ##case 1: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1

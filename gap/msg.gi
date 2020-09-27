@@ -25,7 +25,7 @@ msg.groupFromData := function(data)
   fi;
 end;
 ############################################################################
-msg.deltaDivisibility := function(x, y)
+msg.w := function(x, y)
   local w;
     if x mod y = 0 then w := 1;
     else w := 0; fi;
@@ -55,7 +55,7 @@ msg.QsquaredthRootGL2P := function(p, q)
   return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
 end;
 ############################################################################
-msg.deltafunction := function(x, y)
+msg.delta := function(x, y)
   local w;
     if x = y then w := 1;
     else w := 0; fi;

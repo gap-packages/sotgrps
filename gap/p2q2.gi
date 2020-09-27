@@ -136,8 +136,8 @@ msg.NumberGroupsP2Q2 := function(n)
 				q := fac[1];
 				p := fac[4];
 				if n = 36 then w := 14;
-				elif q = 2 then w := 11 + 5*msg.deltaDivisibility((p-1), 4) + msg.deltaDivisibility((p+1), 4);
-				else w := 4 + (6+q)*msg.deltaDivisibility((p-1), q) + (4+q+q^2)*msg.deltaDivisibility((p-1), q^2)/2 + 2*msg.deltaDivisibility((p+1),q) + msg.deltaDivisibility((p+1), q^2);
+				elif q = 2 then w := 11 + 5*msg.w((p-1), 4) + msg.w((p+1), 4);
+				else w := 4 + (6+q)*msg.w((p-1), q) + (4+q+q^2)*msg.w((p-1), q^2)/2 + 2*msg.w((p+1),q) + msg.w((p+1), q^2);
 				fi;
 			return w;
 		end;
@@ -173,11 +173,11 @@ msg.GroupP2Q2 := function(n, i)
     else f := e + 1;
     fi;
     #### Enumeration
-    c1 := msg.deltaDivisibility((p - 1), q)*(q + 6)*(1 - msg.deltafunction(q, 2)) + 7*msg.deltafunction(n, 36);
-    c2 := 2*msg.deltaDivisibility((p + 1), q)*(1 - msg.deltafunction(q, 2)) + 2*msg.deltafunction(n, 36);
-    c3 := msg.deltaDivisibility((p + 1), q^2)*(1 - msg.deltafunction(q, 2)) + msg.deltafunction(n, 36);
-    c4 := msg.deltaDivisibility((p - 1), q^2)*((q^2 + q + 4)/2)*(1 - msg.deltafunction(q, 2));
-    c5 := msg.deltafunction(q, 2)*(7*(1 - msg.deltafunction(p, 3)) + 5*msg.deltaDivisibility((p - 1), 4) + msg.deltaDivisibility((p + 1), 4));
+    c1 := msg.w((p - 1), q)*(q + 6)*(1 - msg.delta(q, 2)) + 7*msg.delta(n, 36);
+    c2 := 2*msg.w((p + 1), q)*(1 - msg.delta(q, 2)) + 2*msg.delta(n, 36);
+    c3 := msg.w((p + 1), q^2)*(1 - msg.delta(q, 2)) + msg.delta(n, 36);
+    c4 := msg.w((p - 1), q^2)*((q^2 + q + 4)/2)*(1 - msg.delta(q, 2));
+    c5 := msg.delta(q, 2)*(7*(1 - msg.delta(p, 3)) + 5*msg.w((p - 1), 4) + msg.w((p + 1), 4));
     #### case2: q mid (p - 1), q^2 nmid (p^2 - 1)
     if i > 4 and i < 5 + c1 then
       if ((p - 1) mod q = 0 and q > 2 or n = 36) then
