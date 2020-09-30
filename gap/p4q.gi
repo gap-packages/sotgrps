@@ -4,7 +4,7 @@
 ###################################################################
 msg.allGroupsP4Q := function(n)
   local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, x, y,
-        R1, R2, R3, R4, S1, S2, S3, S4, matGL2, matGL3, matGL4, funci, funcii, k, j, l,
+        R1, R2, R3, R4, S1, S2, S3, S4, matGL2, matGL3, matGL4, funci, funcii, k, j, l, m, n,
         c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30;
     fac := Collected(Factors(n));
@@ -334,26 +334,21 @@ msg.allGroupsP4Q := function(n)
         for k in Filtered([1..(q - 2)], x-> not x = (q - 1)/2) do
           Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
         od;
-        if q mod 3 = 1 then
-          for k in [0..(q - 1)/2]
-            do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-          od;
-        else #q mod 3 = 2 and q > 2
-          for k in [0..(q - 1)/2]
-            do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-          od;
-        fi;
+        for k in [0..(q - 1)/2]
+          do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
+        od;
+
         func := function(q)
           local i, j, k, ll;
-          ll := [];
-          for i in [1..Int((q - 3)/3)] do
-            for j in [i + 1..Int((q - 1 - i)/2)] do
-              if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-                Add(ll, [(-i) mod (q - 1), j]);
-                Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
-              fi;
+            ll := [];
+            for i in [1..Int((q - 3)/3)] do
+              for j in [i + 1..Int((q - 1 - i)/2)] do
+                if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+                  Add(ll, [(-i) mod (q - 1), j]);
+                  Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+                fi;
+              od;
             od;
-          od;
           return ll;
         end;
         #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
@@ -369,26 +364,74 @@ msg.allGroupsP4Q := function(n)
         Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^k)))]] ]);
       od;
       for k in [1..(q - 2)] do
-        for l in [k + 1..(q - 2)] do 
-          if l > k then
-            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^l)))]] ]);
-          fi;
+        for l in [k + 1..(q - 2)] do
+          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^l)))]] ]);
         od;
       od;
-
+      funci := function(q)
+        local k, l, m, n, ll;
+          ll := [];
+          for l in [1..(q - 1)/2] do
+            for m in [l + 1..(q - 1)/2] do
+              for n in [m + 1..(q - 2)] do
+                Add(ll, AsSet([AsSet([l, m, n]),AsSet([-l,m-l,n-l] mod (q-1)),AsSet([-m,n-m,l-m] mod (q-1)),AsSet([-n,l-n,m-n] mod (q-1))]));
+              od;
+            od;
+          od;
+          return List(AsSet(ll), x -> x[1]);
+      end;
+      for k in funci(q) do
+        Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[2]))))]] ]);
+      od;
     elif (p + 1) mod q = 0 and q > 2 then #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
-      matGL2 := msg.QthRootGL2P(p, q);;
+      matGL2 := msg.QthRootGL2P(p, q);
       Add(all, [ [q, p, p, p, p], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]);
+      for k in [1..(q - 1)/2] do
+        m := matGL2^k;;
+        Add(all, [ [q, p, p, p, p], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]],
+         [4, 1, [4, Int(m[1][1]), 5, Int(m[2][1])]], [5, 1, [4, Int(m[1][2]), 5, Int(m[2][2])]] ]);
+       od;
     elif (p^2 + p + 1 ) mod q = 0 and q > 3 then #Z(G) \cong C_p, G \cong (C_q \ltimes C_p^3) \times C_p
       matGL3 := msg.QthRootGL3P(p, q);
       Add(all, [ [q, p, p, p, p],
       [2, 1, [2, Int(matGL3[1][1]), 3, Int(matGL3[2][1]), 4, Int(matGL3[3][1])]],
       [3, 1, [2, Int(matGL3[1][2]), 3, Int(matGL3[2][2]), 4, Int(matGL3[3][2])]],
       [4, 1, [2, Int(matGL3[1][3]), 3, Int(matGL3[2][3]), 4, Int(matGL3[3][3])]] ]);
+    elif (p^2 + 1) mod q = 0 and q > 3 then #Z(G) = 1, G \cong C__q \ltimes C_p^4
     fi;
-
 
 
     #list := List(all, x -> msg.groupFromData(x));
   return all;
+end;
+
+
+
+
+
+
+#####DRAFT CODE
+funci := function(q)
+  local k, l, m, n, ll;
+    ll := [];
+    for k in [1..(q - 1)/2] do
+      for l in [k + 1..(q - 1)/2] do
+        for m in [k + 1..(q - 1)/2] do
+          if ((2*k + m) mod (q - 1) <> 0) and (k + m) mod (q - 1) <> 0 and (k - m) mod (q - 1) <> 0 and (l + m + 2*k) mod (q - 1) <> 0
+          and ((k + l) mod (q - 1) <> 0) and (k - l) mod (q - 1) <> 0 and (l + m) mod (q - 1) <> 0 then
+          Add(ll, AsSet([AsSet([k, l + k, -m -k] mod (q - 1)), AsSet([-k, l, -m] mod (q - 1)), AsSet([-l-k, -l-m, -l] mod (q - 1)), AsSet([m + k, m, l+m] mod (q - 1))]));
+        fi;
+      od;
+    od;
+  od;
+.
+   if #((- l - m) mod (q - 1) <> l) and ((- l - m) mod (q - 1) <> m) and (-l) mod (q - 1) <> m and
+            ((2*k + m) mod (q - 1) <> 0) and (k + m) mod (q - 1) <> 0 and (k - m) mod (q - 1) <> 0 and (l + m + 2*k) mod (q - 1) <> 0
+            and ((k + l) mod (q - 1) <> 0) and (k - l) mod (q - 1) <> 0 and (l + m) mod (q - 1) <> 0 then
+            Add(ll, AsSet([AsSet([k, l + k, -m -k] mod (q - 1)), AsSet([-k, l, -m] mod (q - 1)), AsSet([-l-k, -l-m, -l] mod (q - 1)), AsSet([m + k, m, l+m] mod (q - 1))]));
+          fi;
+        od;
+      od;
+    od;
+  return AsSet(ll);
 end;
