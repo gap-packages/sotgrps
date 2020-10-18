@@ -31,7 +31,7 @@ msg.w := function(x, y)
     else w := 0; fi;
   return w;
   end;
-  ############################################################################
+############################################################################
 msg.QthRootGL2P := function(p, q)
   local a, b;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
@@ -42,7 +42,24 @@ msg.QthRootGL2P := function(p, q)
   	fi;
   return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
 end;
-
+############################################################################
+msg.QthRootM2P2 := function(p, q)
+  local a, b, m, mat, u1, u2, u3, u4, v1, v2, v3, v4;
+    if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
+  	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n");
+  	 else
+  	 a := PrimitiveElement(GF(p^2));
+  	 b := a^((p^2-1)/q);
+     m := ([ [0, 1], [Int((-b^(p+1)) * One(GF(p))), Int((b+b^p) * One(GF(p)))] ] * ZmodnZObj(1, p^2))^p;
+     u1 := Int(m[1][1]) mod p;    u2 := Int(m[1][2]) mod p;    v1 := Int(m[2][1]) mod p;    v2 := Int(m[2][2]) mod p;
+     u3 := (Int(m[1][1]) - u1)/p; u4 := (Int(m[1][2]) - u2)/p; v3 := (Int(m[2][1]) - v1)/p; v4 := (Int(m[2][2]) - v2)/p;
+     mat := [ [u1, u2, 0, 0],
+              [v1, v2, 0, 0],
+              [u3, u4, u1, u2],
+              [v3, v4, v1, v2] ];
+  	fi;
+  return mat;
+end;
 ############################################################################
 msg.QsquaredthRootGL2P := function(p, q)
   local a, b;
@@ -83,7 +100,7 @@ end;
 msg.QthRootGL4P := function(p, q)
   local a, b, u, v;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2+1) mod q = 0 and p <> 3 then
-   Error("Arguments have to be primes p, q, where q divides (p^3 - 1).\n");
+   Error("Arguments have to be primes p, q, where q divides (p^2 + 1).\n");
   else
     a := PrimitiveElement(GF(p^4));
     b := a^((p^4-1)/q);
