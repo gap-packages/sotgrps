@@ -117,13 +117,15 @@ InstallGlobalFunction( MySmallGroup, function(n, i)
 				fi;
 				SetMySmallGroup_id(G, [n, i]);
 				return G;
-			elif length > 4 then
+			elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
+				return msg.GroupP4Q(n, i);
+			else 
 				Print(("Groups of order "), n, (" is not available in mysmallgrps."));
 			fi;
 		fi;
 
 		if Length(fac) > 1 and i > MyNumberOfGroups(n) then
-			Print(("Wrong input: there are "), MyNumberOfGroups(n), (" isomorphism types of groups of order "), n, ("."));
+			Print(("Wrong input: there are in total"), MyNumberOfGroups(n), (" isomorphism types of groups of order "), n, ("."));
 		fi;
 
 end);
