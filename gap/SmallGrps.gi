@@ -26,8 +26,10 @@ InstallGlobalFunction( MySmallGroups, function(n)
 				return msg.allGroupsPQRSII(n);
 			else return msg.allGroupsPQRS(n);
 			fi;
-		elif length > 4 then
-			Print(("Groups of order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
+			return msg.allGroupsP4Q(n);
+		else
+			Print(("Groups of order "), n, (" is not available in mysmallgrps: MySmallGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q."));
 		fi;
 end);
 ############################################################################
@@ -50,16 +52,18 @@ InstallGlobalFunction( MyNumberOfGroups, function(n)
 			return msg.NumberGroupsP2Q(n);
 		elif length = 3 and Length(fac) = 3 then
 			return msg.NumberGroupsPQR(n);
-		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
+		elif length = 4 and List(Collected(PF), x -> x[2]) = [2, 2] then
 			return msg.NumberGroupsP2Q2(n);
-		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
+		elif length = 4 and List(Collected(PF), x -> x[2]) in [ [1, 3], [3, 1] ] then
 			return msg.NumberGroupsP3Q(n);
 		elif length = 4 and Length(fac) = 3 then
 			return msg.NumberGroupsP2QR(n);
 		elif length = 4 and Length(fac) = 4 then
 			return msg.NumberGroupsPQRS(n);
-		elif length > 4 then
-			Print(("Order "), n, (" is not available in mysmallgrps: MyNumberOfGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes."));
+		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
+			return msg.NumberGroupsP4Q(n);
+		else
+			Print(("Order "), n, (" is not available in mysmallgrps: MyNumberOfGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q."));
 		fi;
 	end);
 
@@ -69,7 +73,7 @@ InstallGlobalFunction( MySmallGroupIsAvailable, function(n) ## tells whether the
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(Factors(n));
-		if length > 4 then return false; fi;
+		if length > 4 and not List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then return false; fi;
 		return true;
 end);
 ############################################################################

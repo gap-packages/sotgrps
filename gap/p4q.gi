@@ -2,12 +2,16 @@
 ##The isomorphism types of nilpotent groups of such order are in one-to-one correspondence with the isomorphism type of the Sylow p-subgroup. In particular, such groups are stored by "lowpowerPGroups".
 ##It remains to investigate the nonnilpotent groups. There are three classes of such groups: one class where the Sylow p-subgroup is normal, one where the Sylow q-subgroup is normal, and one with no normal Sylow subgroups.
 ###################################################################
-msg.allGroupsP4Q := function(n)
+msg.allGroupsP4Q := function(arg)
   local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m,
         c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30;
-    fac := Collected(Factors(n));
+    if Length(arg) = 1 then
+      fac := Collected(Factors(arg[1]));
+    elif Length(arg) = 2 then
+      fac := Collected(Factors(arg[1]));
+    fi;
     if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
       Error("Argument must be of the form of p^4q");
     elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
@@ -155,7 +159,7 @@ msg.allGroupsP4Q := function(n)
 
     #9 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    c9 := (1 - msg.delta(2, p))*(2*msg.w((q - 1), p) + msg.w((q - 1), p^2)) + 2*msg.delta(2, p);
+    c9 := 2*msg.w((q - 1), p) + (1 - msg.delta(2, p))*msg.w((q - 1), p^2);
     if p > 2 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -211,7 +215,7 @@ msg.allGroupsP4Q := function(n)
 
     #12 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ]
-    c12 := (1 - msg.delta(2, p))*p*msg.w((q - 1), p) + 3*msg.delta(2, p);
+    c12 := p*msg.w((q - 1), p) + msg.delta(2, p);
     if p > 2 then
       if (q - 1) mod p = 0 then
         for k in [1..(p - 1)/2] do
@@ -222,7 +226,7 @@ msg.allGroupsP4Q := function(n)
           for k in [1..(p - 1)/2] do
             Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong p_- \times C_q
           od;
-        else
+        else #p = 3
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, p - 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, p - 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong 3_- \times C_q
         fi;
       fi;
@@ -234,7 +238,7 @@ msg.allGroupsP4Q := function(n)
 
     #13 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ]
-    c13 := (1 - msg.delta(3, p))*p*msg.w((q - 1), p) + 2*msg.delta(3, p);
+    c13 := p*msg.w((q - 1), p) - msg.delta(3, p);
     if p > 3 and (q - 1) mod p = 0 then
       for k in [1..(p - 1)/2] do
         Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(a), 4, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -254,7 +258,7 @@ msg.allGroupsP4Q := function(n)
 
     #14 P \cong [ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ]
-    c14 := (1 - msg.delta(3, p))*2*msg.w((q - 1), p) + msg.delta(3, p);
+    c14 := 2*msg.w((q - 1), p) - msg.delta(3, p);
     if p > 2 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
@@ -324,17 +328,17 @@ msg.allGroupsP4Q := function(n)
     fi;
 
     #3 P \cong C_{p^2} \times C_{p^2}
-    c18 := q*msg.w((p - 1), q) + msg.delta(n, 3*2^4);
+    c18 := 1/2*(q + 3 - msg.delta(2, q))*msg.w((p - 1), q) + msg.delta(n, 3*2^4);
     if (p - 1) mod q = 0 then
       u := S2 mod p;
       v := (S2 - u)/p;
       Add(all, [ [q, p, p, p, p], [2, [3, 1]], [4, [5, 1]], [2, 1, [2, u, 3, v]], [3, 1, [3, u]] ]); #Z(G) \cong C_{p^2}
-      for k in [1..(q - 1)] do
-        x := Int(s2^k) mod p;
-        y := (Int(s2^k) - x)/p;
+      for k in [0..Int((q - 1)/2)] do
+        x := Int(s2^(Int(b^k))) mod p;
+        y := (Int(s2^(Int(b^k))) - x)/p;
         Add(all, [ [q, p, p, p, p], [2, [3, 1]], [4, [5, 1]], [2, 1, [2, u, 3, v]], [3, 1, [3, u]], [4, 1, [4, x, 5, y]], [5, 1, [5, x]] ]); #Z(G) = 1
       od;
-    elif (p + 1) mod q = 0 then
+    elif (p + 1) mod q = 0 and q > 2 then
       mat := msg.QthRootM2P2(p, q);
       Add(all, [ [q, p, p, p, p], [2, [4, 1]], [3, [5, 1]],
       [2, 1, [2, mat[1][1], 3, mat[2][1], 4, mat[3][1], 5, mat[4][1]]],
@@ -344,7 +348,7 @@ msg.allGroupsP4Q := function(n)
     fi;
 
     #4 P \cong C_{p^2} \times C_p^2
-    c19 := (3*q - msg.delta(2,q))*msg.w((p - 1), q) + msg.delta(n, 3*2^4);
+    c19 := (q^2 + 2*q + 3 - msg.delta(2,q))*msg.w((p - 1), q) + msg.delta(n, 3*2^4);
     if (p - 1) mod q = 0 then
       u := S2 mod p;;
       v := (S2 - u)/p;;
@@ -356,21 +360,27 @@ msg.allGroupsP4Q := function(n)
       for k in [1..(q - 1)] do
         Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, Int(s1^k)]], [4, 1, [4, u, 5, v]], [5, 1, [5, u]] ]); #Z(G) \cong C_p
       od;
-      for k in [0..Int((q - 1)/2)] do
-        Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, u, 5, v]], [5, 1, [5, u]] ]); #Z(G) = 1
-      od;
-      for k in [2..q - 1] do
+      #below trivial centre
+      for k in [1..(q - 1)] do
         x := Int(s2^k) mod p;
         y := (Int(s2^k) - x)/p;
-        Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, x, 5, y]], [5, 1, [5, x]] ]);
+        for l in [0..Int((q - 3)/2)] do
+          Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^l)))]], [4, 1, [4, x, 5, y]], [5, 1, [5, x]] ]);
+        od;
       od;
+      for k in [1..Int((q - 1)/2)] do
+        x := Int(s2^(Int(b^k))) mod p;
+        y := (Int(s2^(Int(b^k))) - x)/p;
+        Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(-1))]], [4, 1, [4, x, 5, y]], [5, 1, [5, x]] ]);
+      od;
+
     elif (p + 1) mod q = 0 then
       matGL2 := msg.QthRootGL2P(p, q);
       Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]);
     fi;
 
     #5 P \cong C_p^4
-    c20 := 1/24*(q^3 + 7*q^2 + 21*q + 39 + 16*msg.w((q-1), 3) + 12*msg.w((q - 1), 4)) + 1/4*(q + 5 + 2*msg.w((q - 1), 4)) + msg.w((p^2 + p +1), q)*(1 - msg.delta(3, q)) + (msg.w((p + 1), q) + msg.w((p^2 + 1), q))*(1 - msg.delta(2,q));
+    c20 := 1/24*(q^3 + 7*q^2 + 21*q + 39 + 16*msg.w((q-1), 3) + 12*msg.w((q - 1), 4))*msg.w((p - 1), q) + 1/4*(q + 5 + 2*msg.w((q - 1), 4))*msg.w((p + 1), q)*(1 - msg.delta(2, q)) + msg.w((p^2 + p +1), q)*(1 - msg.delta(3, q)) + msg.w((p^2 + 1), q)*(1 - msg.delta(2,q));
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]] ]); #Z(G) \cong C_p^3, G \cong (C_q \ltimes C_p) \times C_p^3
       for k in [0..Int((q - 1)/2)] do
@@ -517,9 +527,9 @@ msg.allGroupsP4Q := function(n)
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [2, 1, [2, S1]], [5, 1, [5, S1]] ]); #Z(G) \cong C_p, G \cong (C_q \ltimes (C_p \ltimes C_{p^2})) \times C_p, G' \cong C_p^2
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [2, 1, [2, Int(s1^(-1))]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]); #Z(G) \cong C_p, C_q \ltimes (C_p \ltimes (C_p \times C_{p^2})), G' \cong P
       for k in [1..q - 2] do
-        u := Int(s2^k) mod p;;
-        v := (Int(s2^k) - u)/p;;
-        Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [2, 1, [2, S1]], [5, 1, [5, Int(s1^(k+1))]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]); #Z(G) = 1, G \cong , G' \cong P
+        x := Int(s2^k) mod p;;
+        y := (Int(s2^k) - x)/p;;
+        Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [2, 1, [2, S1]], [5, 1, [5, Int(s1^(k+1))]], [3, 1, [3, x, 4, y]], [4, 1, [4, x]] ]); #Z(G) = 1, G \cong , G' \cong P
       od;
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [5, 1, [5, S1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]); #Z(G) = 1, G \cong C_q \ltimes (C_p \ltimes (C_p \times C_{p^2}), G' \cong C_p \times C_{p^2}
     elif p = 2 and q = 3 then
@@ -535,7 +545,7 @@ msg.allGroupsP4Q := function(n)
     fi;
 
     #11 P \cong [ [p, p, p, p], [3, 1, [2, 1, 3, 1]] ] HARD!
-    c26 := ((q^2 + 2*q + 3)/2 + msg.delta(2, q))* msg.w((p - 1), q) + msg.w((p + 1), q)*(1 - msg.delta(2, q));
+    c26 := ((q^2 + 2*q + 3 - msg.delta(2, q))/2)* msg.w((p - 1), q) + msg.w((p + 1), q)*(1 - msg.delta(2, q));
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(-1))]], [3, 1, [3, S1]] ]); #Z(G) \cong C_p^2, G' \cong C_p^3
       Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [5, 1, [5, S1]] ]); #Z(G) \cong C_p, G' \cong C_p^2
@@ -637,12 +647,12 @@ msg.allGroupsP4Q := function(n)
       [4, 2, [3, Int(matGL3[1][2]), 4, Int(matGL3[2][2]), 5, Int(matGL3[3][2])]],
       [5, 2, [3, Int(matGL3[1][3]), 4, Int(matGL3[2][3]), 5, Int(matGL3[3][3])]] ]);
     fi;
-
-    list := List(all, x -> msg.groupFromData(x));
-  return list;
+    if Length(arg) = 1 then return List(all, x -> msg.groupFromData(x));
+    else return all;
+    fi;
 end;
 
-LaueEnumP4Q := function(n)
+msg.NumberGroupsP4Q := function(n)
   local fac, p, q, m;
     fac := Collected(Factors(n));
     if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
@@ -651,14 +661,18 @@ LaueEnumP4Q := function(n)
     else p := fac[1][1]; q := fac[2][1];
     fi;
     if q = 2 then return 55;
-    elif p = 2 and q <> 3 then return
-    elif q = 3 and p <> 2 then return 15 + msg.delta(13, p) +54*msg.w((p - 1), 3) + 6*msg.w((p + 1), 3);
+    elif p = 2 and q <> 3 then return 14 + 28 + 9*msg.w((q - 1), 4) + 2*msg.w((q - 1), 8) + msg.w((q - 1), 16) + msg.delta(5, q) + msg.delta(7, q);
+    elif p = 3 and q <> 2 then return 15 + 2*msg.delta(13, q) + msg.delta(5, q) + 34*msg.w((q - 1), 3) + 11*msg.w((q - 1), 9) + 2*msg.w((q - 1), 27) + msg.w((q - 1), 81);
+    elif q = 3 and p <> 2 then return 15 +54*msg.w((p - 1), 3) + 6*msg.w((p + 1), 3);
     elif n = 48 then return 52;
-    else return 15 - msg.delta(2, p)
-                  + msg.w((p - 1), q)*1/24*(q^3 + 31*q^2 + 189*q + 403 + 8*Gcd(3, q - 1) + 6*Gcd(4, q - 1))
-                  + msg.w((p + 1), q)*1/4*(q + 19 + Gcd(4, q - 1))
-                  + msg.w((p^2 + p + 1), q)
-                  + msg.w((p^2 + 1), q) - msg.delta(3, p)*msg.w((p - 1), q);
+    else return 15 + msg.w((q - 1), p)*(5*p + 19)
+                   + msg.w((q - 1), p^2)*(2*p + 5)
+                   + msg.w((q - 1), p^3)*2
+                   + msg.w((q - 1), p^4)
+                   + msg.w((p - 1), q)*1/24*(q^3 + 31*q^2 + 189*q + 403 + 8*Gcd(3, q - 1) + 6*Gcd(4, q - 1))
+                   + msg.w((p + 1), q)*1/4*(q + 19 + Gcd(4, q - 1))
+                   + msg.w((p^2 + p + 1), q)
+                   + msg.w((p^2 + 1), q) - msg.delta(3, p)*msg.w((p - 1), q);
     fi;
   end;
 
