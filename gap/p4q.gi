@@ -640,7 +640,7 @@ end;
 ###################################################################
 msg.GroupP4Q := function(n, id)
   local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
-        R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m,
+        R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, TupleiById, i, j, k, l, m,
         c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, data;
     fac := Collected(Factors(n));
@@ -1075,78 +1075,90 @@ msg.GroupP4Q := function(n, id)
       and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
       + c16 + c17 + c18 + c19 + c20 + 1 then
       if (p - 1) mod q = 0 then
-        Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]] ]); #Z(G) \cong C_p^3, G \cong (C_q \ltimes C_p) \times C_p^3
-        for k in [0..Int((q - 1)/2)] do
-          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^Int(b^k))]] ]); #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
-        od;
-        #below Z(G) \cong C_p, G \cong (C_q \ltimes C_p^3) \times C_p
-        if q = 2 then
-          Add(all, [ [q, p, p ,p, p], [2, 1, [2, (p - 1)]], [3, 1, [3, (p - 1)]], [4, 1, [4, (p - 1)]] ]);
-        elif q = 3 then
-          for k in [0, 1] do
-            Add(all, [ [q, p, p ,p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+        if id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
+          + c16 + c17 + c18 + c19
+          + (1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*msg.w((p - 1), q) + 1 then
+          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]] ]); #Z(G) \cong C_p^3, G \cong (C_q \ltimes C_p) \times C_p^3
+          for k in [0..Int((q - 1)/2)] do
+            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^Int(b^k))]] ]); #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
           od;
-        else #q > 3
-          for k in Filtered([1..(q - 2)], x-> not x = (q - 1)/2) do
-            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
-          od;
-          for k in [0..(q - 1)/2]
-            do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-          od;
+          #below Z(G) \cong C_p, G \cong (C_q \ltimes C_p^3) \times C_p
+          if q = 2 then
+            Add(all, [ [q, p, p ,p, p], [2, 1, [2, (p - 1)]], [3, 1, [3, (p - 1)]], [4, 1, [4, (p - 1)]] ]);
+          elif q = 3 then
+            for k in [0, 1] do
+              Add(all, [ [q, p, p ,p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+            od;
+          else #q > 3
+            for k in Filtered([1..(q - 2)], x-> not x = (q - 1)/2) do
+              Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+            od;
+            for k in [0..(q - 1)/2]
+              do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
+            od;
 
-          func := function(q)
-            local i, j, k, ll;
-              ll := [];
-              for i in [1..Int((q - 4)/3)] do
-                for j in [i + 1..Int((q - 2 - i)/2)] do
-                  if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-                    Add(ll, [(-i) mod (q - 1), j]);
-                    Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
-                  fi;
+            func := function(q)
+              local i, j, k, ll;
+                ll := [];
+                for i in [1..Int((q - 4)/3)] do
+                  for j in [i + 1..Int((q - 2 - i)/2)] do
+                    if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+                      Add(ll, [(-i) mod (q - 1), j]);
+                      Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+                    fi;
+                  od;
                 od;
-              od;
-            return ll;
-          end;
-          #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
-          for k in func(q) do
-            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]] ]);
+              return ll;
+            end;
+            #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+            for k in func(q) do
+              Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]] ]);
+            od;
+          fi;
+          #below: Z(G) = 1, G \cong C_q \ltimes C_p^4
+          for k in [0..(q - 2)] do
+            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, S1]], [5, 1, [5, Int(s1^(Int(b^k)))]] ]);
           od;
-        fi;
-        #below: Z(G) = 1, G \cong C_q \ltimes C_p^4
-        for k in [0..(q - 2)] do
-          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, S1]], [5, 1, [5, Int(s1^(Int(b^k)))]] ]);
-        od;
-        for k in [1..Int((q - 1)/2)] do
-          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^k)))]] ]);
-        od;
-        for k in [1..(q - 2)] do
-          for l in [k + 1..(q - 2)] do
-            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^l)))]] ]);
+          for k in [1..Int((q - 1)/2)] do
+            Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^k)))]] ]);
           od;
-        od;
+          for k in [1..(q - 2)] do
+            for l in [k + 1..(q - 2)] do
+              Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^l)))]] ]);
+            od;
+          od;
+          return msg.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15 - c16 - c17 - c18 - c19]);
 
-        funci := function(q)
-          local res, a,b,c,d,t;
-             res :=[];
-             for a in [1..Int((q-1)/4)] do
-                for b in [2*a..(q-1)/2] do
-                   for c in [b+a..q-2-a] do
-                     Add(res,[a,b,c]);
+        elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
+          + c16 + c17 + c18 + c19
+          + (1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*msg.w((p - 1), q) then
+          TupleiById := function(q,id)
+          local qq, res, a,b,c,d,t,cnt;
+              qq:= q - 1;
+               cnt := 0;
+               for a in [1..Int((q-1)/4)] do
+                  for b in [2*a..(q-1)/2] do
+                     if cnt + (q-2-a-b-a+1) < id then
+               cnt := cnt + q-2-a-b-a+1;
+            else
+               return [a,b, (b+a) + (id-cnt-1)];
+            fi;
                  od;
-               od;
-               for b in [(q+1)/2..q-1-2*a] do
-                  for c in [b+a+1..q-2-a] do
-                    Add(res,[a,b,c]);
+                 for b in [(q+1)/2..p-1-2*a] do
+                     if cnt + Maximum((q-2-a-b-a),0) < id then
+                 cnt := cnt + Maximum(q-2-a-b-a,0);
+              else
+                 return [a,b, (b+a+1) + (id-cnt-1)];
+              fi;
                 od;
               od;
-             od;
-             if (q-1) mod 4 = 0 then Add(res, [(q-1)/4, (q-1)/2, 3*(q-1)/4]); fi;
-             return res;
-          end;
-        #expected length 1/24*(q^3- 9*q^2+29*q-33 + 12*msg.w((q - 1), 4))
-        for k in funci(q) do
-          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[2]))))]] ]);
-        od;
+               if qq mod 4 = 0 and id = 1/24*(q^3- 9*q^2+29*q-33 + 12*msg.w((q - 1), 4)) then return  [(q-1)/4, (q-1)/2, 3*(q-1)/4]; fi;
+            end;
+            k := TupleiById(p, id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
+            - c16 - c17 - c18 - c19 - (1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*msg.w((p - 1), q));
+            return msg.groupFromData([ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[2]))))]] ]);
+        fi;
+
       elif (p + 1) mod q = 0 and q > 2 then #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
         matGL2 := msg.QthRootGL2P(p, q);
         Add(all, [ [q, p, p, p, p], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]);
@@ -1422,29 +1434,10 @@ msg.NumberGroupsP4Q := function(n)
     fi;
   end;
 
+
+
 ####FOR LATER
-TupleiById := function(p,id)
-local pp, res, a,b,c,d,t,cnt;
-    pp:= p - 1;
-     cnt := 0;
-     for a in [1..Int((p-1)/4)] do
-        for b in [2*a..(p-1)/2] do
-           if cnt + (p-2-a-b-a+1) < id then
-     cnt := cnt + p-2-a-b-a+1;
-  else
-     return [a,b, (b+a) + (id-cnt-1)];
-  fi;
-       od;
-       for b in [(p+1)/2..p-1-2*a] do
-           if cnt + Maximum((p-2-a-b-a),0) < id then
-       cnt := cnt + Maximum(p-2-a-b-a,0);
-    else
-       return [a,b, (b+a+1) + (id-cnt-1)];
-    fi;
-      od;
-    od;
-     if pp mod 4 = 0 and id = 1/24*(p^3- 9*p^2+29*p-33 + 12*msg.w((p - 1), 4)) then return  [(p-1)/4, (p-1)/2, 3*(p-1)/4]; fi;
-  end;
+
 
 IdTuplei := function(q, l)
   local x, y, z, a, b, c, tuple, n, id;
