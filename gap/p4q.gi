@@ -11,6 +11,7 @@ msg.allGroupsP4Q := function(arg)
       n := arg[1];
       fac := Collected(Factors(n));
     elif Length(arg) = 2 then
+      n := arg[1];
       fac := Collected(Factors(n));
     fi;
     if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
@@ -691,7 +692,7 @@ msg.GroupP4Q := function(n, id)
     all := [];
     c0 := 15 - msg.delta(2, p);
     c1 := msg.w((q - 1), p) + msg.w((q - 1), p^2) + msg.w((q - 1), p^3) + msg.w((q - 1), p^4);
-    c2 := 2*msg.w((q - 1), p) + msg.w((q - 1), p^2) + msg.w((q - 1), p^3);
+    c2 := 2*msg.w((q - 1), p) + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3);
     c3 := msg.w((q - 1), p) + msg.w((q - 1), p^2);
     c4 := 2*msg.w((q - 1), p) + msg.w((q - 1), p^2);
     c5 := msg.w((q - 1), p);
@@ -718,7 +719,8 @@ msg.GroupP4Q := function(n, id)
     c23 := (q + 1)*msg.w((p - 1), q);
     c24 := (q + 1)*msg.w((p - 1), q) + msg.delta(n, 3*2^4);;
     c25 := msg.w((p - 1), q);
-    c26 := 1/2*(q^2 + 2*q + 3 - msg.delta(2, q))* msg.w((p - 1), q) + msg.w((p + 1), q)*(1 - msg.delta(2, q));    c27 := msg.w((p - 1), q)*(1 + 2*msg.delta(2, q));
+    c26 := 1/2*(q^2 + 2*q + 3 - msg.delta(2, q))* msg.w((p - 1), q) + msg.w((p + 1), q)*(1 - msg.delta(2, q));
+    c27 := msg.w((p - 1), q)*(1 + 2*msg.delta(2, q));
     c28 := msg.w((p - 1), q)*(1 + 2*msg.delta(2, q));
     c29 := (q + 1)*msg.w((p - 1), q);
     c30 := msg.w((p - 1), q);
@@ -754,6 +756,7 @@ msg.GroupP4Q := function(n, id)
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [5, 1, [5, R1]] ]); #Z(G) \cong C_{p^2} \times C_p
       fi;
       if (q - 1) mod p^2 = 0 then
+        Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [4, 1]], [3, [4, 1]], [5, 1, [5, R2]], [5, 2, [5, R1]] ]); #Z(G) \cong C_{p^2}
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [5, 1, [5, R2]], [5, 2, [5, R1]] ]); #Z(G) \cong C_p^2
       fi;
       if (q - 1) mod p^3 = 0 then
@@ -1437,21 +1440,3 @@ msg.NumberGroupsP4Q := function(n)
 
 
 ####FOR LATER
-
-
-IdTuplei := function(q, l)
-  local x, y, z, a, b, c, tuple, n, id;
-    x := l[1] mod (q - 1); y := l[2] mod (q - 1); z := l[3] mod (q - 1);
-    tuple := SortedList(Filtered(
-    [SortedList([x, y, z]), SortedList([-x, y-x, z-x] mod (q - 1)), SortedList([-y, z-y, x-y] mod (q - 1)), SortedList([-z, x-z, y-z] mod (q - 1))],
-    list -> list[1] < Int((q + 3)/4) and list[2] < q - 2*x))[1];
-    a := tuple[1]; b := tuple[2]; c := tuple[3];
-    if tuple = [(q-1)/4, (q-1)/2, 3*(q-1)/4] then return 1/24*(q^3- 9*q^2+29*q-33 + 12*msg.w((q - 1), 4));
-    else id := Sum([1..a-1], x -> Sum([2*x..(q-1)/2], y -> q - 1 - 2*x - y) + Sum([(q+1)/2..q - 2 - 2*x], y -> q - 2 - 2*x - y));
-      if b < (q + 1)/2 then
-        id := id + Sum([2*a..b-1], x -> q - 1 - 2*a - x) + c - a - b + 1;
-      else id := id + Sum([2*a..(q - 1)/2], x -> q - 1 - 2*a - x) + Sum([(q + 1)/2..(b - 1)], x -> q - 2 - 2*a - x) + c - a - b;
-      fi;
-    fi;
-  return id;
-end;

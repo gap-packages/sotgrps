@@ -37,8 +37,7 @@ local t,my,gap,tg,cd;
    if not ForAll(my,i->Order(i)=x) then Error("order"); fi;
    return t;
 end;
-good:=Filtered([1..1000000],isp4q);;
-
+good:=Filtered([1..10000000],isp4q);;
 max:=0; maxnr:=0; for i in good do t:=testord(i); if t>max then max:=t; maxnr:=i;  fi; Display([maxnr,max]); Print("----\n");od;
 #Also test the number of groups constructed matches theoretical enumeration given by Eick & Moede (2018)
 for n in isp4q do Print("start ", n,"\n"); if not Size(msg.allGroupsP4Q(n) = msg.NumberGroupsP4Q(n) then Error("revise"); od;
