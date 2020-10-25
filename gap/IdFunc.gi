@@ -716,7 +716,7 @@ msg.IdGroupP2Q2 := function(group)
 end;
 ######################################################
 msg.IdGroupP3Q := function(group)
-  local n, fac, p, q, P, Q, O, Zen,a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
+  local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
   Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, pcgsp, pcgsq;
     n := Size(group);

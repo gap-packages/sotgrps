@@ -181,8 +181,8 @@ msg.allGroupsP4Q := function(arg)
         od;
       fi;
     elif p = 2 then
-      Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2); #
       Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
+      Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
       if (q - 1) mod (p^2) = 0 then
         Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, R2]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times C_4
       fi;
@@ -192,8 +192,8 @@ msg.allGroupsP4Q := function(arg)
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 4, 1]] ]
     if p > 2 then
       if (q - 1) mod p = 0 then
-        Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
         Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 4, [5, R1]] ]); #F(G) \cong p_+ \times C_q
+        Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
       fi;
     elif p = 2 then
       Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times C_8
@@ -845,9 +845,9 @@ msg.GroupP4Q := function(n, id)
         fi;
       elif p = 2 then
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q, G \cong C_2 \ltimes F(G), Z(G) \cong C_2^2
-        Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_2^2 \times, G \cong C_2 \ltimes (C_4 \ltimes C_q \times C_2)
+        Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_2^3 \times C_q, G \cong C_2 \ltimes (C_4 \ltimes C_q \times C_2)
         if (q - 1) mod (p^2) = 0 then
-          Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, R2]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_q \times C_2^2, G \cong C_2 \ltimes ((C_4 \ltimes C_q) \times C_2)
+          Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, R2]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_2^2 \times C_q, G \cong C_2 \ltimes ((C_4 \ltimes C_q) \times C_2)
         fi;
       fi;
       return msg.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7]);
@@ -864,8 +864,8 @@ msg.GroupP4Q := function(n, id)
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, R2]], [5, 3, [5, R1]] ]); #F(G) \cong C_p^2 \times C_q
         fi;
       elif p = 2 then
-        Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2), G \cong C_2 \times (Q_8 \ltimes C_q)
-        Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 4, [5, q - 1]] ]); #F(G) \cong C_q \times Q_8, G \cong D_q \times Q_8
+        Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q, G \cong C_2 \times (Q_8 \ltimes C_q)
+        Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 4, [5, q - 1]] ]); #F(G) \cong Q_8 \times C_q, G \cong D_q \times Q_8
       fi;
       return msg.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8]);
 
@@ -885,10 +885,10 @@ msg.GroupP4Q := function(n, id)
           od;
         fi;
       elif p = 2 then
-        Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2); #
-        Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
+        Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 3, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q #
+        Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q
         if (q - 1) mod (p^2) = 0 then
-          Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, R2]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times C_4
+          Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, R2]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_4 \times C_q
         fi;
       fi;
       return msg.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9]);
@@ -898,8 +898,8 @@ msg.GroupP4Q := function(n, id)
     elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
-          Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
           Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 4, [5, R1]] ]); #F(G) \cong p_+ \times C_q
+          Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
         fi;
       elif p = 2 then
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times C_8
@@ -967,7 +967,7 @@ msg.GroupP4Q := function(n, id)
           Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 4, [5, R1]] ]); #F(G) \cong p_+ \times C_q
         fi;
         if p = 3 and (q - 1) mod p = 0 then
-          Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, R1]] ]);
+          Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong 3_- \times C_q
         fi;
       elif p = 2 then
         Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times C_8
@@ -1290,18 +1290,18 @@ msg.GroupP4Q := function(n, id)
         Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [5, 1, [5, S1]] ]); #Z(G) \cong C_p, G' \cong C_p^2
         Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, S1]], [4, 1, [4, S1]] ]); #Z(G) \cong C_p, G' \cong C_p^2
         for k in [2..Int((q + 1)/2)] do
-          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(q + 1 - k))]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, S1]] ]); #Z(G) \cong C_p
+          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(q + 1 - k))]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, S1]] ]); #Z(G) \cong C_p, G' \cong p_+
         od;
         for k in [1..q - 1] do #Z(G) = 1, G' \cong C_p^3
           Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [3, 1, [3, S1]], [4, 1, [4, S1]], [5, 1, [5, Int(s1^k)]] ]);
         od;
         for k in [1..q - 1] do
           for l in [1..Int((q - 1)/2)] do
-            Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, Int(s1^(k+1))]], [5, 1, [5, Int(s1^l)]] ]);
+            Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^l)))]], [4, 1, [4, Int(s1^(Int(b^l) + 1))]], [5, 1, [5, Int(s1^k)]] ]);
           od;
         od;
-        for k in [2..Int((q + 1)/2)] do
-          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(q + 1 - k))]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, S1]], [5, 1, [5, S1]] ]); #Z(G) = 1, G' = P
+        for k in [1..(q - 1)/2] do
+          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^k)]], [3, 1, [3, Int(s1^(-k))]], [5, 1, [5, S1]] ]); #Z(G) = 1, G' = P
         od;
         if q = 2 then
           #Add(all, [ [2, p, p, p, p], [3, 2, [3, 1, 4, 1]], [5, 1, [5, (p - 1)]] ]); #Z(G) \cong C_p, G' \cong C_p^2
