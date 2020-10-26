@@ -38,6 +38,25 @@ msg.allGroupsP4Q := function(arg)
       r4 := b^((q-1)/(p^4));
       R4 := Int(r4);
     fi;
+    if (p - 1) mod q = 0 then
+      if not Int(a)^(p - 1) mod p^2 = 1 then
+        c := ZmodnZObj(Int(a), p^2);
+        d := ZmodnZObj(Int(a), p^3);
+        e := ZmodnZObj(Int(a), p^4);
+      else
+        c := ZmodnZObj(Int(a) + p, p^2);
+        d := ZmodnZObj(Int(a) + p, p^3);
+        e := ZmodnZObj(Int(a) + p, p^4);
+      fi;
+      s1 := a^((p - 1)/q);;
+      s2 := c^((p^2 - p)/q);;
+      s3 := d^((p^3 - p^2)/q);;
+      s4 := e^((p^4 - p^3)/q);;
+      S1 := Int(s1);;
+      S2 := Int(s2);;
+      S3 := Int(s3);;
+      S4 := Int(s4);;
+    fi;
     ##construct all nilpotent groups:
     all := [];
     for i in msg.lowpowerPGroups(p, 4, 0) do
@@ -272,25 +291,6 @@ msg.allGroupsP4Q := function(arg)
     fi;
 
     ##Class 2: Group G is solvable, nonnilpotent. Sylow q-subgroup is normal in G. Thus G \cong P \ltimes C_q is a nonabelian split extension.
-    if (p - 1) mod q = 0 then
-      if not Int(a)^(p - 1) mod p^2 = 1 then
-        c := ZmodnZObj(Int(a), p^2);
-        d := ZmodnZObj(Int(a), p^3);
-        e := ZmodnZObj(Int(a), p^4);
-      else
-        c := ZmodnZObj(Int(a) + p, p^2);
-        d := ZmodnZObj(Int(a) + p, p^3);
-        e := ZmodnZObj(Int(a) + p, p^4);
-      fi;
-      s1 := a^((p - 1)/q);;
-      s2 := c^((p^2 - p)/q);;
-      s3 := d^((p^3 - p^2)/q);;
-      s4 := e^((p^4 - p^3)/q);;
-      S1 := Int(s1);;
-      S2 := Int(s2);;
-      S3 := Int(s3);;
-      S4 := Int(s4);;
-    fi;
     #1 P \cong C_{p^4}
     c16 := msg.w((p - 1), q);
     if (p - 1) mod q = 0 then
