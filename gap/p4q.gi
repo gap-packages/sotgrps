@@ -545,11 +545,11 @@ msg.allGroupsP4Q := function(arg)
       od;
       for k in [1..q - 1] do
         for l in [1..Int((q - 1)/2)] do
-          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, Int(s1^(k+1))]], [5, 1, [5, Int(s1^l)]] ]);
+          Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^l)))]], [4, 1, [4, Int(s1^(Int(b^l) + 1))]], [5, 1, [5, Int(s1^k)]] ]);
         od;
       od;
-      for k in [2..Int((q + 1)/2)] do
-        Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(q + 1 - k))]], [3, 1, [3, Int(s1^k)]], [4, 1, [4, S1]], [5, 1, [5, S1]] ]); #Z(G) = 1, G' = P
+      for k in [1..(q - 1)/2] do
+        Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^k)]], [3, 1, [3, Int(s1^(-k))]], [5, 1, [5, S1]] ]); #Z(G) = 1, G' = P
       od;
       if q = 2 then
         #Add(all, [ [2, p, p, p, p], [3, 2, [3, 1, 4, 1]], [5, 1, [5, (p - 1)]] ]); #Z(G) \cong C_p, G' \cong C_p^2
