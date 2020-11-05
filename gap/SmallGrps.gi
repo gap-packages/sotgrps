@@ -174,7 +174,9 @@ InstallGlobalFunction( MySmallGroupsInformation, function(arg)
   			Print(("There are "), msg.NumberGroupsP2QR(n), (" isomorphism types of groups of order "), n, ("."));
   		elif length = 4 and Length(fac) = 4 then
 				Print(("There are "), msg.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
-  		elif length > 4 then
+  		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1] ] then
+				Print(("There are "), msg.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
+			elif length > 5 then
 				Print(("Order "), n, (" is not available in mysmallgrps."));
 			fi;
 
@@ -214,7 +216,9 @@ InstallGlobalFunction( MyIdSmallGroup, function(group)
 			else
 				return msg.IdGroupPQRS(group);
 			fi;
-		elif length > 4 then
-			Print(("Groups of order "), n, (" is not available in mysmallgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes."));
+		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1]] then
+			return msg.IdGroupP4Q(group);
+		else
+			Print(("Groups of order "), n, (" is not available in mysmallgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
 		fi;
 end);

@@ -119,7 +119,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, rootpr, roo
     fi;
     if (p - 1) mod (q*r) =0 and q > 2 then
       for k in [1..(q-3)/2] do
-        for l in [(r+1)/2..(r-1)] do
+        for l in [(r+1)/2..(r-2)] do
           Add(all, [ [q, r, p, p], [3, 1, [3, rootpq]], [3, 2, [3, rootpr]], [4, 1, [4, Int(b^(Int(c^k)*(p-1)/q))]], [4, 2, [4, Int(b^(Int(a^l)*(p-1)/r))]] ]);
         od;
       od;
@@ -371,7 +371,7 @@ msg.GroupP2QR := function(n, i)
     if (q - 1) mod p = 0 then rootqp := Int(c^((q-1)/p)); fi;
     if (q - 1) mod (p^2) = 0 then rootqp2 := Int(c^((q-1)/(p^2))); fi;
 
-    if not Int(b)^(p-1) mod p^2 = 1 then 
+    if not Int(b)^(p-1) mod p^2 = 1 then
       v := ZmodnZObj(Int(b), p^2);
     else v := ZmodnZObj(Int(b) + p, p^2);
     fi;
@@ -490,7 +490,7 @@ msg.GroupP2QR := function(n, i)
       fi;
       if (p - 1) mod (q*r) =0 and q > 2 then
         for k in [1..(q-3)/2] do
-          for l in [(r+1)/2..(r-1)] do
+          for l in [(r+1)/2..(r-2)] do
             Add(l3, [ [q, r, p, p], [3, 1, [3, rootpq]], [3, 2, [3, rootpr]], [4, 1, [4, Int(b^(Int(c^k)*(p-1)/q))]], [4, 2, [4, Int(b^(Int(a^l)*(p-1)/r))]] ]);
           od;
         od;

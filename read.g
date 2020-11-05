@@ -12,7 +12,7 @@
 msg := rec();
 DeclareAttribute( "MySmallGroup_id", IsGroup );
 ReadPackage(mysmallgrpsPkgName, "gap/msg.gi");                #preliminary functions
-ReadPackage(mysmallgrpsPkgName, "gap/pq.gi");                #preliminary functions
+ReadPackage(mysmallgrpsPkgName, "gap/pq.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/p2q.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/p2q2.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/pqr.gi");

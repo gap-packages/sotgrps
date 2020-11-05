@@ -109,16 +109,76 @@ msg.QthRootGL4P := function(p, q)
   fi;
   return [ [0, 0, 0, -1], [1, 0, 0, u], [0, 1, 0, v], [0, 0, 1, b+b^p+b^(p^2)+b^(p^3)] ] * One(GF(p));
 end;
-######################################################
+############################################################################
 msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
-    if Length(l) <> 2 then return false; fi;
     det := DeterminantMat(mat);
-    if det = l[1]^2*l[2] then
-      evm := [[l[1], 2], [l[2], 1]];
-    else evm := [[l[1], 1], [l[2], 2]];
+    if Length(l) = 3 then
+      evm := Collected(l);
+    elif Length(l) = 2 then
+      if det = l[1]^2*l[2] then
+        evm := [[l[2], 1], [l[1], 2]];
+      elif det = l[2]^2*l[1] then
+        evm := [[l[1], 1], [l[2], 2]];
+      fi;
+    elif Length(l) = 1 then
+      evm := Collected([l[1], l[1], l[1]]);
     fi;
+  return evm;
+end;
+############################################################################
+msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
+  local l, det, evm;
+    l := Eigenvalues(GF(p), mat);
+    det := DeterminantMat(mat);
+    if Length(l) = 4 then evm := Collected(l);
+    elif Length(l) = 3 then
+      if l[1]^2*l[2]*l[3] = det then
+        evm := Collected([l[2], l[3], l[1], l[1]]);
+      elif l[1]*l[2]^2*l[3] = det then
+        evm := Collected([l[1], l[3], l[2], l[2]]);
+      elif l[1]*l[2]*l[3]^2 = det then
+          evm := Collected([l[1], l[2], l[3], l[3]]);
+      fi;
+    elif Length(l) = 2 then
+      if l[1]^3*l[2] = det then
+        evm := Collected([l[2], l[1], l[1], l[1]]);
+      elif l[1]*l[2]^3 = det then
+        evm := Collected([l[1], l[2], l[2], l[2]]);
+      elif l[1]^2*l[2]^2 = det then
+        evm := Collected([l[1], l[1], l[2], l[2]]);
+      fi;
+    else evm := Collected([l[1], l[1], l[1], l[1]]);
+  fi;
+  SortBy(evm, x -> x[2]);
+  return evm;
+end;
+############################################################################
+msg.EigenvaluesGL4P2 := function(mat, p)
+  local l, det, evm;
+    l := Eigenvalues(GF(p^2), mat);
+    det := DeterminantMat(mat);
+    if Length(l) = 4 then
+      if l[1] * l[2] = det and l[3] * l[4] = det then
+        evm := [ [l[1], l[2]], [l[3], l[4]] ];
+      elif l[1] * l[3] = det and l[2] * l[4] = det then
+        evm := [ [l[1], l[3]], [l[2], l[4]] ];
+      elif l[1] * l[4] = det and l[2] * l[3] = det then
+        evm := [ [l[1], l[4]], [l[2], l[3]] ];
+      fi;
+    elif Length(l) = 3 then
+      if l[1]^2 = det and l[2] * l[3] = det then
+        evm := [ [l[1], l[1]], [l[2], l[3]] ];
+      elif l[2]^2 = det and l[1] * l[3] = det then
+        evm := [ [l[2], l[2]], [l[1], l[3]] ];
+      elif l[3]^2 = det and l[1] * l[2] = det then
+        evm := [ [l[3], l[3]], [l[1], l[2]] ];
+      fi;
+    elif Length(l) = 2 then
+      evm := [ [l[1], l[2]], [l[1], l[2]] ];
+    else evm := [ [l[1], l[1]], [l[1], l[1]] ];
+  fi;
   return evm;
 end;
 ############################################################################

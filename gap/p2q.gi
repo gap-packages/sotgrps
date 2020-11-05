@@ -18,7 +18,7 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
 ####
 	a := Z(p);
 	b := Z(q);
-	if not a^(p - 1) mod p^2 = 1 then
+	if not Int(a^(p - 1)) mod p^2 = 1 then
 		d := ZmodnZObj(Int(a), p^2);
 	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
@@ -107,7 +107,7 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 	c4 := 2*msg.w((q - 1), p)*(1 - msg.delta(q, 3)) + msg.w((q - 1), p^2);
 	a := Z(p);
 	b := Z(q);
-	if not a^(p - 1) mod p^2 = 1 then
+	if not Int(a)^(p - 1) mod p^2 = 1 then
 		d := ZmodnZObj(Int(a), p^2);
 	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;

@@ -1,5 +1,5 @@
 LoadPackage("mysmallgrps");
-
+ReadPackage(mysmallgrpsPkgName, "gap/IdFuncP4Q.gi");
 ### 
 ###
 

@@ -432,12 +432,7 @@ msg.GroupP3Q := function(n, i)
           Add(l8, [ [q, p, p ,p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1)]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
         od;
       fi;
-      if (p - 1) mod q = 0 and q mod 3 = 1 then
-        for k in [0..(q - 1)/2]
-          do Add(l8, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-        od;
-      fi;
-      if (p - 1) mod q = 0 and q mod 3 = 2 and q > 2 then
+      if (p - 1) mod q = 0 and q > 2 then
         for k in [0..(q - 1)/2]
           do Add(l8, [ [q, p, p, p], [2, 1, [2, Int(s1)]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
         od;

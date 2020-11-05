@@ -122,8 +122,6 @@ end;
 msg.IdGroupPQ := function(group)
   local n, p, q, Id;
     n := Size(group);
-    p := Factors(n)[2];
-    q := Factors(n)[1];
     if IsAbelian(group) then return [n, 1];
     else return [n, 2];
     fi;
@@ -197,8 +195,8 @@ msg.IdGroupP2Q := function(group)
       fi;
     elif (q - 1) mod p = 0 and q > 3 then
       if flag[1] = p then return [n, 3];
-      elif flag[1] = p^2 then flag[3] := Size(FittingSubgroup(group));
-        if flag[3] = p*q then return [n, 4];
+      elif flag[1] = p^2 then
+        if flag[2] = p then return [n, 4];
         else return [n, 5];
         fi;
       fi;
@@ -617,16 +615,16 @@ msg.IdGroupP2Q2 := function(group)
     fi;
     if (p + 1) mod q = 0 and q > 2 then
       if ind = [p, q, q] then
-        return [n, 5];
-      elif ind = [p, q^2, q] then
         return [n, 6];
+      elif ind = [p, q^2, q] then
+        return [n, 5];
       fi;
     fi;
     if n = 36 then
       if ind = [p, q, 3] then
-        return [n, 12];
-      elif ind = [p^2, q, 3] then
         return [n, 13];
+      elif ind = [p^2, q, 3] then
+        return [n, 12];
       fi;
     fi;
     if ( p + 1) mod (q^2) = 0 and q > 2 and ind[3] = 1 then
@@ -869,7 +867,7 @@ msg.IdGroupP3Q := function(group)
         if IsCyclic(O) then return [n, 11 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
         else return [n, 10 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
         fi;
-      ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
+      ## class 5: when P is extraspecial - type
       elif not tst[3] = true and tst[4] = p^2 and p > 2 then
         repeat c := Random(Elements(P)); until Order(c) = p and not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
         d := pcgsq[1];
@@ -931,7 +929,7 @@ msg.IdGroupP3Q := function(group)
     elif tst[3] = true and tst[5] = p^2 then ## (C_q \ltimes C_p) \times C_p^2
         return [n, 9 + (q - 1)];
       elif tst[3] = true and tst[5] = p and (p - 1) mod q = 0 and q > 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-        gens:= [pcgsq[1], Filtered(pcgsp, x->not x in Zen)[1], Filtered(pcgsp, x->not x in Zen)[2], Filtered(pcgsp, x->x in Zen)[1]];
+        gens:= [pcgsq[1], Filtered(pcgsp, x->not x in Zen)[1], Filtered(pcgsp, x->not x in Zen)[2]];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
         exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
         exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -960,15 +958,7 @@ msg.IdGroupP3Q := function(group)
         if Length(ev) = 1 then
           return [n, 10 + (q + 1)/2 + (q - 1)];
         else
-          evm := msg.EigenvaluesWithMultiplicitiesGL3P([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]} ] * One(GF(p)), p);
-          x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
-          matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
-          det := LogFFE((LogFFE(DeterminantMat(matGL3), s1) - 2)*One(GF(q)), b) mod (q - 1);
-          if det < (q + 1)/2 then
-            k := det;
-          else k := (q - 1) - det;
-          fi;
-          return [n, 10 + k + (q + 1)/2 + (q - 1)];
+          return [n, 11 + (q + 1)/2 + (q - 1)];
         fi;
       elif tst[3] = true and tst[5] = 1 and (p - 1) mod q = 0 and q > 3 then
         gens := [pcgsq[1], pcgsp[1], pcgsp[2], pcgsp[3]];
@@ -1002,7 +992,7 @@ msg.IdGroupP3Q := function(group)
             fi;
 
           elif Length(l) = 2 and List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q))) = [b^((q - 1)/2)] then
-            return [n, 9 + 3*q - 3];
+            return [n, 6 + 3*q];
           else
             k := Position(Filtered([1..(q - 2)], x-> not x = (q - 1)/2), LogFFE(LogFFE(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1)[1], s1)*One(GF(q)), b) mod (q - 1));
             return [n, 9 + k + (q + 1)/2 + (q - 1)];
@@ -1224,7 +1214,7 @@ msg.IdGroupP2QR := function(group)
               od;
             od;
             for k in [1..(q-3)/2] do
-              for l in [(r+1)/2..(r-1)] do
+              for l in [(r+1)/2..(r-2)] do
                 Add(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]])); #AsSet([[(k) mod (q - 1), (-l) mod (r - 1)], [(-k) mod (q - 1), (l) mod (r - 1)]])]));
               od;
             od;
