@@ -96,7 +96,7 @@ msg.lowpowerPGroups := function(arg)
 			fi;
 
 			if k > 4 then
-				Error("MySmallGroups is not available for p-groups of order not dividing p^4.");
+				Error("AllSOTGroups is not available for p-groups of order not dividing p^4.");
 			fi;
 			if p = 1 and k = 1 then
 				list := [AbelianGroup([1])];
@@ -231,7 +231,7 @@ msg.PGroup := function(arg)
 			fi;
 
 			if k > 4 then
-				Error("MySmallGroup is not available for p-groups of order not dividing p^4.");
+				Error("SOTGroup is not available for p-groups of order not dividing p^4.");
 			fi;
 		else G := AbelianGroup([1]);
 		fi;

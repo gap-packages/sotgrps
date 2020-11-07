@@ -9,9 +9,9 @@
 ##
 ## The input <n> has to be  ...
 ##
-DeclareGlobalFunction("MySmallGroups");
-DeclareGlobalFunction("MySmallGroup");
-DeclareGlobalFunction("MyNumberOfGroups");
-DeclareGlobalFunction("MySmallGroupIsAvailable");
-DeclareGlobalFunction("MySmallGroupsInformation");
-DeclareGlobalFunction("MyIdSmallGroup");
+DeclareGlobalFunction("AllSOTGroups");
+DeclareGlobalFunction("SOTGroup");
+DeclareGlobalFunction("NumberOfSOTGroups");
+DeclareGlobalFunction("SOTGroupIsAvailable");
+DeclareGlobalFunction("SOTGroupsInformation");
+DeclareGlobalFunction("IdSOTGroup");

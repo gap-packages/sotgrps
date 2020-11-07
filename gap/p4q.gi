@@ -1133,7 +1133,7 @@ msg.GroupP4Q := function(n, id)
               od;
                if qq mod 4 = 0 and id = 1/24*(q^3- 9*q^2+29*q-33 + 12*msg.w((q - 1), 4)) then return  [(q-1)/4, (q-1)/2, 3*(q-1)/4]; fi;
             end;
-            k := TupleiById(p, id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
+            k := TupleiById(q, id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
             - c16 - c17 - c18 - c19 - (1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*msg.w((p - 1), q));
             return msg.groupFromData([ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[3]))))]] ]);
         fi;
