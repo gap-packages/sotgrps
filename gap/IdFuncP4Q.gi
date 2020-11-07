@@ -521,7 +521,8 @@ msg.IdGroupP4Q := function(group)
             fi;
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                       + c18 + c19 + 1 + k + 1];
-          else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          elif (p + 1) mod q = 0 and q > 2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                     + c18 + c19 + 1];
           fi;
         elif sc = p then
@@ -641,7 +642,7 @@ msg.IdGroupP4Q := function(group)
             if y > Int(3*(q - 1)/4) then
               k := q - 1 - y;
             elif y > (q - 1)/2 then
-              k := 3*(q - 1)/2 - y;
+              k := y - (q - 1)/2;
             elif y > Int((q - 1)/4) then
               k := (q - 1)/2 - y;
             else k := y;
