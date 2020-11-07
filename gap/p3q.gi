@@ -153,18 +153,17 @@ msg.allGroupsP3Q := function(n)
 
     func := function(q)
       local i, j, k, ll;
-      ll := [];
-      for i in [1..Int((q - 3)/3)] do
-        for j in [i + 1..Int((q - 1 - i)/2)] do
-          if ((- i - j) mod (q - 1) <> i) and ((- i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-            Add(ll, [(-i) mod (q - 1), j]);
-            Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
-          fi;
+        ll := [];
+        for i in [1..Int((q - 4)/3)] do
+          for j in [i + 1..Int((q - 2 - i)/2)] do
+            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+              Add(ll, [(-i) mod (q - 1), j]);
+              Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+            fi;
+          od;
         od;
-      od;
       return ll;
-    end;
-    #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+    end;    #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
 
     if (p - 1) mod q = 0 and q > 3 then
       for k in func(q) do
@@ -440,18 +439,17 @@ msg.GroupP3Q := function(n, i)
 
       func := function(q)
         local i, j, k, ll;
-        ll := [];
-        for i in [1..Int((q - 3)/3)] do
-          for j in [i + 1..Int((q - 1 - i)/2)] do
-            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-              Add(ll, [(-i) mod (q - 1), j]);
-              Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
-            fi;
+          ll := [];
+          for i in [1..Int((q - 4)/3)] do
+            for j in [i + 1..Int((q - 2 - i)/2)] do
+              if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+                Add(ll, [(-i) mod (q - 1), j]);
+                Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+              fi;
+            od;
           od;
-        od;
         return ll;
-      end;
-      #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+      end;      #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
 
       if (p - 1) mod q = 0 and q > 3 then
         for k in func(q) do
