@@ -1,13 +1,12 @@
-LoadPackage("mysmallgrps");
-ReadPackage(mysmallgrpsPkgName, "gap/IdFuncP4Q.gi");
-### 
+LoadPackage("sotgrps");
+###
 ###
 
 
 msg.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
-   todo:=Filtered([from..to], x->MySmallGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
-   for i in todo do Display(i); my:=MyNumberOfGroups(i); gap:=NumberSmallGroups(i);
+   todo:=Filtered([from..to], x->SOTGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
+   for i in todo do Display(i); my:=NumberOfSOTGroups(i); gap:=NumberSmallGroups(i);
       if not my = gap then
          Error("ERROR at order ",i,"\n");
       fi;
@@ -55,15 +54,15 @@ local nr, gap, my, i, copies,  gapid, new;
 
 repeat
    n := n+1;
-   if MySmallGroupIsAvailable(n) then
-      nr  := MyNumberOfGroups(n);
+   if SOTGroupIsAvailable(n) then
+      nr  := NumberOfSOTGroups(n);
       gap := SmallGroupsAvailable(n);
       Print("start ",nr," groups of size ",n,"\n");
 
-      my := List([1..nr],x->MySmallGroup(n,x));
+      my := List([1..nr],x->SOTGroup(n,x));
       for i in [1..nr] do
           copies := List([1..5],x->getRandomPerm(my[i]));
-	  if not ForAll(copies,x->MyIdSmallGroup(x)=[n,i]) then Error("my ID perm", [n,i]); fi;
+	  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID perm", [n,i]); fi;
       od;
       Display(" ... my stuff correct");
 
@@ -72,7 +71,7 @@ repeat
           gapid := List(my,IdSmallGroup);
 	  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
 	  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
-          new := List([1..nr],x->MyIdSmallGroup(SmallGroup(n,x)));
+          new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
 	  if not IsDuplicateFreeList(new) then Error("my id"); fi;
 	  Display(" ... gap comparison ok");
       fi;
@@ -87,15 +86,15 @@ local nr, gap, my, i, copies, gapid, new;
 
 repeat
    n := n+1;
-   if MySmallGroupIsAvailable(n) then
-      nr  := MyNumberOfGroups(n);
+   if SOTGroupIsAvailable(n) then
+      nr  := NumberOfSOTGroups(n);
       gap := SmallGroupsAvailable(n);
       Print("start ",nr," groups of size ",n,"\n");
 
-      my := List([1..nr],x->MySmallGroup(n,x));
+      my := List([1..nr],x->SOTGroup(n,x));
       for i in [1..nr] do
           copies := List([1..5],x->getRandomPc(my[i]));
-	  if not ForAll(copies,x->MyIdSmallGroup(x)=[n,i]) then Error("my ID pc", [n,i]); fi;
+	  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID pc", [n,i]); fi;
       od;
       Display(" ... my stuff correct");
 
@@ -104,7 +103,7 @@ repeat
           gapid := List(my,IdSmallGroup);
 	  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
 	  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
-          new := List([1..nr],x->MyIdSmallGroup(SmallGroup(n,x)));
+          new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
 	  if not IsDuplicateFreeList(new) then Error("my id"); fi;
 	  Display(" ... gap comparison ok");
       fi;

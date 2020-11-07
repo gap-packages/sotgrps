@@ -728,8 +728,8 @@ msg.IdGroupP3Q := function(group)
     func := function(q)
       local i, j, k, ll;
         ll := [];
-        for i in [1..Int((q - 3)/3)] do
-          for j in [i + 1..Int((q - 1 - i)/2)] do
+        for i in [1..Int((q - 4)/3)] do
+          for j in [i + 1..Int((q - 2 - i)/2)] do
             if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
               Add(ll, AsSet([AsSet([-i mod (q - 1), j]), AsSet([-j mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), i])]));
               Add(ll, AsSet([AsSet([-i mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), j]), AsSet([-j mod (q - 1), i])]));

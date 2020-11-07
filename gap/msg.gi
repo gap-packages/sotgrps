@@ -182,11 +182,11 @@ msg.EigenvaluesGL4P2 := function(mat, p)
   return evm;
 end;
 ############################################################################
-msg.testMySmallGroups := function(n)
+msg.testAllSOTGroups := function(n)
 	local mygroups, lib, duplicates, missing;
 				duplicates := [];
 				missing    := [];
-				mygroups   := List(MySmallGroups(n),x->IdSmallGroup(x)[2]);
+				mygroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
 						lib    := [1..NumberSmallGroups(n)];
 				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
 					return true;

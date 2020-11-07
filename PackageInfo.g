@@ -8,8 +8,8 @@
 
 SetPackageInfo( rec(
 
-PackageName := "mysmallgrps",
-Subtitle    := "Constructing the Groups of a Given Order",
+PackageName := "sotgrps",
+Subtitle    := "Constructing the Groups of a Given Small Order Type",
 Version     := "0",
 Date        := "01/01/2020",
 ArchiveURL := "http://users.monash.edu.au/~heikod/cubefree/cubefree1.17",
@@ -46,12 +46,12 @@ AbstractHTML :=
 PackageWWWHome := "http://users.monash.edu.au/~heikod/cubefree.html",
 
 PackageDoc := rec(
-  BookName  := "mysmallgrps",
+  BookName  := "sotgrps",
   ArchiveURLSubset := ["doc", "htm"],
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Constructing the groups of a given cubefree order",
+  LongTitle := "Constructing the groups of a given order of small order type",
   Autoload  := true),
 
 Dependencies := rec(
@@ -61,7 +61,7 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "Loading mysmallgrps 0.3 ... \n",
+BannerString := "Loading sotgrps 0.4 ... \n",
 Autoload := false,
 TestFile := "tst/autoTest.tst",
 Keywords := ["construction of groups","irreducible matrix subgroups of degree 2"]
