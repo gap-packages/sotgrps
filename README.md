@@ -1,3 +1,4 @@
+# sotgrps.pkg
 # sotsmallgrps
 
 To use this package, if you have GAP installed, then please unzip the file into the pkg folder in GAP, and then simply run the command LoadPackage("sotgrps") in GAP; if you haven't installed GAP, you could find instruction on https://www.gap-system.org/Download/ to download and install GAP first.

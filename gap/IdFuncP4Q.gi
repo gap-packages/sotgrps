@@ -668,10 +668,11 @@ msg.IdGroupP4Q := function(group)
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
               exp2 := ExponentsOfPcElement(G, gens[5]^gens[1]);
               mat := [exp1{[2, 5]}, exp2{[2, 5]}] * One(GF(p));
-              evm := SortedList(List(Eigenvalues(GF(p), mat), x -> LogFFE(x, s1)));
+              evm := Eigenvalues(GF(p), mat);
               if Length(evm) = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + 2 + Int((q - 1)/2)];
-              else k := SortedList(Filtered([((evm[2] - evm[1] - 1)/2) mod q, ((evm[1] - evm[2] - 1)/2) mod q], x -> x > 1 and x < (q + 3)/2))[1];
+              else k := SortedList([Inverse(LogFFE(evm[2], evm[1]) + 1) mod q, Inverse(LogFFE(evm[1], evm[2]) + 1) mod q]);
+                k := Filtered(k, x-> x > 1 and x < (q + 3)/2)[1];
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                        + c18 + c19 + c20 + 2 + k - 1];
               fi;

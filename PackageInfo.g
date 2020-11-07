@@ -9,7 +9,7 @@
 SetPackageInfo( rec(
 
 PackageName := "sotgrps",
-Subtitle    := "Constructing the Groups of a Given Order",
+Subtitle    := "Constructing the Groups of a Given Small Order Type",
 Version     := "0",
 Date        := "01/01/2020",
 ArchiveURL := "http://users.monash.edu.au/~heikod/cubefree/cubefree1.17",
@@ -51,7 +51,7 @@ PackageDoc := rec(
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Constructing the groups of a given cubefree order",
+  LongTitle := "Constructing the groups of a given order of small order type",
   Autoload  := true),
 
 Dependencies := rec(
