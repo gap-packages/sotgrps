@@ -1,8 +1,8 @@
 ##########################################
 msg.IdGroupP4Q := function(group)
   local n, fac, p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
-        sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, func, func2, lst, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y,
-        exps1, exps2, pcgs, pcgsp, pcgsq, idP, fp, fq, g1, g2, g3, g4, char, dP,
+        sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, func, func2, lst, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y, z,
+        exps1, exps2, pcgs, pcgsp, pcgsq, idP, fp, fq, g1, g2, g3, g4, g5, char, dP,
         exp1, exp2, exp3, exp4, det, tmp, ev, evm, N1, N2,
         c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, data;
@@ -590,14 +590,16 @@ msg.IdGroupP4Q := function(group)
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                           + c18 + c19 + 1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + 1];
             elif List(evm, x -> x[2]) = [1, 3] then
-              x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 3)[1][1], s1)) mod q;
-              k := LogFFE((LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1))*One(GF(q)), b) mod (q - 1);
+              x := Inverse(LogFFE(evm[2][1], s1)) mod q;
+              k := LogFFE(LogFFE(evm[1][1]^x, s1) * One(GF(q)), b) mod (q - 1);
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
                       + c16 + c17 + c18 + c19
                       + 1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + k + 1];
             elif List(evm, x -> x[2]) = [2, 2] then
-              x := Inverse(LogFFE(evm[1][1], s1)) mod q;
-              k := LogFFE((LogFFE(evm[2][1]^x, s1))*One(GF(q)), b) mod (q - 1);
+              evm := SortedList(List(evm, x -> LogFFE(LogFFE(x[1], s1) * One(GF(q)), b)));
+              k := evm[2] - evm[1];
+              if k > (q - 1)/2 then k := q - 1 - k;
+              fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
                       + c16 + c17 + c18 + c19
                       + 1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3) - 3*msg.delta(2, q)) + q - 1 + k];
@@ -661,7 +663,7 @@ msg.IdGroupP4Q := function(group)
             elif Size(flag[3]) = p^4 then
               zenp := Centre(P);
               repeat g2 := Random(Elements(zenp)); until Group([g2]) = zenp;
-              repeat g := Random(Elements(flag[3])); until not g in zenp;
+              g := Filtered(Pcgs(flag[3]), x -> not x in zenp)[1];
               repeat h := Random(Elements(flag[3])); until h^g <> h;
               gens := [pcgsq[1], g, g2, g2^p, h];;
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -671,8 +673,11 @@ msg.IdGroupP4Q := function(group)
               evm := SortedList(List(Eigenvalues(GF(p), mat), x -> LogFFE(x, s1)));
               if Length(evm) = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + 2 + Int((q - 1)/2)];
-              else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
-                        + c18 + c19 + c20 + 2 + evm[1] - 1];
+              else k := ((evm[2] - evm[1])/2) mod ((q + 1)/2);
+                if k < 2 then k := ((evm[1] - evm[2])/2) mod ((q + 1)/2);
+                fi;
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+                       + c18 + c19 + c20 + 2 + k - 1];
               fi;
             fi;
           fi;
@@ -753,7 +758,10 @@ msg.IdGroupP4Q := function(group)
               pcgsp := Pcgs(P);
               pcgsq := Pcgs(Q);
               zenp := Centre(P);
-              gens := [pcgsq[1], Filtered(pcgsp, x -> not x in zenp)[1], Filtered(pcgsp, x -> not x in zenp)[2], Filtered(pcgsp, x->x in zenp)[1]];
+              repeat g4 := Random(Elements(zenp)); until Group([g4]) = zenp;
+              g3 := Filtered(pcgsp, x -> not x in zenp)[1];
+              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              gens := [pcgsq[1], g2, g3, g4];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
               exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -766,13 +774,27 @@ msg.IdGroupP4Q := function(group)
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + k - 1];
             elif Size(flag[3]) = p^4 and q > 2 then
-              g := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[1];
-              h := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[2];
-              gens := [pcgsq[1], g, h, Pcgs(DerivedSubgroup(P))[1], Filtered(Pcgs(zenp), x -> not x in DerivedSubgroup(P))[1]];
-              G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-              x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2] * One(GF(p)), s1)) mod q;
-              k := LogFFE(ExponentsOfPcElement(G, gens[5]^(gens[1]^x))[5] * One(GF(p)), s1);
-              if k > (q - 1)/2 then k := q - k;
+              zenp := Centre(P);
+              repeat g4 := Random(Elements(zenp)); until Group([g4]) = Zen;
+              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
+              g3 := Filtered(pcgsp, x -> not x in zenp)[1];
+              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              gens := [pcgsq[1], g2, g3, g4, g5];
+              G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+              exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);;
+              exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);;
+              exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);;
+              exp4 := ExponentsOfPcElement(G, gens[5]^gens[1]);;
+              matGL2 := [exp3{[4, 5]}, exp4{[4, 5]}] * One(GF(p));;
+              ev := Eigenvalues(GF(p), matGL2);
+              mat := [exp1{[2, 3, 4, 5]}, exp2{[2, 3, 4, 5]}, exp3{[2, 3, 4, 5]}, exp4{[2, 3, 4, 5]}] * One(GF(p));;
+              evm := msg.EigenvaluesWithMultiplicitiesGL4P(mat, p);
+              if Length(evm) = 2 then
+                k := (q - 1)/2;
+              else x := Inverse(LogFFE(Filtered(List(evm, x->x[1]), x -> not x in ev)[1], s1)) mod q;
+                k := LogFFE(Filtered(ev, x -> x <> Z(p)^0)[1]^x, s1);
+                if k > (q - 1)/2 then k := q - k;
+                fi;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + (q - 1)/2 + k];
@@ -783,26 +805,81 @@ msg.IdGroupP4Q := function(group)
           elif sc = 1 then
             zenp := Centre(P);
             if Size(flag[3]) = p^3 then
-              g := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[1];
-              h := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[2];
-              gens := [pcgsq[1], g, h, Pcgs(DerivedSubgroup(P))[1], Filtered(Pcgs(zenp), x -> not x in DerivedSubgroup(P))[1]];
+              repeat g4 := Random(Elements(zenp)); until Group([g4]) = DerivedSubgroup(P);
+              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
+              repeat g3 := Random(Elements(P)); until not g3 in zenp;
+              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              gens := [pcgsq[1], g2, g3, g4, g5];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
               x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(p)), s1)) mod q;
               k := LogFFE(ExponentsOfPcElement(G, gens[5]^(gens[1]^x))[5] * One(GF(p)), s1);
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + (q - 1)*(1 - msg.delta(2, q)) + k];
             elif Size(flag[3]) = p^4 then
-              g := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[1];
-              h := Filtered(pcgsp, x -> Order(x) = p and not x in zenp)[2];
-              gens := [pcgsq[1], g, h, Pcgs(DerivedSubgroup(P))[1], Filtered(Pcgs(zenp), x -> not x in DerivedSubgroup(P))[1]];
-              G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-              x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2] * One(GF(p)), s1)) mod q;
-              k := LogFFE(ExponentsOfPcElement(G, gens[5]^(gens[1]^x))[5] * One(GF(p)), s1);
-              l := LogFFE(LogFFE(ExponentsOfPcElement(G, gens[3]^(gens[1]^x))[3] * One(GF(p)), s1) * One(GF(q)), b) mod (q - 1);
-              if l > (q - 3)/2 then l := q - 1 - l;
+              repeat g4 := Random(Elements(zenp)); until Group([g4]) = DerivedSubgroup(P);
+              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
+              g3 := Filtered(pcgsp, x -> not x in zenp)[1];
+              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              gens := [pcgsq[1], g2, g3, g4, g5];;
+              G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+              exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);;
+              exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);;
+              exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);;
+              exp4 := ExponentsOfPcElement(G, gens[5]^gens[1]);;
+              matGL2 := [exp3{[4, 5]}, exp4{[4, 5]}] * One(GF(p));
+              mat := [exp1{[2, 3, 4, 5]}, exp2{[2, 3, 4, 5]}, exp3{[2, 3, 4, 5]}, exp4{[2, 3, 4, 5]}] * One(GF(p));;
+              ev := Eigenvalues(GF(p), matGL2);
+              if Length(ev) = 2 then
+                y := ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(p));;
+                z := Filtered(ev, i -> i <> y)[1];;
+                evm := msg.EigenvaluesWithMultiplicitiesGL4P(mat, p);
+                if List(evm, x -> x[2]) = [1, 3] then
+                  if y = evm[1][1] and z = evm[2][1] then
+                    k := 1; l := 0;
+                  fi;
+                elif List(evm, x -> x[2]) = [1, 1, 2] then
+                  if z = evm[3][1] then
+                    x := LogFFE(Filtered(List(evm, x -> x[1]), x -> x <> y and x <> z)[1], s1);
+                    l := LogFFE((LogFFE((ExponentsOfPcElement(G, gens[4]^gens[1])[4]) * One(GF(p)), s1^x) - 1) * One(GF(q)), b) mod (q - 1);
+                    if l > (q - 3)/2 then l := q - 1 - l;
+                    fi;
+                    k := LogFFE(z * One(GF(p)), s1^x) mod q;
+                  elif (y = evm[1][1] and z = evm[2][1]) or (y = evm[2][1] and z = evm[1][1]) then
+                    x := Inverse(LogFFE(evm[3][1], s1)) mod q;
+                    l := LogFFE((LogFFE((ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4]) * One(GF(p)), s1) - 1) * One(GF(q)), b) mod (q - 1);
+                    if l > (q - 3)/2 then l := q - 1 - l;
+                    fi;
+                    k := LogFFE((z * One(GF(p)))^x, s1);
+                  fi;
+                elif List(evm, x -> x[2]) = [1, 1, 1, 1] then
+                  x := LogFFE(Filtered(List(evm, x -> x[1]), x -> LogFFE(y, s1) + 1 <> LogFFE(x, s1) and LogFFE(z, s1) <> LogFFE(x, s1) and q - LogFFE(y, s1) <> LogFFE(x, s1))[1] * One(GF(p)), s1);
+                  l := LogFFE((LogFFE((ExponentsOfPcElement(G, gens[4]^gens[1])[4]) * One(GF(p)), s1^x) - 1) * One(GF(q)), b) mod (q - 1);
+                  if l > (q - 3)/2 then l := q - 1 - l;
+                  fi;
+                  k := LogFFE(z * One(GF(p)), s1^x) mod q;
+                  return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+                              + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + ((2*q + 1) + (q - 1)/2*(k - 1) + l + 1)*(1 - msg.delta(2, q)) + 2*msg.delta(2, q)];
+                fi;
+              elif Length(ev) = 1 then
+                y := ev[1];
+                z := y;
+                evm := msg.EigenvaluesWithMultiplicitiesGL4P(mat, p);
+                if List(evm, x -> x[2]) = [2, 2] then
+                  x := Inverse(LogFFE(Filtered(List(evm, x -> x[1]), x -> x <> y)[1], s1)) mod q;
+                  l := LogFFE((LogFFE((ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4]) * One(GF(p)), s1) - 1) * One(GF(q)), b) mod (q - 1);
+                  if l > (q - 3)/2 then l := q - 1 - l;
+                  fi;
+                  k := LogFFE((z * One(GF(p)))^x, s1);
+                elif List(evm, x -> x[2]) = [1, 1, 2] then
+                  x := Inverse(LogFFE(Filtered(List(evm, x -> x[1]), x -> LogFFE(y, s1) + 1 <> LogFFE(x, s1) and q - LogFFE(y, s1) <> LogFFE(x, s1))[1], s1)) mod q;
+                  l := LogFFE((LogFFE((ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4]) * One(GF(p)), s1) - 1) * One(GF(q)), b) mod (q - 1);
+                  if l > (q - 3)/2 then l := q - 1 - l;
+                  fi;
+                  k := LogFFE((z * One(GF(p)))^x, s1);
+                fi;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
-                          + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + ((2*q + 1) + (q - 1)/2*(k - 1) + l + 1)*(1 - msg.delta(2, q)) + 2*msg.delta(2, q)];
+                      + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + ((2*q + 1) + (q - 1)/2*(k - 1) + l + 1)*(1 - msg.delta(2, q)) + 2*msg.delta(2, q)];
             fi;
           fi;
         elif (p + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17

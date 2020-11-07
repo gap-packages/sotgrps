@@ -371,8 +371,8 @@ msg.allGroupsP4Q := function(arg)
           Add(all, [ [q, p, p ,p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
         od;
       else #q > 3
-        for k in [0..(q - 2)] do
-          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+        for k in [1..(q - 1)] do
+          Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^k)]] ]);
         od;
         for k in [1..(q - 3)/2]
           do Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
@@ -429,7 +429,7 @@ msg.allGroupsP4Q := function(arg)
         end;
       #expected length 1/24*(q^3- 9*q^2+29*q-33 + 12*msg.w((q - 1), 4))
       for k in funci(q) do
-        Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[2]))))]] ]);
+        Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[3]))))]] ]);
       od;
     elif (p + 1) mod q = 0 and q > 2 then #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
       matGL2 := msg.QthRootGL2P(p, q);
@@ -460,16 +460,16 @@ msg.allGroupsP4Q := function(arg)
       u := S2 mod p;;
       v := (S2 - u)/p;;
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]], [5, 1, [5, S1]], [2, 1, [2, Int(s1^-1)]] ]); #Z(G) \cong C_{p^2}, G \cong C_q \ltimes (C_p \ltimes (C_p \times C_{p^2}))
-      Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [2, 1, [2, S1]] ]); #Z(G) = 1, , G \cong C_q \ltimes (C_p \ltimes (C_p \ltimes C_{p^2}))
-      for k in [2..Int((q + 1)/2)] do
-        Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [5, Int(s1^k)]], [2, 1, [2, Int(s1^(q + 1 - k))]] ]); #Z(G) \cong C_p^2, G \cong (C_q \ltimes C_p^2) \times C_p^2
+      Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [2, 1, [2, S1]] ]); #Z(G) = 1, |G'| = p^3 , G \cong C_q \ltimes (C_p \ltimes (C_p \ltimes C_{p^2}))
+      for k in [2..Int((q + 1)/2)] do #Z(G) = 1, G' = P, G \cong (C_q \ltimes C_p^2) \times C_p^2
+        Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [5, Int(s1^k)]], [2, 1, [2, Int(s1^(q + 1 - k))]] ]);
       od;
     elif (p + 1) mod q = 0 and q > 2 and p > 2 then
       matGL2 := msg.QthRootGL2P(p, q);
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [5, 2, [4, 1, 5, 1]],
       [2, 1, [2, Int(matGL2[1][1]), 5, Int(matGL2[2][1])]],
       [5, 1, [2, Int(matGL2[1][2]), 5, Int(matGL2[2][2])]] ]);
-    elif p = 2 and q = 3 then 
+    elif p = 2 and q = 3 then
       Add(all, [ [3, 2, 2, 2, 2], [2, [5, 1]], [3, [5, 1]], [4, [5, 1]], [3, 1, [4, 1]], [4, 1, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]] ]);
     fi;
 

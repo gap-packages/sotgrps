@@ -23,4 +23,5 @@ ReadPackage(mysmallgrpsPkgName, "gap/p4q.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/lowpowerPGroups.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/SmallGrps.gi");
 ReadPackage(mysmallgrpsPkgName, "gap/IdFunc.gi");
+ReadPackage(mysmallgrpsPkgName, "gap/IdFuncP4Q.gi");
 DeclareAttribute( "MySmallGroup_id", IsGroup );
