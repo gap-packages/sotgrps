@@ -1,4 +1,4 @@
-USE_NC := false;
+USE_NC := true;
 USE_PCP := false;
 USE_pqrsII := true;
 ############################################################################
@@ -40,7 +40,7 @@ msg.QthRootGL2P := function(p, q)
   	 a := PrimitiveElement(GF(p^2));
   	 b := a^((p^2-1)/q);
   	fi;
-  return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
+  return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
 end;
 ############################################################################
 msg.QthRootM2P2 := function(p, q)
@@ -69,7 +69,7 @@ msg.QsquaredthRootGL2P := function(p, q)
    	 a := PrimitiveElement(GF(p^2));
    	 b := a^((p^2-1)/(q^2));
    	fi;
-  return [ [0, 1], [-b^(p+1), b+b^p] ] * One(GF(p));
+  return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
 end;
 ############################################################################
 msg.delta := function(x, y)

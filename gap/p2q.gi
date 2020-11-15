@@ -1,6 +1,6 @@
 ##############################################################
 msg.allGroupsP2Q := function(n)
-local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
+local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, list;
 ####
 	fac := Factors(n);
 	if not Length(fac) = 3 or fac[1] = fac[3] then
@@ -22,6 +22,18 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
 		d := ZmodnZObj(Int(a), p^2);
 	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
+	if (p - 1) mod q = 0 then
+		r1 := a^((p-1)/q);
+		R1 := Int(r1);
+	fi;
+	if (q - 1) mod p = 0 then
+		r2 := b^((q - 1)/p);
+		R2 := Int(r2);
+		if (q - 1) mod p^2 = 0 then
+			r3 := b^((q - 1)/(p^2));
+			R3 := Int(r3);
+		fi;
+	fi;
 	all := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
 ##case 1: p > q > 2 and q divides (p + 1)
 	if p > q and q > 2 and (p + 1) mod q = 0 then
@@ -30,9 +42,9 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
 	fi;
 ####case 2 : p > q > 2, and q divides (p - 1)
 	if (p - 1) mod q = 0 and q > 2 then
-		Add(all, [ [q, p, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]); ##(C_q \ltimes C_p) times C_p
+		Add(all, [ [q, p, p], [2, 1, [2, R1]] ]); ##(C_q \ltimes C_p) times C_p
 		for k in [0..(q - 1)/2] do
-			Add(all, [ [q, p, p], [2, 1, [2, Int(a^((p-1)/q))]], [3, 1, [3, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_q \ltimes C_p^2
+			Add(all, [ [q, p, p], [2, 1, [2, R1]], [3, 1, [3, Int(r1^(Int(b^k)))]] ]); ##C_q \ltimes C_p^2
 		od;
 		ii := Int(d^(p*(p-1)/q)) mod p;
 		qq := (Int(d^(p*(p-1)/q)) - ii)/p;
@@ -50,11 +62,11 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, list;
 	fi;
 ####case4: q > p and q > 3
 	if (q - 1) mod p = 0 and q > 3 then
-		Append(all, [ [ [p, p, q], [3, 1, [3, Int(b^((q - 1)/p))]] ], ##C_p \times (C_p \ltimes C_q)
-		[ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/p))]] ] ]); ## C_{p^2} \ltimes C_q
+		Append(all, [ [ [p, p, q], [3, 1, [3, R2]] ], ##C_p \times (C_p \ltimes C_q)
+		[ [p, p, q], [1, [2, 1]], [3, 1, [3, R2]] ] ]); ## C_{p^2} \ltimes C_q
 	fi;
 	if (q - 1) mod (p^2) = 0 then
-		Add(all, [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/(p^2)))]], [3, 2, [3, Int(b^((q - 1)/p))]]]); ## C_{p^2} \ltimes C_q
+		Add(all, [ [p, p, q], [1, [2, 1]], [3, 1, [3, R3]], [3, 2, [3, R2]]]); ## C_{p^2} \ltimes C_q
 	fi;
 
 	list := List(all, x -> msg.groupFromData(x));
@@ -85,7 +97,7 @@ msg.isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i-
 
 ##############################################################
 msg.GroupP2Q := function(n, i)
-local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3, c4, l4, data;
+local fac, p, q, all, a, b, c, d, G, k, r1, R1, r2, R2, r3, R3, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3, c4, l4, data;
 ####
 	fac := Factors(n);
 	if not Length(fac) = 3 or fac[1] = fac[3] then
@@ -97,6 +109,26 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 	else
 		q := fac[1];
 	fi;
+	a := Z(p);
+	b := Z(q);
+	if not Int(a)^(p - 1) mod p^2 = 1 then
+		d := ZmodnZObj(Int(a), p^2);
+	else d := ZmodnZObj(Int(a) + p, p^2);
+	fi;
+
+	if (p - 1) mod q = 0 then
+		r1 := a^((p-1)/q);
+		R1 := Int(r1);
+	fi;
+	if (q - 1) mod p = 0 then
+		r2 := b^((q - 1)/p);
+		R2 := Int(r2);
+		if (q - 1) mod p^2 = 0 then
+			r3 := b^((q - 1)/(p^2));
+			R3 := Int(r3);
+		fi;
+	fi;
+
 	if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
 		Error("wrong input");
 	fi;
@@ -105,12 +137,6 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 	c2 := 1/2*(q + 5)*msg.w((p - 1), q);
 	c3 := 3*msg.delta(q, 2);
 	c4 := 2*msg.w((q - 1), p)*(1 - msg.delta(q, 3)) + msg.w((q - 1), p^2);
-	a := Z(p);
-	b := Z(q);
-	if not Int(a)^(p - 1) mod p^2 = 1 then
-		d := ZmodnZObj(Int(a), p^2);
-	else d := ZmodnZObj(Int(a) + p, p^2);
-	fi;
 	if i < 3 then
 		l0 := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
 		data := l0[i];
@@ -124,9 +150,9 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 ####case 2 : p > q > 2, and q divides (p - 1)
 	elif (p - 1) mod q = 0 and q > 2 and i > 2 and i < (3 + c2) then
 		l2 := [];
-		Add(l2, [ [q, p, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]); ##(C_q \ltimes C_p) times C_p
+		Add(l2, [ [q, p, p], [2, 1, [2, R1]] ]); ##(C_q \ltimes C_p) times C_p
 		for k in [0..(q - 1)/2] do
-			Add(l2, [ [q, p, p], [2, 1, [2, Int(a^((p-1)/q))]], [3, 1, [3, Int(a^(Int(b^k)*(p-1)/q))]] ]); ##C_q \ltimes C_p^2
+			Add(l2, [ [q, p, p], [2, 1, [2, R1]], [3, 1, [3, Int(r1^(Int(b^k)))]] ]); ##C_q \ltimes C_p^2
 		od;
 		ii := Int(d^(p*(p-1)/q)) mod p;
 		qq := (Int(d^(p*(p-1)/q)) - ii)/p;
@@ -151,10 +177,10 @@ local fac, p, q, all, a, b, c, d, G, k, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3,
 ####case4: q > p and q > 3
 	elif (q - 1) mod p = 0 and q > 3 and i > 2 and i < (3 + c4) then
 		l4 := [];
-		Append(l4, [ [ [p, p, q], [3, 1, [3, Int(b^((q - 1)/p))]] ], ##C_p \times (C_p \ltimes C_q)
-		[ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/p))]] ] ]); ## C_{p^2} \ltimes C_q
+		Append(l4, [ [ [p, p, q], [3, 1, [3, R2]] ], ##C_p \times (C_p \ltimes C_q)
+		[ [p, p, q], [1, [2, 1]], [3, 1, [3, R2]] ] ]); ## C_{p^2} \ltimes C_q
 		if (q - 1) mod (p^2) = 0 then
-			Add(l4, [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/(p^2)))]], [3, 2, [3, Int(b^((q - 1)/p))]]]); ## C_{p^2} \ltimes C_q
+			Add(l4, [ [p, p, q], [1, [2, 1]], [3, 1, [3, Int(b^((q - 1)/(p^2)))]], [3, 2, [3, R2]]]); ## C_{p^2} \ltimes C_q
 		fi;
 		data := l4[i - 2];
 		return msg.groupFromData(data);

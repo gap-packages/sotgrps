@@ -5,7 +5,7 @@ LoadPackage("sotgrps");
 
 msg.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
-   todo:=Filtered([from..to], x->SOTGroupIsAvailable(x) and (x<2001 or ForAll(Collected(FactorsInt(x)),i->i[2]<3)));;
+   todo:=Filtered([from..to], x->SOTGroupIsAvailable(x) and SmallGroupsAvailable(x));;
    for i in todo do Display(i); my:=NumberOfSOTGroups(i); gap:=NumberSmallGroups(i);
       if not my = gap then
          Error("ERROR at order ",i,"\n");
@@ -111,4 +111,17 @@ repeat
    fi;
 until false;
 return true;
+end;
+
+SOTconst := function( list )
+local nums, grps, ids, tm, tg, tim, tgi, ids2, grg, grm, tgm;
+
+   nums:= Sum(List(list,NumberOfSOTGroups));
+   Print("there are ",nums," groups \n");
+   tg  := Runtime();
+   grg := List(list,x->AllSOTGroups(x));
+   tg  := Runtime()-tg;
+   Print("SOT construction: ",tg,"\n");
+   tm  := Runtime();
+   return [nums,tg,tm];
 end;

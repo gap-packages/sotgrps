@@ -148,10 +148,6 @@ msg.IdGroupP4Q := function(group)
       return [n, idP];
     elif flag{[1, 2]} = [false, true] then
       sc := Size(Zen);
-      f := FittingSubgroup(group);
-      fp := Pcgs(SylowSubgroup(f, p));
-      fq := Pcgs(SylowSubgroup(f, q));
-      idfp := IdGroup(SylowSubgroup(f, p));
       if idP = 1 then
         if sc = p^3 then return [n, c0 + 1];
         elif sc = p^2 then return [n, c0 + 2];
@@ -187,12 +183,20 @@ msg.IdGroupP4Q := function(group)
       elif idP = 5 then return [n, c0 + c1 + c2 + c3 + c4 + 1];
 
       elif idP = 6 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 1];
         elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 2];
         elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 3];
         fi;
 
       elif idP = 7 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
             repeat g := Random(Elements(P)); until not g in Zen and pcgsq[1]^g = pcgsq[1];
@@ -224,6 +228,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 8 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
             repeat h := Random(Elements(P)); until Group([h^p]) = DerivedSubgroup(P) and pcgsq[1]^h = pcgsq[1];
@@ -247,6 +255,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 9 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
             if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1];
@@ -261,6 +273,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 10 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
             repeat h := Random(Elements(P)); until not h in Zen and pcgsq[1]^h = pcgsq[1] and Order(h) = p^2;
@@ -294,6 +310,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 11 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1];
           elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 2];
@@ -311,6 +331,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 12 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
             repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
@@ -347,6 +371,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 13 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 3 then
           if idfp[2] = 2 then
             repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
@@ -383,6 +411,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 14 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1];
           elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2];
@@ -395,6 +427,10 @@ msg.IdGroupP4Q := function(group)
         fi;
 
       elif idP = 15 then
+        f := FittingSubgroup(group);
+        fp := Pcgs(SylowSubgroup(f, p));
+        fq := Pcgs(SylowSubgroup(f, q));
+        idfp := IdGroup(SylowSubgroup(f, p));
         if p > 3 and idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
         elif p > 3 and idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 2];
         elif p = 3 and idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];

@@ -715,7 +715,7 @@ end;
 ######################################################
 msg.IdGroupP3Q := function(group)
   local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
-  Id, gens, pc, pcgs, G, exp1, exp2, exp3, matGL2, matGL3, det, func, func2, tmp, ev, evm, N1, N2,
+  Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, func, func2, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, pcgsp, pcgsq;
     n := Size(group);
     fac := Factors(n);
@@ -741,8 +741,8 @@ msg.IdGroupP3Q := function(group)
 
     func2 := function(q)
       local i, ll;
-        ll := [[0, 0, 0]];
-        for i in [1..(q - 1)/2] do
+        ll := [];
+        for i in [1..(q - 3)/2] do
           Add(ll, AsSet([AsSet([-i mod (q - 1), i]), AsSet([-i mod (q - 1), (-2*i) mod (q - 1)]), AsSet([2*i mod (q - 1), i])]));
         od;
       return ll;
@@ -796,35 +796,35 @@ msg.IdGroupP3Q := function(group)
       fi;
     fi;
   ############ case 1: no normal Sylow subgroup -- necessarily n = 24
-    if not IsNormal(group, P) and not IsNormal(group, Q) then return [24, 4]; fi;
+    if not IsNormal(group, P) and not IsNormal(group, Q) then return [24, 15]; fi;
   ############ interlude: n = 24
     if n = 24 and not IsAbelian(group) then
       if [tst[1], tst[2], tst[4], tst[6]] = [ true, true, 4, 8 ] then
-        return [24, 5];
+        return [24, 4];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ true, true, 4, 2 ] then
-        return [24, 6];
+        return [24, 5];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 8, 2 ] then
-        return [24, 7];
+        return [24, 6];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 4 ] then
         O := Omega(P, 2);
-        if IsNormal(group, O) then return [24, 9];
-        else return [24, 8];
+        if IsNormal(group, O) then return [24, 8];
+        else return [24, 7];
         fi;
       elif [tst[1], tst[2], tst[4], tst[6], tst[5]] = [ false, true, 2, 8, 4 ] then
-        return [24, 10];
+        return [24, 9];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 8 ] then
         d := pcgsq[1];
         repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
         O := Group([c, d, Pcgs(Zen)[1]]);
-        if IsCyclic(O) then return [24, 12];
-        else return [24, 11];
+        if IsCyclic(O) then return [24, 11];
+        else return [24, 10];
         fi;
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 2 ] then
-        return [24, 13];
+        return [24, 12];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ true, false, 2, 8 ] then
-        return [24, 14];
+        return [24, 13];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ true, false, 4, 2 ] then
-        return [24, 15];
+        return [24, 14];
       fi;
     fi;
 
@@ -948,54 +948,33 @@ msg.IdGroupP3Q := function(group)
       ## below: (C_q \ltimes C_p^3) when q | (p - 1)
       elif tst[3] = true and tst[5] = 1 and q = 2 then
         return [n, 12];
-      elif tst[3] = true and tst[5] = 1 and (p - 1) mod 3 = 0 and q = 3 then
+      elif tst[3] = true and tst[5] = 1 and (p - 1) mod q = 0 and q > 2 then
         gens := [pcgsq[1], pcgsp[1], pcgsp[2], pcgsp[3]];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
         exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
         exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        ev := Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)));
+        mat := [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p));
+        ev := Eigenvalues(GF(p), mat);
         if Length(ev) = 1 then
           return [n, 10 + (q + 1)/2 + (q - 1)];
-        else
-          return [n, 11 + (q + 1)/2 + (q - 1)];
-        fi;
-      elif tst[3] = true and tst[5] = 1 and (p - 1) mod q = 0 and q > 3 then
-        gens := [pcgsq[1], pcgsp[1], pcgsp[2], pcgsp[3]];
-        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-        exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
-        exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-        exp3 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        ev := Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)));
-        if Length(ev) = 1 then
-          return [n, 10 + (q - 3) + (q + 1)/2 + (q - 1)];
-        fi;
-        if Length(ev) <> 1 then
+        elif Length(ev) <> 1 then
           if Length(ev) = 2 then
-            evm := msg.EigenvaluesWithMultiplicitiesGL3P([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)), p);
+            evm := msg.EigenvaluesWithMultiplicitiesGL3P(mat, p);
             x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
+            k := LogFFE(LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1) * One(GF(q)), b) mod (q - 1);
+            return [n, 10 + k + (q + 1)/2 + (q - 1)];
           elif Length(ev) = 3 then
-            x := Inverse(LogFFE(
-            Eigenvalues(GF(p), [exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}] * One(GF(p)))[1],
-            s1)) mod q;
-          fi;
-          matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
-          l := Eigenvalues(GF(p), matGL3);
-          if Length(l) = 3 then
+            x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], s1)) mod q;
+            l := List(ev, i -> i^x);
             tmp := func(q);
             y := List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
             if lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))) in tmp then
               k := Position(tmp, lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-              return [n, 6 + k + 3*q + msg.w((p^2+p+1), q)];
+              return [n, 9 + k + (q - 3)/2 + (q - 1) + (q + 1)/2 + (q - 1)];
             else k := Position(func2(q), lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-              return [n, 9 + k + (q - 3) + (q + 1)/2 + (q - 1)];
+              return [n, 9 + k + (q - 1) + (q + 1)/2 + (q - 1)];
             fi;
-
-          elif Length(l) = 2 and List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q))) = [b^((q - 1)/2)] then
-            return [n, 6 + 3*q];
-          else
-            k := Position(Filtered([1..(q - 2)], x-> not x = (q - 1)/2), LogFFE(LogFFE(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1)[1], s1)*One(GF(q)), b) mod (q - 1));
-            return [n, 9 + k + (q + 1)/2 + (q - 1)];
           fi;
         fi;
       elif tst[3] = true and tst[4] = p and tst[5] = 1 and (p^2 + p + 1) mod q = 0 and q > 3 then
@@ -1026,8 +1005,8 @@ msg.IdGroupP3Q := function(group)
             matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
             y := List(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1), x -> LogFFE(x, s1) mod q)[1];
             if y > (q + 1)/2 then
-              k := Position([2..(q + 1)/2], (q + 1) - y);
-            else k := Position([2..(q + 1)/2], y);
+              k := (q + 1) - y - 1;
+            else k := y - 1;
             fi;
             return [n, 8 + k + (15+q^2+10*q+4*msg.w((q-1),3))/6 + msg.w((p^2+p+1), q)*(1 - msg.delta(q, 3))];
           fi;
