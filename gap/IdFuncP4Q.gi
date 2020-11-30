@@ -1,7 +1,7 @@
 ##########################################
 msg.IdGroupP4Q := function(group)
   local n, fac, p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
-        sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, func, func2, lst, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y, z,
+        sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, Idfunc, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y, z,
         exps1, exps2, pcgs, pcgsp, pcgsq, idP, fp, fq, g1, g2, g3, g4, g5, char, dP, dG,
         exp1, exp2, exp3, exp4, det, tmp, ev, evm, N1, N2,
         c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
@@ -74,8 +74,8 @@ msg.IdGroupP4Q := function(group)
     c10 := p*msg.w((q - 1), p) + (p - 1)*msg.w((q - 1), p^2);
     c11 := 2*msg.w((q - 1), p) + 2*msg.w((q - 1), 4)*msg.delta(2, p);
     c12 := p*msg.w((q - 1), p) + msg.delta(2, p);
-    c13 := p*msg.w((q - 1), p) - msg.delta(3, p);
-    c14 := 2*msg.w((q - 1), p) + msg.delta(3, p);
+    c13 := p*msg.w((q - 1), p) - msg.delta(3, p)*msg.w((q - 1), p);
+    c14 := 2*msg.w((q - 1), p) + msg.delta(3, p)*msg.w((q - 1), p);
     c15 := (1 - msg.delta(2, p))*2*msg.w((q - 1), p);
     c16 := msg.w((p - 1), q);
     c17 := (q + 1)*msg.w((p - 1), q);
@@ -96,33 +96,17 @@ msg.IdGroupP4Q := function(group)
     c29 := (q + 1)*msg.w((p - 1), q);
     c30 := msg.w((p - 1), q);
     ####
-    func := function(q)
-      local i, j, k, ll;
-        ll := [];
-        for i in [1..Int((q - 4)/3)] do
-          for j in [i + 1..Int((q - 2 - i)/2)] do
-            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-              Add(ll, AsSet([AsSet([-i mod (q - 1), j]), AsSet([-j mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), i])]));
-              Add(ll, AsSet([AsSet([-i mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), j]), AsSet([-j mod (q - 1), i])]));
-            fi;
-          od;
-        od;
-      return ll;
-    end;
-    ####
-    func2 := function(q)
-      local i, ll;
-        ll := [];
-        for i in [1..(q - 3)/2] do
-          Add(ll, AsSet([AsSet([-i mod (q - 1), i]), AsSet([-i mod (q - 1), (-2*i) mod (q - 1)]), AsSet([2*i mod (q - 1), i])]));
-        od;
-      return ll;
-    end;
-    ####
-    lst := function(set)
-      local st;
-        st := AsSet([AsSet([set[1], set[2]]), AsSet([(-set[2]) mod (q - 1), (set[1] - set[2]) mod (q - 1)]), AsSet([(set[2] - set[1]) mod (q - 1), -set[1] mod (q - 1)])]);
-      return st;
+    Idfunc := function(q, l)
+      local x, y, a, b, tuple, n, id;
+        x := l[1] mod (q - 1); y := l[2] mod (q - 1);
+        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then return 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
+        else
+          tuple := SortedList(Filtered(
+          [SortedList([x, y]), SortedList([-x, y-x] mod (q - 1)), SortedList([-y, x-y] mod (q - 1))],
+          list -> list[1] < Int((q + 2)/3) and list[2] < q - 1 - list[1]))[1];
+          a := tuple[1]; b := tuple[2];
+          return Sum([1..a-1], x -> q - 1 - 3*x) + b + 1 - 2*a;
+        fi;
     end;
     ####
     IdTuplei := function(q, l)
@@ -591,16 +575,11 @@ msg.IdGroupP4Q := function(group)
               elif Length(ev) = 3 then
                 x := Inverse(LogFFE(ev[1], s1)) mod q;
                 ev := Eigenvalues(GF(p), mat^x);
-                tmp := func(q);
-                y := List(Filtered(ev, x -> x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
-                if lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))) in tmp then
-                  k := Position(tmp, lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-                  return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
-                             + c18 + c19 + 2*q - 1 + k];
-                else k := Position(func2(q), lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-                  return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+                y := List(Filtered(l, x -> x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
+                l := List(y, x -> (LogFFE(x, b) mod (q - 1)));
+                k := Idfunc(q, l);
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                              + c18 + c19 + Int((q + 1)/2) + q + k];
-                fi;
               fi;
             elif q = 2 then
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
@@ -985,10 +964,13 @@ msg.IdGroupP4Q := function(group)
       fi;
     elif flag{[1, 2]} = [false, false] then
       if n = 48 then
-        if IdGroup(group)[2] = 48 then return [48, 49];
-        elif IdGroup(group)[2] = 30 then return [48, 50];
-        elif IdGroup(group)[2] = 29 then return [48, 51];
-        elif IdGroup(group)[2] = 28 then return [48, 52];
+        if Size(f) = 1 then return [48, 49];
+        elif Size(f) = 2 and Size(dG) = 12 then return [48, 50];
+        elif Size(f) = 2 and Size(dG) = 24 then
+          repeat g := Random(Elements(P)); until Order(g) < 8 and not g in dG and not g in Zen;
+          if Order(g) = 2 then return [48, 51];
+          else return [48.52];
+          fi;
         fi;
       elif n = 1053 then return [n, 51];
       fi;

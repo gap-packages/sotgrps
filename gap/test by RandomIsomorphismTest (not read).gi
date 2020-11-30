@@ -8,7 +8,7 @@ isp3q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i ->
 isp4q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) in [ [ 1, 4 ], [ 4, 1, ] ];
 
 
-LoadPackage("mysmallgrps");
+LoadPackage("sotgrps");
 LoadPackage("grpconst");
 
 #p4q: if p^4 = 16 or 81 then compare my groups with GAP SmallGroups Lib, otherwise compare with grpconst list.

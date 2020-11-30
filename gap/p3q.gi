@@ -16,7 +16,7 @@ msg.allGroupsP3Q := function(n)
     fi;
     if (q - 1) mod (p^2) = 0 then
       r2 := b^((q-1)/(p^2));
-      R2 := R2;
+      R2 := Int(r2);;
     fi;
     if (q - 1) mod (p^3) = 0 then
       r3 := b^((q-1)/(p^3));
@@ -143,25 +143,43 @@ msg.allGroupsP3Q := function(n)
         Add(all, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
       od;
     fi;
-    if (p - 1) mod q = 0 and q > 3 then
-      for k in [1..(q - 3)/2]
-        do Add(all, [ [q, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-      od;
-    fi;
+#    if (p - 1) mod q = 0 and q > 3 then
+#      for k in [1..(q - 3)/2]
+#        do Add(l8, [ [q, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
+#      od;
+#    fi; #only required with oldfunc
 
+
+#    oldfunc := function(q)
+#      local i, j, k, ll;
+#        ll := [];
+#        for i in [1..Int((q - 4)/3)] do
+#          for j in [i + 1..Int((q - 2 - i)/2)] do
+#            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+#              Add(ll, [(-i) mod (q - 1), j]);
+#              Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+#            fi;
+#          od;
+#        od;
+#      return ll; #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+#
     func := function(q)
-      local i, j, k, ll;
-        ll := [];
-        for i in [1..Int((q - 4)/3)] do
-          for j in [i + 1..Int((q - 2 - i)/2)] do
-            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-              Add(ll, [(-i) mod (q - 1), j]);
-              Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+      local qq, res, a,b,c,d,t,bb;
+        res :=[];
+        qq  := q-1;
+        bb  := (q-1) mod 3;
+        bb  := (q-1-bb) / 3;
+        for a in [1..bb] do
+          for b in [2*a..(q-2-a)] do
+            t := [[-a,b-a],[-b,a-b]] mod qq;
+            if ForAll(t,x-> [a,b] <= SortedList(x))  then
+             Add(res,[a,b]);
             fi;
           od;
         od;
-      return ll;
-    end;    #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+        if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+      return res;
+    end; #explength := 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
 
     if (p - 1) mod q = 0 and q > 3 then
       for k in func(q) do
@@ -239,7 +257,8 @@ msg.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i-
 ############################################################################
 msg.GroupP3Q := function(n, i)
   local fac, p, q, all, G, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq,
-  matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10;
+  matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,
+  newfunc, oldfunc;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
       Error("Argument must be of the form of p^3q"); fi;
@@ -255,7 +274,7 @@ msg.GroupP3Q := function(n, i)
     fi;
     if (q - 1) mod (p^2) = 0 then
       r2 := b^((q-1)/(p^2));
-      R2 := R2;
+      R2 := Int(r2);
     fi;
     if (q - 1) mod (p^3) = 0 then
       r3 := b^((q-1)/(p^3));
@@ -426,26 +445,43 @@ msg.GroupP3Q := function(n, i)
           Add(l8, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
         od;
       fi;
-      if (p - 1) mod q = 0 and q > 3 then
-        for k in [1..(q - 3)/2]
-          do Add(l8, [ [q, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
-        od;
-      fi;
+#      if (p - 1) mod q = 0 and q > 3 then
+#        for k in [1..(q - 3)/2]
+#          do Add(l8, [ [q, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
+#        od;
+#      fi; #only required with oldfunc
 
 
+#      oldfunc := function(q)
+#        local i, j, k, ll;
+#          ll := [];
+#          for i in [1..Int((q - 4)/3)] do
+#            for j in [i + 1..Int((q - 2 - i)/2)] do
+#              if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+#                Add(ll, [(-i) mod (q - 1), j]);
+#                Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+#              fi;
+#            od;
+#          od;
+#        return ll; #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+#
       func := function(q)
-        local i, j, k, ll;
-          ll := [];
-          for i in [1..Int((q - 4)/3)] do
-            for j in [i + 1..Int((q - 2 - i)/2)] do
-              if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-                Add(ll, [(-i) mod (q - 1), j]);
-                Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+        local qq, res, a,b,c,d,t,bb;
+          res :=[];
+          qq  := q-1;
+          bb  := (q-1) mod 3;
+          bb  := (q-1-bb) / 3;
+          for a in [1..bb] do
+            for b in [2*a..(q-2-a)] do
+              t := [[-a,b-a],[-b,a-b]] mod qq;
+              if ForAll(t,x-> [a,b] <= SortedList(x))  then
+               Add(res,[a,b]);
               fi;
             od;
           od;
-        return ll;
-      end;      #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+          if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+        return res;
+      end; #explength := 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
 
       if (p - 1) mod q = 0 and q > 3 then
         for k in func(q) do

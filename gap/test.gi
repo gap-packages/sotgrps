@@ -91,7 +91,7 @@ repeat
       gap := SmallGroupsAvailable(n);
       Print("start ",nr," groups of size ",n,"\n");
 
-      my := List([1..nr],x->SOTGroup(n,x));
+      my := List([1..nr],x->AllSOTGroups(n)[x]);
       for i in [1..nr] do
           copies := List([1..5],x->getRandomPc(my[i]));
 	  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID pc", [n,i]); fi;

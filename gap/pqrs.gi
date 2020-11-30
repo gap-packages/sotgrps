@@ -157,7 +157,7 @@ msg.NumberGroupsPQRS := function(n)
     + msg.w((s - 1), p)*(1 + (p - 1)*msg.w((q - 1), p))
     + msg.w((r - 1), p)*(1 + (p - 1)*msg.w((s - 1), p))
     + (p - 1)^2 * msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-    + msg.w((s - 1), q) +  + msg.w((r - 1), q) + (q - 1) * msg.w((r - 1), q)*msg.w((s - 1), q)
+    + msg.w((s - 1), q) + msg.w((r - 1), q) + (q - 1) * msg.w((r - 1), q)*msg.w((s - 1), q)
     + msg.w((s - 1), r);
 
   return m;

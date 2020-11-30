@@ -94,7 +94,7 @@ msg.QthRootGL3P := function(p, q)
     a := PrimitiveElement(GF(p^3));
     b := a^((p^3-1)/q);
   fi;
-  return [ [0, 0, 1], [1, 0, -b^(p+1)-b^(p^2+1)-b^(p^2+p)], [0, 1, b+b^p+b^(p^2)] ] * One(GF(p));
+  return [ [0, 1, 0], [0, 0, 1], [1, -b^(p+1)-b^(p^2+1)-b^(p^2+p), b+b^p+b^(p^2)] ] * One(GF(p));
 end;
 ############################################################################
 msg.QthRootGL4P := function(p, q)
@@ -107,7 +107,7 @@ msg.QthRootGL4P := function(p, q)
     u := b^(p^2+p+1)+b^(p^3+p+1)+b^(p^3+p^2+1)+b^(p^3+p^2+p);
     v := -b^(p+1)-b^(p^2+1)-b^(p^3+1)-b^(p^2+p)-b^(p^3+p)-b^(p^3+p^2);
   fi;
-  return [ [0, 0, 0, -1], [1, 0, 0, u], [0, 1, 0, v], [0, 0, 1, b+b^p+b^(p^2)+b^(p^3)] ] * One(GF(p));
+  return [ [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [-1, u, v, b+b^p+b^(p^2)+b^(p^3)] ] * One(GF(p));
 end;
 ############################################################################
 msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)

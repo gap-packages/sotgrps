@@ -673,25 +673,19 @@ msg.IdGroupP2Q2 := function(group)
     fi;
 
     if q = 2 and p > 3 then
-      if ind = [p^2, q^2, 2] then
+      if ind = [p^2, 4, 2] then
         return [n, 5];
-      elif ind = [p, q^2, 2 * p] then
-        return [n, 6];
-      elif ind = [p, q^2, 2] then
-        return [n, 7];
-      elif ind = [p^2, q, 2] then
-        return [n, 8];
-      elif ind = [p, q, 2 * p] then
-        return [n, 9];
-      elif ind = [p, q, 2] then
-        return [n, 10];
-      elif ind = [p, q, 1] then
-        return [n, 11];
-      elif p mod 4 = 1 and ind = [p^2, q^2, 1] then
-        return [n, 12];
-      elif p mod 4 = 1 and ind = [p, q^2, p] then
-        return [n, 13];
-      elif p mod 4 = 1 and ind = [p, q^2, 1] then
+      elif p mod 4 = 1 and ind = [p^2, 4, 1] then
+        return [n, 5 + msg.w((p - 1), 4)];
+      elif ind{[1, 2]} = [p^2, 2] then
+        return [n, 6 + msg.w((p - 1), 4)];
+      elif ind = [p, 4, 2*p] then
+        return [n, 7 + msg.w((p - 1), 4)];
+      elif ind = [p, 4, 2] then
+        return [n, 8 + msg.w((p - 1), 4)];
+      elif p mod 4 = 1 and ind = [p, 4, p] then
+        return [n, 8 + 1 + msg.w((p - 1), 4)];
+      elif p mod 4 = 1 and ind = [p, 4, 1] then
         gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
         gexp3 := ExponentsOfPcElement(G, gens[3]^gens[2]);
@@ -701,21 +695,27 @@ msg.IdGroupP2Q2 := function(group)
         x := DeterminantMat(mat1);
         y := DeterminantMat(mat2);
         if AsSet([Int(x), Int(y)]) = AsSet([p - 1, 1]) then
-          return [n, 14];
+          return [n, 8 + 2 + msg.w((p - 1), 4)];
         elif AsSet([Int(x), Int(y)]) = AsSet([1, 1]) then
-          return [n, 15];
+          return [n, 8 + 3 + msg.w((p - 1), 4)];
         elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
-          return [n, 16];
+          return [n, 8 + 4 + msg.w((p - 1), 4)];
         fi;
       elif p mod 4 = 3 and ind = [p, q^2, 1] then
-        return [n, 12];
+        return [n, 9];
+      elif ind = [p, q, 2 * p] then
+        return [n, 9 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
+      elif ind = [p, q, 2] then
+        return [n, 10 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
+      elif ind = [p, q, 1] then
+        return [n, 11 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
       fi;
     fi;
 end;
 ######################################################
 msg.IdGroupP3Q := function(group)
-  local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst, lst,
-  Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, func, func2, tmp, ev, evm, N1, N2,
+  local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst,
+  Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, Idfunc, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, pcgsp, pcgsq;
     n := Size(group);
     fac := Factors(n);
@@ -725,33 +725,17 @@ msg.IdGroupP3Q := function(group)
     if fac[1] = fac[2] then
     q := fac[4]; elif fac[3] = fac[4] then
     q := fac[1]; fi;
-    func := function(q)
-      local i, j, k, ll;
-        ll := [];
-        for i in [1..Int((q - 4)/3)] do
-          for j in [i + 1..Int((q - 2 - i)/2)] do
-            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
-              Add(ll, AsSet([AsSet([-i mod (q - 1), j]), AsSet([-j mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), i])]));
-              Add(ll, AsSet([AsSet([-i mod (q - 1), -(i + j) mod (q - 1)]), AsSet([(i + j) mod (q - 1), j]), AsSet([-j mod (q - 1), i])]));
-            fi;
-          od;
-        od;
-      return ll;
-    end;
-
-    func2 := function(q)
-      local i, ll;
-        ll := [];
-        for i in [1..(q - 3)/2] do
-          Add(ll, AsSet([AsSet([-i mod (q - 1), i]), AsSet([-i mod (q - 1), (-2*i) mod (q - 1)]), AsSet([2*i mod (q - 1), i])]));
-        od;
-      return ll;
-    end;
-
-    lst := function(set)
-      local st;
-        st := AsSet([AsSet([set[1], set[2]]), AsSet([(-set[2]) mod (q - 1), (set[1] - set[2]) mod (q - 1)]), AsSet([(set[2] - set[1]) mod (q - 1), -set[1] mod (q - 1)])]);
-      return st;
+    Idfunc := function(q, l)
+      local x, y, a, b, tuple, n, id;
+        x := l[1] mod (q - 1); y := l[2] mod (q - 1);
+        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then return 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
+        else
+          tuple := SortedList(Filtered(
+          [SortedList([x, y]), SortedList([-x, y-x] mod (q - 1)), SortedList([-y, x-y] mod (q - 1))],
+          list -> list[1] < Int((q + 2)/3) and list[2] < q - 1 - list[1]))[1];
+          a := tuple[1]; b := tuple[2];
+          return Sum([1..a-1], x -> q - 1 - 3*x) + b + 1 - 2*a;
+        fi;
     end;
     a := Z(p);
     b := Z(q);
@@ -967,14 +951,10 @@ msg.IdGroupP3Q := function(group)
           elif Length(ev) = 3 then
             x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], s1)) mod q;
             l := List(ev, i -> i^x);
-            tmp := func(q);
             y := List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
-            if lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))) in tmp then
-              k := Position(tmp, lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-              return [n, 9 + k + (q - 3)/2 + (q - 1) + (q + 1)/2 + (q - 1)];
-            else k := Position(func2(q), lst(List(y, x -> (LogFFE(x, b) mod (q - 1)))));
-              return [n, 9 + k + (q - 1) + (q + 1)/2 + (q - 1)];
-            fi;
+            l := List(y, x -> (LogFFE(x, b) mod (q - 1)));
+            k := Idfunc(q, l);
+            return [n, 9 + k + (q - 1) + (q + 1)/2 + (q - 1)];
           fi;
         fi;
       elif tst[3] = true and tst[4] = p and tst[5] = 1 and (p^2 + p + 1) mod q = 0 and q > 3 then

@@ -380,3 +380,35 @@ gap> p:=Random(Primes2); q:=Random(Primes2); r:=Random(Primes2); s:=Random(Prime
   GAP construction: 1327446
   SOT construction: 176
   [ 255, 1327446, 176 ]
+
+  SOTconst := function( list )
+  local nums, grps, grpconst, tm, tg, tim, tgi, ids2, grg, grm, tgm;
+
+     nums:= Sum(list, NumberOfSOTGroups);
+     Print("there are ",nums," groups \n");
+     tm  := Runtime();
+     grm := List(list,x->AllSOTGroups(x));
+     tm  := Runtime()-tm;
+     Print("SOT construction: ",tm,"\n");
+     tgi := Runtime();
+     if not Sum(List(grg, x->Size(x))) = nums then Error("number not correct"); fi;
+     return [nums,tg,tm];
+  end;
+
+  SmallGroupconst := function( list )
+  local nums, grps, grpconst, tm, tg, tim, tgi, ids2, grg, grm, tgm;
+
+     nums:= Sum(list, NumberSmallGroups);
+     Print("there are ",nums," groups \n");
+     tg  := Runtime();
+     grg := List(list,x -> ConstructAllCFGroups(x));
+     tg  := Runtime()-tg;
+     Print("cubefree construction: ",tg,"\n");
+     tm  := Runtime();
+     grm := List(list,x->AllSOTGroups(x));
+     tm  := Runtime()-tm;
+     Print("SOT construction: ",tm,"\n");
+     tgi := Runtime();
+     if not Sum(List(grg, x->Size(x))) = nums then Error("number not correct"); fi;
+     return [nums,tg,tm];
+  end;
