@@ -701,7 +701,7 @@ msg.IdGroupP2Q2 := function(group)
         elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
           return [n, 8 + 4 + msg.w((p - 1), 4)];
         fi;
-      elif p mod 4 = 3 and ind = [p, q^2, 1] then
+      elif p mod 4 = 3 and ind = [p, 4, 1] then
         return [n, 9];
       elif ind = [p, q, 2 * p] then
         return [n, 9 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
@@ -913,7 +913,7 @@ msg.IdGroupP3Q := function(group)
     elif tst[3] = true and tst[5] = p^2 then ## (C_q \ltimes C_p) \times C_p^2
         return [n, 9 + (q - 1)];
       elif tst[3] = true and tst[5] = p and (p - 1) mod q = 0 and q > 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
-        gens:= [pcgsq[1], Filtered(pcgsp, x->not x in Zen)[1], Filtered(pcgsp, x->not x in Zen)[2]];
+        gens:= [pcgsq[1], Filtered(pcgsp, x->not x in Zen)[1], Filtered(pcgsp, x->not x in Zen)[2], Filtered(pcgsp, x->x in Zen)[1]];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
         exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
         exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
