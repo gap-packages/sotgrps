@@ -107,7 +107,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
     fi;
     if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
       for k in [1..(r - 1)] do
-        Add(all, [ [q, r, p, p], [3, 1, [3, Rootpq]], [3, 2, [3, Rootpr]], [4, 2, [4, Int(b^(k*(p-1)/r))]] ]);
+        Add(all, [ [q, r, p, p], [3, 1, [3, Rootpq]], [3, 2, [3, Rootpr]], [4, 2, [4, Int(rootpr^k)]] ]);
       od;
     fi;
     if (p - 1) mod (q*r) = 0 and q > 2 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
@@ -478,7 +478,7 @@ msg.GroupP2QR := function(n, i)
       fi;
       if (p - 1) mod (q*r) = 0 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2
         for k in [1..(r - 1)] do
-          Add(l3, [ [q, r, p, p], [3, 1, [3, Rootpq]], [3, 2, [3, Rootpr]], [4, 2, [4, Int(b^(k*(p-1)/r))]] ]);
+          Add(l3, [ [q, r, p, p], [3, 1, [3, Rootpq]], [3, 2, [3, Rootpr]], [4, 2, [4, Int(rootpr^k)]] ]);
         od;
       fi;
       if (p - 1) mod (q*r) = 0 and q > 2 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_p^2

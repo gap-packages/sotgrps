@@ -519,6 +519,7 @@ msg.IdGroupPQRS := function(group)
 end;
 
 ######################################################
+######################################################
 msg.IdGroupP2Q2 := function(group)
   local n, fac, p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, mat, Id, k, l, x, y, det, mat1, mat2, pcgsp, pcgsq;
@@ -565,13 +566,19 @@ msg.IdGroupP2Q2 := function(group)
       Add(ind, Size(Zen));
     fi;
 
-    if ((p - 1) mod q = 0 and q > 2) or n = 36 then
+    if n = 36 then
+      k := Position([ [ 9, 4, 36 ], [ 3, 4, 36 ], [ 9, 2, 36 ], [ 3, 2, 36 ], [ 9, 4, 2 ], [ 9, 2, 2 ], [ 3, 4, 6 ], [ 3, 4, 2 ], [ 9, 2, 3 ], [ 3, 4, 1 ], [ 3, 2, 6 ], [ 3, 2, 2 ], [ 3, 2, 1 ], [ 3, 2, 3 ] ], ind);
+      return [36, k];
+    fi;
+    if ((p - 1) mod q = 0 and q > 2) then
       if ind = [p^2, q^2, q] then
         return [n, 5];
+      elif ind = [p^2, q^2, 1] and ((p - 1) mod q^2 = 0 and q > 2) then
+        return [n, 5 + msg.w((p - 1), q^2)];
       elif ind = [p^2, q, q] then
-        return [n, 6];
+        return [n, 6 + msg.w((p - 1), q^2)];
       elif ind = [p, q^2, q*p] then
-        return [n, 7];
+        return [n, 7 + msg.w((p - 1), q^2)];
       elif ind = [p, q^2, q] then
         g := Filtered(pcgsq, x -> Order(x) = q^2)[1];
         gens := [g, g^q, pcgsp[1], pcgsp[2]];
@@ -585,9 +592,43 @@ msg.IdGroupP2Q2 := function(group)
           k := det;
         else k := (q - 1) - det;
         fi;
-        return [n, 6 + 2 + k ];
+        return [n, 6 + 2 + k + msg.w((p - 1), q^2)];
+      elif ind = [p, q^2, p] and (p - 1) mod (q^2) = 0 and q > 2 then
+        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)];
+      elif ind = [p, q^2, 1] and (p - 1) mod (q^2) = 0 and q > 2 then
+        g := Filtered(pcgsq, x -> Order(x)=q^2)[1];
+        h := Filtered(pcgsp, x -> not x in Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1];
+        if Size(Centre(Group([g^q, pcgsp[1], pcgsp[2]]))) = p then
+          gens := [g, g^q, h, Pcgs(Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+          x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), mat), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
+          ev := List(Eigenvalues(GF(p), mat^x), x -> LogFFE(x, a^((p - 1)/(q^2))));
+          k := Filtered(ev, x -> x <> 1)[1]/q;
+          return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + (q^2 - q + 2)/2 + k];
+        else
+          gens := [g, g^q, h, Filtered(pcgsp, x -> x <> h)[1]];
+          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+          x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/(q^2)))) mod q^2;
+          ev := List(Eigenvalues(GF(p), mat^x), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
+          if Length(ev) = 1 then k := 0;
+            return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + k + 1];
+          elif Length(ev) > 1 then
+            k := Filtered(ev, x -> x <> 0)[1];
+            if k > (q^2 - q)/2 then
+              return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + (q^2 - q - k) + 1];
+            else
+              return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + k + 1];
+            fi;
+          fi;
+        fi;
       elif ind = [p, q, q * p] and q > 2 then
-        return [n, 6 + (q + 5)/2];
+        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
       elif ind = [p, q, q * p] and q = 2 then
         return [n, 9];
       elif ind = [p, q, q] and q > 2 then
@@ -604,33 +645,24 @@ msg.IdGroupP2Q2 := function(group)
           k := det;
         else k := (q - 1) - det;
         fi;
-        return [n, 6 + (q + 5)/2 + k + 1 ];
+        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
       elif ind = [p, q, q] and q = 2 then
         return [n, 10];
       elif ind = [p, q, 1] and q > 2 then
-        return [n, 10 + q ];
+        return [n, 10 + q + msg.w((p - 1), q^2)*(q^2 + q + 4)/2];
       elif ind = [p, q, 1] and q = 2 then
         return [n, 11];
       fi;
     fi;
     if (p + 1) mod q = 0 and q > 2 then
       if ind = [p, q, q] then
-        return [n, 6];
+        return [n, 6 + msg.w((p + 1), q^2)];
       elif ind = [p, q^2, q] then
         return [n, 5];
       fi;
     fi;
-    if n = 36 then
-      if ind = [p, q, 3] then
-        return [n, 13];
-      elif ind = [p^2, q, 3] then
-        return [n, 12];
-      fi;
-    fi;
     if ( p + 1) mod (q^2) = 0 and q > 2 and ind[3] = 1 then
-      return [n, 7];
-    elif n = 36 and ind = [p, q^2, 1] then
-      return [n, 14];
+      return [n, 6];
     fi;
     if (p - 1) mod (q^2) = 0 and q > 2 then
       if ind = [p^2, q^2, 1] then
@@ -701,7 +733,7 @@ msg.IdGroupP2Q2 := function(group)
         elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
           return [n, 8 + 4 + msg.w((p - 1), 4)];
         fi;
-      elif p mod 4 = 3 and ind = [p, 4, 1] then
+      elif p mod 4 = 3 and ind = [p, q^2, 1] then
         return [n, 9];
       elif ind = [p, q, 2 * p] then
         return [n, 9 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
@@ -1443,7 +1475,7 @@ msg.IdGroupP2QR := function(group)
           gens := [pcgsp[1], pcgsp[2], pcgsq[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
-          k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p));
+          k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p)) mod p;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4 + c5 + c6
           + msg.w((r - 1), p)
           + msg.w((q - 1), p)];
@@ -1463,7 +1495,7 @@ msg.IdGroupP2QR := function(group)
           gens := [Filtered(pcgsp, x->not x in Zen)[1], b, pcgsq[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
-          k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p));
+          k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p)) mod p;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4 + c5 + c6
           + 2*msg.w((r - 1), p)
           + 2*msg.w((q - 1), p)

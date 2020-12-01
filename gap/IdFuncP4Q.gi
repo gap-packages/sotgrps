@@ -963,13 +963,14 @@ msg.IdGroupP4Q := function(group)
                 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + c29 + c30];
       fi;
     elif flag{[1, 2]} = [false, false] then
+      f := FrattiniSubgroup(group);
       if n = 48 then
         if Size(f) = 1 then return [48, 49];
         elif Size(f) = 2 and Size(dG) = 12 then return [48, 50];
         elif Size(f) = 2 and Size(dG) = 24 then
           repeat g := Random(Elements(P)); until Order(g) < 8 and not g in dG and not g in Zen;
           if Order(g) = 2 then return [48, 51];
-          else return [48.52];
+          else return [48, 52];
           fi;
         fi;
       elif n = 1053 then return [n, 51];
