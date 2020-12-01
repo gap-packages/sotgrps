@@ -3,25 +3,27 @@ LoadPackage("sotgrps");
 ###
 
 testAll := function()
-  local nr, myCnstAll, myCnstbyID, myID, GAP;
+  local nr, myCnstAll, myCnstbyID, myID, gap, ids, idss;
   USE_NC := false;
   for i in Filtered([2..10^6], x-> SOTGroupIsAvailable(x)) do
-    nr := NumberOfSOTGroups;
-    Print("start ",nr," groups of size ",n,"\n");
+    nr := NumberOfSOTGroups(i);
+    Print("start ",nr," groups of size ",i,"\n");
     gap := SmallGroupsAvailable(i);
     if gap then
       if NumberSmallGroups(i) <> nr then
-        Print("Revise NumberOfSOTGroups for order ",i,": there are ",NumberSmallGroups(i)," groups \n");
+        Error("Revise NumberOfSOTGroups for order ",i,": there are ",NumberSmallGroups(i)," groups \n");
       fi;
     fi;
 
-    myCnstbyID := List([1..nr],x->SOTGroup(n,x));
-    myCnstAll := AllSOTGroups(n);
-    if not List(myCnstbyID, x->IdSOTGroup(x)[2]) = [1..nr] then
-      Print("Revise SOTGroup/IdSOTGroup for order ",i,": ids are",ids,"\n");
+    myCnstbyID := List([1..nr],x->SOTGroup(i,x));
+    ids := List(myCnstbyID, x->IdSOTGroup(x)[2]);
+    myCnstAll := AllSOTGroups(i);
+    idss := List(myCnstAll, x->IdSOTGroup(x)[2]);
+    if not ids = [1..nr] then
+      Error("Revise SOTGroup/IdSOTGroup for order ",i,": ids are",ids,"\n");
     fi;
-    if not List(myCnstAll, x->IdSOTGroup(x)[2]) = [1..nr] then
-      Print("Revise AllSOTGroups/IdSOTGroup for order ",i,": ids are",ids,"\n");
+    if not idss = [1..nr] then
+      Error("Revise AllSOTGroups/IdSOTGroup for order ",i,": ids are",idss,"\n");
     fi;
   od;
   return true;
