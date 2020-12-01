@@ -573,9 +573,9 @@ msg.IdGroupP4Q := function(group)
                 return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                           + c18 + c19 + Int((q + 5)/2) + k - 1];
               elif Length(ev) = 3 then
-                x := Inverse(LogFFE(ev[1], s1)) mod q;
-                ev := Eigenvalues(GF(p), mat^x);
-                y := List(Filtered(l, x -> x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
+                x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], s1)) mod q;
+                l := List(ev, i -> i^x);
+                y := List(Filtered(l, x->x <> s1), x -> LogFFE(x, s1)*One(GF(q)));
                 l := List(y, x -> (LogFFE(x, b) mod (q - 1)));
                 k := Idfunc(q, l);
                 return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
