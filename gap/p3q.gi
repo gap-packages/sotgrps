@@ -528,7 +528,7 @@ msg.GroupP3Q := function(n, i)
       fi;
       return msg.groupFromData(l10[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9]);
     fi;
-    if p = 2 and q = 3 and i = 15 then #P \cong Q_8
+    if p = 2 and q = 3 and i = 14 then #P \cong Q_8
       return msg.groupFromData([ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
 ############ case 4: no normal Sylow subgroup -- necessarily n = 24

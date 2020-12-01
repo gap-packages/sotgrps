@@ -2,6 +2,33 @@ LoadPackage("sotgrps");
 ###
 ###
 
+testAll := function()
+  local nr, myCnstAll, myCnstbyID, myID, GAP;
+  USE_NC := false;
+  for i in Filtered([2..10^6], x-> SOTGroupIsAvailable(x)) do
+    nr := NumberOfSOTGroups;
+    Print("start ",nr," groups of size ",n,"\n");
+    gap := SmallGroupsAvailable(i);
+    if gap then
+      if NumberSmallGroups(i) <> nr then
+        Print("Revise NumberOfSOTGroups for order ",i,": there are ",NumberSmallGroups(i)," groups \n");
+      fi;
+    fi;
+
+    myCnstbyID := List([1..nr],x->SOTGroup(n,x));
+    myCnstAll := AllSOTGroups(n);
+    if not List(myCnstbyID, x->IdSOTGroup(x)[2]) = [1..nr] then
+      Print("Revise SOTGroup/IdSOTGroup for order ",i,": ids are",ids,"\n");
+    fi;
+    if not List(myCnstAll, x->IdSOTGroup(x)[2]) = [1..nr] then
+      Print("Revise AllSOTGroups/IdSOTGroup for order ",i,": ids are",ids,"\n");
+    fi;
+  od;
+  return true;
+end;
+
+
+
 
 msg.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
@@ -27,7 +54,7 @@ end;
 getRandomPc := function(G)
 
 local pcgs,H,ns,N,el,hom,Q,i,rel,els;
-   if not IsPcGroup(G) then Error("need pc group as input"); fi;
+   if not IsPcGroup(G) then G := Image(IsomorphismPcGroup(G)); fi;
    els  := [];
    H    := G;
    rel  := [];
@@ -50,7 +77,7 @@ end;
 
 
 testId := function(n)
-local nr, gap, my, i, copies,  gapid, new;
+local nr, gap, my, myy, i, copies,  gapid, new;
 
 repeat
    n := n+1;
@@ -60,8 +87,14 @@ repeat
       Print("start ",nr," groups of size ",n,"\n");
 
       my := List([1..nr],x->SOTGroup(n,x));
+      myy := AllSOTGroups(n);
       for i in [1..nr] do
-          copies := List([1..5],x->getRandomPerm(my[i]));
+          copies := [];
+          Add(copies, getRandomPerm(my[i]));
+          Add(copies, getRandomPerm(myy[i]));
+          Add(copies, getRandomPc(copies[1]));
+          Add(copies, getRandomPc(copies[2]));
+
 	  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID perm", [n,i]); fi;
       od;
       Display(" ... my stuff correct");
