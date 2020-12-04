@@ -11,7 +11,7 @@
 ##
 msg := rec();
 DeclareAttribute( "SOTGroup_id", IsGroup );
-ReadPackage(sotgrpsPkgName, "gap/msg.gi");                #preliminary functions
+ReadPackage(sotgrpsPkgName, "gap/sot.gi");                #preliminary functions
 ReadPackage(sotgrpsPkgName, "gap/pq.gi");
 ReadPackage(sotgrpsPkgName, "gap/p2q.gi");
 ReadPackage(sotgrpsPkgName, "gap/p2q2.gi");

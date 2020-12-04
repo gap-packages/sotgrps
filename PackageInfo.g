@@ -22,7 +22,7 @@ Persons := [
       FirstNames    := "Xueyu",
       IsAuthor      := true,
       IsMaintainer  := true,
-      Email         := "heiko.dietrich@monash.edu",
+      Email         := "heiko.dietrich@monash.edu", 
       WWWHome       := "http://users.monash.edu.au/~heikod/",
       PostalAddress := Concatenation( [
             "School of Mathematics",
@@ -34,8 +34,8 @@ Persons := [
 ],
 
 Status := "other",
-CommunicatedBy := "David Joyner (Annapolis)",
-AcceptDate := "10/2027",
+CommunicatedBy := " (Annapolis)",
+AcceptDate := " ",
 
 README_URL := "http://users.monash.edu.au/~heikod/cubefree/README",
 PackageInfoURL := "http://users.monash.edu.au/~heikod/cubefree/PackageInfo.g",
@@ -61,9 +61,9 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "Loading sotgrps 0.4 ... \n",
+BannerString := "SOTGrps: this package is currently under development \n SOTGrps: the flag USE_NC is set to turn off consistency checks -- set USE_NC := false to turn on consistency checks \n SOTGrps: the flag USE_PCP is set to use PcpGroup constructions, set USE_PCP := false to consrtcuct PcGroups",
 Autoload := false,
 TestFile := "tst/autoTest.tst",
-Keywords := ["construction of groups","irreducible matrix subgroups of degree 2"]
+Keywords := ["construction of finite groups","identification of finite groups"]
 
 ));
