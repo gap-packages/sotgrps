@@ -14,4 +14,4 @@ Note that the construction of small groups could be different to the existing li
 
 In particular, with SOTGroup(n, i), we construct the i-th group of order n in our list.
 
-IdSOTGroup(group) returns the group ID in line with SOTgroup(n, i), namely, the position of the input group of order n in the list constructed by AllSOTGroups(n).
+IdSOTGroup(group) returns the group ID in line with SOTGroup(n, i), namely, the position of the input group of order n in the list constructed by AllSOTGroups(n).
