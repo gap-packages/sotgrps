@@ -22,7 +22,7 @@ Persons := [
       FirstNames    := "Xueyu",
       IsAuthor      := true,
       IsMaintainer  := true,
-      Email         := "heiko.dietrich@monash.edu", 
+      Email         := "heiko.dietrich@monash.edu",
       WWWHome       := "http://users.monash.edu.au/~heikod/",
       PostalAddress := Concatenation( [
             "School of Mathematics",
@@ -41,7 +41,7 @@ README_URL := "http://users.monash.edu.au/~heikod/cubefree/README",
 PackageInfoURL := "http://users.monash.edu.au/~heikod/cubefree/PackageInfo.g",
 
 AbstractHTML :=
-"The <span class=\"pkgname\">Cubefree</span> package contains methods to construct up to isomorphism the groups of a given (reasonable) cubefree order. The main function ConstructAllCFGroups(n) constructs all groups of a given cubefree order n. The function NumberCFGroups(n) counts all groups of a cubefree order n. Furthermore, IrreducibleSubgroupsOfGL(2,q) constructs the irreducible subgroups of GL(2,q), q=p^r, p>=5 prime, up to conjugacy and RewriteAbsolutelyIrreducibleMatrixGroup(G) rewrites the absolutely irreducible matrix group G (over a finite field) over a minimal subfield.",
+"The <span class=\"pkgname\">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.",
 
 PackageWWWHome := "http://users.monash.edu.au/~heikod/cubefree.html",
 
@@ -61,7 +61,7 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "SOTGrps: this package is currently under development \n SOTGrps: the flag USE_NC is set to turn off consistency checks -- set USE_NC := false to turn on consistency checks \n SOTGrps: the flag USE_PCP is set to use PcpGroup constructions, set USE_PCP := false to consrtcuct PcGroups",
+BannerString := "SOTGrps: the flag USE_NC is set to turn off consistency checks -- set USE_NC := false to turn on consistency checks \n SOTGrps: the flag USE_PCP is set to use PcpGroup constructions, set USE_PCP := false to consrtcuct PcGroups",
 Autoload := false,
 TestFile := "tst/autoTest.tst",
 Keywords := ["construction of finite groups","identification of finite groups"]

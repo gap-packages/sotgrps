@@ -25,3 +25,4 @@ ReadPackage(sotgrpsPkgName, "gap/SmallGrps.gi");
 ReadPackage(sotgrpsPkgName, "gap/IdFunc.gi");
 ReadPackage(sotgrpsPkgName, "gap/IdFuncP4Q.gi");
 DeclareAttribute( "SOTGroup_id", IsGroup );
+Print("SOTGrps: This package is currently under development; please report bugs to xpan.eileen@gmail.com. \n");

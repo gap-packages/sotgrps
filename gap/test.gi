@@ -3,8 +3,9 @@ LoadPackage("sotgrps");
 ###
 
 testAll := function(range)
-  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss;
-  USE_NC := false;
+  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss, old;
+  old := USE_NC;
+  USE_NC:=false;
   if Length(range) = 2 then
     todo := Filtered([range[1]..range[2]], x-> SOTGroupIsAvailable(x));
   else todo := Filtered([2..10^6], x-> SOTGroupIsAvailable(x));
@@ -30,6 +31,7 @@ testAll := function(range)
       Error("Revise AllSOTGroups/IdSOTGroup for order ",i,": ids are",idss,"\n");
     fi;
   od;
+  USE_NC := old;
   return true;
 end;
 
