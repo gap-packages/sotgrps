@@ -343,7 +343,7 @@ msg.GroupP3Q := function(n, i)
       fi;
       return msg.groupFromData(l3[i - 5 - c1 - c2]);
     fi;
-    ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
+    ## class 4: when P is extraspecial + type
     if i > 5 + c1 + c2 + c3 and i < 6 + c1 + c2 + c3 + c4 then
       l4 := [];
       if (q - 1) mod p = 0 then
@@ -354,7 +354,7 @@ msg.GroupP3Q := function(n, i)
       fi;
       return msg.groupFromData(l4[i - 5 - c1 - c2 - c3]);
     fi;
-    ## class 5: when P is extraspecial - type, there is at most one isom type of P \ltimes Q
+    ## class 5: when P is extraspecial - type
     if i > 5 + c1 + c2 + c3 + c4 and i < 6 + c1 + c2 + c3 + c4 + c5 then
       l5 := [];
       if (q - 1) mod p = 0 and p > 2 then
