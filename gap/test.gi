@@ -2,10 +2,14 @@ LoadPackage("sotgrps");
 ###
 ###
 
-testAll := function()
-  local nr, myCnstAll, myCnstbyID, myID, gap, ids, idss;
+testAll := function(range)
+  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss;
   USE_NC := false;
-  for i in Filtered([2..10^6], x-> SOTGroupIsAvailable(x)) do
+  if Length(range) = 2 then
+    todo := Filtered([range[1]..range[2]], x-> SOTGroupIsAvailable(x));
+  else todo := Filtered([2..10^6], x-> SOTGroupIsAvailable(x));
+  fi;
+  for i in todo do
     nr := NumberOfSOTGroups(i);
     Print("start ",nr," groups of size ",i,"\n");
     gap := SmallGroupsAvailable(i);
