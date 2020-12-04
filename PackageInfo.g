@@ -61,7 +61,7 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "SOTGrps: the flag USE_NC is set to turn off consistency checks; set USE_NC := false to turn on consistency checks \nSOTGrps: the flag USE_PCP is set to use PcpGroup constructions; set USE_PCP := false to use PcGroup constructions \n ",
+BannerString := "SOTGrps: the flag USE_NC is set to turn off consistency checks; set USE_NC := false to turn on consistency checks \nSOTGrps: the flag USE_PCP is set to use PcpGroup constructions; set USE_PCP := false to use PcGroup constructions \n",
 Autoload := false,
 TestFile := "tst/autoTest.tst",
 Keywords := ["construction of finite groups","identification of finite groups"]
