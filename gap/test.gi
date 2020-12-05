@@ -3,7 +3,7 @@ LoadPackage("sotgrps");
 ###
 
 testAll := function(range)
-  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss, old;
+  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss, old, i;
   old := USE_NC;
   USE_NC:=false;
   if Length(range) = 2 then
