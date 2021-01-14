@@ -1,6 +1,6 @@
 ## Functions to identify a group of order n, where n factorises in at most 4 primes, by its SOT-group ID.
 ## By reversing the process of constructing a deterministically ordered list, we identify a given group of order n with an isomorphism type in the AllSOTGroups(n) list.
-## This is achived using various group invariants, such as the centre of a group, the derived subgroup, the Fitting subgroup, the Frattini subgroup, the structure of the Sylow subgroups, etc,
+## This is achieved using various group invariants, such as the centre of a group, the derived subgroup, the Fitting subgroup, the Frattini subgroup, the structure of the Sylow subgroups, etc,
   ## and application of the results on classification of split extensions. For further details, see [2, Section 3.2]. 
 ######################################################
 msg.IdPGroup := function(group)
