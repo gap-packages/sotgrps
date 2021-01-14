@@ -26,6 +26,7 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 4 and Length(fac) = 3 then
 			return msg.allGroupsP2QR(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
+			## To use the construction by case distinction on the size of F (the Fitting subgroup of G), set USE_pqrsII := false; otherwise, the main construction functions AllSOTGroups and SOTGroup use the case distinction by the centre and the derived subgroup of G, with USE_pqrsII = true.
 			if USE_pqrsII = true then
 				return msg.allGroupsPQRSII(n);
 			else return msg.allGroupsPQRS(n);

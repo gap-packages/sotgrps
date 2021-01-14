@@ -1,4 +1,4 @@
-## Some test function
+## Some test functions
 
 LoadPackage("sotgrps");
 ###
