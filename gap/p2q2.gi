@@ -19,7 +19,7 @@ msg.allGroupsP2Q2 := function(n)
 
     #### Cluster 0: abelian groups
     all := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, q, q], [3, [4, 1]] ], [ [p, p, q, q], [1, [2, 1]] ], [ [p, p, q, q], [2, [3, 1]] ] ];
-
+    ## Computing roots
     a := Z(p); #\sigma_p
     b := Z(q); #\sigma_q
 

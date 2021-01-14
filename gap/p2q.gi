@@ -40,13 +40,16 @@ local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, lis
 	else d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
 	if (p - 1) mod q = 0 then
+		## \rho(p, q)
 		r1 := a^((p-1)/q);
 		R1 := Int(r1);
 	fi;
 	if (q - 1) mod p = 0 then
+		## \rho(q, p)
 		r2 := b^((q - 1)/p);
 		R2 := Int(r2);
 		if (q - 1) mod p^2 = 0 then
+			## \rho(q, p^2)
 			r3 := b^((q - 1)/(p^2));
 			R3 := Int(r3);
 		fi;
