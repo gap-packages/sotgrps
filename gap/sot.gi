@@ -1,11 +1,19 @@
 ## In the following, we define the preliminary functions. In particular, the canonical generators of irreducible subgroups of Singer cycles in GL_n(p) are defined here.
 ## For further details about the canonical form of the cyclic irreducible groups of GL_n(p), we refer to [2, Notation 2.3].
-## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, q) accordingly.  
+## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, b) accordingly for b dividing (p - 1).
+    ## Analogously, we compute \sigma_{p^k} by computing ZmodnZObj(Int(Z(p)), p^k) or ZmodnZObj(Int(Z(p)), p^k) + p for the canonical primitive root modulo p^k (k is a positive integer), and \rho(p^k, b) accordingly for b dividing (p - 1).
 ############################################################################
 USE_NC := true;
 USE_PCP := false;
 USE_pqrsII := true;
 ############################################################################
+#
+# constructs a pc/pcp group given by a list data;
+# the list data encodes a polycyclic presentation of a pc group with
+# relative orders data[1]; the remaining entries data[i] with i>1
+# encode conjugate relations (if data[i][2] is an integer)
+# or a power relation (if data[i][2] is a list
+#
 msg.groupFromData := function(data)
   local coll, i, j, n ,G;
    n := Size(data[1]);
@@ -29,6 +37,9 @@ msg.groupFromData := function(data)
   fi;
 end;
 ############################################################################
+#
+# the divisibility Kronecker function \Delta_x^y
+#
 msg.w := function(x, y)
   local w;
     if x mod y = 0 then w := 1;
@@ -36,6 +47,9 @@ msg.w := function(x, y)
   return w;
   end;
 ############################################################################
+#
+# the matrix I_2(p,q) as in Notation 2.3
+#
 msg.QthRootGL2P := function(p, q)
   local a, b;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
@@ -47,6 +61,9 @@ msg.QthRootGL2P := function(p, q)
   return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
 end;
 ############################################################################
+#
+# (for order p^4q, not used in paper)
+#
 msg.QthRootM2P2 := function(p, q)
   local a, b, m, mat, u1, u2, u3, u4, v1, v2, v3, v4;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
@@ -65,6 +82,9 @@ msg.QthRootM2P2 := function(p, q)
   return mat;
 end;
 ############################################################################
+#
+# the matrix I_2(p,q^2) as in Notation 2.3
+#
 msg.QsquaredthRootGL2P := function(p, q)
   local a, b;
    	if not Gcd(p,q)=1 or not (p^2-1) mod (q^2) = 0 then
@@ -76,6 +96,9 @@ msg.QsquaredthRootGL2P := function(p, q)
   return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
 end;
 ############################################################################
+#
+# the original Kronecker delta
+#
 msg.delta := function(x, y)
   local w;
     if x = y then w := 1;
@@ -83,6 +106,9 @@ msg.delta := function(x, y)
   return w;
   end;
 ############################################################################
+#
+# returns units in Z_{p^2}
+#
 msg.groupofunitsP2 := function(p)
   local l;
     l := Filtered([1..p^2], x->not x mod p = 0);
@@ -90,6 +116,9 @@ msg.groupofunitsP2 := function(p)
   end;
 
 ############################################################################
+#
+# the matrix I_3(p,q) as in Notation 2.3
+#
 msg.QthRootGL3P := function(p, q)
   local a, b;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^3-1) mod q = 0 then
@@ -101,6 +130,9 @@ msg.QthRootGL3P := function(p, q)
   return [ [0, 1, 0], [0, 0, 1], [1, -b^(p+1)-b^(p^2+1)-b^(p^2+p), b+b^p+b^(p^2)] ] * One(GF(p));
 end;
 ############################################################################
+#
+# (for order p^4q, not used in paper)
+#
 msg.QthRootGL4P := function(p, q)
   local a, b, u, v;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2+1) mod q = 0 and p <> 3 then
@@ -114,6 +146,9 @@ msg.QthRootGL4P := function(p, q)
   return [ [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [-1, u, v, b+b^p+b^(p^2)+b^(p^3)] ] * One(GF(p));
 end;
 ############################################################################
+#
+# get eigenvalues with multiplicities
+#
 msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
@@ -132,6 +167,9 @@ msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
   return evm;
 end;
 ############################################################################
+#
+# get eigenvalues with multiplicities
+#
 msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
@@ -186,6 +224,9 @@ msg.EigenvaluesGL4P2 := function(mat, p)
   return evm;
 end;
 ############################################################################
+#
+# a test function (compare with SmallGroups Library, if possible)
+#
 msg.testAllSOTGroups := function(n)
 	local mygroups, lib, duplicates, missing;
 				duplicates := [];

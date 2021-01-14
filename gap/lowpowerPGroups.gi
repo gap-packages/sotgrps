@@ -1,6 +1,6 @@
-#Construction of p-groups of order dividing p^4
-#Such low-power p-groups are well-known. Our construction uses iterative extension.
-#For further details of the classification of groups of order p^4, we refer to Alder & Garlow's paper "Groups of orderp4made less difficult".
+## Construction of p-groups of order dividing p^4
+## Such low-power p-groups are well-known; our construction uses iterative extensions.
+## For further details of the classification of groups of order p^4, we also refer to Alder, Garlow, Wheland's paper "Groups of order p^4 made less difficult" arXiv:1611.00461
 ####################################
 msg.lowpowerPGroups := function(arg)
 	local p, k, PG, P2, P3, order8, r, P4, order16, order81, list;

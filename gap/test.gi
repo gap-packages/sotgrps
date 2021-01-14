@@ -1,3 +1,5 @@
+## Some test function
+
 LoadPackage("sotgrps");
 ###
 ###
@@ -6,7 +8,7 @@ LoadPackage("sotgrps");
   ## and testing whether IdSOTGroup(SOTGroup(n, i)) = (n, i) and IdSOTGroup(AllSOTGroups(n)[i]) = (n, i).
   ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
 testAll := function(range)
-  local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss, old;
+  local todo, nr, i, myCnstAll, myCnstbyID, myID, gap, ids, idss, old;
   old := USE_NC;
   USE_NC:=false;
   if Length(range) = 2 then

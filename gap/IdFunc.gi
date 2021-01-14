@@ -3,6 +3,9 @@
 ## This is achieved using various group invariants, such as the centre of a group, the derived subgroup, the Fitting subgroup, the Frattini subgroup, the structure of the Sylow subgroups, etc,
   ## and application of the results on classification of split extensions. For further details, see [2, Section 3.2].
 ######################################################
+##
+## the case of p-groups of order dividing p^4
+##
 msg.IdPGroup := function(group)
   local n, PF, length, fac, p, k, i, Id, flag, a, b, c, d, F, N, Zen, gens, pcgs, G, m, x, y;
     n := Size(group);
@@ -122,7 +125,11 @@ msg.IdPGroup := function(group)
       fi;
     fi;
 end;
+
 ######################################################
+#
+# the case of groups of order pq
+#
 msg.IdGroupPQ := function(group)
   local n, p, q, Id;
     n := Size(group);
@@ -131,6 +138,9 @@ msg.IdGroupPQ := function(group)
     fi;
 end;
 ######################################################
+#
+# the case of groups of order p^2q
+#
 msg.IdGroupP2Q := function(group)
   local n, fac, p, q, Id, a, b, c, d, flag, P, Q, Zen,gens, G, exps1, exps2, pcgs, pc, m, det, x, k, pcgsp, pcgsq;
     n := Size(group);
@@ -207,6 +217,9 @@ msg.IdGroupP2Q := function(group)
     fi;
 end;
 ######################################################
+#
+# the case of groups of order pqr
+#
 msg.IdGroupPQR := function(group)
   local n, fac, p, q, r, a, b, k, G, Q, R, P, flag, c1, c2, c3, c4, c5, pcgs, pcp, pc, x, pcgsp, pcgsq, pcgsr;
     n := Size(group);
@@ -252,6 +265,9 @@ msg.IdGroupPQR := function(group)
     fi;
 end;
 ######################################################
+#
+# the case of groups of order pqrs
+#
 msg.IdGroupPQRS := function(group)
   local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
   G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
@@ -524,6 +540,9 @@ end;
 
 ######################################################
 ######################################################
+#
+# the case of groups of order p^2q^2
+#
 msg.IdGroupP2Q2 := function(group)
   local n, fac, p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, mat, Id, k, l, x, y, det, mat1, mat2, pcgsp, pcgsq;
@@ -749,6 +768,9 @@ msg.IdGroupP2Q2 := function(group)
     fi;
 end;
 ######################################################
+#
+# the case of groups of order p^3q
+#
 msg.IdGroupP3Q := function(group)
   local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst,
   Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, Idfunc, tmp, ev, evm, N1, N2,
@@ -1041,6 +1063,9 @@ msg.IdGroupP3Q := function(group)
     fi;
 end;
 ######################################################
+#
+# the case of groups of order p^2qr
+#
 msg.IdGroupP2QR := function(group)
   local n, fac, primefac, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,

@@ -26,5 +26,5 @@ In particular, with SOTGroup(n, i), we construct the i-th group of order n in ou
 IdSOTGroup(group) returns the group ID in line with SOTGroup(n, i), namely, the position of the input group of order n in the list constructed by AllSOTGroups(n).
 
 References:
-[1] X. Pan, Groups of small order type. MPhil thesis.
+[1] X. Pan, Groups of small order type. MPhil thesis at Monash University (to be submitted mid 2021).
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise in at most four primes. https://arxiv.org/pdf/2012.02933.pdf
