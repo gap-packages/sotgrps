@@ -1,5 +1,6 @@
-##In the following, we define the preliminary functions. In particular, the canonical generators of irreducible subgroups of Singer cycles in GL_n(p) are defined here.
-##For further details about the canonical form of the cyclic irreducible groups of GL_n(p), we refer to [2, Notation 2.3].
+## In the following, we define the preliminary functions. In particular, the canonical generators of irreducible subgroups of Singer cycles in GL_n(p) are defined here.
+## For further details about the canonical form of the cyclic irreducible groups of GL_n(p), we refer to [2, Notation 2.3].
+## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, q) accordingly.  
 ############################################################################
 USE_NC := true;
 USE_PCP := false;

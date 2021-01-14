@@ -12,6 +12,9 @@
 ## The following remark also applies to other order types including pq, p^3q, p^4q, etc.
 	## If a non-nilpotent group of order n = p^nq has a normal Sylow subgroup, then it is isomorphic to a split extensions of the form C_q \ltimes P or P \ltimes C_q, where P is a Sylow p-subgroup of G.
 	## Such split extensions are classified by [2, Proposition 3.3 & 3.6].
+
+## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, b) accordingly for b dividing (p - 1).
+	## Analogously, we compute \sigma_{p^k} for the canonical primitive root modulo (p^k) for positive integers k, and compute \rho(p^k, b) for b dividing (p - 1), accordingly.
 ##############################################################
 msg.allGroupsP2Q := function(n)
 local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, list;
@@ -29,7 +32,7 @@ local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, lis
 	if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
 		Error("wrong input");
 	fi;
-####
+#### computing canonical roots:
 	a := Z(p);
 	b := Z(q);
 	if not Int(a^(p - 1)) mod p^2 = 1 then
