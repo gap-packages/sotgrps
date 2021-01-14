@@ -1,3 +1,6 @@
+##In the following, we define the preliminary functions. In particular, the canonical generators of irreducible subgroups of Singer cycles in GL_n(p) are defined here.
+##For further details about the canonical form of the cyclic irreducible groups of GL_n(p), we refer to [2, Notation 2.3].
+############################################################################
 USE_NC := true;
 USE_PCP := false;
 USE_pqrsII := true;

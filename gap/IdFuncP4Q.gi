@@ -1,3 +1,5 @@
+##The following function identifies a group of order p^4q (p, q are distinct primes) by its SOT-group ID.
+
 ##########################################
 msg.IdGroupP4Q := function(group)
   local n, fac, p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,

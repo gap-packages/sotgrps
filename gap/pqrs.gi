@@ -1,3 +1,11 @@
+## Construction of squarefree groups of order pqr.
+## The classification of these groups follows from the following theorem by Hoelder, Burnside, and Zassenhaus:
+## Let G be a group of order n whose Sylow subgroups are cyclic. Then G is metacyclic with odd-order derived subgroup [G, G] \cong C_b and cyclic quotient G/[G, G] \cong C_a, where a = n/b.
+## In particular, G is isomorphic to <x, y | x^a, y^b, y^x = y^r > for some non-negative integer r such that r^a = 1 mod b, and gcd(a(r - 1), b) = 1.
+## Alternatively, one can use the fact that G is solvable and has a nontrivial, abelian Fitting subgroup, denoted by F, to construct and classify the isomorphism types of G as an extension of F by G/F.
+  #Note that G/F embeds into Aut(F).
+
+##############################################
 msg.allGroupsPQRS := function(n)
   local all, fac, p, q, r, s, u, v, w, k, l, list;
     fac := Factors(n);

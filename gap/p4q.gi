@@ -488,7 +488,7 @@ msg.allGroupsP4Q := function(arg)
       v := (S2 - u)/p;;
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [5, 1, [5, S1]] ]); #Z(G) \cong C_p, (C_q \ltimes C_p) \times (C_p \ltimes C_{p^2}), G' \cong C_p^2
       Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]); #Z(G) \cong C_p, G \cong (C_q \ltimes (C_p \ltimes C_{p^2})) \times C_p, G' \cong C_{p^2}
-      for k in [1..q - 1] do
+      for k in [1..q - 1] do #Z(G) = 1
         Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [5, 1, [5, Int(s1^k)]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]);
       od;
     fi;
@@ -541,7 +541,7 @@ msg.allGroupsP4Q := function(arg)
       if q = 2 then #Z(G) \cong C_p, G' \cong P
         Add(all, [ [2, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, (p - 1)]], [3, 1, [3, (p - 1)]], [5, 1, [5, (p - 1)]] ]);
       fi;
-    elif (p + 1) mod q = 0 and q > 2 and p > 2 then ## q | (p + 1), Z(G) = C_p
+    elif (p + 1) mod q = 0 and q > 2 and p > 2 then ## q | (p + 1), Z(G) = C_p^2
       matGL2 := msg.QthRootGL2P(p, q);
       Add(all, [ [q, p, p, p, p],
       [3, 2, [3, 1, 4, 1]],
@@ -1388,7 +1388,7 @@ msg.GroupP4Q := function(n, id)
     elif n = 3^4*13 and id = 51 then
       matGL3 := msg.QthRootGL3P(p, q);
       m := [ [ 0, 2, 1 ], [ 1, 2, 2 ], [ 1, 1, 1 ] ];
-      return msg.groupFromData([ [p, q, p, p, p], [2, 1, [2, R1]], 
+      return msg.groupFromData([ [p, q, p, p, p], [2, 1, [2, R1]],
       [3, 1, [3, m[1][1], 4, m[2][1], 5, m[3][1]]],
       [4, 1, [3, m[1][2], 4, m[2][2], 5, m[3][2]]],
       [5, 1, [3, m[1][3], 4, m[2][3], 5, m[3][3]]],

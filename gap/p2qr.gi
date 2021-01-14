@@ -1,3 +1,13 @@
+## The following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
+## Let G be a group of order p^2qr (p, q, r are distinct primes and q < r).
+  ## Since G is cubefree, G is nilpotent if and only if G is abelian.
+  ## By examining the composition series (with simple factors) of G, we observe that G is nonsolvable if and only if it is isomorphic to \Alt_5.
+  ## If G is non-nilpotent and solvable, then it has a nontrivial, abelian Fitting subgroup, denoted by F.
+  ## By [2, Lemma 3.7], we know G/F acts faithfully on F, that is, G/F embeds into Aut(F).
+  ## We deduce that |F| \in \{r, qr, p^2, p^2q, p^2r, pr, pqr\}.
+  ## For each case depending on the size of F, we construct the isomorphism types of non-nilpotent, solvable groups G.
+  ## For further details, see [2, Section 3.2 & 3.7].
+
 msg.allGroupsP2QR := function(n)
 local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
   rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2, matq, matr, matqr, mat, mat_k, all, list;
@@ -21,9 +31,9 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;
-    a := Z(r);
-    b := Z(p);
-    c := Z(q);
+    a := Z(r); #\sigma_r
+    b := Z(p); #\sigma_p
+    c := Z(q); #\sigma_q
 
     u := ZmodnZObj(Int(Z(p)), p^2);
     if not u^(p-1) = ZmodnZObj(1, p^2) then v := u;
@@ -48,19 +58,19 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
     if (p + 1) mod q = 0 and q > 2 then
       matq := msg.QthRootGL2P(p, q);
     fi;
-############ add abelian groups in:
+############ abelian groups:
     all := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];
-############ precompute roots:
-    if (r - 1) mod p = 0 then rootrp := a^((r-1)/p); Rootrp := Int(rootrp); fi;
-    if (r - 1) mod (p^2) = 0 then rootrp2 := a^((r-1)/(p^2)); Rootrp2 := Int(rootrp2); fi;
-    if (r - 1) mod q = 0 then rootrq := a^((r-1)/q); Rootrq := Int(rootrq); fi;
-    if (p - 1) mod r = 0 then rootpr := b^((p-1)/r); Rootpr := Int(rootpr); fi;
-    if (p - 1) mod q = 0 then rootpq := b^((p-1)/q); Rootpq := Int(rootpq); fi;
-    if (q - 1) mod p = 0 then rootqp := c^((q-1)/p); Rootqp := Int(rootqp); fi;
-    if (q - 1) mod (p^2) = 0 then rootqp2 := c^((q-1)/(p^2)); Rootqp2 := Int(rootqp2); fi;
-############ case 1: nonabelian and Fitting subgroup has order r -- unique isomorphism type iff p^2q | (r - 1)
-    if (r - 1) mod (p^2*q) = 0 then ##C_{p^2q} \ltimes C_r
+############ precompute canonical roots:
+    if (r - 1) mod p = 0 then rootrp := a^((r-1)/p); Rootrp := Int(rootrp); fi; #\rho(r, p)
+    if (r - 1) mod (p^2) = 0 then rootrp2 := a^((r-1)/(p^2)); Rootrp2 := Int(rootrp2); fi; #\rho(r, p^2)
+    if (r - 1) mod q = 0 then rootrq := a^((r-1)/q); Rootrq := Int(rootrq); fi; #\rho(r, q)
+    if (p - 1) mod r = 0 then rootpr := b^((p-1)/r); Rootpr := Int(rootpr); fi; #\rho(p, r)
+    if (p - 1) mod q = 0 then rootpq := b^((p-1)/q); Rootpq := Int(rootpq); fi; #\rho(p, q)
+    if (q - 1) mod p = 0 then rootqp := c^((q-1)/p); Rootqp := Int(rootqp); fi; #\rho(q, p)
+    if (q - 1) mod (p^2) = 0 then rootqp2 := c^((q-1)/(p^2)); Rootqp2 := Int(rootqp2); fi; #\rho(q, p^2)
 
+############ case 1: nonabelian and Fitting subgroup has order r -- p^2q | (r - 1), unique up to isomorphism
+    if (r - 1) mod (p^2*q) = 0 then ##C_{p^2q} \ltimes C_r
       Add(all, [ [p, p, q, r], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int(a^((r-1)/(p^2*q)))]], [4, 2, [4, Int(a^((r-1)/(p*q)))]], [4, 3, [4, Rootrq]] ]);
     fi;
 

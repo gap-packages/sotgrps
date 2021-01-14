@@ -1,3 +1,12 @@
+## he following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
+
+## Groups of order p^3q are solvable by Burnside's pq-theorem.
+## Let G be a group of p^3q, and P \in Syl_p(G), Q \in Syl_q(G), then Q \cong C_q and there are five isomorphism types of P (see lowpowerPGroups.gi for the explicit constructions).
+## Since G is solvable, it has a nontrivial Fitting subgroup, denoted by F. If G contains no normal Sylow subgroup, then we deduce that F is isomorphic to the nonabelian semidirect product C_p \ltimes C_q (unique up to isomorphism, see pq.gi).
+  ## We further decude that if G has no normal Sylow subgroup then |G| = 2^3*3 = 24. Groups of order 24 can be classified by direct computation for it has small order.
+
+## The remaining isomorphism types are constructed as semidirect products Q \ltimes P and P \ltimes Q.
+## For further details see [2, Section 3.2 & 3.5].
 ############################################################################
 msg.allGroupsP3Q := function(n)
   local fac, p, q, all, list, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq, matGL2, matGL3, func, k;
@@ -22,7 +31,7 @@ msg.allGroupsP3Q := function(n)
       r3 := b^((q-1)/(p^3));
       R3 := Int(r3);
     fi;
-############ add abelian groups in:
+############ abelian groups:
     all := [ [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, q], [1, [2, 1]] ], [ [p, p, p, q] ] ];
 ############ case 1: nonabelian and every Sylow subgroup is normal, namely, P \times Q -- determined by the isomorphism type of P
     if p > 2 then
@@ -31,7 +40,7 @@ msg.allGroupsP3Q := function(n)
       Append(all, [ [ [2, 2, 2, q], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
     fi;
 
-############ case 2: nonabelian and only Sylow q-subgroup is normal, namely, P \ltimes Q
+############ case 2: non-nilpotent and only Sylow q-subgroup is normal, namely, P \ltimes Q
     ## class 1: when P = C_{p^3}
     if (q - 1) mod p = 0 then
       Add(all, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, R1]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_p
@@ -79,7 +88,7 @@ msg.allGroupsP3Q := function(n)
       Add(all, [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ]);
     fi;
 
-############ case 3: nonabelian and only the Sylow p-subgroup is normal
+############ case 3: non-nilpotent and only the Sylow p-subgroup is normal
     if (p - 1) mod q = 0 then
       s1 := a^((p - 1)/q);
       S1 := Int(s1);
@@ -309,7 +318,7 @@ msg.GroupP3Q := function(n, i)
       return msg.groupFromData(all[i]);
     fi;
 
-############ case 2: nonabelian and only Sylow q-subgroup is normal, namely, P \ltimes Q
+############ case 2: non-nilpotent and Sylow q-subgroup is normal, namely, P \ltimes Q
     ## class 1: when P = C_{p^3}
     if i > 5 and i < 6 + c1 then
       l1 := [];
@@ -370,7 +379,7 @@ msg.GroupP3Q := function(n, i)
       return msg.groupFromData(l5[i - 5 - c1 - c2 - c3 - c4]);
     fi;
 
-############ case 3: nonabelian and only the Sylow p-subgroup is normal
+############ case 3: non-nilpotent and the Sylow p-subgroup is normal
     if (p - 1) mod q = 0 then
       s1 := a^((p - 1)/q);
       S1 := Int(s1);

@@ -1,3 +1,6 @@
+#Classification of groups of order pq
+####The following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
+##############################################
 msg.allGroupsPQ := function(n)
   local fac, p, q, abelian, nonabelian, s;
     s := [];

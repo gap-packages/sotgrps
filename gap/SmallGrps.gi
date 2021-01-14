@@ -1,3 +1,7 @@
+##In the following we give the main functions of the SOTGrps package.
+############################################################################
+##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
+	##If the group is solvable, then it is presented as a PcGroup; set USE_PCP := true if PcpGroup is desired.
 InstallGlobalFunction( AllSOTGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
@@ -33,6 +37,8 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		fi;
 end);
 ############################################################################
+##NumberOfSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs the number of isomorphism types of groups of order n.
+	##For orders that factorise in at most four primes, see [2, Theorem 2.1] for further details.
 InstallGlobalFunction( NumberOfSOTGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
@@ -68,7 +74,8 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 	end);
 
 ############################################################################
-InstallGlobalFunction( SOTGroupIsAvailable, function(n) ## tells whether the order is available for construction
+##SOTGroupIsAvailable takes in a positive integer value n, and determines whether the groups of order n are available in the SOTGrps package.
+InstallGlobalFunction( SOTGroupIsAvailable, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
@@ -77,6 +84,7 @@ InstallGlobalFunction( SOTGroupIsAvailable, function(n) ## tells whether the ord
 		return true;
 end);
 ############################################################################
+##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
 InstallGlobalFunction( SOTGroup, function(n, i)
 	local length, PF, fac, k, p, q, r, G;
 		PF := Factors(n);
@@ -130,10 +138,12 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 
 end);
 ############################################################################
+##SOTGroupsInformation() introduces the main function AllSOTGroups.
+##SOTGroupsInformation(n) gives the enumeration of groups of order n if SOTGroupIsAvailable(n) = true.
 InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
-			Print("AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes.");
+			Print("AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.");
     fi;
 		if Length(arg) = 1 then
 			n := arg[1];
@@ -185,6 +195,8 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 end);
 
 ######################################################
+##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that SOTGroupIsAvailable(n) = true and determines its SOT-group ID.
+	##That is, it outputs an ordered pair (n, i) where m = |G| and i is the position of G in the list AllSOTGroups(n).
 InstallGlobalFunction( IdSOTGroup, function(group)
 	local length, n, PF, fac, k, p, q, r;
 		if HasSOTGroup_id(group) then return SOTGroup_id(group); fi;
