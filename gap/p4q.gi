@@ -1,6 +1,13 @@
-##Construct all groups of order p^4q: all such groups are solvable.
-##The isomorphism types of nilpotent groups of such order are in one-to-one correspondence with the isomorphism type of the Sylow p-subgroup. In particular, such groups are stored by "lowpowerPGroups".
-##It remains to investigate the nonnilpotent groups. There are three classes of such groups: one class where the Sylow p-subgroup is normal, one where the Sylow q-subgroup is normal, and one with no normal Sylow subgroups.
+## Construct all groups of order p^4q: all such groups are solvable.
+## The isomorphism types of nilpotent groups of such order are in one-to-one correspondence with the isomorphism type of the Sylow p-subgroup. In particular, such groups are stored by "lowpowerPGroups".
+## It remains to investigate the nonnilpotent groups. There are three classes of such groups: one class where the Sylow p-subgroup is normal, one where the Sylow q-subgroup is normal, and one with no normal Sylow subgroups.
+## Note that two split extensions C_q \ltimes_\phi P and C_q \ltimes_\psi P are isomorphic if and only if Im(\phi) and Im(\psi) are conjugate in Aut(P) (see [2, Proposition 3.6]).
+  ## Moreover, we apply the following result (Lemma 9 in The enumeration of groups of order p^nq for n ≤ 5 by Eick & Moede):
+  ## Theorem:
+  ## Let p, q be distinct primes and let G, H be finite groups. If there exists a homomorphism \phi : G \to H such that Ker(\phi) is a p-group, then the number of conjugacy classes of subgroups of order q in G and in H coincide.
+
+## This implies that if G is a finite group. Recall that O_p(G) (PCore(G) in GAP) is the largest normal p-subgroup of G. The natural projection \pi : G \to O_p(G) thus is a homomorphism with p-group kernel. It then follows that the number of conjugacy classes of subgroups of order q in G coincides with that in G/O_p(G).
+  ## In particular, setting G \cong Aut(P), this shows that the number of isomorphism types of C_q \ltimes P for a given p-group P coincides with the number of conjugacy classes of subgroups of order q in Aut(P)/O_p(Aut(P)).
 ###################################################################
 msg.allGroupsP4Q := function(arg)
   local n, fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,

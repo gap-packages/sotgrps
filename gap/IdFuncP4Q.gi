@@ -1,5 +1,11 @@
-##The following function identifies a group of order p^4q (p, q are distinct primes) by its SOT-group ID.
+## The following function identifies a group of order p^4q (p, q are distinct primes) by its SOT-group ID.
+## Note that two split extensions C_q \ltimes_\phi P and C_q \ltimes_\psi P are isomorphic if and only if Im(\phi) and Im(\psi) are conjugate in Aut(P) (see [2, Proposition 3.6]).
+  ## Moreover, we apply the following result (Lemma 9 in The enumeration of groups of order p^nq for n ≤ 5 by Eick & Moede):
+  ## Theorem:
+  ## Let p, q be distinct primes and let G, H be finite groups. If there exists a homomorphism \phi : G \to H such that Ker(\phi) is a p-group, then the number of conjugacy classes of subgroups of order q in G and in H coincide.
 
+## This implies that if G is a finite group. Recall that O_p(G) (PCore(G) in GAP) is the largest normal p-subgroup of G. The natural projection \pi : G \to O_p(G) thus is a homomorphism with p-group kernel. It then follows that the number of conjugacy classes of subgroups of order q in G coincides with that in G/O_p(G).
+  ## In particular, setting G \cong Aut(P), this shows that the number of isomorphism types of C_q \ltimes P for a given p-group P coincides with the number of conjugacy classes of subgroups of order q in Aut(P)/O_p(Aut(P)).
 ##########################################
 msg.IdGroupP4Q := function(group)
   local n, fac, p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
