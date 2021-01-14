@@ -1,4 +1,4 @@
-## he following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
+## The following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
 
 ## Groups of order p^3q are solvable by Burnside's pq-theorem.
 ## Let G be a group of p^3q, and P \in Syl_p(G), Q \in Syl_q(G), then Q \cong C_q and there are five isomorphism types of P (see lowpowerPGroups.gi for the explicit constructions).
