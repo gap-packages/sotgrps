@@ -1,7 +1,10 @@
 LoadPackage("sotgrps");
 ###
 ###
-
+## The following are test functions.
+## testAll([a, b]) tests the functions for groups of order n such that a ≤ n ≤ b by comparing the size of the output of AllSOTGroups(n) and the enumeration NumberOfSOTGroups(n),
+  ## and testing whether IdSOTGroup(SOTGroup(n, i)) = (n, i) and IdSOTGroup(AllSOTGroups(n)[i]) = (n, i).
+  ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
 testAll := function(range)
   local todo, nr, myCnstAll, myCnstbyID, myID, gap, ids, idss, old;
   old := USE_NC;
@@ -37,7 +40,7 @@ end;
 
 
 
-
+## msg.testAllEnumeration(from, to) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
 msg.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
    todo:=Filtered([from..to], x->SOTGroupIsAvailable(x) and SmallGroupsAvailable(x));;
@@ -49,6 +52,7 @@ local todo, i, my, gap;
    return true;
 end;
 
+## getRandomPerm(G) returns a permutation group that is a random isomorphism copy of G.
 getRandomPerm := function(G)
 local H, gens, K;
     H := Image(IsomorphismPermGroup(G));
@@ -59,6 +63,7 @@ local H, gens, K;
     return K;
 end;
 
+## getRandomPerm(G) returns a PcGroup that is a random isomorphism copy of G.
 getRandomPc := function(G)
 
 local pcgs,H,ns,N,el,hom,Q,i,rel,els;
@@ -83,7 +88,7 @@ local pcgs,H,ns,N,el,hom,Q,i,rel,els;
 end;
 
 
-
+## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
 testId := function(n)
 local nr, gap, my, myy, i, copies,  gapid, new;
 
@@ -122,6 +127,7 @@ until false;
 return true;
 end;
 
+## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
 testIdPc := function(n)
 local nr, gap, my, i, copies, gapid, new;
 
@@ -154,6 +160,7 @@ until false;
 return true;
 end;
 
+## SOTConst returns runtimes.
 SOTconst := function( list )
 local nums, grps, ids, tm, tg, tim, tgi, ids2, grg, grm, tgm;
 
