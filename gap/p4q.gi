@@ -711,7 +711,7 @@ msg.GroupP4Q := function(n, id)
     c23 := (q + 1)*msg.w((p - 1), q);
     c24 := (q + 1)*msg.w((p - 1), q) + msg.delta(n, 3*2^4);;
     c25 := msg.w((p - 1), q);
-    c26 := (1/2*(q^2 + 2*q + 3)*msg.w((p - 1), q) + msg.w((p + 1), q))*(1 - msg.delta(2,q)) + 5*msg.delta(2, q) - msg.delta(2, p);
+    c26 := (1/2*(q^2 + 2*q + 3)*msg.w((p - 1), q) + msg.w((p + 1), q))*(1 - msg.delta(2,q)) + 5*msg.delta(2, q) - msg.delta(n, 3*2^4);
     c27 := msg.w((p - 1), q)*(1 + 2*msg.delta(2, q));
     c28 := msg.w((p - 1), q)*(1 + 2*msg.delta(2, q));
     c29 := (q + 1)*msg.w((p - 1), q);
@@ -1423,7 +1423,7 @@ msg.NumberGroupsP4Q := function(n)
                    + msg.w((q - 1), p^3)*2
                    + msg.w((q - 1), p^4)
                    + msg.w((p - 1), q)*1/24*(q^3 + 31*q^2 + 189*q + 423 + 16*msg.w(q - 1, 3) + 12*msg.w(q - 1, 4))
-                   + msg.w((p + 1), q)*1/4*(q + 21 + 2*msg.w(4, q - 1))
+                   + msg.w((p + 1), q)*1/4*(q + 21 + 2*msg.w(q - 1, 4))
                    + msg.w((p^2 + p + 1), q)
                    + msg.w((p^2 + 1), q) - msg.delta(3, p)*msg.w((p - 1), q);
     fi;
