@@ -241,8 +241,8 @@ msg.IdGroupPQR := function(group)
 
     c1 := msg.w((q - 1), r);
     c2 := msg.w((p - 1), r);
-    c3 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
-    c4 := msg.w((p - 1), q);
+    c3 := msg.w((p - 1), q);
+    c4 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
     c5 := msg.w((p - 1), q*r);
 
     if IsAbelian(group) then return [n, 1];
@@ -250,16 +250,16 @@ msg.IdGroupPQR := function(group)
       if flag[1] = p then return [n, 2]; ##r | (q - 1)
       elif flag[1] = q then return [n, 2 + c1]; ##r |(p - 1)
       elif (p - 1) mod q = 0 and flag[1] = r then
-        return [n, 2 + c1 + c2 + c3];
+        return [n, 2 + c1 + c2];
       elif flag[1] = 1 then
         if pcgsp[1]^pcgsq[1] = pcgsp[1] and (q - 1) mod r = 0 and (p - 1) mod r = 0 then ##r |(p - 1) and r | (q - 1)
           pcgs := [pcgsr[1], pcgsq[1], pcgsp[1]];
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           x := Inverse(LogFFE(ExponentsOfPcElement(pc, pcgs[2]^pcgs[1])[2]*One(GF(q)), b^((q-1)/r))) mod r;
           k := LogFFE(ExponentsOfPcElement(pc, pcgs[3]^(pcgs[1]^x))[3]*One(GF(p)), a^((p-1)/r)) mod r;
-          return [n, 3 + k];
-        elif pcgsp[1]^pcgsq[1] <> pcgsp[1] and (p - 1) mod r = 0 and (p - 1) mod q = 0 then
-          return [n, 3 + c1 + c2 + c3];
+          return [n, 3 + c3 + k];
+        elif pcgsp[1]^pcgsq[1] <> pcgsp[1] and (p - 1) mod (r*q) = 0 then
+          return [n, 2 + c1 + c2 + c3 + c4];
         fi;
       fi;
     fi;

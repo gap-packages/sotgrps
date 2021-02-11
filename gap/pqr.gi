@@ -24,19 +24,22 @@ msg.allGroupsPQR := function(n)
     all := [ [ [r, q, p] ] ]; #(C_r \ltimes C_q) \times C_p
     ####case 1: r | (q - 1), Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
     if (q - 1) mod r = 0 then
-      Add(all, [ [r, q, p], [2, 1, [2, rootqr]] ]);fi;
+      Add(all, [ [r, q, p], [2, 1, [2, rootqr]] ]);
+    fi;
     ####case 2: r | (p - 1), Z(G) \cong C_q, G \cong (C_r \ltimes C_r) \times C_p
     if (p - 1) mod r = 0 then
-      Add(all, [ [r, q, p], [3, 1, [3, rootpr]] ]);fi;
-    ####case3: r | (p - 1) and r |(q - 1), and Z(G) = 1, G \cong C_r \ltimes (C_q \ltimes C_p)
+      Add(all, [ [r, q, p], [3, 1, [3, rootpr]] ]);
+    fi;
+    ####case 3: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
+    if (p - 1) mod q = 0 then
+      Add(all, [ [r, q, p], [3, 2, [3, rootpq]] ]);
+    fi;
+    ####case 4: r | (p - 1) and r |(q - 1), and Z(G) = 1, G \cong C_r \ltimes (C_q \ltimes C_p)
     if (q - 1) mod r = 0 and (p - 1) mod r = 0 then
       for k in [1..(r - 1)] do
         Add(all, [ [r, q, p], [2, 1, [2, rootqr]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
       od;
     fi;
-    ####case4: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
-    if (p - 1) mod q = 0 then
-      Add(all, [ [r, q, p], [3, 2, [3, rootpq]] ]);fi;
     ####case5: r | (p - 1) and q | (p - 1), Z(G) = 1, and G \cong (C_r \times C_q) \ltimes C_p
     if (p - 1) mod r = 0 and (p - 1) mod q = 0 then
       Add(all, [ [r, q, p], [3, 1, [3, rootpr]], [3, 2, [3, rootpq]] ]);fi;
@@ -76,8 +79,8 @@ msg.GroupPQR := function(n, i)
     ####enumeration
     c1 := msg.w((q - 1), r);
     c2 := msg.w((p - 1), r);
-    c3 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
-    c4 := msg.w((p - 1), q);
+    c3 := msg.w((p - 1), q);
+    c4 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
     c5 := msg.w((p - 1), q*r);
     ####case 1: r | (q - 1), Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
     if i > 1 and i < 2 + c1 and (q - 1) mod r = 0 then
@@ -89,17 +92,17 @@ msg.GroupPQR := function(n, i)
       return msg.groupFromData(all[i - c1]);
     fi;
 
-    ####case3: r | (p - 1) and r |(q - 1), and Z(G) = 1, G \cong C_r \ltimes (C_q \times C_p)
-    if i > 1 + c1 + c2 and i < 2 + c1 + c2 + c3 and (q - 1) mod r = 0 and (p - 1) mod r = 0 then
-      for k in [1..(r - 1)] do
-        Add(all, [ [r, q, p], [2, 1, [2, rootqr]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
-      od;
+    ####case 3: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
+    if i > 1 + c1 + c2 and i < 2 + c1 + c2 + c3 and (p - 1) mod q = 0 then
+      Add(all, [ [r, q, p], [3, 2, [3, rootpq]] ]);
       return msg.groupFromData(all[i - c1 - c2]);
     fi;
 
-    ####case4: q | (p - 1) and Z(G) \cong C_r, G \cong C_r \times (C_q \ltimes C_p)
-    if i > 1 + c1 + c2 + c3 and i < 2 + c1 + c2 + c3 + c4 and (p - 1) mod q = 0 then
-      Add(all, [ [r, q, p], [3, 2, [3, rootpq]] ]);
+    ####case 4: r | (p - 1) and r |(q - 1), and Z(G) = 1, G \cong C_r \ltimes (C_q \times C_p)
+    if i > 1 + c1 + c2 + c3 and i < 2 + c1 + c2 + c3 + c4 and (q - 1) mod r = 0 and (p - 1) mod r = 0 then
+      for k in [1..(r - 1)] do
+        Add(all, [ [r, q, p], [2, 1, [2, rootqr]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
+      od;
       return msg.groupFromData(all[i - c1 - c2 - c3]);
     fi;
 
