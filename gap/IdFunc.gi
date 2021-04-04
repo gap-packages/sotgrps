@@ -1004,8 +1004,8 @@ msg.IdGroupP3Q := function(group)
           if Length(ev) = 2 then
             evm := msg.EigenvaluesWithMultiplicitiesGL3P(mat, p);
             x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
-            k := LogFFE(LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1) * One(GF(q)), b) mod (q - 1);
-            return [n, 10 + k + (q + 1)/2 + (q - 1)];
+            k := LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1) mod q;
+            return [n, 9 + k + (q + 1)/2 + (q - 1)];
           elif Length(ev) = 3 then
             x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], s1)) mod q;
             l := List(ev, i -> i^x);

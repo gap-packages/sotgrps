@@ -579,7 +579,7 @@ msg.IdGroupP4Q := function(group)
               elif Length(ev) = 2 then
                 evm := msg.EigenvaluesWithMultiplicitiesGL3P(mat, p);
                 x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
-                k := LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1);
+                k := LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1) mod q;
                 return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                           + c18 + c19 + Int((q + 5)/2) + k - 1];
               elif Length(ev) = 3 then

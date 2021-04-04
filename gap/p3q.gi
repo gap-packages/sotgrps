@@ -148,8 +148,8 @@ msg.allGroupsP3Q := function(n)
 
     ## below: Z(G) = 1, (C_q \ltimes C_p^3) when q | (p - 1)
     if (p - 1) mod q = 0 then
-      for k in [0..(q - 2)] do
-        Add(all, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+      for k in [1..(q - 1)] do
+        Add(all, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^k)]] ]);
       od;
     fi;
 #    if (p - 1) mod q = 0 and q > 3 then
@@ -450,8 +450,8 @@ msg.GroupP3Q := function(n, i)
 
       ## below: Z(G) = 1, (C_q \ltimes C_p^3) when q | (p - 1)
       if (p - 1) mod q = 0 then
-        for k in [0..(q - 2)] do
-          Add(l8, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]] ]);
+        for k in [1..(q - 1)] do
+          Add(l8, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^k)]] ]);
         od;
       fi;
 #      if (p - 1) mod q = 0 and q > 3 then
