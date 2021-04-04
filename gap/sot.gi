@@ -136,7 +136,7 @@ end;
 msg.QthRootGL4P := function(p, q)
   local a, b, u, v;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2+1) mod q = 0 and p <> 3 then
-   Error("Arguments have to be primes p, q, where q divides (p^2 + 1).\n");
+   Error("Arguments have to be primes p, q, where q divides (p^2 + 1) and p <> 3.\n");
   else
     a := PrimitiveElement(GF(p^4));
     b := a^((p^4-1)/q);
