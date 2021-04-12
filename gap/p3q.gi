@@ -31,16 +31,17 @@ msg.allGroupsP3Q := function(n)
       r3 := b^((q-1)/(p^3));
       R3 := Int(r3);
     fi;
-############ Cluster 1: nilpotent groups, which are determined by the isomorphism type of P
+############ abelian groups:
     all := [ [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, q], [1, [2, 1]] ], [ [p, p, p, q] ] ];
+############ case 1: nonabelian and every Sylow subgroup is normal, namely, P \times Q -- determined by the isomorphism type of P
     if p > 2 then
       Append(all, [ [ [p, p, p, q], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p, q], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
     else
       Append(all, [ [ [2, 2, 2, q], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
     fi;
 
-############ non-nilpotent and only Sylow q-subgroup is normal, namely, P \ltimes Q
-    ## Cluster 2: when P = C_{p^3} and G \cong P \ltimes Q
+############ case 2: non-nilpotent and only Sylow q-subgroup is normal, namely, P \ltimes Q
+    ## class 1: when P = C_{p^3}
     if (q - 1) mod p = 0 then
       Add(all, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, R1]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_p
     fi;
@@ -51,7 +52,7 @@ msg.allGroupsP3Q := function(n)
       Add(all, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, R3]], [4, 2, [4, R2]], [4, 3, [4, R1]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_{p^3}
     fi;
 
-    ## Cluster 3: when P = C_{p^2} \times C_p and G \cong P \ltimes Q
+    ## class 2: when P = C_{p^2} \times C_p, there are at most two isom types of semidirect products of P \ltimes Q
     if (q - 1) mod p = 0 then
       Append(all,
       [ [ [p, p, p, q], [1, [2, 1]], [4, 3, [4, R1]] ],
@@ -61,12 +62,12 @@ msg.allGroupsP3Q := function(n)
       Add(all, [ [p, p, p, q], [1, [2, 1]], [4, 1, [4, R2]], [4, 2, [4, R1]] ]);
     fi;
 
-    ## Cluster 4: when P is elementary abelian and G \cong P \ltimes Q
+    ## class 3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
     if (q - 1) mod p = 0 then
       Add(all, [ [p, p, p, q], [4, 1, [4, R1]] ]);
     fi;
 
-    ## Cluster 5: when P is extraspecial + type and G \cong P \ltimes Q
+    ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
     if (q - 1) mod p = 0 then
       Add(all, [ [p, p, p, q], [3, 1, [2, 1, 3, 1]], [4, 1, [4, R1]] ]);
       if p = 2 then
@@ -74,7 +75,7 @@ msg.allGroupsP3Q := function(n)
       fi;
     fi;
 
-    ## Cluster 6: when P is extraspecial - type or P = Q_8 and G \cong P \ltimes Q
+    ## class 5: when P is extraspecial - type, there are at most p isom types of P \ltimes Q
     if (q - 1) mod p = 0 and p > 2 then
       for k in [1..p - 1] do
         Add(all, [ [p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, Int(r1^k)]] ]);
@@ -82,11 +83,12 @@ msg.allGroupsP3Q := function(n)
       Add(all, [ [p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 2, [4, R1]] ]);
     fi;
 
+    ## class 6: when P = Q_8, there is a unique isom type of P \ltimes Q
     if p = 2 and q > 2 then
       Add(all, [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ]);
     fi;
 
-############ non-nilpotent and the Sylow p-subgroup is normal
+############ case 3: non-nilpotent and only the Sylow p-subgroup is normal
     if (p - 1) mod q = 0 then
       s1 := a^((p - 1)/q);
       S1 := Int(s1);
@@ -114,11 +116,11 @@ msg.allGroupsP3Q := function(n)
       iii := S2 mod p;
       qqq := (S2 - iii)/p;
     fi;
-    ## Cluster 7: when P is cyclic and G \cong Q \ltimes P
+    ## class 1: when P is cyclic, there is at most isom type of semidirect products of Q \ltimes P
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p, p, p], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, s, 3, ii, 4, qq]], [3, 1, [3, s, 4, ii]], [4, 1, [4, s]] ]);
     fi;
-    ## Cluster 8: when P = C_{p^2} \times C_p and G \cong Q \ltimes P
+    ## class 2: when P = C_{p^2} \times C_p, there are at most (q + 1) isomorphism types of Q \ltimes P
     if (p - 1) mod q = 0 then
       Append(all, [ [ [q, p, p, p], [3, [4, 1]], [2, 1, [2, S1]] ], ## (C_q \ltimes C_p) \times C_{p^2}
       [ [q, p, p, p], [2, [3, 1]], [2, 1, [2, iii, 3, qqq]], [3, 1, [3, iii]] ] ]); ## (C_q \ltimes C_{p^2}) \times C_p
@@ -126,7 +128,7 @@ msg.allGroupsP3Q := function(n)
         Add(all, [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, iii, 3, qqq]], [3, 1, [3, iii]], [4, 1, [4, Int(s1^k)]] ]); ## C_q \ltimes (C_{p^2} \times C_p)
       od;
     fi;
-    ## Cluster 9: when P is elementary abelian and G \cong Q \ltimes P
+    ## class 3: when P is elementary abelian
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p, p, p], [4, 1, [4, S1]] ]); ## C_q \ltimes C_p \times C_p^2
     fi;
@@ -150,7 +152,26 @@ msg.allGroupsP3Q := function(n)
         Add(all, [ [q, p, p ,p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^k)]] ]);
       od;
     fi;
+#    if (p - 1) mod q = 0 and q > 3 then
+#      for k in [1..(q - 3)/2]
+#        do Add(l8, [ [q, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^k)))]], [4, 1, [4, Int(s1^(Int(b^(-k))))]] ]);
+#      od;
+#    fi; #only required with oldfunc
 
+
+#    oldfunc := function(q)
+#      local i, j, k, ll;
+#        ll := [];
+#        for i in [1..Int((q - 4)/3)] do
+#          for j in [i + 1..Int((q - 2 - i)/2)] do
+#            if ((q - 1 - i - j) mod (q - 1) <> i) and ((q - 1 - i - j) mod (q - 1) <> j) and (-i) mod (q - 1) <> j then
+#              Add(ll, [(-i) mod (q - 1), j]);
+#              Add(ll, [(-i) mod (q - 1), (q - 1 - i - j)]);
+#            fi;
+#          od;
+#        od;
+#      return ll; #explength := 1/6*(q^2 - 8*q + 15 + 4*msg.w((q - 1), 3));
+#
     func := function(q)
       local qq, res, a,b,c,d,t,bb;
         res :=[];
@@ -183,7 +204,7 @@ msg.allGroupsP3Q := function(n)
       [4, 1, [2, Int(matGL3[1][3]), 3, Int(matGL3[2][3]), 4, Int(matGL3[3][3])]] ]); ## (C_q \ltimes C_p^3) when q | (p^2 + p + 1)
     fi;
 
-    ## Cluster 10: when P is extraspecial of type + and G \cong Q \ltimes P
+    ## class 4: when P is extraspecial of type +
     if (p - 1) mod q = 0 then
       Append(all, [ [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [3, 1, [3, S1]], [2, 1, [2, Int(s1^(-1))]] ],  ## q | (p - 1), Z(G) = C_p
       [ [q, p, p, p], [3, 2, [3, 1, 4, 1]], [4, 1, [4, S1]], [2, 1, [2, S1]] ] ]);  ## q | (p - 1), Z(G) = 1
@@ -201,14 +222,14 @@ msg.allGroupsP3Q := function(n)
       [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]); ## q | (p + 1), Z(G) = C_p
     fi;
 
-    ## Cluster 11: when P is extraspecial of type - or P = Q_8 and G \cong Q \ltimes P
+    ## class 5: when P is extraspecial of type -,
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [3, 1, [3, iii, 4, qqq]], [4, 1, [4, iii]] ]);
     fi;
-    if p = 2 and q = 3 then #P = Q_8
+    if p = 2 and q = 3 then #P \cong Q_8
       Add(all, [ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
-############ Cluster 12: no normal Sylow subgroup -- if and only if G \cong Sym_4
+############ case 4: no normal Sylow subgroup -- necessarily n = 24
     if n = 24 then
       Add(all, [ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
