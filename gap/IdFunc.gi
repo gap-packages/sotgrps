@@ -900,7 +900,7 @@ msg.IdGroupP3Q := function(group)
         fi;
       ## class 3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
       elif tst[3] = true and (q - 1) mod p = 0 then return [n, 6 + c1 + c2];
-      ## class 4: when P is extraspecial + type, there is at most one isom type of P \ltimes Q
+      ## class 4: when P is extraspecial + type
       elif not tst[3] = true and tst[4] = p and p > 2 then return [n, 6 + c1 + c2 + c3];
       elif not tst[3] = true and tst[4] = 4 and tst[6] = 8 then
         d := pcgsq[1];
