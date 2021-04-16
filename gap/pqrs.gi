@@ -363,14 +363,14 @@ msg.allGroupsPQRSII := function(n)
       r := fac[3];
       s := fac[4];
     fi;
-    ##case 0: Abelian group, Z(G) = G
+    ##Cluster 1: Abelian group, Z(G) = G
     all := [ [ [p, q, r, s] ] ];
 
     u := Z(q);
     v := Z(r);
     w := Z(s);
 
-    ##case 1: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
+    ##Cluster 2: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
       ##class 1: |Z(G)| = pq, G \cong (C_r \ltimes C_s) \times Z(G)
       if (s - 1) mod r = 0 then
         rootsr := Int(w^((s - 1)/r));
@@ -402,7 +402,7 @@ msg.allGroupsPQRSII := function(n)
         Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]] ]);
       fi;
 
-    ##case 2: |Z(G)| \in {p, q, r, s}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
+    ##Cluster 3: |Z(G)| \in {p, q, r, s}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
       ##class 1: |Z(G)| = p, |H| = qrs, Z(H) = 1, G \cong H \times Z(G)
       if (s - 1) mod q = 0 and (r - 1) mod q = 0 then
         for k in [1..(q - 1)] do
@@ -440,7 +440,7 @@ msg.allGroupsPQRSII := function(n)
         Add(all, [ [p, q, r, s], [3, 1, [3, rootrp]], [3, 2, [3, rootrq]] ]);
       fi;
 
-    ##case 3: Z(G) = 1
+    ##Cluster 4: Z(G) = 1
       ##class 1: G' \cong C_{qrs}, G \cong C_p \ltimes C_{qrs}
       if (q - 1) mod p = 0 and (r - 1) mod p = 0 and (s - 1) mod p = 0 then
 	      for k in [1..(p - 1)] do
@@ -514,7 +514,7 @@ msg.GroupPQRSII := function(n, i)
       r := fac[3];
       s := fac[4];
     fi;
-    ##case 0: Abelian group, Z(G) = G
+    ##Cluster 1: Abelian group, Z(G) = G
     all := [ [ [p, q, r, s] ] ];
 
     u := Z(q);
@@ -559,7 +559,7 @@ msg.GroupPQRSII := function(n, i)
         + msg.w((s - 1), (p*q*r));
 
     if i = 1 then return msg.groupFromData(all[1]);
-    ##case 1: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
+    ##Cluster 2: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
     elif i > 1 and i < 2 + c1 then
       all := [];
       ##class 1: |Z(G)| = pq, G \cong (C_r \ltimes C_s) \times Z(G)
@@ -589,7 +589,7 @@ msg.GroupPQRSII := function(n, i)
       data := all[i - 1];
       return msg.groupFromData(data);
 
-    ##case 2: |Z(G)| \in {p, q, r, s}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
+    ##Cluster 3: |Z(G)| \in {p, q, r, s}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
     elif i > 1 + c1 and i < 2 + c1 + c2 then
       all := [];
       ##class 1: |Z(G)| = p, |H| = qrs, Z(H) = 1, G \cong H \times Z(G)
@@ -631,7 +631,7 @@ msg.GroupPQRSII := function(n, i)
       data := all[i - 1 - c1];
       return msg.groupFromData(data);
 
-    ##case 3: Z(G) = 1
+    ##Cluster 4: Z(G) = 1
     elif i > 1 + c1 + c2 and i < 2 + c1 + c2 + c3 then
       all := [];
       ##class 1: G' \cong C_{qrs}, G \cong C_p \ltimes C_{qrs}

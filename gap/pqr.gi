@@ -9,7 +9,9 @@ msg.allGroupsPQR := function(n)
   local fac, p, q, r, a, b, rootpq, rootpr, rootqr, all, k;
     fac := Factors(n);
     if not Length(fac) = 3 then
-      Error("Argument must be a product of three distinct primes"); fi;
+      Error("Argument must be a product of three distinct primes");
+    fi;
+    ## r < q < p
     r := fac[1];
     q := fac[2];
     p := fac[3];
@@ -40,7 +42,7 @@ msg.allGroupsPQR := function(n)
         Add(all, [ [r, q, p], [2, 1, [2, rootqr]], [3, 1, [3, Int(a^(k*(p-1)/r))]] ]);
       od;
     fi;
-    ####case5: r | (p - 1) and q | (p - 1), Z(G) = 1, and G \cong (C_r \times C_q) \ltimes C_p
+    ####case 5: r | (p - 1) and q | (p - 1), Z(G) = 1, and G \cong (C_r \times C_q) \ltimes C_p
     if (p - 1) mod r = 0 and (p - 1) mod q = 0 then
       Add(all, [ [r, q, p], [3, 1, [3, rootpr]], [3, 2, [3, rootpq]] ]);fi;
 
