@@ -1,6 +1,6 @@
 # sotgrps.pkg
 
-This package is complementary to an MPhil thesis "Groups of small order type" and the joint paper "Groups whose order factorise into at most four primes" (Dietrich, Eick, & Pan, 2020) available at https://authors.elsevier.com/c/1d6O22g0jrOyDg.
+This package is complementary to an MPhil thesis "Groups of small order type" and the joint paper "Groups whose order factorise into at most four primes" (Dietrich, Eick, & Pan, 2020) available at https://doi.org/10.1016/j.jsc.2021.04.005.
 
 To use this package, if you have GAP installed, then please unzip the file into the pkg folder in GAP, and then simply run the command LoadPackage("sotgrps") in GAP; if you haven't installed GAP, you could find instruction on https://www.gap-system.org/Download/ to download and install GAP first.
 
@@ -29,4 +29,4 @@ IdSOTGroup(group) returns the group ID in line with SOTGroup(n, i), namely, the 
 
 References:
 [1] X. Pan, Groups of small order type. MPhil thesis at Monash University.
-[2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at most four primes. In: Journal of Symbolic Computation (108) (2022), pp. 23–40. (https://authors.elsevier.com/c/1d6O22g0jrOyDg)
+[2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at most four primes. In: Journal of Symbolic Computation (108) (2022), pp. 23–40. (https://doi.org/10.1016/j.jsc.2021.04.005)
