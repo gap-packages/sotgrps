@@ -29,4 +29,5 @@ IdSOTGroup(group) returns the group ID in line with SOTGroup(n, i), namely, the 
 
 References:
 [1] X. Pan, Groups of small order type. MPhil thesis at Monash University.
+
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at most four primes. In: Journal of Symbolic Computation (108) (2022), pp. 23–40. (https://doi.org/10.1016/j.jsc.2021.04.005)
