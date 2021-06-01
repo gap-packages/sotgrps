@@ -19,10 +19,10 @@ Persons := [
 
  rec(
       LastName      := "Pan",
-      FirstNames    := "Xueyu",
+      FirstNames    := "Eileen",
       IsAuthor      := true,
       IsMaintainer  := true,
-      Email         := "heiko.dietrich@monash.edu",
+      Email         := "eileen.pan@monash.edu",
       WWWHome       := "http://users.monash.edu.au/~heikod/",
       PostalAddress := Concatenation( [
             "School of Mathematics",
@@ -37,8 +37,8 @@ Status := "other",
 CommunicatedBy := " (Annapolis)",
 AcceptDate := " ",
 
-README_URL := "http://users.monash.edu.au/~heikod/cubefree/README",
-PackageInfoURL := "http://users.monash.edu.au/~heikod/cubefree/PackageInfo.g",
+README_URL := "NA",
+PackageInfoURL := "NA",
 
 AbstractHTML :=
 "The <span class=\"pkgname\">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.",
