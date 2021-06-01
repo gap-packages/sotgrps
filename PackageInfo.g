@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "sotgrps",
 Subtitle    := "Constructing the Groups of a Given Small Order Type",
-Version     := "0",
-Date        := "01/01/2020",
+Version     := "1.0",
+Date        := "01/01/2021",
 ArchiveURL := "http://users.monash.edu.au/~heikod/cubefree/cubefree1.17",
 ArchiveFormats := ".tar.gz",
 
