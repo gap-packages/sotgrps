@@ -37,8 +37,8 @@ Status := "other",
 CommunicatedBy := " (Annapolis)",
 AcceptDate := " ",
 
-README_URL := "NA",
-PackageInfoURL := "NA",
+README_URL := "https://github.com/xpan-eileen/sotgrps_gap_pkg/blob/master/README.md",
+PackageInfoURL := "https://github.com/xpan-eileen/sotgrps_gap_pkg",
 
 AbstractHTML :=
 "The <span class=\"pkgname\">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.",
