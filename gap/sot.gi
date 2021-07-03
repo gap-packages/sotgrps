@@ -48,7 +48,7 @@ msg.w := function(x, y)
   end;
 ############################################################################
 #
-# the matrix I_2(p,q) as in Notation 2.3
+# the matrix Irr_2(p,q) as in Notation 2.3
 #
 msg.QthRootGL2P := function(p, q)
   local a, b;
@@ -83,7 +83,7 @@ msg.QthRootM2P2 := function(p, q)
 end;
 ############################################################################
 #
-# the matrix I_2(p,q^2) as in Notation 2.3
+# the matrix Irr_2(p,q^2) as in Notation 2.3
 #
 msg.QsquaredthRootGL2P := function(p, q)
   local a, b;
@@ -117,7 +117,7 @@ msg.groupofunitsP2 := function(p)
 
 ############################################################################
 #
-# the matrix I_3(p,q) as in Notation 2.3
+# the matrix Irr_3(p,q) as in Notation 2.3
 #
 msg.QthRootGL3P := function(p, q)
   local a, b;
