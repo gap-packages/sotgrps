@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xpan-eileen/sotgrps_gap_pkg/HEAD)
+
 # sotgrps.pkg
 
 This package is complementary to an MPhil thesis "Groups of small order type" and the joint paper "Groups whose order factorise into at most four primes" (Dietrich, Eick, & Pan, 2020) available at https://doi.org/10.1016/j.jsc.2021.04.005.
@@ -31,8 +33,3 @@ References:
 [1] X. Pan, Groups of small order type. MPhil thesis at Monash University.
 
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at most four primes. In: Journal of Symbolic Computation (108) (2022), pp. 23–40. (https://doi.org/10.1016/j.jsc.2021.04.005)
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xpan-eileen/sotgrps_gap_pkg/HEAD)
-
-.. image:: https://mybinder.org/badge_logo.svg
- :target: https://mybinder.org/v2/gh/xpan-eileen/sotgrps_gap_pkg/HEAD
