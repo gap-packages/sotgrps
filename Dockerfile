@@ -1,6 +1,6 @@
 FROM gapsystem/gap-docker
 
-MAINTAINER Eileen Pan <eileen.pan@monash.edu>
+MAINTAINER Alexander Konovalov <alexander.konovalov@st-andrews.ac.uk>
 
 # Update version number each time after gap-docker container is updated
 ENV GAP_VERSION 4.11.1
