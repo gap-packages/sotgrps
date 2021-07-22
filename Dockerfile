@@ -1,13 +1,21 @@
 FROM gapsystem/gap-docker
 
-COPY --chown=1000:1000 . $HOME/mygapproject
+MAINTAINER Eileen Pan <eileen.pan@monash.edu>
 
-RUN sudo pip3 install ipywidgets RISE
+# Update version number each time after gap-docker container is updated
+ENV GAP_VERSION 4.11.1
 
-RUN jupyter-nbextension install rise --user --py
+# Remove previous JupyterKernel installation, copy this repository and make new install
 
-RUN jupyter-nbextension enable rise --user --py
+RUN cd /home/gap/inst/gap-${GAP_VERSION}/pkg/ \
+    && rm -rf JupyterKernel \
+    && wget https://github.com/gap-packages/JupyterKernel/archive/master.zip \
+    && unzip -q master.zip \
+    && rm master.zip \
+    && mv JupyterKernel-master JupyterKernel \
+    && cd JupyterKernel \
+    && pip3 install . --user
 
 USER gap
 
-WORKDIR $HOME/mygapproject
+WORKDIR /home/gap/inst/gap-${GAP_VERSION}/pkg/JupyterKernel/demos
