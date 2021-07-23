@@ -25,4 +25,4 @@ ReadPackage(sotgrpsPkgName, "gap/SmallGrps.gi");
 ReadPackage(sotgrpsPkgName, "gap/IdFunc.gi");
 ReadPackage(sotgrpsPkgName, "gap/IdFuncP4Q.gi");
 DeclareAttribute( "SOTGroup_id", IsGroup );
-Print("This package is currently under development; please report bugs to xpan.eileen@gmail.com. Partial references can be found in the paper GROUPS WHOSE ORDERS FACTORISE IN AT MOST FOUR PRIMES (https://arxiv.org/pdf/2012.02933.pdf) \n");
+Print("This package is currently under development; please report bugs to xpan.eileen@gmail.com. Partial references can be found in the paper GROUPS WHOSE ORDERS FACTORISE INTO AT MOST FOUR PRIMES (https://doi.org/10.1016/j.jsc.2021.04.005) \n");
