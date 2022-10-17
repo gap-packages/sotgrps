@@ -145,7 +145,8 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
 			Print("AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.");
-    fi;
+    fi; # FIXME: this code is mixing tabs and spaces, which makes it weird to read unless one has the exact same tab settings as your computer.
+    # In general we recommend using only spaces, not tabs, to avoid this. It is possible to fix this with a script, let me know if you are interested in help with that
 		if Length(arg) = 1 then
 			n := arg[1];
       PF := Factors(n);
@@ -156,6 +157,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   			p := PF[1];
   			k := length;
   			if k = 1 then Print(("There is a unique group of order"), n, ("up to isomorphism, and it is cyclic.") );
+  			# FIXME: the parenthesis around the strings are superfluous
   			elif k = 2 then Print(("There are two isomorphism types of p-groups of order "),n,(": there is one cyclic group, and one elementary abelian group."));
   			elif k = 3 then Print(("There are five isomorpshim types of p-groups of order "), n, (": there are 3 abelian groups, and 3 extraspecial groups."));
   			elif k = 4 then

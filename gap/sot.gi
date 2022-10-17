@@ -4,7 +4,7 @@
     ## Analogously, we compute \sigma_{p^k} by computing ZmodnZObj(Int(Z(p)), p^k) or ZmodnZObj(Int(Z(p)), p^k) + p for the canonical primitive root modulo p^k (k is a positive integer), and \rho(p^k, b) accordingly for b dividing (p - 1).
 ############################################################################
 USE_NC := true;
-USE_PCP := false;
+USE_PCP := false; # FIXME: avoid these global USE_* variables
 USE_pqrsII := true;
 ############################################################################
 #
@@ -31,7 +31,8 @@ msg.groupFromData := function(data)
     G := PcpGroupByCollectorNC(coll);
   else G := PcpGroupByCollector(coll);
   fi;
-  if USE_PCP = false then
+  if USE_PCP = false then # TODO: better to construct pc group directly??
+      # TODO: also better interface would be to allow user to specify desired type via an argument
     return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
   else return G;
   fi;
@@ -49,20 +50,22 @@ msg.w := function(x, y)
 ############################################################################
 #
 # the matrix Irr_2(p,q) as in Notation 2.3
+# FIXME: also say in which paper, e.g. [DEP22]
 #
 msg.QthRootGL2P := function(p, q)
   local a, b;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
-  	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n");
+  	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n"); # FIXME: don't end error messages with newlines
   	 else
-  	 a := PrimitiveElement(GF(p^2));
+  	 a := PrimitiveElement(GF(p^2)); # do you perhaps want a PrimitiveRoot instead? Then use `Z(p,2)`
   	 b := a^((p^2-1)/q);
   	fi;
-  return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
+  return [ [0, 1], [-1, b+b^p] ] * One(GF(p)); # FIXME: use a^0 instead of One(GF(p)) ?
 end;
 ############################################################################
 #
 # (for order p^4q, not used in paper)
+# FIXME: what does that comment mean? is this a function that is not proven correct anywhere then or what?!?
 #
 msg.QthRootM2P2 := function(p, q)
   local a, b, m, mat, u1, u2, u3, u4, v1, v2, v3, v4;
@@ -111,7 +114,7 @@ msg.delta := function(x, y)
 #
 msg.groupofunitsP2 := function(p)
   local l;
-    l := Filtered([1..p^2], x->not x mod p = 0);
+    l := Filtered([1..p^2], x->x mod p <> 0);  # FIXME: this is unusable for large p. Is it really necessary?
     return l;
   end;
 
@@ -177,7 +180,7 @@ msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
     if Length(l) = 4 then evm := Collected(l);
     elif Length(l) = 3 then
       if l[1]^2*l[2]*l[3] = det then
-        evm := Collected([l[2], l[3], l[1], l[1]]);
+        evm := Collected([l[2], l[3], l[1], l[1]]);  # FIXME: isn't this the same as `Collected(l)`? also in the other cases. Note that Collected sorts its output
       elif l[1]*l[2]^2*l[3] = det then
         evm := Collected([l[1], l[3], l[2], l[2]]);
       elif l[1]*l[2]*l[3]^2 = det then
@@ -193,7 +196,7 @@ msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
       fi;
     else evm := Collected([l[1], l[1], l[1], l[1]]);
   fi;
-  SortBy(evm, x -> x[2]);
+  SortBy(evm, x -> x[2]); # FIXME: so in light of this, can't we just replace the whole if/else stuff above by just `evm := Collected(l)` ?
   return evm;
 end;
 ############################################################################
@@ -227,7 +230,7 @@ end;
 #
 # a test function (compare with SmallGroups Library, if possible)
 #
-msg.testAllSOTGroups := function(n)
+msg.testAllSOTGroups := function(n) # FIXME: this kind of function should be part of a proper test suite
 	local mygroups, lib, duplicates, missing;
 				duplicates := [];
 				missing    := [];

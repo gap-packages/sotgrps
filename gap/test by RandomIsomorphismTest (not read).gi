@@ -2,6 +2,7 @@
 ## this is preliminary code that had been used for testing purposes; please ignore
 ##
 
+# FIXME: remove this file., or else rename it and place it in another directory
 
 isp := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) = [ 1 ] and Length( Factors ( x ) ) < 5;
 isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) in [ [ 2, 1 ], [ 1, 2 ] ];

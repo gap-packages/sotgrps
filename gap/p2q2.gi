@@ -10,7 +10,7 @@
 msg.allGroupsP2Q2 := function(n)
   local fac, p, q, a, b, c, d, e, f, qq, ii, qqq, iii,
   s1, S1, s2, S2, r1, R1, r2, R2, all, list, G, k, t, matq, matq2, matp, matp2;;
-    fac := Factors(n);
+    fac := Factors(n); # FIXME: the caller already has the factors, so pass those directly?
     if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
       Error("Argument has to be of the form p^2*q^2, where p, q are primes");
     fi;
@@ -18,7 +18,10 @@ msg.allGroupsP2Q2 := function(n)
     p := fac[4];
 
     #### Cluster 0: abelian groups
-    all := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, q, q], [3, [4, 1]] ], [ [p, p, q, q], [1, [2, 1]] ], [ [p, p, q, q], [2, [3, 1]] ] ];
+    all := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ],
+             [ [p, p, q, q], [3, [4, 1]] ],
+             [ [p, p, q, q], [1, [2, 1]] ],
+             [ [p, p, q, q], [2, [3, 1]] ] ];
     ## Computing roots
     a := Z(p); #\sigma_p
     b := Z(q); #\sigma_q

@@ -176,7 +176,7 @@ msg.GroupPQRS := function(n, i)
   local all, fac, p, q, r, s, u, v, w, k, l, G,
 	c1, c2, c3, c4, c5, c6, c7, data;
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
+    if Length(fac) <> 4 or Length(Set(fac)) <> 4 then
       Error("Argument must be of the form of pqrs");
     else
       p := fac[1];

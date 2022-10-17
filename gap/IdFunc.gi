@@ -1088,7 +1088,7 @@ msg.IdGroupP2QR := function(group)
         Add(tmp, j);
       return tmp;
     end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2]; # FIXME: call primefac only once
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;
@@ -1151,6 +1151,7 @@ msg.IdGroupP2QR := function(group)
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           exp := ExponentsOfPcElement(G, gens[3]^gens[1]);
 
+            # FIXME: replace IsAbelian(Group([a,b]))   by IsOne(Comm(a,b)) which is MUCH more efficient
           if IsAbelian(Group([gens[2], gens[4]])) and not IsAbelian(Group([gens[2], gens[3]])) then ## p^2 | (q - 1), p | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/(p^2)))) mod (p^2);
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
