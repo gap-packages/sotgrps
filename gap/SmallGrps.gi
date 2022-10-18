@@ -145,7 +145,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
 			Print("AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.");
-    fi;
+		fi;
 		if Length(arg) = 1 then
 			n := arg[1];
       PF := Factors(n);
