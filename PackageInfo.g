@@ -47,8 +47,8 @@ PackageWWWHome := "https://github.com/xpan-eileen/sotgrps",
 
 PackageDoc := rec(
   BookName  := "sotgrps",
-  ArchiveURLSubset := ["doc", "htm"],
-  HTMLStart := "htm/chapters.htm",
+  ArchiveURLSubset := ["doc"],
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Constructing and identifying groups of small order type",
