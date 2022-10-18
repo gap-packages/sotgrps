@@ -14,7 +14,7 @@ USE_pqrsII := true;
 # encode conjugate relations (if data[i][2] is an integer)
 # or a power relation (if data[i][2] is a list
 #
-msg.groupFromData := function(data)
+SOTRec.groupFromData := function(data)
   local coll, i, j, n ,G;
    n := Size(data[1]);
    coll := FromTheLeftCollector(n);
@@ -40,7 +40,7 @@ end;
 #
 # the divisibility Kronecker function \Delta_x^y
 #
-msg.w := function(x, y)
+SOTRec.w := function(x, y)
   local w;
     if x mod y = 0 then w := 1;
     else w := 0; fi;
@@ -48,28 +48,28 @@ msg.w := function(x, y)
   end;
 ############################################################################
 #
-# the matrix Irr_2(p,q) as in Notation 2.3
+# the matrix Irr_2(p,q) as in Notation 2.3, [DEP22]
 #
-msg.QthRootGL2P := function(p, q)
+SOTRec.QthRootGL2P := function(p, q)
   local a, b;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
   	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n");
   	 else
-  	 a := PrimitiveElement(GF(p^2));
+  	 a := Z(p,2);
   	 b := a^((p^2-1)/q);
   	fi;
   return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
 end;
 ############################################################################
 #
-# (for order p^4q, not used in paper)
 #
-msg.QthRootM2P2 := function(p, q)
+#
+SOTRec.QthRootM2P2 := function(p, q)
   local a, b, m, mat, u1, u2, u3, u4, v1, v2, v3, v4;
     if not Gcd(p,q)=1 or not (p^2-1) mod q = 0 then
   	 Error("Arguments have to be coprime (p, q), where q divides (p^2 - 1).\n");
   	 else
-  	 a := PrimitiveElement(GF(p^2));
+  	 a := Z(p,2);
   	 b := a^((p^2-1)/q);
      m := ([ [0, 1], [Int((-b^(p+1)) * One(GF(p))), Int((b+b^p) * One(GF(p)))] ] * ZmodnZObj(1, p^2))^p;
      u1 := Int(m[1][1]) mod p;    u2 := Int(m[1][2]) mod p;    v1 := Int(m[2][1]) mod p;    v2 := Int(m[2][2]) mod p;
@@ -85,12 +85,12 @@ end;
 #
 # the matrix Irr_2(p,q^2) as in Notation 2.3
 #
-msg.QsquaredthRootGL2P := function(p, q)
+SOTRec.QsquaredthRootGL2P := function(p, q)
   local a, b;
    	if not Gcd(p,q)=1 or not (p^2-1) mod (q^2) = 0 then
    	 Error("Arguments have to be primes p, q, where q^2 divides (p^2 - 1).\n");
    	 else
-   	 a := PrimitiveElement(GF(p^2));
+   	 a := Z(p,2);
    	 b := a^((p^2-1)/(q^2));
    	fi;
   return [ [0, 1], [-1, b+b^p] ] * One(GF(p));
@@ -99,7 +99,7 @@ end;
 #
 # the original Kronecker delta
 #
-msg.delta := function(x, y)
+SOTRec.delta := function(x, y)
   local w;
     if x = y then w := 1;
     else w := 0; fi;
@@ -109,9 +109,9 @@ msg.delta := function(x, y)
 #
 # returns units in Z_{p^2}
 #
-msg.groupofunitsP2 := function(p)
+SOTRec.groupofunitsP2 := function(p)
   local l;
-    l := Filtered([1..p^2], x->not x mod p = 0);
+    l := Filtered([1..p^2], x->x mod p <> 0);
     return l;
   end;
 
@@ -119,26 +119,26 @@ msg.groupofunitsP2 := function(p)
 #
 # the matrix Irr_3(p,q) as in Notation 2.3
 #
-msg.QthRootGL3P := function(p, q)
+SOTRec.QthRootGL3P := function(p, q)
   local a, b;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^3-1) mod q = 0 then
    Error("Arguments have to be primes p, q, where q divides (p^3 - 1).\n");
   else
-    a := PrimitiveElement(GF(p^3));
+    a := Z(p,3);
     b := a^((p^3-1)/q);
   fi;
   return [ [0, 1, 0], [0, 0, 1], [1, -b^(p+1)-b^(p^2+1)-b^(p^2+p), b+b^p+b^(p^2)] ] * One(GF(p));
 end;
 ############################################################################
 #
-# (for order p^4q, not used in paper)
+# (for order p^4q, proved in the Thesis but not publised in [DEP22])
 #
-msg.QthRootGL4P := function(p, q)
+SOTRec.QthRootGL4P := function(p, q)
   local a, b, u, v;
   if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) or not (p^2+1) mod q = 0 and p <> 3 then
    Error("Arguments have to be primes p, q, where q divides (p^2 + 1) and p <> 3.\n");
   else
-    a := PrimitiveElement(GF(p^4));
+    a := Z(p,4);
     b := a^((p^4-1)/q);
     u := b^(p^2+p+1)+b^(p^3+p+1)+b^(p^3+p^2+1)+b^(p^3+p^2+p);
     v := -b^(p+1)-b^(p^2+1)-b^(p^3+1)-b^(p^2+p)-b^(p^3+p)-b^(p^3+p^2);
@@ -149,7 +149,7 @@ end;
 #
 # get eigenvalues with multiplicities
 #
-msg.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
+SOTRec.EigenvaluesWithMultiplicitiesGL3P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
     det := DeterminantMat(mat);
@@ -170,7 +170,7 @@ end;
 #
 # get eigenvalues with multiplicities
 #
-msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
+SOTRec.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
     det := DeterminantMat(mat);
@@ -197,7 +197,7 @@ msg.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
   return evm;
 end;
 ############################################################################
-msg.EigenvaluesGL4P2 := function(mat, p)
+SOTRec.EigenvaluesGL4P2 := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p^2), mat);
     det := DeterminantMat(mat);
@@ -224,24 +224,6 @@ msg.EigenvaluesGL4P2 := function(mat, p)
   return evm;
 end;
 ############################################################################
-#
-# a test function (compare with SmallGroups Library, if possible)
-#
-msg.testAllSOTGroups := function(n)
-	local mygroups, lib, duplicates, missing;
-				duplicates := [];
-				missing    := [];
-				mygroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
-						lib    := [1..NumberSmallGroups(n)];
-				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
-					return true;
-				elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
-					Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
-					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
-					 Append(missing, Filtered(lib, x-> not x in mygroups));
-					Print(("missing groups of order "), n,(" with id "), missing, ".");
-				fi;
-end;
 ############################################################################
 
 ############################################################################

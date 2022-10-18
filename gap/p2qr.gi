@@ -8,7 +8,7 @@
   ## For each case depending on the size of F, we construct the isomorphism types of non-nilpotent, solvable groups G.
   ## For further details, see [2, Section 3.2 & 3.7].
 
-msg.allGroupsP2QR := function(n)
+SOTRec.allGroupsP2QR := function(n)
 local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
   rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2, matq, matr, matqr, mat, mat_k, all, list;
     fac := Factors(n);
@@ -49,14 +49,14 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
     fi;
 
     if (p + 1) mod (q * r) = 0 and q > 2 then
-      matqr := msg.QthRootGL2P(p, (q*r));
+      matqr := SOTRec.QthRootGL2P(p, (q*r));
       mat := matqr^q;
     fi;
     if (p + 1) mod r = 0 and r > 2 then
-      matr := msg.QthRootGL2P(p, r);
+      matr := SOTRec.QthRootGL2P(p, r);
     fi;
     if (p + 1) mod q = 0 and q > 2 then
-      matq := msg.QthRootGL2P(p, q);
+      matq := SOTRec.QthRootGL2P(p, q);
     fi;
 ############ abelian groups:
     all := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];
@@ -84,7 +84,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
       od;
     fi;
     if (q - 1) mod (p^2) = 0 and (r - 1) mod (p^2) = 0 then ## p^2 | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
-      for k in msg.groupofunitsP2(p) do
+      for k in SOTRec.groupofunitsP2(p) do
         Add(all, [ [p, p, q, r], [1, [2, 1]], [3, 1, [3, Rootqp2]], [3, 2, [3, Rootqp]], [4, 1, [4, Int(rootrp2^k)]], [4, 2, [4, Int(rootrp^k)]] ]);
       od;
     fi;
@@ -297,7 +297,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
     fi;
 
 ############
-    list := List(all, x->msg.groupFromData(x));
+    list := List(all, x->SOTRec.groupFromData(x));
     if n = 60 then
       Add(list, AlternatingGroup(5));
     fi;
@@ -305,7 +305,7 @@ local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Roo
 end;
 
 ######################################################
-msg.NumberGroupsP2QR := function(n)
+SOTRec.NumberGroupsP2QR := function(n)
   local s, fac, primefac, p, q, r, m;
     s := [];
     fac := Factors(n);
@@ -328,23 +328,23 @@ msg.NumberGroupsP2QR := function(n)
     if n = 60 then m := 13;
     fi;
     if q = 2 then
-      m := 10 + (2*r + 7)*msg.w((p - 1), r) + 3*msg.w((p + 1), r) + 6*msg.w((r - 1), p) + 2*msg.w((r - 1), (p^2));
+      m := 10 + (2*r + 7)*SOTRec.w((p - 1), r) + 3*SOTRec.w((p + 1), r) + 6*SOTRec.w((r - 1), p) + 2*SOTRec.w((r - 1), (p^2));
     fi;
     if q > 2 and not n = 60 then
-      m := 2 + (p^2 - p)*msg.w((q - 1), (p^2))*msg.w((r - 1), (p^2))
-      + (p - 1)*(msg.w((q - 1), (p^2))*msg.w((r - 1), p) + msg.w((r - 1), (p^2))*msg.w((q - 1), p) + 2*msg.w((r - 1), p)*msg.w((q - 1), p))
-      + (q - 1)*(q + 4)*msg.w((p - 1), q)*msg.w((r - 1), q)/2
-      + (q - 1)*(msg.w((p + 1), q)*msg.w((r - 1), q) + msg.w((p - 1), q) + msg.w((p - 1), (q*r)) + 2*msg.w((r - 1), (p*q))*msg.w((p - 1), q))/2
-      + (q*r + 1)*msg.w((p - 1), (q*r))/2
-      + (r + 5)*msg.w((p - 1), r)*(1 + msg.w((p - 1), q))/2
-      + msg.w((p^2 - 1), (q*r)) + 2*msg.w((r - 1), (p*q)) + msg.w((r - 1), p)*msg.w((p - 1), q) + msg.w((r - 1), (p^2*q))
-      + msg.w((r - 1), p)*msg.w((q - 1), p) + 2*msg.w((q - 1), p) + 3*msg.w((p - 1), q) + 2*msg.w((r - 1), p)
-      + 2*msg.w((r - 1), q) + msg.w((r - 1), (p^2)) + msg.w((q - 1), p^2) + msg.w((p + 1), r) + msg.w((p + 1), q);
+      m := 2 + (p^2 - p)*SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), (p^2))
+      + (p - 1)*(SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p^2))*SOTRec.w((q - 1), p) + 2*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p))
+      + (q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)/2
+      + (q - 1)*(SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q) + SOTRec.w((p - 1), q) + SOTRec.w((p - 1), (q*r)) + 2*SOTRec.w((r - 1), (p*q))*SOTRec.w((p - 1), q))/2
+      + (q*r + 1)*SOTRec.w((p - 1), (q*r))/2
+      + (r + 5)*SOTRec.w((p - 1), r)*(1 + SOTRec.w((p - 1), q))/2
+      + SOTRec.w((p^2 - 1), (q*r)) + 2*SOTRec.w((r - 1), (p*q)) + SOTRec.w((r - 1), p)*SOTRec.w((p - 1), q) + SOTRec.w((r - 1), (p^2*q))
+      + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), p) + 3*SOTRec.w((p - 1), q) + 2*SOTRec.w((r - 1), p)
+      + 2*SOTRec.w((r - 1), q) + SOTRec.w((r - 1), (p^2)) + SOTRec.w((q - 1), p^2) + SOTRec.w((p + 1), r) + SOTRec.w((p + 1), q);
     fi;
     return m;
   end;
 ######################################################
-msg.GroupP2QR := function(n, i)
+SOTRec.GroupP2QR := function(n, i)
   local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
   Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2, rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2,
   c1, c2, c3, c4, c5, c6, c7, l1, l2, l3, l4, l5, l6, l7, l0, data, G;
@@ -395,39 +395,39 @@ msg.GroupP2QR := function(n, i)
     fi;
 
     if (p + 1) mod (q * r) = 0 and q > 2 then
-      matqr := msg.QthRootGL2P(p, (q*r));
+      matqr := SOTRec.QthRootGL2P(p, (q*r));
       mat := matqr^q;
     fi;
     if (p + 1) mod r = 0 and r > 2 then
-      matr := msg.QthRootGL2P(p, r);
+      matr := SOTRec.QthRootGL2P(p, r);
     fi;
     if (p + 1) mod q = 0 and q > 2 then
-      matq := msg.QthRootGL2P(p, q);
+      matq := SOTRec.QthRootGL2P(p, q);
     fi;
 ############ enumeration of distinct cases
-    c1 := msg.w((r - 1), p^2*q);;
-    c2 := msg.w((q - 1), p^2) + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-    + (p^2 - p)*msg.w((r - 1), p^2)*msg.w((q - 1), p^2)
-    + msg.w((r - 1), p^2) + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p^2)
-    + msg.w((r - 1), p)*msg.w((q - 1), p);;
-    c3 := 1/2*(q*r+q+r+7)*msg.w((p - 1), q*r)
-    + msg.w((p^2 - 1), q*r)*(1 - msg.w((p - 1), q*r))*(1 - msg.delta(q, 2))
-    + 2*msg.w((p + 1), r)*msg.delta(q, 2);;
-    c4 := 1/2*(r + 5)*msg.w((p - 1), r) + msg.w((p + 1), r);;
-    c5 := 8*msg.delta(q, 2)
-    + (1 - msg.delta(q, 2))*(1/2*(q - 1)*(q + 4)*msg.w((p - 1), q)*msg.w((r - 1), q)
-    + 1/2*(q - 1)*msg.w((p + 1), q)*msg.w((r - 1), q)
-    + 1/2*(q + 5)*msg.w((p - 1), q)
-    + 2*msg.w((r - 1), q)
-    + msg.w((p + 1), q));;
-    c6 := msg.w((r - 1), p)*(msg.w((p - 1), q)*(1 + (q - 1)*msg.w((r - 1), q))
-    + 2*msg.w((r - 1), q));;
-    c7 := 2*(msg.w((q - 1), p) + msg.w((r - 1), p) +
-    (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p));
+    c1 := SOTRec.w((r - 1), p^2*q);;
+    c2 := SOTRec.w((q - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+    + (p^2 - p)*SOTRec.w((r - 1), p^2)*SOTRec.w((q - 1), p^2)
+    + SOTRec.w((r - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p^2)
+    + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p);;
+    c3 := 1/2*(q*r+q+r+7)*SOTRec.w((p - 1), q*r)
+    + SOTRec.w((p^2 - 1), q*r)*(1 - SOTRec.w((p - 1), q*r))*(1 - SOTRec.delta(q, 2))
+    + 2*SOTRec.w((p + 1), r)*SOTRec.delta(q, 2);;
+    c4 := 1/2*(r + 5)*SOTRec.w((p - 1), r) + SOTRec.w((p + 1), r);;
+    c5 := 8*SOTRec.delta(q, 2)
+    + (1 - SOTRec.delta(q, 2))*(1/2*(q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+    + 1/2*(q - 1)*SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q)
+    + 1/2*(q + 5)*SOTRec.w((p - 1), q)
+    + 2*SOTRec.w((r - 1), q)
+    + SOTRec.w((p + 1), q));;
+    c6 := SOTRec.w((r - 1), p)*(SOTRec.w((p - 1), q)*(1 + (q - 1)*SOTRec.w((r - 1), q))
+    + 2*SOTRec.w((r - 1), q));;
+    c7 := 2*(SOTRec.w((q - 1), p) + SOTRec.w((r - 1), p) +
+    (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p));
 
 ############ add abelian groups in:
     l0 := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];
-    if i < 3 then G := msg.groupFromData(l0[i]);
+    if i < 3 then G := SOTRec.groupFromData(l0[i]);
       return G;
     fi;
 ############ case 1: nonabelian and Fitting subgroup has order r -- unique isomorphism type iff p^2q | (r - 1)
@@ -435,7 +435,7 @@ msg.GroupP2QR := function(n, i)
       l1 := [];
       Add(l1, [ [p, p, q, r], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, Int(a^((r-1)/(p^2*q)))]], [4, 2, [4, Int(a^((r-1)/(p*q)))]], [4, 3, [4, Rootrq]] ]);
       data := l1[i - 2];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 2: nonabelian and Fitting subgroup has order qr -- p^2 | (q - 1)(r - 1) or (p^2 | (q - 1) or (r - 1)) or (p | (q - 1) and p | (r - 1))
@@ -450,7 +450,7 @@ msg.GroupP2QR := function(n, i)
         od;
       fi;
       if (q - 1) mod (p^2) = 0 and (r - 1) mod (p^2) = 0 then ## p^2 | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
-        for k in msg.groupofunitsP2(p) do
+        for k in SOTRec.groupofunitsP2(p) do
           Add(l2, [ [p, p, q, r], [1, [2, 1]], [3, 1, [3, Rootqp2]], [3, 2, [3, Rootqp]], [4, 1, [4, Int(rootrp2^k)]], [4, 2, [4, Int(rootrp^k)]] ]);
         od;
       fi;
@@ -466,7 +466,7 @@ msg.GroupP2QR := function(n, i)
         Add(l2, [ [p, p, q, r], [3, 1, [3, Rootqp]], [4, 2, [4, Rootrp]] ]);
       fi;
       data := l2[i - 2 - c1];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p^2 - 1)
@@ -542,7 +542,7 @@ msg.GroupP2QR := function(n, i)
         [3, 2, [3, Rootpr]], [4, 2, [4, Rootpr]] ]);
       fi;
       data := l3[i - 2 - c1 - c2];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 4: nonabelian and Fitting subgroup has order p^2q -- r | (p - 1) or r | (p + 1)
@@ -565,7 +565,7 @@ msg.GroupP2QR := function(n, i)
         [3, 1, [2, Int(matr[1][2]), 3, Int(matr[2][2])]] ]);
       fi;
       data := l4[i - 2 - c1 - c2 - c3];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 5: nonabelian and Fitting subgroup has order p^2r -- q | (p - 1)(r - 1) or q | (p + 1)(r - 1)
@@ -636,7 +636,7 @@ msg.GroupP2QR := function(n, i)
         od;
       fi;
       data := l5[i - 2 - c1 - c2 - c3 - c4];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 6: nonabelian and Fitting subgroup has order pr -- q | (p - 1)(r - 1) and p | (r - 1)
@@ -657,7 +657,7 @@ msg.GroupP2QR := function(n, i)
         od;
       fi;
       data := l6[i - 2 - c1 - c2 - c3 - c4 - c5];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############ case 7: nonabelian and Fitting subgroup has order pqr -- p | (r - 1)(q - 1)
@@ -687,7 +687,7 @@ msg.GroupP2QR := function(n, i)
         od;
       fi;
       data := l7[i - 2 - c1 - c2 - c3 - c4 - c5 - c6];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 
 ############

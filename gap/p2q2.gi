@@ -7,10 +7,10 @@
  ## For further details, see [2, Section 3.2 & 3.6].
 
 ############################################################################ all groups P2Q2
-msg.allGroupsP2Q2 := function(PF)
+SOTRec.allGroupsP2Q2 := function(n)
   local fac, p, q, a, b, c, d, e, f, qq, ii, qqq, iii,
   s1, S1, s2, S2, r1, R1, r2, R2, all, list, G, k, t, matq, matq2, matp, matp2;;
-    fac := PF;
+    fac := Factors(n);
     if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
       Error("Argument has to be of the form p^2*q^2, where p, q are primes");
     fi;
@@ -111,20 +111,20 @@ msg.allGroupsP2Q2 := function(PF)
       fi;
 
       if n = 36 then
-        matq := msg.QthRootGL2P(2, 3);
+        matq := SOTRec.QthRootGL2P(2, 3);
         Add(all, [ [3, 3, 2, 2], [1, [2, 1]],
         [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
         [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
       fi;
     fi;
     if (p + 1) mod q = 0 and q mod 2 = 1 then
-      matq := msg.QthRootGL2P(p, q);
+      matq := SOTRec.QthRootGL2P(p, q);
       Add(all, [ [q, q, p, p], [1, [2, 1]],
       [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
       [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
     fi;
     if (p + 1) mod (q^2) = 0 or n = 36 then
-      matq2 := msg.QsquaredthRootGL2P(p, q);
+      matq2 := SOTRec.QsquaredthRootGL2P(p, q);
       matq := matq2^q;
       Add(all, [ [q, q, p, p], [1, [2, 1]],
         [3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
@@ -148,25 +148,25 @@ msg.allGroupsP2Q2 := function(PF)
       Add(all, [ [q, q, p, p], [3, 1, [3, S1]], [4, 2, [4, S1]] ]);
 
       if n = 36 then
-        matq := msg.QthRootGL2P(2, 3);
+        matq := SOTRec.QthRootGL2P(2, 3);
         Add(all, [ [3, 3, 2, 2],
         [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
         [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
       fi;
     fi;
     if (p + 1) mod q = 0 and q > 2 then
-      matq := msg.QthRootGL2P(p, q);
+      matq := SOTRec.QthRootGL2P(p, q);
       Add(all, [ [q, q, p, p],
       [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
       [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ] );
     fi;
 
-    list := List(all, x -> msg.groupFromData(x));
+    list := List(all, x -> SOTRec.groupFromData(x));
   return list;
 end;
 ##
 ############################################################################
-msg.NumberGroupsP2Q2 := function(n)
+SOTRec.NumberGroupsP2Q2 := function(n)
 		local fac, p, q, w;
 				fac := Factors(n);
 				## check input
@@ -177,15 +177,15 @@ msg.NumberGroupsP2Q2 := function(n)
 				q := fac[1];
 				p := fac[4];
 				if n = 36 then w := 14;
-				elif q = 2 then w := 11 + 5*msg.w((p-1), 4) + msg.w((p+1), 4);
-				else w := 4 + (6+q)*msg.w((p-1), q) + (4+q+q^2)*msg.w((p-1), q^2)/2 + 2*msg.w((p+1),q) + msg.w((p+1), q^2);
+				elif q = 2 then w := 11 + 5*SOTRec.w((p-1), 4) + SOTRec.w((p+1), 4);
+				else w := 4 + (6+q)*SOTRec.w((p-1), q) + (4+q+q^2)*SOTRec.w((p-1), q^2)/2 + 2*SOTRec.w((p+1),q) + SOTRec.w((p+1), q^2);
 				fi;
 			return w;
 		end;
 
 
 ############################################################################
-msg.GroupP2Q2 := function(n, i)
+SOTRec.GroupP2Q2 := function(n, i)
   local fac, p, q, a, b, c, d, e, f, qq, ii, qqq, iii, l0, lst, G, k, t, matq, matq2, matp, matp2,
   c1, c2, c3, c4, c5, s1, S1, s2, S2, r1, R1, r2, R2;
     fac := Factors(n);
@@ -196,7 +196,7 @@ msg.GroupP2Q2 := function(n, i)
     p := fac[4];
     #### case1: q nmid (p-1), q nmid (p^2 -1), q > 2
     l0 := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, q, q], [3, [4, 1]] ], [ [p, p, q, q], [1, [2, 1]] ], [ [p, p, q, q], [2, [3, 1]] ] ];
-    if i < 5 then return msg.groupFromData(l0[i]); fi;
+    if i < 5 then return SOTRec.groupFromData(l0[i]); fi;
     a := Z(p);
     b := Z(q);
 
@@ -233,10 +233,10 @@ msg.GroupP2Q2 := function(n, i)
     fi;
 
     #### Enumeration
-    c1 := msg.w((p - 1), q) + msg.w((p - 1), q^2);
-    c2 := msg.w((p - 1), q);
-    c3 := 1/2*(q + 3 - msg.w(2, q))*msg.w((p - 1), q) + 1/2*(q^2 + q + 2)*msg.w((p - 1), q^2) + (1 - msg.w(2, q))*msg.w((p + 1), q) + msg.w((p + 1), q^2) + msg.delta(n, 36);
-    c4 := 1/2*(q + 5 - msg.w(2, q))*msg.w((p - 1), q) + (1 - msg.w(2, q))*msg.w((p + 1), q) + msg.delta(n, 36);
+    c1 := SOTRec.w((p - 1), q) + SOTRec.w((p - 1), q^2);
+    c2 := SOTRec.w((p - 1), q);
+    c3 := 1/2*(q + 3 - SOTRec.w(2, q))*SOTRec.w((p - 1), q) + 1/2*(q^2 + q + 2)*SOTRec.w((p - 1), q^2) + (1 - SOTRec.w(2, q))*SOTRec.w((p + 1), q) + SOTRec.w((p + 1), q^2) + SOTRec.delta(n, 36);
+    c4 := 1/2*(q + 5 - SOTRec.w(2, q))*SOTRec.w((p - 1), q) + (1 - SOTRec.w(2, q))*SOTRec.w((p + 1), q) + SOTRec.delta(n, 36);
     #### Cluster 1: ##C_{q^2} \ltimes C_{p^2}
     if i > 4 and i < 5 + c1 then
       lst := [];
@@ -254,7 +254,7 @@ msg.GroupP2Q2 := function(n, i)
           Add(lst, [ [q, q, p, p], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]], [3, 2, [3, iii, 4, qqq]], [4, 2, [4, iii]] ]);
         fi;
       fi;
-      return msg.groupFromData(lst[i - 4]);
+      return SOTRec.groupFromData(lst[i - 4]);
 
     #### Cluster 2: C_q^2 \ltimes C_{p^2}
     elif i > 4 + c1 and i < 5 + c1 + c2 then
@@ -264,7 +264,7 @@ msg.GroupP2Q2 := function(n, i)
         qq := (R1 - ii)/p;
         Add(lst, [ [q, q, p, p], [3, [4, 1]], [3, 1, [3, ii, 4, qq]], [4, 1, [4, ii]] ]);
       fi;
-      return msg.groupFromData(lst[i - 4 -c1]);
+      return SOTRec.groupFromData(lst[i - 4 -c1]);
 
     #### Cluster 3: C_{q^2} \ltimes C_p^2
     elif i > 4 + c1 + c2 and i < 5 + c1 + c2 + c3 then
@@ -300,20 +300,20 @@ msg.GroupP2Q2 := function(n, i)
         fi;
 
         if n = 36 then
-          matq := msg.QthRootGL2P(2, 3);
+          matq := SOTRec.QthRootGL2P(2, 3);
           Add(lst, [ [3, 3, 2, 2], [1, [2, 1]],
           [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
           [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
         fi;
       fi;
       if (p + 1) mod q = 0 and q mod 2 = 1 then
-        matq := msg.QthRootGL2P(p, q);
+        matq := SOTRec.QthRootGL2P(p, q);
         Add(lst, [ [q, q, p, p], [1, [2, 1]],
         [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
         [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
       fi;
       if (p + 1) mod (q^2) = 0 or n = 36 then
-        matq2 := msg.QsquaredthRootGL2P(p, q);
+        matq2 := SOTRec.QsquaredthRootGL2P(p, q);
         matq := matq2^q;
         Add(lst, [ [q, q, p, p], [1, [2, 1]],
       		[3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
@@ -321,7 +321,7 @@ msg.GroupP2Q2 := function(n, i)
       		[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
       		[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
       fi;
-      return msg.groupFromData(lst[i - 4 - c1 - c2]);
+      return SOTRec.groupFromData(lst[i - 4 - c1 - c2]);
 
     #### Cluster 4: C_q^2 \ltimes C_p^2
     elif i > 4 + c1 + c2 + c3 and i < 5 + c1 + c2 + c3 + c4 then
@@ -340,18 +340,18 @@ msg.GroupP2Q2 := function(n, i)
         Add(lst, [ [q, q, p, p], [3, 1, [3, S1]], [4, 2, [4, S1]] ]);
 
         if n = 36 then
-          matq := msg.QthRootGL2P(2, 3);
+          matq := SOTRec.QthRootGL2P(2, 3);
           Add(lst, [ [3, 3, 2, 2],
           [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
           [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
         fi;
       fi;
       if (p + 1) mod q = 0 and q > 2 then
-        matq := msg.QthRootGL2P(p, q);
+        matq := SOTRec.QthRootGL2P(p, q);
         Add(lst, [ [q, q, p, p],
         [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
         [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ] );
       fi;
-      return msg.groupFromData(lst[i - 4 - c1 - c2 - c3]);
+      return SOTRec.groupFromData(lst[i - 4 - c1 - c2 - c3]);
     fi;
 end;

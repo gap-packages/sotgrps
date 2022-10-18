@@ -6,7 +6,7 @@
 ##
 ## the case of p-groups of order dividing p^4
 ##
-msg.IdPGroup := function(group)
+SOTRec.IdPGroup := function(group)
   local n, PF, length, fac, p, k, i, Id, flag, a, b, c, d, F, N, Zen, gens, pcgs, G, m, x, y;
     n := Size(group);
     PF := Factors(n);
@@ -130,7 +130,7 @@ end;
 #
 # the case of groups of order pq
 #
-msg.IdGroupPQ := function(group)
+SOTRec.IdGroupPQ := function(group)
   local n, p, q, Id;
     n := Size(group);
     if IsAbelian(group) then return [n, 1];
@@ -141,7 +141,7 @@ end;
 #
 # the case of groups of order p^2q
 #
-msg.IdGroupP2Q := function(group)
+SOTRec.IdGroupP2Q := function(group)
   local n, fac, p, q, Id, a, b, c, d, flag, P, Q, Zen,gens, G, exps1, exps2, pcgs, pc, m, det, x, k, pcgsp, pcgsq;
     n := Size(group);
     fac := Factors(n);
@@ -220,7 +220,7 @@ end;
 #
 # the case of groups of order pqr
 #
-msg.IdGroupPQR := function(group)
+SOTRec.IdGroupPQR := function(group)
   local n, fac, p, q, r, a, b, k, G, Q, R, P, flag, c1, c2, c3, c4, c5, pcgs, pcp, pc, x, pcgsp, pcgsq, pcgsr;
     n := Size(group);
     fac := Factors(n);
@@ -239,11 +239,11 @@ msg.IdGroupPQR := function(group)
     pcgsq := Pcgs(Q);
     pcgsr := Pcgs(R);
 
-    c1 := msg.w((q - 1), r);
-    c2 := msg.w((p - 1), r);
-    c3 := msg.w((p - 1), q);
-    c4 := (r - 1)*msg.w((q - 1), r) * msg.w((p - 1), r);
-    c5 := msg.w((p - 1), q*r);
+    c1 := SOTRec.w((q - 1), r);
+    c2 := SOTRec.w((p - 1), r);
+    c3 := SOTRec.w((p - 1), q);
+    c4 := (r - 1)*SOTRec.w((q - 1), r) * SOTRec.w((p - 1), r);
+    c5 := SOTRec.w((p - 1), q*r);
 
     if IsAbelian(group) then return [n, 1];
     else flag := [Size(Centre(group))];
@@ -268,7 +268,7 @@ end;
 #
 # the case of groups of order pqrs
 #
-msg.IdGroupPQRS := function(group)
+SOTRec.IdGroupPQRS := function(group)
   local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
   G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
   c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,
@@ -310,30 +310,30 @@ msg.IdGroupPQRS := function(group)
       expqp := ExponentsOfPcElement(pc, pcgs[2]^pcgs[1]);
     fi;
 
-    c1 := msg.w((s - 1), (p*q*r));
-    c2 := msg.w((r - 1), (p*q))
-    + msg.w((s - 1), (p*q))
-    + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-    + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-    + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-    + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-    + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-    + msg.w((r - 1), p)*msg.w((s - 1), q)
-    + msg.w((r - 1), q)*msg.w((s - 1), p);
-    c3 := msg.w((s - 1), p*r)
-    + msg.w((s - 1), r)*msg.w((q - 1), p)
-    + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r));
-    c4 := msg.w((s - 1), (q*r));
-    c5 := msg.w((q - 1), p)
-    + msg.w((r - 1), p)
-    + msg.w((s - 1), p)
-    + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
-    + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
-    + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-    + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p);
-    c6 := msg.w((r - 1), q)
-    + msg.w((s - 1), q)
-    + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q);
+    c1 := SOTRec.w((s - 1), (p*q*r));
+    c2 := SOTRec.w((r - 1), (p*q))
+    + SOTRec.w((s - 1), (p*q))
+    + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+    + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+    + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+    + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+    + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+    + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+    + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p);
+    c3 := SOTRec.w((s - 1), p*r)
+    + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+    + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r));
+    c4 := SOTRec.w((s - 1), (q*r));
+    c5 := SOTRec.w((q - 1), p)
+    + SOTRec.w((r - 1), p)
+    + SOTRec.w((s - 1), p)
+    + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+    + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+    + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+    + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p);
+    c6 := SOTRec.w((r - 1), q)
+    + SOTRec.w((s - 1), q)
+    + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q);
     if flag[1] = s and (s - 1) mod (p*q*r) = 0 then
       return [n, 2];
     fi;
@@ -341,7 +341,7 @@ msg.IdGroupPQRS := function(group)
       if flag[2] = s then return [n, 2 + c1];
       elif flag[2] = r then
         return [n, 2 + c1
-        + msg.w((r - 1), (p*q))];
+        + SOTRec.w((r - 1), (p*q))];
       elif (s - 1) mod (p*q) = 0 and (r - 1) mod (p*q) = 0 and
         exprp[3] <> 1 and
         exprq[3] <> 1 and
@@ -352,92 +352,92 @@ msg.IdGroupPQRS := function(group)
         k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
         l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
         return [n, 2 + c1
-        + msg.w((r - 1), (p*q))
-        + msg.w((s - 1), (p*q))
+        + SOTRec.w((r - 1), (p*q))
+        + SOTRec.w((s - 1), (p*q))
         + l + (k - 1)*(q - 1) - 1 ];
       elif (r - 1) mod p = 0 and (s - 1) mod (p*q) = 0 and exprq[3] = 1 then
         if expsp[4] <> 1 and expsq[4] <> 1 then
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
           k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
           + k - 1 ];
         elif (r - 1) mod p = 0 and (s - 1) mod q = 0 and expsp[4] = 1 then
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q)) ];
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q)) ];
         fi;
       elif (r - 1) mod q = 0 and (s - 1) mod (p*q) = 0 and exprp[3] = 1 then
         if expsp[4] <> 1 and expsq[4] <> 1 then
           y := Inverse(LogFFE(expsq[4]*One(GF(s)), w^((s - 1)/q))) mod q;
           l := LogFFE(exprq[3]^y*One(GF(r)), v^((r - 1)/q)) mod q;
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
           + l - 1 ];
         elif (r - 1) mod q = 0 and (s - 1) mod p = 0 and expsq[4] = 1 then
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-          + msg.w((r - 1), p)*msg.w((s - 1), q) ];
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) ];
         fi;
       elif expsq[4] = 1 then
         if exprp[3] <> 1 and exprq[3]<> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
           k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
           + k - 1 ];
         elif (r - 1) mod q = 0 and (s - 1) mod p = 0 and expsq[4] = 1 then
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-          + msg.w((r - 1), p)*msg.w((s - 1), q) ];
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) ];
           fi;
       elif expsp[4] = 1 then
         if exprp[3] <> 1 and exprq[3] <> 1 then
           y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
           l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
           + l - 1 ];
         elif (r - 1) mod p = 0 and (s - 1) mod q = 0 and exprq[3] = 1 then
           return [n, 2 + c1
-          + msg.w((r - 1), (p*q))
-          + msg.w((s - 1), (p*q))
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q)) ];
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q)) ];
         fi;
       fi;
     fi;
@@ -446,14 +446,14 @@ msg.IdGroupPQRS := function(group)
         return [n, 2 + c1 + c2];
       elif (s - 1) mod r = 0 and (q - 1) mod p = 0 and expsp[4] = 1 then
         return [n, 2 + c1 + c2
-        + msg.w((s - 1), p*r)];
+        + SOTRec.w((s - 1), p*r)];
       elif (q - 1) mod p = 0 and (s - 1) mod (p*r) = 0 then
         if expsp[4] <> 1 and expsr[4] <> 1 then
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
           k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
           return [n, 2 + c1 + c2
-          + msg.w((s - 1), p*r)
-          + msg.w((s - 1), r)*msg.w((q - 1), p)
+          + SOTRec.w((s - 1), p*r)
+          + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
           + k - 1 ];
         fi;
       fi;
@@ -466,19 +466,19 @@ msg.IdGroupPQRS := function(group)
         return [n, 2 + c1 + c2 + c3 + c4];
       elif flag[2] = q * s then
         return [n, 2 +  c1 + c2 + c3 + c4
-        + msg.w((q - 1), p) ];
+        + SOTRec.w((q - 1), p) ];
       elif flag[2] = q * r then
         return [n, 2 + c1 + c2 + c3 + c4
-        + msg.w((q - 1), p)
-        + msg.w((r - 1), p)];
+        + SOTRec.w((q - 1), p)
+        + SOTRec.w((r - 1), p)];
       elif flag[2] = s then
         if exprp[3] <> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
           k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
           return [n, 2 + c1 + c2 + c3 + c4
-          + msg.w((q - 1), p)
-          + msg.w((r - 1), p)
-          + msg.w((s - 1), p)
+          + SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((s - 1), p)
           + k - 1 ];
         fi;
       elif flag[2] = r then
@@ -486,10 +486,10 @@ msg.IdGroupPQRS := function(group)
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
           k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
           return [n, 2 + c1 + c2 + c3 + c4
-          + msg.w((q - 1), p)
-          + msg.w((r - 1), p)
-          + msg.w((s - 1), p)
-          + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
+          + SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((s - 1), p)
+          + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
           + k - 1 ];
         fi;
       elif flag[2] = q then
@@ -497,11 +497,11 @@ msg.IdGroupPQRS := function(group)
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
           k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
           return [n, 2 + c1 + c2 + c3 + c4
-          + msg.w((q - 1), p)
-          + msg.w((r - 1), p)
-          + msg.w((s - 1), p)
-          + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
-          + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
+          + SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((s - 1), p)
+          + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+          + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
           + k - 1 ];
         fi;
       elif expqp[2] <> 1 then
@@ -509,12 +509,12 @@ msg.IdGroupPQRS := function(group)
         k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
         l := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
         return [n, 2 + c1 + c2 + c3 + c4
-        + msg.w((q - 1), p)
-        + msg.w((r - 1), p)
-        + msg.w((s - 1), p)
-        + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
+        + SOTRec.w((q - 1), p)
+        + SOTRec.w((r - 1), p)
+        + SOTRec.w((s - 1), p)
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
         + l + (k - 1)*(p - 1) - 1 ];
       fi;
     fi;
@@ -523,13 +523,13 @@ msg.IdGroupPQRS := function(group)
         return [n, 2 + c1 + c2 + c3 + c4 + c5];
       elif expsq[4] <> 1 and exprq[3] = 1 then
         return [n, 2 + c1 + c2 + c3 + c4 + c5
-        + msg.w((r - 1), q) ];
+        + SOTRec.w((r - 1), q) ];
       elif exprq[3] <> 1 then
         x := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
         k := LogFFE(expsq[4]^x*One(GF(s)), w^((s - 1)/q)) mod q;
         return [n, 2 + c1 + c2 + c3 + c4 + c5
-        + msg.w((r - 1), q)
-        + msg.w((s - 1), q)
+        + SOTRec.w((r - 1), q)
+        + SOTRec.w((s - 1), q)
         + k - 1 ];
       fi;
     fi;
@@ -543,7 +543,7 @@ end;
 #
 # the case of groups of order p^2q^2
 #
-msg.IdGroupP2Q2 := function(group)
+SOTRec.IdGroupP2Q2 := function(group)
   local n, fac, p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, mat, Id, k, l, x, y, det, mat1, mat2, pcgsp, pcgsq;
     n := Order(group);
@@ -597,11 +597,11 @@ msg.IdGroupP2Q2 := function(group)
       if ind = [p^2, q^2, q] then
         return [n, 5];
       elif ind = [p^2, q^2, 1] and ((p - 1) mod q^2 = 0 and q > 2) then
-        return [n, 5 + msg.w((p - 1), q^2)];
+        return [n, 5 + SOTRec.w((p - 1), q^2)];
       elif ind = [p^2, q, q] then
-        return [n, 6 + msg.w((p - 1), q^2)];
+        return [n, 6 + SOTRec.w((p - 1), q^2)];
       elif ind = [p, q^2, q*p] then
-        return [n, 7 + msg.w((p - 1), q^2)];
+        return [n, 7 + SOTRec.w((p - 1), q^2)];
       elif ind = [p, q^2, q] then
         g := Filtered(pcgsq, x -> Order(x) = q^2)[1];
         gens := [g, g^q, pcgsp[1], pcgsp[2]];
@@ -615,9 +615,9 @@ msg.IdGroupP2Q2 := function(group)
           k := det;
         else k := (q - 1) - det;
         fi;
-        return [n, 6 + 2 + k + msg.w((p - 1), q^2)];
+        return [n, 6 + 2 + k + SOTRec.w((p - 1), q^2)];
       elif ind = [p, q^2, p] and (p - 1) mod (q^2) = 0 and q > 2 then
-        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)];
+        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)];
       elif ind = [p, q^2, 1] and (p - 1) mod (q^2) = 0 and q > 2 then
         g := Filtered(pcgsq, x -> Order(x)=q^2)[1];
         h := Filtered(pcgsp, x -> not x in Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1];
@@ -630,7 +630,7 @@ msg.IdGroupP2Q2 := function(group)
           x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), mat), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
           ev := List(Eigenvalues(GF(p), mat^x), x -> LogFFE(x, a^((p - 1)/(q^2))));
           k := Filtered(ev, x -> x <> 1)[1]/q;
-          return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + (q^2 - q + 2)/2 + k];
+          return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q + 2)/2 + k];
         else
           gens := [g, g^q, h, Filtered(pcgsp, x -> x <> h)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -640,18 +640,18 @@ msg.IdGroupP2Q2 := function(group)
           x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/(q^2)))) mod q^2;
           ev := List(Eigenvalues(GF(p), mat^x), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
           if Length(ev) = 1 then k := 0;
-            return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + k + 1];
+            return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
           elif Length(ev) > 1 then
             k := Filtered(ev, x -> x <> 0)[1];
             if k > (q^2 - q)/2 then
-              return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + (q^2 - q - k) + 1];
+              return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q - k) + 1];
             else
-              return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2) + k + 1];
+              return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
             fi;
           fi;
         fi;
       elif ind = [p, q, q * p] and q > 2 then
-        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
+        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
       elif ind = [p, q, q * p] and q = 2 then
         return [n, 9];
       elif ind = [p, q, q] and q > 2 then
@@ -668,18 +668,18 @@ msg.IdGroupP2Q2 := function(group)
           k := det;
         else k := (q - 1) - det;
         fi;
-        return [n, 6 + (q + 5)/2 + msg.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
+        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
       elif ind = [p, q, q] and q = 2 then
         return [n, 10];
       elif ind = [p, q, 1] and q > 2 then
-        return [n, 10 + q + msg.w((p - 1), q^2)*(q^2 + q + 4)/2];
+        return [n, 10 + q + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2];
       elif ind = [p, q, 1] and q = 2 then
         return [n, 11];
       fi;
     fi;
     if (p + 1) mod q = 0 and q > 2 then
       if ind = [p, q, q] then
-        return [n, 6 + msg.w((p + 1), q^2)];
+        return [n, 6 + SOTRec.w((p + 1), q^2)];
       elif ind = [p, q^2, q] then
         return [n, 5];
       fi;
@@ -731,15 +731,15 @@ msg.IdGroupP2Q2 := function(group)
       if ind = [p^2, 4, 2] then
         return [n, 5];
       elif p mod 4 = 1 and ind = [p^2, 4, 1] then
-        return [n, 5 + msg.w((p - 1), 4)];
+        return [n, 5 + SOTRec.w((p - 1), 4)];
       elif ind{[1, 2]} = [p^2, 2] then
-        return [n, 6 + msg.w((p - 1), 4)];
+        return [n, 6 + SOTRec.w((p - 1), 4)];
       elif ind = [p, 4, 2*p] then
-        return [n, 7 + msg.w((p - 1), 4)];
+        return [n, 7 + SOTRec.w((p - 1), 4)];
       elif ind = [p, 4, 2] then
-        return [n, 8 + msg.w((p - 1), 4)];
+        return [n, 8 + SOTRec.w((p - 1), 4)];
       elif p mod 4 = 1 and ind = [p, 4, p] then
-        return [n, 8 + 1 + msg.w((p - 1), 4)];
+        return [n, 8 + 1 + SOTRec.w((p - 1), 4)];
       elif p mod 4 = 1 and ind = [p, 4, 1] then
         gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
@@ -750,20 +750,20 @@ msg.IdGroupP2Q2 := function(group)
         x := DeterminantMat(mat1);
         y := DeterminantMat(mat2);
         if AsSet([Int(x), Int(y)]) = AsSet([p - 1, 1]) then
-          return [n, 8 + 2 + msg.w((p - 1), 4)];
+          return [n, 8 + 2 + SOTRec.w((p - 1), 4)];
         elif AsSet([Int(x), Int(y)]) = AsSet([1, 1]) then
-          return [n, 8 + 3 + msg.w((p - 1), 4)];
+          return [n, 8 + 3 + SOTRec.w((p - 1), 4)];
         elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
-          return [n, 8 + 4 + msg.w((p - 1), 4)];
+          return [n, 8 + 4 + SOTRec.w((p - 1), 4)];
         fi;
       elif p mod 4 = 3 and ind = [p, q^2, 1] then
         return [n, 9];
       elif ind = [p, q, 2 * p] then
-        return [n, 9 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
+        return [n, 9 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
       elif ind = [p, q, 2] then
-        return [n, 10 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
+        return [n, 10 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
       elif ind = [p, q, 1] then
-        return [n, 11 + msg.w((p + 1), 4)+ 5*msg.w((p - 1), 4)];
+        return [n, 11 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
       fi;
     fi;
 end;
@@ -771,7 +771,7 @@ end;
 #
 # the case of groups of order p^3q
 #
-msg.IdGroupP3Q := function(group)
+SOTRec.IdGroupP3Q := function(group)
   local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst,
   Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, Idfunc, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, pcgsp, pcgsq;
@@ -786,7 +786,7 @@ msg.IdGroupP3Q := function(group)
     Idfunc := function(q, l)
       local x, y, a, b, tuple, n, id;
         x := l[1] mod (q - 1); y := l[2] mod (q - 1);
-        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then return 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
+        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then return 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
         else
           tuple := SortedList(Filtered(
           [SortedList([x, y]), SortedList([-x, y-x] mod (q - 1)), SortedList([-y, x-y] mod (q - 1))],
@@ -815,21 +815,21 @@ msg.IdGroupP3Q := function(group)
     tst := [IsNormal(group, P), IsNormal(group, Q), IsAbelian(P), Exponent(P), Size(Zen)];
     if p = 2 then Add(tst, Size(Omega(P, 2))); fi;
   ############ enumeration
-    c1 := msg.delta(n, 24) + msg.w((q - 1), p) + msg.w((q - 1), p^2) + msg.w((q - 1), p^3);
-    c2 := 2*msg.w((q - 1), p) + msg.w((q - 1), p^2);
-    c3 := msg.w((q - 1), p);
-    c4 := msg.w((q - 1), p) + msg.delta(p, 2);
-    c5 := p*msg.w((q - 1), p)*(1 - msg.delta(p, 2)) + msg.delta(p, 2);
-    c6 := msg.w((p - 1), q);
-    c7 := (q + 1)*msg.w((p - 1), q);
-    c8 := (1 - msg.delta(q, 2))*(
-    1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3))*msg.w((p - 1), q)
-    + msg.w((p^2 + p + 1), q)*(1 - msg.delta(q, 3))
-    + msg.w((p + 1), q)*(1 - msg.delta(q, 2)))
-    + 3*msg.delta(q, 2);
-    c9 := (1/2*(q + 3)*msg.w((p - 1), q) + msg.w((p + 1), q))*(1 - msg.delta(q, 2))*(1 - msg.delta(p, 2))
-    + 2*msg.delta(q, 2);
-    c10 := msg.w((p - 1), q);
+    c1 := SOTRec.delta(n, 24) + SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3);
+    c2 := 2*SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
+    c3 := SOTRec.w((q - 1), p);
+    c4 := SOTRec.w((q - 1), p) + SOTRec.delta(p, 2);
+    c5 := p*SOTRec.w((q - 1), p)*(1 - SOTRec.delta(p, 2)) + SOTRec.delta(p, 2);
+    c6 := SOTRec.w((p - 1), q);
+    c7 := (q + 1)*SOTRec.w((p - 1), q);
+    c8 := (1 - SOTRec.delta(q, 2))*(
+    1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3))*SOTRec.w((p - 1), q)
+    + SOTRec.w((p^2 + p + 1), q)*(1 - SOTRec.delta(q, 3))
+    + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2)))
+    + 3*SOTRec.delta(q, 2);
+    c9 := (1/2*(q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(q, 2))*(1 - SOTRec.delta(p, 2))
+    + 2*SOTRec.delta(q, 2);
+    c10 := SOTRec.w((p - 1), q);
   ############ abelian groups:
     if IsAbelian(group) then
       if tst[4] = p^3 then return [n, 1];
@@ -906,8 +906,8 @@ msg.IdGroupP3Q := function(group)
         d := pcgsq[1];
         repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
         O := Group([c, d, Pcgs(Zen)[1]]);
-        if IsCyclic(O) then return [n, 11 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
-        else return [n, 10 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
+        if IsCyclic(O) then return [n, 11 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
+        else return [n, 10 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
         fi;
       ## class 5: when P is extraspecial - type
       elif not tst[3] = true and tst[4] = p^2 and p > 2 then
@@ -920,12 +920,12 @@ msg.IdGroupP3Q := function(group)
         x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
         k := LogFFE(ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4]*One(GF(q)), r1) mod p;
         if k > 0 then
-          return [n, 10 + k + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
+          return [n, 10 + k + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
         else
-          return [n, 11 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3) + (p - 1)];
+          return [n, 11 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3) + (p - 1)];
         fi;
       ## class 6: when P = Q_8, there is a unique isom type of P \ltimes Q
-      elif not tst[3] = true and tst[6] = 2 then return [n, 12 + 2*msg.w((q - 1), p^2) + msg.w((q - 1), p^3)];
+      elif not tst[3] = true and tst[6] = 2 then return [n, 12 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
       fi;
     fi;
   ############ case 4: nonabelian and only the Sylow p-subgroup is normal
@@ -986,7 +986,7 @@ msg.IdGroupP3Q := function(group)
       elif tst[3] = true and tst[5] = p and q = 2 then ## (C_q \ltimes C_p^2) \times C_p when q | (p - 1)
         return [n, 10 + (q - 1)];
       elif tst[3] = true and tst[5] = p and (p + 1) mod q = 0 and q > 2 then
-        return [n, 6 + (5 + p)*msg.w((q - 1), p)];
+        return [n, 6 + (5 + p)*SOTRec.w((q - 1), p)];
       ## below: (C_q \ltimes C_p^3) when q | (p - 1)
       elif tst[3] = true and tst[5] = 1 and q = 2 then
         return [n, 12];
@@ -1002,7 +1002,7 @@ msg.IdGroupP3Q := function(group)
           return [n, 10 + (q + 1)/2 + (q - 1)];
         elif Length(ev) <> 1 then
           if Length(ev) = 2 then
-            evm := msg.EigenvaluesWithMultiplicitiesGL3P(mat, p);
+            evm := SOTRec.EigenvaluesWithMultiplicitiesGL3P(mat, p);
             x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
             k := LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1) mod q;
             return [n, 9 + k + (q + 1)/2 + (q - 1)];
@@ -1016,23 +1016,23 @@ msg.IdGroupP3Q := function(group)
           fi;
         fi;
       elif tst[3] = true and tst[4] = p and tst[5] = 1 and (p^2 + p + 1) mod q = 0 and q > 3 then
-        return [n, 5 + (5+p)*msg.w((q-1), p) + 2*msg.w((q-1), p^2)
-          + msg.w((q-1), p^3) + (15+q^2+10*q+4*msg.w((q-1),3))*msg.w((p-1), q)*(1 - msg.delta(q, 2))/6
-          + msg.w((p+1), q) + msg.w((p^2+p+1), q)*(1 - msg.delta(q, 3))];
+        return [n, 5 + (5+p)*SOTRec.w((q-1), p) + 2*SOTRec.w((q-1), p^2)
+          + SOTRec.w((q-1), p^3) + (15+q^2+10*q+4*SOTRec.w((q-1),3))*SOTRec.w((p-1), q)*(1 - SOTRec.delta(q, 2))/6
+          + SOTRec.w((p+1), q) + SOTRec.w((p^2+p+1), q)*(1 - SOTRec.delta(q, 3))];
       ## class 4: when P is extraspecial of type +
       elif (not tst[3] = true and tst[4] = p and (p - 1) mod q = 0) then
         if tst[5] = p then ## q | (p - 1), Z(G) = C_p
           if n mod 2 = 1 then
             return [n, 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8];
-          else return [n, 5 + 7*msg.delta(p, 2) + 2*msg.w((q-1),4) + msg.w((q-1), 8)
-            + 8*msg.delta(q, 2) + 3*msg.delta(n,24) + msg.delta(n, 56)];
+          else return [n, 5 + 7*SOTRec.delta(p, 2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
+            + 8*SOTRec.delta(q, 2) + 3*SOTRec.delta(n,24) + SOTRec.delta(n, 56)];
           fi;
         elif tst[5] = 1 then ## q | (p - 1), Z(G) = 1
           if Size(DerivedSubgroup(group)) = p^2 and q > 2 then
-            return [n, 8 + (15+q^2+10*q+4*msg.w((q-1),3))/6 + msg.w((p^2+p+1), q)*(1 - msg.delta(q, 3))];
+            return [n, 8 + (15+q^2+10*q+4*SOTRec.w((q-1),3))/6 + SOTRec.w((p^2+p+1), q)*(1 - SOTRec.delta(q, 3))];
           elif Size(DerivedSubgroup(group)) = p^2 and q = 2 then
-            return [n, 5 + 7*msg.delta(p,2) + 2*msg.w((q-1),4) + msg.w((q-1), 8)
-              + 9*msg.delta(q, 2) + 3*msg.delta(n,24) + msg.delta(n, 56)];
+            return [n, 5 + 7*SOTRec.delta(p,2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
+              + 9*SOTRec.delta(q, 2) + 3*SOTRec.delta(n,24) + SOTRec.delta(n, 56)];
           elif Size(DerivedSubgroup(group)) = p^3 and q > 2 then
             gens := [pcgsq[1], Filtered(pcgsp, x -> not x in Centre(P))[1], Filtered(pcgsp, x -> not x in Centre(P))[2], Filtered(pcgsp, x->x in Centre(P))[1]];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1046,7 +1046,7 @@ msg.IdGroupP3Q := function(group)
               k := (q + 1) - y - 1;
             else k := y - 1;
             fi;
-            return [n, 8 + k + (15+q^2+10*q+4*msg.w((q-1),3))/6 + msg.w((p^2+p+1), q)*(1 - msg.delta(q, 3))];
+            return [n, 8 + k + (15+q^2+10*q+4*SOTRec.w((q-1),3))/6 + SOTRec.w((p^2+p+1), q)*(1 - SOTRec.delta(q, 3))];
           fi;
         fi;
       elif not tst[3] = true and tst[4] = p and (p + 1) mod q = 0 and q > 2 and p > 2 then
@@ -1056,8 +1056,8 @@ msg.IdGroupP3Q := function(group)
         if n mod 2 = 1 then
           return [n, 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9];
         else
-          return [n, 5 + 7*msg.delta(p, 2) + 2*msg.w((q-1),4) + msg.w((q-1), 8)
-            + 10*msg.delta(q, 2) + 3*msg.delta(n,24) + msg.delta(n, 56)];
+          return [n, 5 + 7*SOTRec.delta(p, 2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
+            + 10*SOTRec.delta(q, 2) + 3*SOTRec.delta(n,24) + SOTRec.delta(n, 56)];
         fi;
       fi;
     fi;
@@ -1066,7 +1066,7 @@ end;
 #
 # the case of groups of order p^2qr
 #
-msg.IdGroupP2QR := function(group)
+SOTRec.IdGroupP2QR := function(group)
   local n, fac, primefac, pfac, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
   matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
@@ -1112,25 +1112,25 @@ msg.IdGroupP2QR := function(group)
 
     flag := [Size(FittingSubgroup(group)), Size(Zen), Exponent(P)];
 
-    c1 := msg.w((r - 1), p^2*q);;
-    c2 := msg.w((q - 1), p^2) + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-    + (p^2 - p)*msg.w((r - 1), p^2)*msg.w((q - 1), p^2)
-    + msg.w((r - 1), p^2) + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p^2)
-    + msg.w((r - 1), p)*msg.w((q - 1), p);;
-    c3 := 1/2*(q*r+q+r+7)*msg.w((p - 1), q*r)
-    + msg.w((p^2 - 1), q*r)*(1 - msg.w((p - 1), q*r))*(1 - msg.delta(q, 2))
-    + 2*msg.w((p + 1), r)*msg.delta(q, 2);;
-    c4 := 1/2*(r + 5)*msg.w((p - 1), r) + msg.w((p + 1), r);;
-    c5 := 8*msg.delta(q, 2)
-    + (1 - msg.delta(q, 2))*(1/2*(q - 1)*(q + 4)*msg.w((p - 1), q)*msg.w((r - 1), q)
-    + 1/2*(q - 1)*msg.w((p + 1), q)*msg.w((r - 1), q)
-    + 1/2*(q + 5)*msg.w((p - 1), q)
-    + 2*msg.w((r - 1), q)
-    + msg.w((p + 1), q));;
-    c6 := msg.w((r - 1), p)*(msg.w((p - 1), q)*(1 + (q - 1)*msg.w((r - 1), q))
-    + 2*msg.w((r - 1), q));;
-    c7 := 2*(msg.w((q - 1), p) + msg.w((r - 1), p) +
-    (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)) + msg.delta(n, 60);
+    c1 := SOTRec.w((r - 1), p^2*q);;
+    c2 := SOTRec.w((q - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+    + (p^2 - p)*SOTRec.w((r - 1), p^2)*SOTRec.w((q - 1), p^2)
+    + SOTRec.w((r - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p^2)
+    + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p);;
+    c3 := 1/2*(q*r+q+r+7)*SOTRec.w((p - 1), q*r)
+    + SOTRec.w((p^2 - 1), q*r)*(1 - SOTRec.w((p - 1), q*r))*(1 - SOTRec.delta(q, 2))
+    + 2*SOTRec.w((p + 1), r)*SOTRec.delta(q, 2);;
+    c4 := 1/2*(r + 5)*SOTRec.w((p - 1), r) + SOTRec.w((p + 1), r);;
+    c5 := 8*SOTRec.delta(q, 2)
+    + (1 - SOTRec.delta(q, 2))*(1/2*(q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+    + 1/2*(q - 1)*SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q)
+    + 1/2*(q + 5)*SOTRec.w((p - 1), q)
+    + 2*SOTRec.w((r - 1), q)
+    + SOTRec.w((p + 1), q));;
+    c6 := SOTRec.w((r - 1), p)*(SOTRec.w((p - 1), q)*(1 + (q - 1)*SOTRec.w((r - 1), q))
+    + 2*SOTRec.w((r - 1), q));;
+    c7 := 2*(SOTRec.w((q - 1), p) + SOTRec.w((r - 1), p) +
+    (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)) + SOTRec.delta(n, 60);
 
     if IsSolvable(group) then
       ############ abelian groups:
@@ -1144,9 +1144,9 @@ msg.IdGroupP2QR := function(group)
         if flag[2] = r then ## p^2 | (q - 1) and G \cong (C_{p^2} \ltimes C_q) \times C_r
           return [n, 3 + c1];
         elif flag[2] = q then ## p^2 | (r - 1), and G \cong (C_{p^2} \ltimes C_r) \times C_q
-          return [n, 3 + c1 + (p^2 - p)*msg.w((q - 1), p^2)*msg.w((r - 1), p^2)
-          + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-          + msg.w((q - 1), (p^2))];
+          return [n, 3 + c1 + (p^2 - p)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p^2)
+          + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+          + SOTRec.w((q - 1), (p^2))];
         elif flag[2] = 1 and flag[3] = p^2 then
           gens := [pcgsp[1], pcgsp[2], pcgsq[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1158,30 +1158,30 @@ msg.IdGroupP2QR := function(group)
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             exp1 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
             k := LogFFE(exp1[4]*One(GF(r)), a^((r-1)/p)) mod p;
-            return [n, 2 + k + c1 + msg.w((q - 1), (p^2))];
+            return [n, 2 + k + c1 + SOTRec.w((q - 1), (p^2))];
           elif (not IsOne(Comm(gens[2], gens[4]))) and (not IsOne(Comm(gens[2], gens[3]))) then ## p^2 | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/(p^2)))) mod (p^2);
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             exp1 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
-            k := Position(msg.groupofunitsP2(p), LogFFE(exp1[4]*One(GF(r)), a^((r-1)/(p^2))) mod (p^2));
-            return [n, 2 + k + c1 + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-            + msg.w((q - 1), (p^2))];
+            k := Position(SOTRec.groupofunitsP2(p), LogFFE(exp1[4]*One(GF(r)), a^((r-1)/(p^2))) mod (p^2));
+            return [n, 2 + k + c1 + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+            + SOTRec.w((q - 1), (p^2))];
           elif (not IsOne(Comm(gens[2], gens[4]))) and IsOne(Comm(gens[2], gens[3])) then ## p | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/p))) mod p;
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             exp1 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
             k := LogFFE(exp1[4]*One(GF(r)), a^((r-1)/p)) mod p;
-            return [n, 2 + k + c1 + msg.w((r - 1), p^2) + (p^2 - p)*msg.w((q - 1), p^2)*msg.w((r - 1), p^2)
-            + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-            + msg.w((q - 1), (p^2))];
+            return [n, 2 + k + c1 + SOTRec.w((r - 1), p^2) + (p^2 - p)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p^2)
+            + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+            + SOTRec.w((q - 1), (p^2))];
           fi;
         elif flag[2] = 1 and Exponent(group) = p * q * r then ## p | (q - 1), p | (r - 1), and G \cong (C_p \ltimes C_q) \times (C_p \ltimes C_r)
-          return [n, 3 + c1 + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p^2)
-          + msg.w((r - 1), p^2) + (p^2 - p)*msg.w((q - 1), p^2)*msg.w((r - 1), p^2)
-          + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
-          + msg.w((q - 1), (p^2))];
+          return [n, 3 + c1 + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p^2)
+          + SOTRec.w((r - 1), p^2) + (p^2 - p)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p^2)
+          + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
+          + SOTRec.w((q - 1), (p^2))];
         fi;
       ############ case 3: nonabelian and Fitting subgroup has order p^2 -- qr | (p^2 - 1)
     elif flag[1] = p^2 and flag[3] = p^2 and flag[2] = 1 then ## qr | (p - 1) and G \cong C_{qr} \ltimes C_{p^2}
@@ -1190,7 +1190,7 @@ msg.IdGroupP2QR := function(group)
         N1 := Group([pcgsq[1], pcgsp[1], pcgsp[2]]);
         N2 := Group([pcgsr[1], pcgsp[1], pcgsp[2]]);
         if Size(Centre(N1)) = p and Size(Centre(N2)) = p then
-           return [n, 3 + c1 + c2 + msg.w((p - 1), q*r)];
+           return [n, 3 + c1 + c2 + SOTRec.w((p - 1), q*r)];
         elif pcgsr[1]^pcgsq[1] = pcgsr[1] and Size(Centre(N2)) = p and Size(Centre(N1)) = 1 then ##R acts trivially on one of the generators of P
           gens := [pcgsq[1]*pcgsr[1], pcgsq[1], Filtered(pcgsp, x-> x^pcgsq[1] <> x and x^pcgsr[1] <> x)[1], Pcgs(Centre(N2))[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1204,7 +1204,7 @@ msg.IdGroupP2QR := function(group)
           k := LogFFE(Filtered(Eigenvalues(GF(p), matq), x->Order(x) = q)[1], b^((p - 1)/(q*r))) mod q;
           fi;
           return [n, 3 + (k - 1) + c1 + c2
-          + 3*msg.w((p - 1), q*r)];
+          + 3*SOTRec.w((p - 1), q*r)];
         elif pcgsr[1]^pcgsq[1] = pcgsr[1] and Size(Centre(N1)) = p and Size(Centre(N2)) = 1 then ##Q acts trivially on one of the generators of P
           gens := [pcgsq[1]*pcgsr[1], pcgsr[1], Filtered(pcgsp, x-> x^pcgsq[1] <> x and x^pcgsr[1] <> x)[1], Pcgs(Centre(N1))[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1218,8 +1218,8 @@ msg.IdGroupP2QR := function(group)
           k := LogFFE(Filtered(Eigenvalues(GF(p), matr), x->Order(x) = r)[1], b^((p - 1)/(q*r))) mod r;
           fi;
           return [n, 3 + (k - 1) + c1 + c2
-          + 3*msg.w((p - 1), q*r)
-          + (q - 1) * msg.w((p - 1), q*r)];
+          + 3*SOTRec.w((p - 1), q*r)
+          + (q - 1) * SOTRec.w((p - 1), q*r)];
         elif pcgsr[1]^pcgsq[1] = pcgsr[1] and Size(Centre(N1)) = 1 and Size(Centre(N2)) = 1 then ## Q and R act nontrivially on both the generators of P
           gens := [pcgsq[1]*pcgsr[1], pcgsr[1], pcgsp[1], pcgsp[2]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1253,16 +1253,16 @@ msg.IdGroupP2QR := function(group)
           fi;
           m := Position(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
           return [n, 3 + (m - 1) + c1 + c2
-          + 3*msg.w((p - 1), q*r)
-          + (r - 1 + q - 1) * msg.w((p - 1), q*r)];
+          + 3*SOTRec.w((p - 1), q*r)
+          + (r - 1 + q - 1) * SOTRec.w((p - 1), q*r)];
         elif q = 2 and pcgsr[1]^pcgsq[1] <> pcgsr[1] then ##q = 2, r | (p - 1), and G \cong (C_2 \ltimes C_r) \ltimes C_p^2
           return [n, 3 + c1 + c2
-          + 3*msg.w((p - 1), q*r)
-          + ((r + 1)/2 + r - 1 + q - 1) * msg.w((p - 1), q*r)];
+          + 3*SOTRec.w((p - 1), q*r)
+          + ((r + 1)/2 + r - 1 + q - 1) * SOTRec.w((p - 1), q*r)];
         fi;
       elif flag[1] = p^2 and flag[3] = p and flag[2] = p then  ## qr | (p - 1) and G \cong (C_{qr} \ltimes C_p) \times C_p
         return [n, 3 + c1 + c2
-        + 2*msg.w((p - 1), q*r)];
+        + 2*SOTRec.w((p - 1), q*r)];
       elif flag[1] = p^2 and flag[3] = p and flag[2] = 1 and (p + 1) mod (q*r) = 0 and q > 2 then ## qr | (p + 1), q > 2, and G \cong C_{qr} \ltimes C_p^2
         return [n, 3 + c1 + c2];
       elif flag[1] = p^2 and flag[3] = p and flag[2] = 1 and (p + 1) mod (q*r) = 0 and q = 2 then
@@ -1282,7 +1282,7 @@ msg.IdGroupP2QR := function(group)
           return [n, 3 + c1 + c2 + c3];
         elif flag[2] = p*q then ## r | (p - 1) and G \cong (C_r \ltimes C_p) \times (C_p \times C_q)
           return [n, 3 + c1 + c2 + c3
-          + msg.w((p - 1), r)];
+          + SOTRec.w((p - 1), r)];
         elif flag[3] = p and flag[2] = q and (p - 1) mod r = 0 then ## r | (p - 1) and G \cong (C_r \ltimes C_p^2) \times C_q
           gens := [pcgsr[1], pcgsp[1], pcgsp[2], pcgsq[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1296,7 +1296,7 @@ msg.IdGroupP2QR := function(group)
           else k := (r - 1) - detr;
           fi;
           return [n, 3 + k + c1 + c2 + c3
-          + 2*msg.w((p - 1), r)];
+          + 2*SOTRec.w((p - 1), r)];
         elif flag[3] = p and flag[2] = q and (p + 1) mod r = 0 then ## r | (p - 1) and G \cong (C_r \ltimes C_p^2) \times C_q
           return [n, 3 + c1 + c2 + c3];
         fi;
@@ -1306,7 +1306,7 @@ msg.IdGroupP2QR := function(group)
           return [n, 3 + c1 + c2 + c3 + c4];
         elif flag[3] = p^2 and flag[2] = r then ## q \mid (p - 1) and G \cong (C_q \ltimes C_{p^2}) \times C_r
           return [n, 3 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)];
+          + SOTRec.w((r - 1), q)];
         elif flag[3] = p^2 and flag[2] = 1 then ## q \mid (p - 1), q | (r - 1) and G \cong C_q \ltimes (C_{p^2} \times C_r)
           gens:= [pcgsq[1], Filtered(pcgsp, x->Order(x) = p^2)[1], Filtered(pcgsp, x->Order(x) = p^2)[1]^p, pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1315,13 +1315,13 @@ msg.IdGroupP2QR := function(group)
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           k := LogFFE(ExponentsOfPcElement(pc, pcgs[4]^pcgs[1])[4]*One(GF(r)), a^((r - 1)/q)) mod q;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)];
         elif flag[2] = p*r then ## q \mid (p - 1) and G \cong (C_q \ltimes C_p) \times (C_p \times C_r)
           return [n, 3 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)];
         elif (p - 1) mod q = 0 and flag[3] = p and flag[2] = r and q > 2 then ## q | (p - 1) and G \cong (C_q \ltimes C_p^2) \times C_r
           gens:= [pcgsq[1], pcgsp[1], pcgsp[2], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1336,31 +1336,31 @@ msg.IdGroupP2QR := function(group)
           else k := (q - 1) - LogFFE((LogFFE(Determinant(matq), b^((p-1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
           fi;
           return [n, 3 + k + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)];
         elif flag[3] = p and flag[2] = r and q = 2 then ## q | (p - 1) and G \cong (C_q \ltimes C_p^2) \times C_r
           return [n, 3 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)];
         elif (p + 1) mod q = 0 and flag[2] = r and q > 2 then ## q | (p + 1), and G \cong (C_q \ltimes C_p^2) \times C_r
           return [n, 3 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)];
         elif flag[2] = p^2 and IsElementaryAbelian(Zen) then ## q | (r - 1), and G \cong (C_q \ltimes C_r) \times C_p^2
           return [n, 3 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))];
         elif flag[2] = p and q > 2 then ## q | (r - 1), q | (p - 1), and G \cong C_q \ltimes (C_r \times C_p) \times C_p
           gens := [pcgsq[1], pcgsr[1], Filtered(pcgsp, x-> not x in Zen)[1], Filtered(pcgsp, x-> x in Zen)[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1369,23 +1369,23 @@ msg.IdGroupP2QR := function(group)
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           k := LogFFE(ExponentsOfPcElement(pc, pcgs[3]^pcgs[1])[3]*One(GF(p)), b^((p - 1)/q)) mod q;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))
-          + msg.w((r - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))
+          + SOTRec.w((r - 1), q)];
         elif flag[2] = p and q = 2 then
           return [n, 4 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))];
         elif flag[3] = p and flag[2] = 1 and q > 2 and (r - 1) mod q = 0 and (p - 1) mod q = 0 then ##(r - 1) mod q = 0 and (p - 1) mod q = 0, G \cong C_q \ltimes (C_r \times C_p^2)
           tmp := [];
           for k in [0..(q - 3)/2] do
@@ -1425,25 +1425,25 @@ msg.IdGroupP2QR := function(group)
             m := Position(tmp, AsSet([[(x - z) mod (q - 1), (y - z) mod (q - 1)], [(z - x) mod (q - 1), (z - y) mod (q - 1)]]));
           fi;
           return [n, 3 + (m - 1) + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + 2*msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))
-          + msg.w((r - 1), q)];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + 2*SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))
+          + SOTRec.w((r - 1), q)];
         elif flag[3] = p and flag[2] = 1 and q = 2 then ## G \cong C_2 \ltimes (C_r \times C_p^2)
           return [n, 4 + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + 2*msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + 2*SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))];
         elif flag[3] = p and flag[2] = 1 and (p + 1) mod q = 0 and q > 2 then ## q | (r - 1), q | (p + 1), and G \cong C_q \ltimes (C_r \times C_p^2)
           gens := [pcgsq[1], pcgsr[1], pcgsp[1], pcgsp[2]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -1461,15 +1461,15 @@ msg.IdGroupP2QR := function(group)
           else m := (q - 1) - Position(tmp, AsSet(ev));
           fi;
           return [n, 3 + (m - 1) + c1 + c2 + c3 + c4
-          + msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p - 1), q)
-          + (q + 1)/2*msg.w((p - 1), q)*(1 - msg.delta(q, 2))
-          + 2*msg.delta(q, 2)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))
-          + (q - 1)*msg.w((p - 1), q)*msg.w((r - 1), q)
-          + msg.w((p + 1), q)*(1 - msg.delta(q, 2))];
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p - 1), q)
+          + (q + 1)/2*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(q, 2))
+          + 2*SOTRec.delta(q, 2)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))
+          + (q - 1)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
+          + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2))];
         fi;
       ############ case 6: nonabelian and Fitting subgroup has order pr -- q | (p - 1)(r - 1) and p | (r - 1)
       elif flag[1] = p*r then
@@ -1477,21 +1477,21 @@ msg.IdGroupP2QR := function(group)
           return [n, 3 + c1 + c2 + c3 + c4 + c5];
         elif flag[3] = p^2 and flag[2] = p then ## q | (r - 1), p | (r - 1), and G \cong ((C_p \times C_q) \ltimes C_r) \times C_p
           return [n, 3 + c1 + c2 + c3 + c4 + c5
-          + msg.w((r - 1), p*q)];
+          + SOTRec.w((r - 1), p*q)];
         elif flag[2] = 1 then
           gens := [Filtered(pcgsp, x -> not x in FittingSubgroup(group))[1], pcgsq[1], Filtered(pcgsp, x-> x in FittingSubgroup(group))[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           if IsOne(Comm(gens[2], gens[4])) then ## q | (p - 1), p | (r - 1), and G \cong (C_p \ltimes C_r) \times (C_q \ltimes C_p)
             return [n, 3 + c1 + c2 + c3 + c4 + c5
-            + 2*msg.w((r - 1), p*q)];
+            + 2*SOTRec.w((r - 1), p*q)];
           else ## q | (p - 1), p | (r - 1), q | (r - 1), and G \cong (C_p \times C_q) \ltimes (C_r \times C_p)
             x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[4]^gens[2])[4]*One(GF(r)), a^((r - 1)/q))) mod q;
             pcgs := [gens[1], gens[2]^x, gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             k := LogFFE(ExponentsOfPcElement(pc, pcgs[3]^pcgs[2])[3]*One(GF(p)), b^((p - 1)/q)) mod q;
             return [n, 3 + (k - 1) + c1 + c2 + c3 + c4 + c5
-            + 2*msg.w((r - 1), p*q)
-            + msg.w((p - 1), q)*msg.w((r - 1), p)];
+            + 2*SOTRec.w((r - 1), p*q)
+            + SOTRec.w((p - 1), q)*SOTRec.w((r - 1), p)];
           fi;
         fi;
       ############ case 7: nonabelian and Fitting subgroup has order pqr -- p | (r - 1)(q - 1)
@@ -1500,26 +1500,26 @@ msg.IdGroupP2QR := function(group)
           return [n, 3 + c1 + c2 + c3 + c4 + c5 + c6];
         elif flag[3] = p^2 and flag[2] = p*r then ## P \cong C_{p^2}, p | (q - 1) and G \cong (C_{p^2} \ltimes C_q) \times C_r
           return [n, 3 + c1 + c2 + c3 + c4 + c5 + c6
-          + msg.w((r - 1), p)];
+          + SOTRec.w((r - 1), p)];
         elif flag[3] = p^2 and flag[2] = p then ## P \cong C_{p^2} and G \cong C_{p^2} \ltimes (C_q \times C_r)
           gens := [pcgsp[1], pcgsp[2], pcgsq[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
           k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p)) mod p;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4 + c5 + c6
-          + msg.w((r - 1), p)
-          + msg.w((q - 1), p)];
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((q - 1), p)];
         elif flag[3] = p and flag[2] = p*q then ## P \cong C_p^2, p | (r - 1) and G \cong C_p \times (C_p \ltimes C_r) \times C_q
           return [n, 3 + c1 + c2 + c3 + c4 + c5 + c6
-          + msg.w((r - 1), p)
-          + msg.w((q - 1), p)
-          + (p - 1)*msg.w((r - 1), p)*msg.w((q - 1), p)];
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((q - 1), p)
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p)];
         elif flag[3] = p and flag[2] = p*r then ## P \cong C_p^2, p | (q - 1) and G \cong C_p \times (C_p \ltimes C_q) \times C_r
           return [n, 3 + c1 + c2 + c3 + c4 + c5 + c6
-          + msg.w((r - 1), p)
-          + msg.w((q - 1), p)
-          + (p - 1)*msg.w((r - 1), p)*msg.w((q - 1), p)
-          + msg.w((r - 1), p)];
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((q - 1), p)
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)];
         elif flag[3] = p and flag[2] = p then ## P \cong C_p^2 and G \cong C_{p^2} \ltimes (C_q \times C_r)
           b := Pcgs(Zen)[1];
           gens := [Filtered(pcgsp, x->not x in Zen)[1], b, pcgsq[1], pcgsr[1]];
@@ -1527,16 +1527,16 @@ msg.IdGroupP2QR := function(group)
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3]*One(GF(q)), c^((q - 1)/p))) mod p;
           k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4]^x*One(GF(r)), a^((r - 1)/p)) mod p;
           return [n, 3 + (k - 1) + c1 + c2 + c3 + c4 + c5 + c6
-          + 2*msg.w((r - 1), p)
-          + 2*msg.w((q - 1), p)
-          + (p - 1)*msg.w((r - 1), p)*msg.w((q - 1), p)];
+          + 2*SOTRec.w((r - 1), p)
+          + 2*SOTRec.w((q - 1), p)
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p)];
         fi;
       fi;
     else return [60, 13];
     fi;
 end;
 ##########################################
-msg.IdGroupPQRSII := function(group)
+SOTRec.IdGroupPQRSII := function(group)
   local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
   G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
   c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,
@@ -1565,23 +1565,23 @@ msg.IdGroupPQRSII := function(group)
     v := Z(r);
     w := Z(s);
 
-    c1 := msg.w((s - 1), r) + msg.w((s - 1), q) + msg.w((r - 1), q)
-        + msg.w((s - 1), p) + msg.w((r - 1), p) + msg.w((q - 1), p);
-    c2 := (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q) + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*r))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*q))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p) + msg.w((r - 1), (p*q));
-    c3 := (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-        + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-        + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-        + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-        + msg.w((r - 1), p)*msg.w((s - 1), q)
-        + msg.w((r - 1), q)*msg.w((s - 1), p)
-        + msg.w((s - 1), r)*msg.w((q - 1), p)
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r))
-        + msg.w((s - 1), (p*q*r));
+    c1 := SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)
+        + SOTRec.w((s - 1), p) + SOTRec.w((r - 1), p) + SOTRec.w((q - 1), p);
+    c2 := (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q) + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p*q));
+    c3 := (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+        + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+        + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+        + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+        + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r))
+        + SOTRec.w((s - 1), (p*q*r));
 
     flag := [Size(Centre(group))];
 
@@ -1600,69 +1600,69 @@ msg.IdGroupPQRSII := function(group)
     if flag[1] = p * q then
       return [n, 2];
     elif flag[1] = p * r then
-      return [n, 2 + msg.w((s - 1), r)];
+      return [n, 2 + SOTRec.w((s - 1), r)];
     elif flag[1] = p * s then
-      return [n, 2 + msg.w((s - 1), r) + msg.w((s - 1), q)];
+      return [n, 2 + SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q)];
     elif flag[1] = q * r then
-      return [n, 2 + msg.w((s - 1), r) + msg.w((s - 1), q) + msg.w((r - 1), q)];
+      return [n, 2 + SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)];
     elif flag[1] = q * s then
-      return [n, 2 + msg.w((s - 1), r) + msg.w((s - 1), q)
-      + msg.w((r - 1), q) + msg.w((s - 1), p)];
+      return [n, 2 + SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q)
+      + SOTRec.w((r - 1), q) + SOTRec.w((s - 1), p)];
     elif flag[1] = r * s then
-      return [n, 2 + msg.w((s - 1), r) + msg.w((s - 1), q)
-      + msg.w((s - 1), p) + msg.w((r - 1), q) + msg.w((r - 1), p)];
+      return [n, 2 + SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q)
+      + SOTRec.w((s - 1), p) + SOTRec.w((r - 1), q) + SOTRec.w((r - 1), p)];
     elif flag[1] = p then
       if expsq[4] <> 1 and exprq[3] <> 1 and expsr[4] = 1 then
         x := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
         k := LogFFE(expsq[4]^x*One(GF(s)), w^((s - 1)/q)) mod q;
         return [n, 2 + c1 + k - 1];
       elif expsq[4] <> 1 and expsr[4] <> 1 and exprq[3] = 1 then
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)];
       fi;
     elif flag[1] = q then
       if exprp[3] <> 1 and expsp[4] <> 1 and expsr[4] = 1 then
         x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
         k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r)) + k - 1];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r)) + k - 1];
       elif expsp[4] <> 1 and expsr[4] <> 1 and exprp[3] = 1 then
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)];
       fi;
     elif flag[1] = r then
       if expqp[2] <> 1 and expsp[4] <> 1 and expsq[4] = 1 then
         x := Inverse(LogFFE(expqp[2]*One(GF(q)), u^((q - 1)/p))) mod p;
         k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*r)) + k - 1];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*r)) + k - 1];
       elif expsp[4] <> 1 and expsq[4] <> 1 and expqp[2] = 1 then
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*r))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)];
       fi;
     elif flag[1] = s then
       if exprp[3] <> 1 and expqp[2] <> 1 and exprq[3] = 1 then
         x := Inverse(LogFFE(expqp[2]*One(GF(q)), u^((q - 1)/p))) mod p;
         k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*r))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*q)) + k - 1];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*q)) + k - 1];
       elif exprp[3] <> 1 and exprq[3] <> 1 and expqp[2] = 1 then
-        return [n, 2 + c1 + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q)
-        + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*r))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
-        + msg.w((s - 1), (p*q))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)];
+        return [n, 2 + c1 + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+        + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)];
       fi;
     elif flag[1] = 1 then
       Add(flag, Size(DerivedSubgroup(group)));
@@ -1683,90 +1683,90 @@ msg.IdGroupPQRSII := function(group)
           k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
           l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
           return [n, 2 + c1 + c2
-          + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
+          + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
           + l + (k - 1)*(q - 1) - 1 ];
         elif exprp[3] <> 1 and exprq[3] = 1 then
           if expsp[4] <> 1 and expsq[4] <> 1 then
             x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
             k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
             return [n, 2 + c1 + c2
-            + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-            + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
+            + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
             + k - 1 ];
           elif (r - 1) mod p = 0 and (s - 1) mod q = 0 and expsp[4] = 1 then
             return [n, 2 + c1 + c2
-            + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-            + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-            + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-            + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-            + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-            + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q)) ];
+            + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q)) ];
           fi;
         elif exprq[3] <> 1 and exprp[3] = 1 then
           if expsp[4] <> 1 and expsq[4] <> 1 then
             y := Inverse(LogFFE(expsq[4]*One(GF(s)), w^((s - 1)/q))) mod q;
             l := LogFFE(exprq[3]^y*One(GF(r)), v^((r - 1)/q)) mod q;
             return [n, 2 + c1 + c2
-            + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-            + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-            + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
+            + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
             + l - 1 ];
           elif (r - 1) mod q = 0 and (s - 1) mod p = 0 and expsq[4] = 1 then
             return [n, 2 + c1 + c2
-            + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-            + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-            + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-            + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-            + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-            + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-            + msg.w((r - 1), p)*msg.w((s - 1), q) ];
+            + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) ];
           fi;
         elif (s - 1) mod p = 0 and (r - 1) mod (p*q) = 0 and expsq[4] = 1
           and exprp[3] <> 1 and exprq[3] <> 1 then
           x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
           k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
           return [n, 2 + c1 + c2
-          + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
+          + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
           + k - 1];
         elif (s - 1) mod q = 0 and (r - 1) mod (p*q) = 0 and expsp[4] = 1
           and exprp[3] <> 1 and exprq[3] <> 1 then
           y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
           l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
           return [n, 2 + c1 + c2
-          + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
+          + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
           + l - 1];
         fi;
       elif flag[2] = q * s then
         if (s - 1) mod r = 0 and (q - 1) mod p = 0 and expsp[4] = 1 then
           return [n, 2 + c1 + c2
-          + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-          + msg.w((r - 1), p)*msg.w((s - 1), q)
-          + msg.w((r - 1), q)*msg.w((s - 1), p)];
+          + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+          + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)];
         elif (s - 1) mod r = 0 and (q - 1) mod p = 0 and expsp[4] <> 1 and expsr[4] <> 1 then
           x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
           k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
           return [n, 2 + c1 + c2
-          + (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-          + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-          + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-          + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-          + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-          + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-          + msg.w((r - 1), p)*msg.w((s - 1), q)
-          + msg.w((r - 1), q)*msg.w((s - 1), p)
-          + msg.w((s - 1), r)*msg.w((q - 1), p)
+          + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+          + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+          + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+          + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+          + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+          + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)
+          + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
           + k - 1];
         fi;
       elif flag[2] = s then

@@ -16,7 +16,7 @@ sotgrpsPkgName := "sotgrps";
 ##
 #I InfoClass
 ##
-DeclareInfoClass( "InfoMSG" );
+DeclareInfoClass( "InfoSOT" );
 
 #############################################################################
 ##

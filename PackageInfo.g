@@ -9,7 +9,7 @@
 SetPackageInfo( rec(
 
 PackageName := "sotgrps",
-Subtitle    := "Constructing the Groups of a Given Small Order Type",
+Subtitle    := "Constructing and identifying groups of small order type",
 Version     := "1.0",
 Date        := "01/01/2021",
 ArchiveURL := "https://github.com/xpan-eileen/sotgrps",
@@ -51,7 +51,7 @@ PackageDoc := rec(
   HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Constructing the groups of a given order of small order type",
+  LongTitle := "Constructing and identifying groups of small order type",
   Autoload  := true),
 
 Dependencies := rec(
@@ -61,9 +61,9 @@ Dependencies := rec(
   ExternalConditions := [] ),
 
 AvailabilityTest := ReturnTrue,
-BannerString := "SOTGrps: the flag USE_NC is set to turn off consistency checks; set USE_NC := false to turn on consistency checks \nSOTGrps: the flag USE_PCP is set to use PcGroup constructions; set USE_PCP := true to use PcpGroup constructions \n",
+## BannerString := "SOTGrps: the flag USE_NC is set to turn off consistency checks; set USE_NC := false to turn on consistency checks \nSOTGrps: the flag USE_PCP is set to use PcGroup constructions; set USE_PCP := true to use PcpGroup constructions \n",
 Autoload := false,
-TestFile := "test.gi",
+TestFile := "gap/test.gi",
 Keywords := ["construction of finite groups","identification of finite groups"]
 
 ));

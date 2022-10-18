@@ -4,6 +4,25 @@ LoadPackage("sotgrps");
 ###
 ###
 ## The following are test functions.
+#
+# a test function (compare with SmallGroups Library, if possible)
+#
+SOTRec.testAllSOTGroups := function(n)
+	local mygroups, lib, duplicates, missing;
+				duplicates := [];
+				missing    := [];
+				mygroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
+						lib    := [1..NumberSmallGroups(n)];
+				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
+					return true;
+				elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
+					Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
+					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
+					 Append(missing, Filtered(lib, x-> not x in mygroups));
+					Print(("missing groups of order "), n,(" with id "), missing, ".");
+				fi;
+end;
+
 ## testAll([a, b]) tests the functions for groups of order n such that a ≤ n ≤ b by comparing the size of the output of AllSOTGroups(n) and the enumeration NumberOfSOTGroups(n),
   ## and testing whether IdSOTGroup(SOTGroup(n, i)) = (n, i) and IdSOTGroup(AllSOTGroups(n)[i]) = (n, i).
   ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
@@ -42,8 +61,8 @@ end;
 
 
 
-## msg.testAllEnumeration(from, to) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
-msg.testAllEnumeration := function(from,to)
+## SOTRec.testAllEnumeration(from, to) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
+SOTRec.testAllEnumeration := function(from,to)
 local todo, i, my, gap;
    todo:=Filtered([from..to], x->SOTGroupIsAvailable(x) and SmallGroupsAvailable(x));;
    for i in todo do Display(i); my:=NumberOfSOTGroups(i); gap:=NumberSmallGroups(i);

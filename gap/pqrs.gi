@@ -7,7 +7,7 @@
 ## To use the construction by case distinction on the size of F (the Fitting subgroup of G), set USE_pqrsII := false; otherwise, the main construction functions AllSOTGroups and SOTGroup use the case distinction by the centre and the derived subgroup of G, with USE_pqrsII = true.
 
 ##############################################
-msg.allGroupsPQRS := function(n)
+SOTRec.allGroupsPQRS := function(n)
   local all, fac, p, q, r, s, u, v, w, k, l, list;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -137,12 +137,12 @@ msg.allGroupsPQRS := function(n)
       Add(all, [ [r, s, p, q], [2, 1, [2, Int(w^((s - 1)/r))]] ]);
     fi;
 
-    list := List(all, x -> msg.groupFromData(x));
+    list := List(all, x -> SOTRec.groupFromData(x));
   return list;
 end;
 
 ######################################################
-msg.NumberGroupsPQRS := function(n)
+SOTRec.NumberGroupsPQRS := function(n)
   local fac, p, q, r, s, m;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -153,26 +153,26 @@ msg.NumberGroupsPQRS := function(n)
       r := fac[3];
       s := fac[4];
     fi;
-    m := 1 + msg.w((s - 1), p*q*r)
-    + msg.w((r - 1), p*q) + msg.w((s - 1), p*q)
-    + (p - 1)*(q - 1)*msg.w((s - 1), p*q)*msg.w((r - 1), p*q)
-    + (p - 1)*(msg.w((s - 1), p)*msg.w((r - 1), p*q) + msg.w((r - 1), p)*msg.w((s - 1), p*q))
-    + (q - 1)*(msg.w((s - 1), q)*msg.w((r - 1), p*q) + msg.w((r - 1), q)*msg.w((s - 1), p*q))
-    + msg.w((r - 1), p)*msg.w((s - 1), q) + msg.w((r - 1), q)*msg.w((s - 1), p)
-    + msg.w((s - 1), p*r) + msg.w((q - 1), p)*msg.w((s - 1), r)
-    + (p - 1)*msg.w((s - 1), p*r)*msg.w((q - 1), p)
-    + msg.w((s - 1), q*r)
-    + msg.w((q - 1), p)*(1 + (p - 1)*msg.w((r - 1), p))
-    + msg.w((s - 1), p)*(1 + (p - 1)*msg.w((q - 1), p))
-    + msg.w((r - 1), p)*(1 + (p - 1)*msg.w((s - 1), p))
-    + (p - 1)^2 * msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-    + msg.w((s - 1), q) + msg.w((r - 1), q) + (q - 1) * msg.w((r - 1), q)*msg.w((s - 1), q)
-    + msg.w((s - 1), r);
+    m := 1 + SOTRec.w((s - 1), p*q*r)
+    + SOTRec.w((r - 1), p*q) + SOTRec.w((s - 1), p*q)
+    + (p - 1)*(q - 1)*SOTRec.w((s - 1), p*q)*SOTRec.w((r - 1), p*q)
+    + (p - 1)*(SOTRec.w((s - 1), p)*SOTRec.w((r - 1), p*q) + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p*q))
+    + (q - 1)*(SOTRec.w((s - 1), q)*SOTRec.w((r - 1), p*q) + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p*q))
+    + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)
+    + SOTRec.w((s - 1), p*r) + SOTRec.w((q - 1), p)*SOTRec.w((s - 1), r)
+    + (p - 1)*SOTRec.w((s - 1), p*r)*SOTRec.w((q - 1), p)
+    + SOTRec.w((s - 1), q*r)
+    + SOTRec.w((q - 1), p)*(1 + (p - 1)*SOTRec.w((r - 1), p))
+    + SOTRec.w((s - 1), p)*(1 + (p - 1)*SOTRec.w((q - 1), p))
+    + SOTRec.w((r - 1), p)*(1 + (p - 1)*SOTRec.w((s - 1), p))
+    + (p - 1)^2 * SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+    + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q) + (q - 1) * SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q)
+    + SOTRec.w((s - 1), r);
 
   return m;
 end;
 ######################################################
-msg.GroupPQRS := function(n, i)
+SOTRec.GroupPQRS := function(n, i)
   local all, fac, p, q, r, s, u, v, w, k, l, G,
 	c1, c2, c3, c4, c5, c6, c7, data;
     fac := Factors(n);
@@ -189,36 +189,36 @@ msg.GroupPQRS := function(n, i)
     v := Z(r);
     w := Z(s);
     ### enumeration
-		c1 := msg.w((s - 1), (p*q*r));
-		c2 := msg.w((r - 1), (p*q))
-		+ msg.w((s - 1), (p*q))
-		+ (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-		+ (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-		+ (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-		+ (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-		+ (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-		+ msg.w((r - 1), p)*msg.w((s - 1), q)
-		+ msg.w((r - 1), q)*msg.w((s - 1), p);
-		c3 := msg.w((s - 1), p*r)
-		+ msg.w((s - 1), r)*msg.w((q - 1), p)
-		+ (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r));
-		c4 := msg.w((s - 1), (q*r));
-		c5 := msg.w((q - 1), p)
-		+ msg.w((r - 1), p)
-		+ msg.w((s - 1), p)
-		+ (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p)
-		+ (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p)
-		+ (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p)
-		+ (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p);
-		c6 := msg.w((r - 1), q)
-		+ msg.w((s - 1), q)
-		+ (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q);
-		c7 := msg.w((s - 1), r);
+		c1 := SOTRec.w((s - 1), (p*q*r));
+		c2 := SOTRec.w((r - 1), (p*q))
+		+ SOTRec.w((s - 1), (p*q))
+		+ (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+		+ (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+		+ (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+		+ (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+		+ (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+		+ SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+		+ SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p);
+		c3 := SOTRec.w((s - 1), p*r)
+		+ SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+		+ (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r));
+		c4 := SOTRec.w((s - 1), (q*r));
+		c5 := SOTRec.w((q - 1), p)
+		+ SOTRec.w((r - 1), p)
+		+ SOTRec.w((s - 1), p)
+		+ (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+		+ (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+		+ (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+		+ (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p);
+		c6 := SOTRec.w((r - 1), q)
+		+ SOTRec.w((s - 1), q)
+		+ (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q);
+		c7 := SOTRec.w((s - 1), r);
 
-    if i = 1 then return msg.groupFromData(all[1]); fi;
+    if i = 1 then return SOTRec.groupFromData(all[1]); fi;
     ### case 1: |F| = s, pqr | (s - 1), and G \cong C_{pqr} \ltimes C_s
     if (s - 1) mod (p*q*r) = 0 and i > 1 and i < 2 + c1 then
-      return msg.groupFromData([ [p, q, r, s], [4, 1, [4, Int(w^((s - 1)/p))]], [4, 2, [4, Int(w^((s - 1)/q))]], [4, 3, [4, Int(w^((s - 1)/r))]] ]);
+      return SOTRec.groupFromData([ [p, q, r, s], [4, 1, [4, Int(w^((s - 1)/p))]], [4, 2, [4, Int(w^((s - 1)/q))]], [4, 3, [4, Int(w^((s - 1)/r))]] ]);
     fi;
 
     ### case 2: |F| = rs, pq | (r - 1)(s - 1), and G \cong C_{pq} \ltimes C_{rs}
@@ -264,7 +264,7 @@ msg.GroupPQRS := function(n, i)
 	      Add(all, [ [p, q, r, s], [3, 2, [3, Int(v^((r - 1)/q))]], [4, 1, [4, Int(w^((s - 1)/p))]] ]);
 	    fi;
 			data := all[i - 1 - c1];
-			return msg.groupFromData(data);
+			return SOTRec.groupFromData(data);
 		fi;
 
     ### case 3: |F| = qs, r |(s - 1), p | (q - 1)(s - 1), and G \cong C_{pr} \ltimes C_{qs}
@@ -282,12 +282,12 @@ msg.GroupPQRS := function(n, i)
 	      od;
 	    fi;
 			data := all[i - 1 - c1 - c2];
-			return msg.groupFromData(data);
+			return SOTRec.groupFromData(data);
 		fi;
 
     ###case 4: |F| = ps, qr | (s - 1) and G \cong (C_{qr} \ltimes C_s) \times C_p
 		if (s - 1) mod (q*r) = 0 and i > 1 + c1 + c2 + c3 and i < 2 + c1 + c2 + c3 + c4 then
-			return msg.groupFromData([ [q, r, s, p], [3, 1, [3, Int(w^((s - 1)/q))]], [3, 2, [3, Int(w^((s - 1)/r))]] ]);
+			return SOTRec.groupFromData([ [q, r, s, p], [3, 1, [3, Int(w^((s - 1)/q))]], [3, 2, [3, Int(w^((s - 1)/r))]] ]);
 		fi;
 
     ###case 5: |F| = qrs, p | (q - 1)(r - 1)(s - 1), and G \cong C_p \ltimes C_{qrs}
@@ -325,7 +325,7 @@ msg.GroupPQRS := function(n, i)
 	      od;
 	    fi;
 			data := all[i - 1 - c1 - c2 - c3 - c4];
-			return msg.groupFromData(data);
+			return SOTRec.groupFromData(data);
 		fi;
 
     ###case 6: |F| = prs, q | (r - 1)(s - 1), and G \cong (C_q \ltimes C_{rs}) \times C_p
@@ -343,16 +343,16 @@ msg.GroupPQRS := function(n, i)
 	      od;
 	    fi;
 			data := all[i - 1 - c1 - c2 - c3 - c4 - c5];
-			return msg.groupFromData(data);
+			return SOTRec.groupFromData(data);
 		fi;
 
     ###case7: |F| = pqs, r | (s - 1), and G \cong (C_r \ltimes C_s) \times C_p \times C_q
     if (s - 1) mod r = 0 then
-      return msg.groupFromData([ [r, s, p, q], [2, 1, [2, Int(w^((s - 1)/r))]] ]);
+      return SOTRec.groupFromData([ [r, s, p, q], [2, 1, [2, Int(w^((s - 1)/r))]] ]);
     fi;
 end;
 ######################################################
-msg.allGroupsPQRSII := function(n)
+SOTRec.allGroupsPQRSII := function(n)
   local all, fac, p, q, r, s, u, v, w, k, l, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, listall;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -499,11 +499,11 @@ msg.allGroupsPQRSII := function(n)
       if (s - 1) mod (p*q*r) = 0 then
         Add(all, [ [p, q, r, s], [4, 1, [4, rootsp]], [4, 2, [4, rootsq]], [4, 3, [4, rootsr]] ]);
       fi;
-    listall := List(all, x -> msg.groupFromData(x));
+    listall := List(all, x -> SOTRec.groupFromData(x));
   return listall;
 end;
 ######################################################
-msg.GroupPQRSII := function(n, i)
+SOTRec.GroupPQRSII := function(n, i)
   local all, fac, p, q, r, s, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, data;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -540,25 +540,25 @@ msg.GroupPQRSII := function(n, i)
       rootqp := Int(u^((q - 1)/p));
     fi;
     ##enumeration of each case by size of the centre
-    c1 := msg.w((s - 1), r) + msg.w((s - 1), q) + msg.w((r - 1), q)
-        + msg.w((s - 1), p) + msg.w((r - 1), p) + msg.w((q - 1), p);
-    c2 := (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), q) + msg.w((s - 1), (q*r))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*r))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), p) + msg.w((s - 1), (p*q))
-        + (p - 1)*msg.w((q - 1), p)*msg.w((r - 1), p) + msg.w((r - 1), (p*q));
-    c3 := (p - 1)^2*msg.w((q - 1), p)*msg.w((r - 1), p)*msg.w((s - 1), p)
-        + (p - 1)*(q - 1)*msg.w((s - 1), (p*q))*msg.w((r - 1), (p*q))
-        + (p - 1)*msg.w((r - 1), p)*msg.w((s - 1), (p*q))
-        + (q - 1)*msg.w((r - 1), q)*msg.w((s - 1), (p*q))
-        + (p - 1)*msg.w((s - 1), p)*msg.w((r - 1), (p*q))
-        + (q - 1)*msg.w((s - 1), q)*msg.w((r - 1), (p*q))
-        + msg.w((r - 1), p)*msg.w((s - 1), q)
-        + msg.w((r - 1), q)*msg.w((s - 1), p)
-        + msg.w((s - 1), r)*msg.w((q - 1), p)
-        + (p - 1)*msg.w((q - 1), p)*msg.w((s - 1), (p*r))
-        + msg.w((s - 1), (p*q*r));
+    c1 := SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)
+        + SOTRec.w((s - 1), p) + SOTRec.w((r - 1), p) + SOTRec.w((q - 1), p);
+    c2 := (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q) + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p*q));
+    c3 := (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+        + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+        + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+        + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+        + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r))
+        + SOTRec.w((s - 1), (p*q*r));
 
-    if i = 1 then return msg.groupFromData(all[1]);
+    if i = 1 then return SOTRec.groupFromData(all[1]);
     ##Cluster 2: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
     elif i > 1 and i < 2 + c1 then
       all := [];
@@ -587,7 +587,7 @@ msg.GroupPQRSII := function(n, i)
         Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]] ]);
       fi;
       data := all[i - 1];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
 
     ##Cluster 3: |Z(G)| \in {p, q, r, s}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
     elif i > 1 + c1 and i < 2 + c1 + c2 then
@@ -629,7 +629,7 @@ msg.GroupPQRSII := function(n, i)
         Add(all, [ [p, q, r, s], [3, 1, [3, rootrp]], [3, 2, [3, rootrq]] ]);
       fi;
       data := all[i - 1 - c1];
-      return msg.groupFromData(data);
+      return SOTRec.groupFromData(data);
 
     ##Cluster 4: Z(G) = 1
     elif i > 1 + c1 + c2 and i < 2 + c1 + c2 + c3 then
@@ -693,6 +693,6 @@ msg.GroupPQRSII := function(n, i)
         Add(all, [ [p, q, r, s], [4, 1, [4, rootsp]], [4, 2, [4, rootsq]], [4, 3, [4, rootsr]] ]);
       fi;
       data := all[i - 1 - c1 - c2];
-			return msg.groupFromData(data);
+			return SOTRec.groupFromData(data);
     fi;
 end;

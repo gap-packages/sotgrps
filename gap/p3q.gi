@@ -8,7 +8,7 @@
 ## The remaining isomorphism types are constructed as semidirect products Q \ltimes P and P \ltimes Q.
 ## For further details see [2, Section 3.2 & 3.5].
 ############################################################################
-msg.allGroupsP3Q := function(n)
+SOTRec.allGroupsP3Q := function(n)
   local fac, p, q, all, list, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq, matGL2, matGL3, func, k;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
@@ -140,7 +140,7 @@ msg.allGroupsP3Q := function(n)
     fi;
 
     if (p + 1) mod q = 0 and q > 2 then
-      matGL2 := msg.QthRootGL2P(p, q);;
+      matGL2 := SOTRec.QthRootGL2P(p, q);;
       Add(all, [ [q, p, p, p], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]); ## (C_q \ltimes C_p^2) \times C_p when q | (p + 1)
     fi;
 
@@ -167,7 +167,7 @@ msg.allGroupsP3Q := function(n)
         od;
         if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
       return res;
-    end; #explength := 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
+    end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
 
     if (p - 1) mod q = 0 and q > 3 then
       for k in func(q) do
@@ -176,7 +176,7 @@ msg.allGroupsP3Q := function(n)
     fi;
 
     if (p^2 + p + 1 ) mod q = 0 and q > 3 then
-      matGL3 := msg.QthRootGL3P(p, q);
+      matGL3 := SOTRec.QthRootGL3P(p, q);
       Add(all, [ [q, p, p, p],
       [2, 1, [2, Int(matGL3[1][1]), 3, Int(matGL3[2][1]), 4, Int(matGL3[3][1])]],
       [3, 1, [2, Int(matGL3[1][2]), 3, Int(matGL3[2][2]), 4, Int(matGL3[3][2])]],
@@ -194,7 +194,7 @@ msg.allGroupsP3Q := function(n)
       od;
     fi;
     if (p + 1) mod q = 0 and q > 2 and p > 2 then
-      matGL2 := msg.QthRootGL2P(p, q);;
+      matGL2 := SOTRec.QthRootGL2P(p, q);;
       Add(all, [ [q, p, p, p],
       [3, 2, [3, 1, 4, 1]],
       [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]],
@@ -213,11 +213,11 @@ msg.allGroupsP3Q := function(n)
       Add(all, [ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
 
-    list := List(all, x -> msg.groupFromData(x));
+    list := List(all, x -> SOTRec.groupFromData(x));
   return list;
 end;
 ######################################################
-msg.NumberGroupsP3Q := function(n)
+SOTRec.NumberGroupsP3Q := function(n)
       local fac, p, q, m, s;
         s := [];
         fac := Factors(n);
@@ -229,21 +229,21 @@ msg.NumberGroupsP3Q := function(n)
         q := fac[1]; fi;
 
         if n mod 2 = 1 and q > 3 then
-          m := 5 + (5+p)*msg.w((q-1), p) + 2*msg.w((q-1), p^2)
-            + msg.w((q-1), p^3) + (36+q^2+13*q+4*msg.w((q-1),3))*msg.w((p-1), q)/6
-            + 2*msg.w((p+1), q) + msg.w((p^2+p+1), q)*(1 - msg.delta(q, 3));
+          m := 5 + (5+p)*SOTRec.w((q-1), p) + 2*SOTRec.w((q-1), p^2)
+            + SOTRec.w((q-1), p^3) + (36+q^2+13*q+4*SOTRec.w((q-1),3))*SOTRec.w((p-1), q)/6
+            + 2*SOTRec.w((p+1), q) + SOTRec.w((p^2+p+1), q)*(1 - SOTRec.delta(q, 3));
         elif n mod 2 = 1 and q = 3 then
-          m := 5 + (5+p)*msg.w((q-1), p) + 2*msg.w((q-1), p^2)
-            + msg.w((q-1), p^3) + (36+q^2+13*q+4*msg.w((q-1),3))*msg.w((p-1), q)/6
-            + 2*msg.w((p+1), q);
-        else m := 5 + 7*msg.delta(p,2) + 2*msg.w((q-1),4) + msg.w((q-1), 8)
-            + 10*msg.delta(q, 2) + 3*msg.delta(n,24) + msg.delta(n, 56); fi;
+          m := 5 + (5+p)*SOTRec.w((q-1), p) + 2*SOTRec.w((q-1), p^2)
+            + SOTRec.w((q-1), p^3) + (36+q^2+13*q+4*SOTRec.w((q-1),3))*SOTRec.w((p-1), q)/6
+            + 2*SOTRec.w((p+1), q);
+        else m := 5 + 7*SOTRec.delta(p,2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
+            + 10*SOTRec.delta(q, 2) + 3*SOTRec.delta(n,24) + SOTRec.delta(n, 56); fi;
         return m;
       end;
 ######################################################
-msg.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 3, 1 ], [ 1, 3 ] ];
+SOTRec.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 3, 1 ], [ 1, 3 ] ];
 ############################################################################
-msg.GroupP3Q := function(n, i)
+SOTRec.GroupP3Q := function(n, i)
   local fac, p, q, all, G, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq,
   matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,
   newfunc, oldfunc;
@@ -269,32 +269,32 @@ msg.GroupP3Q := function(n, i)
       R3 := Int(r3);
     fi;
     ######## enumeration
-    c1 := msg.w((q - 1), p) + msg.w((q - 1), p^2) + msg.w((q - 1), p^3);
-    c2 := 2*msg.w((q - 1), p) + msg.w((q - 1), p^2);
-    c3 := msg.w((q - 1), p);
-    c4 := msg.w((q - 1), p) + msg.delta(p, 2);
-    c5 := p*msg.w((q - 1), p)*(1 - msg.delta(p, 2)) + msg.delta(p, 2);
-    c6 := msg.w((p - 1), q);
-    c7 := (q + 1)*msg.w((p - 1), q);
-    c8 := (1 - msg.delta(q, 2))*(
-    1/6*(q^2 + 4*q + 9 + 4*msg.w((q - 1), 3))*msg.w((p - 1), q)
-    + msg.w((p^2 + p + 1), q)*(1 - msg.delta(q, 3))
-    + msg.w((p + 1), q)*(1 - msg.delta(q, 2)))
-    + 3*msg.delta(q, 2);
-    c9 := (1/2*(q + 3)*msg.w((p - 1), q) + msg.w((p + 1), q))*(1 - msg.delta(q, 2))*(1 - msg.delta(p, 2))
-    + 2*msg.delta(q, 2);
-    c10 := msg.w((p - 1), q);
-    c11 := msg.delta(n, 24);
+    c1 := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3);
+    c2 := 2*SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
+    c3 := SOTRec.w((q - 1), p);
+    c4 := SOTRec.w((q - 1), p) + SOTRec.delta(p, 2);
+    c5 := p*SOTRec.w((q - 1), p)*(1 - SOTRec.delta(p, 2)) + SOTRec.delta(p, 2);
+    c6 := SOTRec.w((p - 1), q);
+    c7 := (q + 1)*SOTRec.w((p - 1), q);
+    c8 := (1 - SOTRec.delta(q, 2))*(
+    1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3))*SOTRec.w((p - 1), q)
+    + SOTRec.w((p^2 + p + 1), q)*(1 - SOTRec.delta(q, 3))
+    + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(q, 2)))
+    + 3*SOTRec.delta(q, 2);
+    c9 := (1/2*(q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(q, 2))*(1 - SOTRec.delta(p, 2))
+    + 2*SOTRec.delta(q, 2);
+    c10 := SOTRec.w((p - 1), q);
+    c11 := SOTRec.delta(n, 24);
 ############ add abelian groups in:
     all := [ [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, q], [1, [2, 1]] ], [ [p, p, p, q] ] ];
-    if i < 4 then return msg.groupFromData(all[i]); fi;
+    if i < 4 then return SOTRec.groupFromData(all[i]); fi;
 ############ add nonabelian nilpotent groups in:
     if i > 3 and i < 6 and p > 2 then
       Append(all, [ [ [p, p, p, q], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p, q], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
-      return msg.groupFromData(all[i]);
+      return SOTRec.groupFromData(all[i]);
     elif i > 3 and i < 6 and p = 2 then
       Append(all, [ [ [2, 2, 2, q], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
-      return msg.groupFromData(all[i]);
+      return SOTRec.groupFromData(all[i]);
     fi;
 
 ############ case 1: non-nilpotent and Sylow q-subgroup is normal, namely, P \ltimes Q
@@ -310,7 +310,7 @@ msg.GroupP3Q := function(n, i)
       if (q - 1) mod (p^3) = 0 then
         Add(l1, [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]], [4, 1, [4, R3]], [4, 2, [4, R2]], [4, 3, [4, R1]] ]); ##C_{p^3} \ltimes_\phi C_q with \Im\phi \cong C_{p^3}
       fi;
-      return msg.groupFromData(l1[i - 5]);
+      return SOTRec.groupFromData(l1[i - 5]);
     fi;
     ## c2: when P = C_{p^2} \times C_p, there are at most two isom types of semidirect products of P \ltimes Q
     if i > 5 + c1 and i < 6 + c1 + c2 then
@@ -321,7 +321,7 @@ msg.GroupP3Q := function(n, i)
       if (q - 1) mod (p^2) = 0 then
         Add(l2, [ [p, p, p, q], [1, [2, 1]], [4, 1, [4, R2]], [4, 2, [4, R1]] ]);
       fi;
-      return msg.groupFromData(l2[i - 5 - c1]);
+      return SOTRec.groupFromData(l2[i - 5 - c1]);
     fi;
     ## c3: when P is elementary abelian, there is at most one isom type of P \ltimes Q
     if i > 5 + c1 + c2 and i < 6 + c1 + c2 + c3 then
@@ -329,7 +329,7 @@ msg.GroupP3Q := function(n, i)
       if (q - 1) mod p = 0 then
         Add(l3, [ [p, p, p, q], [4, 1, [4, R1]] ]);
       fi;
-      return msg.groupFromData(l3[i - 5 - c1 - c2]);
+      return SOTRec.groupFromData(l3[i - 5 - c1 - c2]);
     fi;
     ## c4: when P is extraspecial + type
     if i > 5 + c1 + c2 + c3 and i < 6 + c1 + c2 + c3 + c4 then
@@ -340,7 +340,7 @@ msg.GroupP3Q := function(n, i)
       if p = 2 then
         Add(l4, [ [2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ]);
       fi;
-      return msg.groupFromData(l4[i - 5 - c1 - c2 - c3]);
+      return SOTRec.groupFromData(l4[i - 5 - c1 - c2 - c3]);
     fi;
     ## c5: when P is extraspecial - type or when P = Q_8
     if i > 5 + c1 + c2 + c3 + c4 and i < 6 + c1 + c2 + c3 + c4 + c5 then
@@ -355,7 +355,7 @@ msg.GroupP3Q := function(n, i)
       if p = 2 and q > p then
         Add(l5, [ [2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [4, q - 1]] ]);
       fi;
-      return msg.groupFromData(l5[i - 5 - c1 - c2 - c3 - c4]);
+      return SOTRec.groupFromData(l5[i - 5 - c1 - c2 - c3 - c4]);
     fi;
 
 ############ case 3: non-nilpotent and the Sylow p-subgroup is normal
@@ -393,7 +393,7 @@ msg.GroupP3Q := function(n, i)
       if (p - 1) mod q = 0 then
         Add(l6, [ [q, p, p, p], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, s, 3, ii, 4, qq]], [3, 1, [3, s, 4, ii]], [4, 1, [4, s]] ]);
       fi;
-      return msg.groupFromData(l6[i - 5 - c1 - c2 - c3 - c4 - c5]);
+      return SOTRec.groupFromData(l6[i - 5 - c1 - c2 - c3 - c4 - c5]);
     fi;
     ## c7: when P = C_{p^2} \times C_p, there are at most (q + 1) isomorphism types of Q \ltimes P
     if i > 5 + c1 + c2 + c3 + c4 + c5 + c6 and i < 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 then
@@ -405,7 +405,7 @@ msg.GroupP3Q := function(n, i)
           Add(l7, [ [q, p, p, p], [ 2, [3, 1]], [2, 1, [2, (S2 mod p), 3, ((S2 - (S2 mod p))/p)]], [3, 1, [3, (S2 mod p)]], [4, 1, [4, Int(s1^k)]] ]); ## C_q \ltimes (C_{p^2} \times C_p)
         od;
       fi;
-      return msg.groupFromData(l7[i - 5 - c1 - c2 - c3 - c4 - c5 - c6]);
+      return SOTRec.groupFromData(l7[i - 5 - c1 - c2 - c3 - c4 - c5 - c6]);
     fi;
     ## c8: when P is elementary abelian
     if i > 5 + c1 + c2 + c3 + c4 + c5 + c6 + c7 and i < 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 then
@@ -423,7 +423,7 @@ msg.GroupP3Q := function(n, i)
       fi;
 
       if (p + 1) mod q = 0 and q > 2 then
-        matGL2 := msg.QthRootGL2P(p, q);;
+        matGL2 := SOTRec.QthRootGL2P(p, q);;
         Add(l8, [ [q, p, p, p], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]); ## (C_q \ltimes C_p^2) \times C_p when q | (p + 1)
       fi;
 
@@ -450,7 +450,7 @@ msg.GroupP3Q := function(n, i)
           od;
           if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
         return res;
-      end; #explength := 1/6*(q^2 - 5*q + 6 + 4*msg.w((q - 1), 3));
+      end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
 
       if (p - 1) mod q = 0 and q > 3 then
         for k in func(q) do
@@ -459,13 +459,13 @@ msg.GroupP3Q := function(n, i)
       fi;
 
       if (p^2 + p + 1 ) mod q = 0 and q > 3 then
-        matGL3 := msg.QthRootGL3P(p, q);
+        matGL3 := SOTRec.QthRootGL3P(p, q);
         Add(l8, [ [q, p, p, p],
         [2, 1, [2, Int(matGL3[1][1]), 3, Int(matGL3[2][1]), 4, Int(matGL3[3][1])]],
         [3, 1, [2, Int(matGL3[1][2]), 3, Int(matGL3[2][2]), 4, Int(matGL3[3][2])]],
         [4, 1, [2, Int(matGL3[1][3]), 3, Int(matGL3[2][3]), 4, Int(matGL3[3][3])]] ]); ## (C_q \ltimes C_p^3) when q | (p^2 + p + 1)
       fi;
-      return msg.groupFromData(l8[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7]);
+      return SOTRec.groupFromData(l8[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7]);
     fi;
 
     ## c9: when P is extraspecial of type +
@@ -481,13 +481,13 @@ msg.GroupP3Q := function(n, i)
         od;
       fi;
       if (p + 1) mod q = 0 and q > 2 and p > 2 then
-        matGL2 := msg.QthRootGL2P(p, q);
+        matGL2 := SOTRec.QthRootGL2P(p, q);
         Add(l9, [ [q, p, p, p],
         [3, 2, [3, 1, 4, 1]],
         [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]],
         [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]); ## q | (p + 1), Z(G) = C_p
       fi;
-      return msg.groupFromData(l9[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8]);
+      return SOTRec.groupFromData(l9[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8]);
     fi;
     ## c10: when P is extraspecial of type - or P \cong Q_8
     if i > 5 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 and i < 6 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 then
@@ -495,14 +495,14 @@ msg.GroupP3Q := function(n, i)
       if (p - 1) mod q = 0 then
         Add(l10, [ [q, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [3, 1, [3, iii, 4, qqq]], [4, 1, [4, iii]] ]);
       fi;
-      return msg.groupFromData(l10[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9]);
+      return SOTRec.groupFromData(l10[i - 5 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9]);
     fi;
     if p = 2 and q = 3 and i = 14 then #P \cong Q_8
-      return msg.groupFromData([ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
+      return SOTRec.groupFromData([ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
 ############ case 3: no normal Sylow subgroup -- necessarily n = 24
     if n = 24 and i = 15 then
-      return msg.groupFromData([ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
+      return SOTRec.groupFromData([ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
 
 
