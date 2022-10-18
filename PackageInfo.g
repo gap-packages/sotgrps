@@ -12,7 +12,7 @@ PackageName := "sotgrps",
 Subtitle    := "Constructing the Groups of a Given Small Order Type",
 Version     := "1.0",
 Date        := "01/01/2021",
-ArchiveURL := "http://users.monash.edu.au/~heikod/cubefree/cubefree1.17",
+ArchiveURL := "https://github.com/xpan-eileen/sotgrps",
 ArchiveFormats := ".tar.gz",
 
 Persons := [
@@ -22,8 +22,8 @@ Persons := [
       FirstNames    := "Eileen",
       IsAuthor      := true,
       IsMaintainer  := true,
-      Email         := "eileen.pan@monash.edu",
-      WWWHome       := "http://users.monash.edu.au/~heikod/",
+      Email         := "xpan.eileen@gmail.com",
+      WWWHome       := "https://xpan-eileen.github.io/",
       PostalAddress := Concatenation( [
             "School of Mathematics",
             "Monash University\n",
@@ -37,13 +37,13 @@ Status := "other",
 CommunicatedBy := " (Annapolis)",
 AcceptDate := " ",
 
-README_URL := "https://github.com/xpan-eileen/sotgrps_gap_pkg/blob/master/README.md",
-PackageInfoURL := "https://github.com/xpan-eileen/sotgrps_gap_pkg",
+README_URL := "https://github.com/xpan-eileen/sotgrps/blob/master/README.md",
+PackageInfoURL := "https://github.com/xpan-eileen/sotgrps/blob/master/PackageInfo.g",
 
 AbstractHTML :=
 "The <span class=\"pkgname\">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.",
 
-PackageWWWHome := "http://users.monash.edu.au/~heikod/cubefree.html",
+PackageWWWHome := "https://github.com/xpan-eileen/sotgrps",
 
 PackageDoc := rec(
   BookName  := "sotgrps",
@@ -55,7 +55,7 @@ PackageDoc := rec(
   Autoload  := true),
 
 Dependencies := rec(
-  GAP := ">=4.3",
+  GAP := ">=4.10",
   NeededOtherPackages := [],
   SuggestedOtherPackages := [],
   ExternalConditions := [] ),
