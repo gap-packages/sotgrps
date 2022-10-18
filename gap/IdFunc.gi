@@ -1067,7 +1067,7 @@ end;
 # the case of groups of order p^2qr
 #
 msg.IdGroupP2QR := function(group)
-  local n, fac, primefac, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
+  local n, fac, primefac, pfac, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
   matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
   pcgsp, pcgsq, pcgsr;
@@ -1088,7 +1088,8 @@ msg.IdGroupP2QR := function(group)
         Add(tmp, j);
       return tmp;
     end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    pfac:=primefac(n);
+    p := pfac[3]; q := pfac[1]; r := pfac[2];
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;
@@ -1151,14 +1152,14 @@ msg.IdGroupP2QR := function(group)
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           exp := ExponentsOfPcElement(G, gens[3]^gens[1]);
 
-          if IsAbelian(Group([gens[2], gens[4]])) and not IsAbelian(Group([gens[2], gens[3]])) then ## p^2 | (q - 1), p | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
+          if IsOne(Comm(gens[2], gens[4])) and not IsOne(Comm(gens[2], gens[3])) then ## p^2 | (q - 1), p | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/(p^2)))) mod (p^2);
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             exp1 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
             k := LogFFE(exp1[4]*One(GF(r)), a^((r-1)/p)) mod p;
             return [n, 2 + k + c1 + msg.w((q - 1), (p^2))];
-          elif (not IsAbelian(Group([gens[2], gens[4]]))) and (not IsAbelian(Group([gens[2], gens[3]]))) then ## p^2 | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
+          elif (not IsOne(Comm(gens[2], gens[4]))) and (not IsOne(Comm(gens[2], gens[3]))) then ## p^2 | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/(p^2)))) mod (p^2);
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
@@ -1166,7 +1167,7 @@ msg.IdGroupP2QR := function(group)
             k := Position(msg.groupofunitsP2(p), LogFFE(exp1[4]*One(GF(r)), a^((r-1)/(p^2))) mod (p^2));
             return [n, 2 + k + c1 + (p - 1)*msg.w((q - 1), p^2)*msg.w((r - 1), p)
             + msg.w((q - 1), (p^2))];
-          elif (not IsAbelian(Group([gens[2], gens[4]]))) and IsAbelian(Group([gens[2], gens[3]])) then ## p | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
+          elif (not IsOne(Comm(gens[2], gens[4]))) and IsOne(Comm(gens[2], gens[3])) then ## p | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
             x := Inverse(LogFFE(exp[3]*One(GF(q)), c^((q-1)/p))) mod p;
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
@@ -1265,7 +1266,7 @@ msg.IdGroupP2QR := function(group)
       elif flag[1] = p^2 and flag[3] = p and flag[2] = 1 and (p + 1) mod (q*r) = 0 and q > 2 then ## qr | (p + 1), q > 2, and G \cong C_{qr} \ltimes C_p^2
         return [n, 3 + c1 + c2];
       elif flag[1] = p^2 and flag[3] = p and flag[2] = 1 and (p + 1) mod (q*r) = 0 and q = 2 then
-        if IsAbelian(Group([pcgsq[1], pcgsr[1]])) then ## qr | (p + 1), q = 2, and G \cong C_{qr} \ltimes C_p^2
+        if IsOne(Comm(pcgsq[1], pcgsr[1])) then ## qr | (p + 1), q = 2, and G \cong C_{qr} \ltimes C_p^2
           return [n, 3 + c1 + c2];
         else ## qr | (p + 1), q = 2, and G \cong (C_2 \ltimes C_r)\ltimes C_p^2
           return [n, 4 + c1 + c2];
@@ -1480,7 +1481,7 @@ msg.IdGroupP2QR := function(group)
         elif flag[2] = 1 then
           gens := [Filtered(pcgsp, x -> not x in FittingSubgroup(group))[1], pcgsq[1], Filtered(pcgsp, x-> x in FittingSubgroup(group))[1], pcgsr[1]];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          if IsAbelian(Group([gens[2], gens[4]])) then ## q | (p - 1), p | (r - 1), and G \cong (C_p \ltimes C_r) \times (C_q \ltimes C_p)
+          if IsOne(Comm(gens[2], gens[4])) then ## q | (p - 1), p | (r - 1), and G \cong (C_p \ltimes C_r) \times (C_q \ltimes C_p)
             return [n, 3 + c1 + c2 + c3 + c4 + c5
             + 2*msg.w((r - 1), p*q)];
           else ## q | (p - 1), p | (r - 1), q | (r - 1), and G \cong (C_p \times C_q) \ltimes (C_r \times C_p)
