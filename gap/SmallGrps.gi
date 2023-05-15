@@ -34,7 +34,7 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
-			Print(("Groups of order "), n, (" is not available in mysmallgrps: AllSOTGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q."));
+			Print(("Groups of order "), n, (" is not available: AllSOTGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q."));
 		fi;
 end);
 ############################################################################
@@ -70,7 +70,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.NumberGroupsP4Q(n);
 		else
-			Print(("Order "), n, (" is not available in mysmallgrps: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q."));
+			Print(("Order "), n, (" is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q."));
 		fi;
 	end);
 
@@ -129,7 +129,7 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 				return SOTRec.GroupP4Q(n, i);
 			else
-				Print(("Groups of order "), n, (" is not available in mysmallgrps."));
+				Print(("Groups of order "), n, (" is not available in sotgrps."));
 			fi;
 		fi;
 
@@ -188,7 +188,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1] ] then
 				Print(("There are "), SOTRec.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
 			elif length > 5 then
-				Print(("Order "), n, (" is not available in mysmallgrps."));
+				Print(("Order "), n, (" is not available in sotgrps."));
 			fi;
 
     elif Length(arg) > 1 then Error("Too many arguments: input has to be an integer.");
@@ -232,6 +232,6 @@ InstallGlobalFunction( IdSOTGroup, function(group)
 		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
-			Print(("Groups of order "), n, (" is not available in mysmallgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
+			Print(("Groups of order "), n, (" is not available in sotgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
 		fi;
 end);
