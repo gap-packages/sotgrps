@@ -15,34 +15,52 @@
 #! @Description
 #!  computes the list of isomorphism classes of groups of order <A>n</A>.
 #! Solvable groups are given as PcGroup, unless USE_PCP is turned on, in which case the groups are constructed as PcpGroup.
-#! Nonsolvable groups are given
+#! Nonsolvable groups are given as permutation groups.
 #! @Arguments n
 #! @BeginExampleSession
-#! gap> AllSOTGroups(3*5*7*11);
-#! [ <pc group of size 1155 with 4 generators>, <pc group of size 1155 with 4 generators>,
-#!  <pc group of size 1155 with 4 generators>, <pc group of size 1155 with 4 generators> ]
+#! gap> AllSOTGroups(60);
+#! [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  Alt( [ 1 .. 5 ] ) ]
+
+#! gap> USE_PCP := true;;
+#! gap> AllSOTGroups(60);
+#! [ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#! Alt( [ 1 .. 5 ] ) ]
 #! @EndExampleSession
 DeclareGlobalFunction("AllSOTGroups");
 
 #! @Description
 #!  returns the <A>i</A>-th group of order <A>n</A> in the list.
 #! @Arguments n, i
+#! @BeginExampleSession
+#! gap> SOTGroup(2*3*5*7, 1);
+#! <pc group of size 210 with 4 generators>
+#! @EndExampleSession
 DeclareGlobalFunction("SOTGroup");
 
-#! Description
+#! @Description
 #!  returns the number of isomorphism types of groups of order <A>n</A>.
 #! @Arguments n
-#
+#! @BeginExampleSession
+#! gap> NumberOfSOTGroups(2*3*5*7);
+#! 12
+#! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
-#!
-DeclareGlobalFunction("IdSOTGroup");
-#! @Description
-#!  determines the SOT library number of $G$; that is, the function returns a pair [order, i] where $G$ is isomorphic to SOTGroup( order, i ).
 
-#!
-DeclareGlobalFunction("SOTGroupIsAvailable");
 #! @Description
-#!  returns true if the order is covered in the SOTGrps package.
+#!  determines the SOT library number of <A>G</A>;
+#!  that is, the function returns a pair [<A>n</A>, <A>i</A>] where <A>G</A> is isomorphic to SOTGroup(<A>n</A>, <A>i</A>).
+#! @Arguments G
+DeclareGlobalFunction("IdSOTGroup");
+
+#! @Description
+#!  returns <K>true</K> if the order <A>n</A> is available in the SOTGrps library, and <K>false</K> otherwise.
+#! @Arguments n
+DeclareGlobalFunction("SOTGroupIsAvailable");
 
 #!
 DeclareGlobalFunction("SOTGroupsInformation");
