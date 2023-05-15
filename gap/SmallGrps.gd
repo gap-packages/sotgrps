@@ -1,10 +1,10 @@
 #############################################################################
 #! @Chapter The SOTGrps Library
 #! With some overlaps, the SOTGrps library extends the Small Group Library to give access to some more
-    "small" orders. For example, in addition to the existing Small Groups Library, it constructs a
-    complete and irredundant list of isomorphism type representatives of the groups of order
-    - that factorises into at most four primes;
-    - p^4q.
+#!    "small" orders. For example, in addition to the existing Small Groups Library, it constructs a
+#!    complete and irredundant list of isomorphism type representatives of the groups of order
+#!    - that factorises into at most four primes;
+#!    - p^4q.
 ##
 ##
 
@@ -12,7 +12,7 @@
 ##
 ##
 ##
-##
+#! @Section Main functions
 #!
 DeclareGlobalFunction("AllSOTGroups");
 #! @Description
