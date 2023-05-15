@@ -15,7 +15,7 @@
 #! @Description
 #!  computes the list of isomorphism classes of groups of order <A>n</A>.
 #! Solvable groups are given as PcGroup, unless USE_PCP is turned on, in which case the groups are constructed as PcpGroup.
-#! Nonsolvable groups are given 
+#! Nonsolvable groups are given
 #! @Arguments n
 #! @BeginExampleSession
 #! gap> AllSOTGroups(3*5*7*11);
