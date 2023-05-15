@@ -6,3 +6,5 @@ if fail = LoadPackage("AutoDoc", "2018.02.14") then
 fi;
 
 AutoDoc( rec( scaffold := true, autodoc := true ) );
+
+AutoDoc(rec(autodoc := rec(files := ["doc/intro.autodoc"])));
