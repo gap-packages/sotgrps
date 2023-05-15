@@ -1,11 +1,15 @@
 #############################################################################
-##
-#W  SmallGrps.gd
+#! @Chapter The SOTGrps Library
+#! With some overlaps, the SOTGrps library extends the Small Group Library to give access to some more
+    "small" orders. For example, in addition to the existing Small Groups Library, it constructs a
+    complete and irredundant list of isomorphism type representatives of the groups of order
+    - that factorises into at most four primes;
+    - p^4q.
 ##
 ##
 
 ###############################
-#F  SmallGroups( n )
+##
 ##
 ##
 ##
@@ -23,8 +27,8 @@ DeclareGlobalFunction("AllSOTGroups");
 #!
 DeclareGlobalFunction("SOTGroup");
 #! @Description
-#!  returns the $i$-th group of order $n$ in the list.
-#!
+#!  returns the <A>i</A>-th group of order <A>n</A> in the list.
+#! @Arguments n, i
 DeclareGlobalFunction("NumberOfSOTGroups");
 #! Description
 #!  returns the number of isomorphism types of groups of order $n$.

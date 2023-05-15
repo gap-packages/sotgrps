@@ -8,4 +8,3 @@ fi;
 AutoDoc( rec( scaffold := true,
                autodoc := true ) );
 AutoDoc(rec(autodoc := rec(files := ["doc/intro.autodoc"])));
-QUIT;
