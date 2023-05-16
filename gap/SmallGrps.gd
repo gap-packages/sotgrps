@@ -19,10 +19,10 @@
 #! @Arguments n
 #! @BeginExampleSession
 #!  gap> AllSOTGroups(60);
-#!    [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!      <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!      <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!     Alt( [ 1 .. 5 ] ) ]
+#!  [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   Alt( [ 1 .. 5 ] ) ]
 
 #!  gap> USE_PCP := true;;
 #!  gap> AllSOTGroups(60);
@@ -38,7 +38,7 @@ DeclareGlobalFunction("AllSOTGroups");
 #! @Arguments n, i
 #! @BeginExampleSession
 #!  gap> SOTGroup(2*3*5*7, 1);
-#!    <pc group of size 210 with 4 generators>
+#!  <pc group of size 210 with 4 generators>
 #! @EndExampleSession
 DeclareGlobalFunction("SOTGroup");
 
@@ -47,10 +47,10 @@ DeclareGlobalFunction("SOTGroup");
 #! @Arguments n
 #! @BeginExampleSession
 #!  gap> NumberOfSOTGroups(2*3*5*7);
-#!    12
+#!  12
 #!  gap> NumberOfSOTGroups(2*3*5*7*11);
-#!    2310 is not available in mysmallgrps:
-#!    NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
+#!  Order
+#!  2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
 #! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
 
