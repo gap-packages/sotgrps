@@ -1,4 +1,4 @@
-## Construction of squarefree groups of order pqr.
+## Construction of squarefree groups of order pqrs.
 ## The classification of these groups follows from the following theorem by Hoelder, Burnside, and Zassenhaus:
 ## Let G be a group of order n whose Sylow subgroups are cyclic. Then G is metacyclic with odd-order derived subgroup [G, G] \cong C_b and cyclic quotient G/[G, G] \cong C_a, where a = n/b.
 ## In particular, G is isomorphic to <x, y | x^a, y^b, y^x = y^r > for some non-negative integer r such that r^a = 1 mod b, and gcd(a(r - 1), b) = 1.
