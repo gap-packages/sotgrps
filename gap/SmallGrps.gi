@@ -232,6 +232,6 @@ InstallGlobalFunction( IdSOTGroup, function(group)
 		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
-			Print(("Groups of order "), n, (" is not available in sotgrps: MyIdSmallGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
+			Print(("Groups of order "), n, (" is not available in sotgrps: IdSOTGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
 		fi;
 end);
