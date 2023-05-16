@@ -23,4 +23,4 @@ DeclareInfoClass( "InfoSOT" );
 #D Read .gd files
 ##
 
-ReadPackage(sotgrpsPkgName,"gap/SmallGrps.gd");
+ReadPackage(sotgrpsPkgName,"gap/SOTGrps.gd");

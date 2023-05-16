@@ -12,10 +12,13 @@
 ##
 ##
 #! @Section Main functions
+
 #! @Description
-#!  computes the list of isomorphism classes of groups of order <A>n</A>.
-#! Solvable groups are given as PcGroup, unless USE_PCP is turned on, in which case the groups are constructed as PcpGroup.
-#! Nonsolvable groups are given as permutation groups.
+#!  takes in a number n that factorises into at most 4 primes or of the form p^4q (p, q are distinct primes),
+#!  and complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
+#!  Solvable groups are using refined polycyclic presentations and then converted into PcGroup using <K>PcpGroupToPcGroup</K>.
+#!  If PcpGroups are preferred (for instance, to reduce runtime), set <K>USE_PCP := true</K>, then the groups are given as PcpGroup.
+#!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n
 #! @BeginExampleSession
 #!  gap> AllSOTGroups(60);
@@ -34,7 +37,8 @@
 DeclareGlobalFunction("AllSOTGroups");
 
 #! @Description
-#!  returns the <A>i</A>-th group of order <A>n</A> in the list.
+#!  returns the <A>i</A>-th group with respect to the ordering of
+#!  the list AllSOTGroups(<A>n</A>) without constructing all groups in the list.
 #! @Arguments n, i
 #! @BeginExampleSession
 #!  gap> SOTGroup(2*3*5*7, 1);

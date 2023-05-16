@@ -6,13 +6,13 @@ This package is complementary to an MPhil thesis "Groups of small order type" an
 
 To use this package, if you have GAP installed, then please unzip the file into the pkg folder in GAP, and then simply run the command LoadPackage("sotgrps") in GAP; if you haven't installed GAP, you could find instruction on https://www.gap-system.org/Download/ to download and install GAP first.
 
-The main user functions are given in the file SmallGrps.gi.
+The main user functions are given in the file SOTGrps.gi.
 
 User functions:
 
 NumberOfSOTGroups(n)   : returns the number of isomorphism types of groups of order n.
 
-AllSOTGroups(n)        :takes in a number n that factorises into at most 4 primes or of the form p^4q (p, q are distinct primes), and outputs a list of all groups of order n, up to isomorphism. If a group is solvable, then it constructs the group using refined polycyclic presentations. Upon construction, we check consistency of the pcgs and relators, to remove such tests, change "USE_NC := true" to "USE_NC := false" in the sot.gi file; we construct solvable groups using polycyclic presentations and use PcpGroupToPcGroup to convert them from PcpGroup to PcGroup, if PcpGroup is preferred, change "USE_PCP := false" into "USE_PCP := true" in the sot.gi file.
+AllSOTGroups(n)        : takes in a number n that factorises into at most 4 primes or of the form p^4q (p, q are distinct primes), and outputs a complete and duplicate-free list of isomorphism class representatives of the groups of order n. If a group is solvable, then it constructs the group using refined polycyclic presentations; otherwise the group is given as a permutation group. Upon construction, we check consistency of the pcgs and relators, to remove such tests, change "USE_NC := true" to "USE_NC := false" in the sot.gi file; we construct solvable groups using polycyclic presentations and use PcpGroupToPcGroup to convert them from PcpGroup to PcGroup, if PcpGroup is preferred, change "USE_PCP := false" into "USE_PCP := true" in the sot.gi file.
 
 SOTGroup(n, i)         : returns the i-th group with respect to the ordering of the list AllSOTGroups(n) without constructing all groups in the list.
 
