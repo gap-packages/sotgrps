@@ -2,6 +2,15 @@
 ## For further details about the canonical form of the cyclic irreducible groups of GL_n(p), we refer to [2, Notation 2.3].
 ## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, b) accordingly for b dividing (p - 1).
     ## Analogously, we compute \sigma_{p^k} by computing ZmodnZObj(Int(Z(p)), p^k) or ZmodnZObj(Int(Z(p)), p^k) + p for the canonical primitive root modulo p^k (k is a positive integer), and \rho(p^k, b) accordingly for b dividing (p - 1).
+    ## The SOTGrps library overlaps with the SmallGrps library.
+    SOTRec.sot := function(n)
+      local txt;
+      if not IdGroupsAvailable(n) then
+        txt := "     ";
+      else txt := "     SOT ";
+      fi;
+      return txt;
+    end;
 ############################################################################
 USE_NC := true;
 USE_PCP := false;

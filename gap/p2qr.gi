@@ -346,7 +346,8 @@ SOTRec.NumberGroupsP2QR := function(n)
 ######################################################
 ######################################################
 SOTRec.infoP2QR := function(n)
-  local s, fac, primefac, p, q, r, m, c, fit;
+  local sot, fac, primefac, p, q, r, m, c, fit;
+    sot := SOTRec.sot(n);
     c := [];
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
@@ -392,14 +393,17 @@ SOTRec.infoP2QR := function(n)
       Print("\n  There are ", m + 2, " groups of order ", n,".\n");
       Print("\n  The groups of order p2qr are either solvable or isomorphic to Alt(5).\n");
       Print("  The solvable groups are sorted by their Fitting subgroup. \n");
-      Print("     1 - 2 are the nilpotent groups.\n" );
+      Print(sot, "1 - 2 are the nilpotent groups.\n" );
       for i in [1..7] do
         if c[i] > 0 and c[i] < 2 then
-          Print("     ",2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
+          Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
         elif c[i] > 0 and c[i] > 1 then
-          Print("     ",3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
+          Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
         fi;
       od;
+      if n = 60 then
+        Print(sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
+      fi;
     fi;
   end;
 ######################################################
