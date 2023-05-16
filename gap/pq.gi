@@ -9,11 +9,13 @@ SOTRec.allGroupsPQ := function(n)
       Error("Argument must be a product of two distinct primes."); fi;
     q := fac[1];
     p := fac[2];
+    ## typ pq
     abelian := [ [p, q] ];
     if not (p - 1) mod q = 0 then
       Add(s, SOTRec.groupFromData(abelian));
       return s;
     else
+      ## typ Dpq
       nonabelian := [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ];
       Append(s, [SOTRec.groupFromData(nonabelian),SOTRec.groupFromData(abelian)]);
     fi;
