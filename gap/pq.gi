@@ -10,12 +10,13 @@ SOTRec.allGroupsPQ := function(n)
     q := fac[1];
     p := fac[2];
     abelian := [ [p, q] ];
-    Add(s, SOTRec.groupFromData(abelian));
     if not (p - 1) mod q = 0 then
-      return s; fi;
-    if (p - 1) mod q = 0 then
+      Add(s, SOTRec.groupFromData(abelian));
+      return s;
+    else
       nonabelian := [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ];
-      Add(s, SOTRec.groupFromData(nonabelian));fi;
+      Append(s, [SOTRec.groupFromData(nonabelian),SOTRec.groupFromData(abelian)]);
+    fi;
   return s;
 end;
 
@@ -40,7 +41,7 @@ SOTRec.GroupPQ := function(n, i)
     p := fac[2];
     all := [ [ [p, q] ] ];
     if (p - 1) mod q = 0 then
-      Add(all, [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ]);
+      Add(all, [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ], 1);
     fi;
 
     if i < 2 + SOTRec.w((p - 1), q) then

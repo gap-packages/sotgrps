@@ -131,10 +131,15 @@ end;
 # the case of groups of order pq
 #
 SOTRec.IdGroupPQ := function(group)
-  local n, p, q, Id;
-    n := Size(group);
-    if IsAbelian(group) then return [n, 1];
-    else return [n, 2];
+  local n, fac, p, q, Id;
+    n   := Size(group);
+    fac := Factors(n);
+    q   := fac[1];
+    p   := fac[2];
+    if not (p - 1) mod q = 0 and IsAbelian(group) then
+      return [n, 1];
+    elif IsAbelian(group) then return [n, 2];
+    else return [n, 1];
     fi;
 end;
 ######################################################
