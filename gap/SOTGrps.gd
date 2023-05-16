@@ -72,7 +72,7 @@ DeclareGlobalFunction("IsIsomorphicSOTGroups");
 #! @Description
 #!  returns <K>true</K> if the order <A>n</A> is available in the SOTGrps library, and <K>false</K> otherwise.
 #! @Arguments n
-DeclareGlobalFunction("SOTGroupIsAvailable");
+DeclareGlobalFunction("IsSOTAvailable");
 
 #! @Description
 #! @BeginExampleSession

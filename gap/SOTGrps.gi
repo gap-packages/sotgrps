@@ -75,8 +75,8 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 	end);
 
 ############################################################################
-##SOTGroupIsAvailable takes in a positive integer value n, and determines whether the groups of order n are available in the SOTGrps package.
-InstallGlobalFunction( SOTGroupIsAvailable, function(n)
+##IsSOTAvailable takes in a positive integer value n, and determines whether the groups of order n are available in the SOTGrps package.
+InstallGlobalFunction( IsSOTAvailable, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
 		length := Length(PF);
@@ -140,7 +140,7 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 end);
 ############################################################################
 ##SOTGroupsInformation() introduces the main function AllSOTGroups.
-##SOTGroupsInformation(n) gives the enumeration of groups of order n if SOTGroupIsAvailable(n) = true.
+##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
 InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local length, PF, fac, n, k, p, q, r;
 		if Length(arg) = 0 then
@@ -196,7 +196,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 end);
 
 ######################################################
-##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that SOTGroupIsAvailable(n) = true and determines its SOT-group ID.
+##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that IsSOTAvailable(n) = true and determines its SOT-group ID.
 	##That is, it outputs an ordered pair (n, i) where m = |G| and i is the position of G in the list AllSOTGroups(n).
 InstallGlobalFunction( IdSOTGroup, function(group)
 	local length, n, PF, fac, k, p, q, r;
