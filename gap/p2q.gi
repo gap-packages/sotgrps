@@ -55,6 +55,7 @@ local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, lis
 		fi;
 	fi;
 ##Cluster 1: nilpotent groups, which are isomorphic to direct product P \times Q:
+## type [ppq, p^q]
 	all := [ [ [p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, q], [2, [3, 1]] ] ];
 
 ##Cluster 2: non-nilpotent groups with a normal Sylow p-subgroup that is isomorphic to C_p^2

@@ -63,7 +63,10 @@ DeclareGlobalFunction("NumberOfSOTGroups");
 #!  that is, the function returns a pair [<A>n</A>, <A>i</A>] where <A>G</A> is isomorphic to SOTGroup(<A>n</A>, <A>i</A>).
 #! @Arguments G
 DeclareGlobalFunction("IdSOTGroup");
-
+#! @Description
+#! determines whether two groups <A>G</A>, <A>H</A> are isomorphic. It is assumed that the input groups are available in the SOTGrps library.
+#! @Arguments G, H
+DeclareGlobalFunction("IsIsomorphicSOTGroups");
 #! @Description
 #!  returns <K>true</K> if the order <A>n</A> is available in the SOTGrps library, and <K>false</K> otherwise.
 #! @Arguments n

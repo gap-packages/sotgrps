@@ -235,3 +235,20 @@ InstallGlobalFunction( IdSOTGroup, function(group)
 			Print(("Groups of order "), n, (" is not available in sotgrps: IdSOTGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
 		fi;
 end);
+
+######################################################
+## IsIsomorphicSOTGroups takes in two groups G and H, whose orders are available in sotgrps
+## and determines whether G is isomprphic to H.
+InstallGlobalFunction( IsIsomorphicSOTGroups, function(G, H)
+	local length, n1, n2, id1, id2;
+	n1 := Size(G);
+	n2 := Size(H);
+	if not n1 = n2 then
+		return false;
+	else id1 := IdSOTGroup(G); id2 := IdSOTGroup(H);
+		if id1 = id2 then
+			return true;
+		else return false;
+		fi;
+	fi;
+end);
