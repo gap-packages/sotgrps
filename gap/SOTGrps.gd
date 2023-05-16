@@ -69,5 +69,10 @@ DeclareGlobalFunction("IdSOTGroup");
 #! @Arguments n
 DeclareGlobalFunction("SOTGroupIsAvailable");
 
-#!
+#! @Description
+#! @BeginExampleSession
+#!  gap> SOTGroupsInformation();
+#!  AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.
+#! @EndExampleSession
+#! @Arguments
 DeclareGlobalFunction("SOTGroupsInformation");
