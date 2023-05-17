@@ -21,18 +21,19 @@
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n
 #! @BeginExampleSession
-#!  gap> AllSOTGroups(60);
-#!  [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!   Alt( [ 1 .. 5 ] ) ]
+#! gap> AllSOTGroups(60);
+#! [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!  Alt( [ 1 .. 5 ] ) ]
 
-#!  gap> USE_PCP := true;;
-#!  gap> AllSOTGroups(60);
-#!  [ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!   Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!   Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!   Alt( [ 1 .. 5 ] ) ]
+#! gap> USE_PCP := true;;
+#! gap> AllSOTGroups(60);
+#! [ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
+#!  Alt( [ 1 .. 5 ] ) ]
+#! gap> USE_PCP := false;;
 #! @EndExampleSession
 DeclareGlobalFunction("AllSOTGroups");
 
@@ -41,8 +42,8 @@ DeclareGlobalFunction("AllSOTGroups");
 #!  the list AllSOTGroups(<A>n</A>) without constructing all groups in the list.
 #! @Arguments n, i
 #! @BeginExampleSession
-#!  gap> SOTGroup(2*3*5*7, 1);
-#!  <pc group of size 210 with 4 generators>
+#! gap> SOTGroup(2*3*5*7, 1);
+#! <pc group of size 210 with 4 generators>
 #! @EndExampleSession
 DeclareGlobalFunction("SOTGroup");
 
@@ -50,11 +51,11 @@ DeclareGlobalFunction("SOTGroup");
 #!  returns the number of isomorphism types of groups of order <A>n</A>.
 #! @Arguments n
 #! @BeginExampleSession
-#!  gap> NumberOfSOTGroups(2*3*5*7);
-#!  12
-#!  gap> NumberOfSOTGroups(2*3*5*7*11);
-#!  Order
-#!  2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
+#! gap> NumberOfSOTGroups(2*3*5*7);
+#! 12
+#! gap> NumberOfSOTGroups(2*3*5*7*11);
+#! Order
+#! 2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
 #! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
 
@@ -79,17 +80,17 @@ DeclareGlobalFunction("IsSOTAvailable");
 #!  Since there are some overlaps between the SmallGrps library and the SOTGrps library, for orders that are available
 #!  in SmallGrps, SOTGrps constructs the groups in a different order and so generates a different group ID. To minimise confusion, we call these group IDs SOTId.
 #! @BeginExampleSession
-#!  gap> SOTGroupsInformation(2^2*3*19);
+#! gap> SOTGroupsInformation(2^2*3*19);
 #!
-#!  There are 15 groups of order 228.
+#!   There are 15 groups of order 228.
 #!
-#!  The groups of order p2qr are either solvable or isomorphic to Alt(5).
-#!  The solvable groups are sorted by their Fitting subgroup.
-#!     SOT 1 - 2 are the nilpotent groups.
-#!     SOT 3 has Fitting subgroup of order 57.
-#!     SOT 4 - 7 have Fitting subgroup of order 76.
-#!     SOT 8 - 9 have Fitting subgroup of order 38.
-#!     SOT 10 - 15 have Fitting subgroup of order 114.
+#!   The groups of order p2qr are either solvable or isomorphic to Alt(5).
+#!   The solvable groups are sorted by their Fitting subgroup.
+#!      SOT 1 - 2 are the nilpotent groups.
+#!      SOT 3 has Fitting subgroup of order 57.
+#!      SOT 4 - 7 have Fitting subgroup of order 76.
+#!      SOT 8 - 9 have Fitting subgroup of order 38.
+#!      SOT 10 - 15 have Fitting subgroup of order 114.
 #!
 #! @EndExampleSession
 #! @Arguments
