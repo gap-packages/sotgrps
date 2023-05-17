@@ -346,7 +346,7 @@ SOTRec.NumberGroupsP2QR := function(n)
 ######################################################
 ######################################################
 SOTRec.infoP2QR := function(n)
-  local sot, fac, primefac, p, q, r, m, c, fit;
+  local sot, fac, primefac, p, q, r, m, c, fit, i;
     sot := SOTRec.sot(n);
     c := [];
     fac := Factors(n);
@@ -395,7 +395,7 @@ SOTRec.infoP2QR := function(n)
       Print("  The solvable groups are sorted by their Fitting subgroup. \n");
       Print(sot, "1 - 2 are the nilpotent groups.\n" );
       for i in [1..7] do
-        if c[i] > 0 and c[i] < 2 then
+        if c[i] = 1 then
           Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
         elif c[i] > 0 and c[i] > 1 then
           Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");

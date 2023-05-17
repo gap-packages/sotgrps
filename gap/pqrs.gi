@@ -696,3 +696,61 @@ SOTRec.GroupPQRSII := function(n, i)
 			return SOTRec.groupFromData(data);
     fi;
 end;
+######################################################
+SOTRec.infoPQRS := function(n)
+  local c, sot, fac, p, q, r, s, m;
+    sot := SOTRec.sot(n);
+    c := [];
+    fac := Factors(n);
+    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
+      Error("Argument must be of the form of pqrs");
+    else
+      p := fac[1];
+      q := fac[2];
+      r := fac[3];
+      s := fac[4];
+    fi;
+    ##Cluster 1: Abelian group, Z(G) = G
+    ##enumeration of each case by size of the centre
+    c[1] := SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)
+        + SOTRec.w((s - 1), p) + SOTRec.w((r - 1), p) + SOTRec.w((q - 1), p);
+    c[2] := (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q) + SOTRec.w((s - 1), (q*r))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*r))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p) + SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p*q));
+    c[3] := (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+        + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+        + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+        + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+        + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+        + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+        + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+        + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p)
+        + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+        + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r))
+        + SOTRec.w((s - 1), (p*q*r));
+    m := Sum(c);
+    if m = 0 then
+      Print("\n  There is 1 groups of order ", n,".\n");
+    else
+      Print("\n  There are ", m + 1, " groups of order ", n,".\n");
+      Print("\n  The groups of order pqrs are solvable and classified by H\"older.\n");
+      Print("  These groups are sorted by their centre. \n");
+      Print(sot, "1 is abelian.\n");
+      if c[1] = 1 then
+        Print(sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
+      elif c[1] > 1 then
+        Print(sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
+      fi;
+      if c[2] = 1 then
+        Print(sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
+      elif c[2] > 1 then
+        Print(sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
+      fi;
+      if c[3] = 1 then
+        Print(sot, 1+m," has trivial centre.\n");
+      elif c[2] > 1 then
+        Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
+      fi;
+    fi;
+  end;

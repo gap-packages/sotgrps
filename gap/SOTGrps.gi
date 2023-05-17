@@ -184,7 +184,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif length = 4 and Length(fac) = 3 then
 				SOTRec.infoP2QR(n);
   		elif length = 4 and Length(fac) = 4 then
-				Print(("There are "), SOTRec.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
+				SOTRec.infoPQRS(n);
   		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1] ] then
 				Print(("There are "), SOTRec.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
 			elif length > 5 then
