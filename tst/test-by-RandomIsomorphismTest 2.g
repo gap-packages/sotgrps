@@ -3,14 +3,13 @@
 ##
 
 
-isp := x -> IsInt( x ) and x > 1 and Length( Collected( FactorsInt( x ) )) = 1 and Length( Factors ( x ) ) < 5;
-ispq := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) = [1, 1];
+isp := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) = [ 1 ] and Length( Factors ( x ) ) < 5;
 isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) in [ [ 2, 1 ], [ 1, 2 ] ];
-ispqr := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) = [1, 1, 1];
 isp2q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) = [ 2, 2 ];
 isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) in [ [ 3, 1 ], [ 1, 3 ] ];
 isp2qr := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i -> i[2] ) in [ [ 1, 1, 2 ], [ 1, 2, 1 ], [2, 1, 1] ];
 ispqrs := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) = [1, 1, 1, 1];
+isp3q2 := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) in [ [ 2, 3 ], [ 3, 2, ] ];
 isp4q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ), i -> i[2] ) in [ [ 1, 4 ], [ 4, 1, ] ];
 
 
