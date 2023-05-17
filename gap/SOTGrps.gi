@@ -34,7 +34,7 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
-			Print(("Groups of order "), n, (" is not available: AllSOTGroups (#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q."));
+			Error("Groups of order ", n, " are not available: AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q.");
 		fi;
 end);
 ############################################################################
@@ -70,7 +70,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.NumberGroupsP4Q(n);
 		else
-			Print(("Order "), n, (" is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q."));
+			Error("Order ", n, " is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.");
 		fi;
 	end);
 
@@ -132,12 +132,12 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 				return SOTRec.GroupP4Q(n, i);
 			else
-				Print(("Groups of order "), n, (" is not available in sotgrps."));
+				Error("Groups of order ", n, " are not available in sotgrps.");
 			fi;
 		fi;
 
 		if Length(fac) > 1 and i > NumberOfSOTGroups(n) then
-			Print(("Wrong input: there are in total "), NumberOfSOTGroups(n), (" isomorphism types of groups of order "), n, ("."));
+			Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " isomorphism types of groups of order ", n, ".");
 		fi;
 
 end);
@@ -151,37 +151,37 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 		fi;
 		if Length(arg) = 1 then
 			n := arg[1];
-      PF := Factors(n);
+		PF := Factors(n);
   		length := Length(PF);
   		fac := Collected(PF);
 
   		if Length(fac) = 1 then ##p-groups
   			p := PF[1];
   			k := length;
-  			if k = 1 then Print(("There is a unique group of order"), n, ("up to isomorphism, and it is cyclic.") );
-  			elif k = 2 then Print(("There are two isomorphism types of p-groups of order "),n,(": there is one cyclic group, and one elementary abelian group."));
-  			elif k = 3 then Print(("There are five isomorpshim types of p-groups of order "), n, (": there are 3 abelian groups, and 3 extraspecial groups."));
+  			if k = 1 then Print("There is a unique group of order", n, "up to isomorphism, and it is cyclic.");
+  			elif k = 2 then Print("There are two isomorphism types of p-groups of order ", n, ": there is one cyclic group, and one elementary abelian group.");
+  			elif k = 3 then Print("There are five isomorpshim types of p-groups of order ", n, ": there are 3 abelian groups, and 3 extraspecial groups.");
   			elif k = 4 then
   				if p = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
-  				else Print(("There are 15 isomorphism types of groups of order "), n, (": there are 5 abelian groups, and 10 nonabelian groups."));
+  				else Print("There are 15 isomorphism types of groups of order ", n, ": there are 5 abelian groups, and 10 nonabelian groups.");
   				fi;
   			fi;
   		fi;
 
   		if length = 2 and Length(fac) = 2 then ##p^aq, a = 1
   			if (PF[2] - 1) mod PF[1] = 0 then
-  				Print(("There are two isomorphism types of squarefree groups of order "), n, (": there is one abelian group, and one nonebalian group."));
-  			else Print(("There is a unique group of order "), n, (", up to isomorphism, and it is abelian."));
+  				Print("There are two isomorphism types of squarefree groups of order ", n, ": there is one abelian group, and one nonebalian group.");
+  			else Print("There is a unique group of order ", n, ", up to isomorphism, and it is abelian.");
   			fi;
   		elif length = 3 and Length(fac) = 2 then
   			if not (PF[1] - 1) mod PF[3] = 0 and not (PF[3] - 1) mod PF[1] = 0 then
-  				Print(("There are two isomorphism types of order "), n, (": one is cyclic, and one is isomorphic to AbelianGroup("), p*q, p, (")."));
-  			else Print(("There are "), SOTRec.NumberGroupsP2Q(n), (" isomorphism types of groups of order "), n, ("."));
+  				Print("There are two isomorphism types of order ", n, ": one is cyclic, and one is isomorphic to AbelianGroup(", p*q, p, ").");
+  			else Print("There are ", SOTRec.NumberGroupsP2Q(n), " isomorphism types of groups of order ", n, ".");
   			fi;
   		elif length = 3 and Length(fac) = 3 then
-  			Print(("There are "), SOTRec.NumberGroupsPQR(n), (" isomorphism types of squarefree groups of order "), n, ("."));
+  			Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
   		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
-  			Print(("There are "), SOTRec.NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
+  			Print("There are ", SOTRec.NumberGroupsP2Q2(n), " isomorphism types of groups of order ", n, ".");
   		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
 				SOTRec.infoP3Q(n);
   		elif length = 4 and Length(fac) = 3 then
@@ -189,9 +189,9 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif length = 4 and Length(fac) = 4 then
 				SOTRec.infoPQRS(n);
   		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1] ] then
-				Print(("There are "), SOTRec.NumberGroupsPQRS(n), (" isomorphism types of groups of order "), n, ("."));
+				Print("There are ", SOTRec.NumberGroupsPQRS(n), " isomorphism types of groups of order ", n, ".");
 			elif length > 5 then
-				Print(("Order "), n, (" is not available in sotgrps."));
+				Error("Order ", n, " is not available in sotgrps.");
 			fi;
 
     elif Length(arg) > 1 then Error("Too many arguments: input has to be an integer.");
@@ -233,7 +233,7 @@ InstallGlobalFunction( IdSOTGroup, function(group)
 		elif length = 5 and List(fac, x -> x[2]) in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
-			Print(("Groups of order "), n, (" is not available in sotgrps: IdSOTGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes."));
+			Error("Groups of order ", n, " is not available in sotgrps: IdSOTGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes.");
 		fi;
 end);
 
