@@ -75,9 +75,22 @@ DeclareGlobalFunction("IsIsomorphicSOTGroups");
 DeclareGlobalFunction("IsSOTAvailable");
 
 #! @Description
+#!  prints information on the groups of the specified order.
+#!  Since there are some overlaps between the SmallGrps library and the SOTGrps library, for orders that are available
+#!  in SmallGrps, SOTGrps constructs the groups in a different order and so generates a different group ID. To minimise confusion, we call these group IDs SOTId.
 #! @BeginExampleSession
-#!  gap> SOTGroupsInformation();
-#!  AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.
+#!  gap> SOTGroupsInformation(2^2*3*19);
+#!
+#!  There are 15 groups of order 228.
+#!
+#!  The groups of order p2qr are either solvable or isomorphic to Alt(5).
+#!  The solvable groups are sorted by their Fitting subgroup.
+#!     SOT 1 - 2 are the nilpotent groups.
+#!     SOT 3 has Fitting subgroup of order 57.
+#!     SOT 4 - 7 have Fitting subgroup of order 76.
+#!     SOT 8 - 9 have Fitting subgroup of order 38.
+#!     SOT 10 - 15 have Fitting subgroup of order 114.
+#!
 #! @EndExampleSession
 #! @Arguments
 DeclareGlobalFunction("SOTGroupsInformation");

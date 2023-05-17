@@ -731,7 +731,8 @@ SOTRec.infoPQRS := function(n)
         + SOTRec.w((s - 1), (p*q*r));
     m := Sum(c);
     if m = 0 then
-      Print("\n  There is 1 groups of order ", n,".\n");
+      Print("\n  There is 1 group of order ", n,".\n");
+      Print("\n  All groups of order ", n, " are abelian.\n");
     else
       Print("\n  There are ", m + 1, " groups of order ", n,".\n");
       Print("\n  The groups of order pqrs are solvable and classified by H\"older.\n");
@@ -753,4 +754,5 @@ SOTRec.infoPQRS := function(n)
         Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
       fi;
     fi;
+    Print("\n");
   end;

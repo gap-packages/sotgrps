@@ -180,7 +180,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif length = 4 and Length(fac) = 2 and PF[1] = PF[2] and PF[3] = PF[4] then
   			Print(("There are "), SOTRec.NumberGroupsP2Q2(n), (" isomorphism types of groups of order "), n, ("."));
   		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-  			Print(("There are "), SOTRec.NumberGroupsP3Q(n), (" isomorphism types of groups of order "), n, ("."));
+				SOTRec.infoP3Q(n);
   		elif length = 4 and Length(fac) = 3 then
 				SOTRec.infoP2QR(n);
   		elif length = 4 and Length(fac) = 4 then

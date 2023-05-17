@@ -389,6 +389,7 @@ SOTRec.infoP2QR := function(n)
     m := Sum(c);
     if m = 0 then
       Print("\n  There are 2 groups of order ", n,".\n");
+      Print("\n  All groups of order ", n, " are abelian.\n");
     else
       Print("\n  There are ", m + 2, " groups of order ", n,".\n");
       Print("\n  The groups of order p2qr are either solvable or isomorphic to Alt(5).\n");
@@ -397,7 +398,7 @@ SOTRec.infoP2QR := function(n)
       for i in [1..7] do
         if c[i] = 1 then
           Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
-        elif c[i] > 0 and c[i] > 1 then
+        elif c[i] > 1 then
           Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
         fi;
       od;
@@ -405,6 +406,7 @@ SOTRec.infoP2QR := function(n)
         Print(sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
       fi;
     fi;
+    Print("\n");
   end;
 ######################################################
 SOTRec.GroupP2QR := function(n, i)
