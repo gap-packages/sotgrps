@@ -28,14 +28,13 @@ gap> USE_PCP := false;;
 gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
-# doc/_Chapter_The_SOTGrps_package.xml:68-74
+# doc/_Chapter_The_SOTGrps_package.xml:68-73
 gap> NumberOfSOTGroups(2*3*5*7);
 12
 gap> NumberOfSOTGroups(2*3*5*7*11);
-Order
-2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
+Error, Order 2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
 
-# doc/_Chapter_The_SOTGrps_package.xml:112-125
+# doc/_Chapter_The_SOTGrps_package.xml:111-124
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
