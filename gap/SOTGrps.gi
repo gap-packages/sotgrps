@@ -77,12 +77,15 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 ############################################################################
 ##IsSOTAvailable takes in a positive integer value n, and determines whether the groups of order n are available in the SOTGrps package.
 InstallGlobalFunction( IsSOTAvailable, function(n)
-	local length, PF, fac, k, p, q, r;
+	local PF;
 		PF := Factors(n);
-		length := Length(PF);
-		fac := Collected(Factors(n));
-		if length > 4 and not List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then return false; fi;
-		return true;
+		if Length(PF) <= 4 then
+			return true;
+		fi;
+		if List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
+			return true;
+		fi;
+		return false;
 end);
 ############################################################################
 ##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
@@ -199,19 +202,17 @@ end);
 ##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that IsSOTAvailable(n) = true and determines its SOT-group ID.
 	##That is, it outputs an ordered pair (n, i) where m = |G| and i is the position of G in the list AllSOTGroups(n).
 InstallGlobalFunction( IdSOTGroup, function(group)
-	local length, n, PF, fac, k, p, q, r;
-		if HasSOTGroup_id(group) then return SOTGroup_id(group); fi;
-    n := Size(group);
+	local length, n, PF, fac;
+		if HasSOTGroup_id(group) then
+			return SOTGroup_id(group);
+		fi;
+		n := Size(group);
 		PF := Factors(n);
 		length := Length(PF);
-		fac := Collected(Factors(n));
+		fac := Collected(PF);
 		if Length(fac) = 1 then
-			p := PF[1];
-			k := length;
 			return SOTRec.IdPGroup(group);
-		fi;
-
-		if length = 2 and Length(fac) = 2 then
+		elif length = 2 and Length(fac) = 2 then
 			return SOTRec.IdGroupPQ(group);
 		elif length = 3 and Length(fac) = 2 then
 			return SOTRec.IdGroupP2Q(group);
@@ -240,15 +241,5 @@ end);
 ## IsIsomorphicSOTGroups takes in two groups G and H, whose orders are available in sotgrps
 ## and determines whether G is isomprphic to H.
 InstallGlobalFunction( IsIsomorphicSOTGroups, function(G, H)
-	local length, n1, n2, id1, id2;
-	n1 := Size(G);
-	n2 := Size(H);
-	if not n1 = n2 then
-		return false;
-	else id1 := IdSOTGroup(G); id2 := IdSOTGroup(H);
-		if id1 = id2 then
-			return true;
-		else return false;
-		fi;
-	fi;
+	return Size(G) = Size(H) and IdSOTGroup(G) = IdSOTGroup(H);
 end);
