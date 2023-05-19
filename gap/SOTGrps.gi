@@ -34,7 +34,7 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
-			Error("Groups of order ", n, " are not available: AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q for distinct primes p and q.");
+			Error("Order ", n, " is not available");
 		fi;
 end);
 ############################################################################
@@ -63,7 +63,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind in [ [1, 4], [4, 1] ] then
 			return SOTRec.NumberGroupsP4Q(n);
 		else
-			Error("Order ", n, " is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.");
+			Error("Order ", n, " is not available");
 		fi;
 	end);
 
@@ -124,7 +124,7 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			elif ind in [ [1, 4], [4, 1] ] then
 				return SOTRec.GroupP4Q(n, i);
 			else
-				Error("Groups of order ", n, " are not available in sotgrps.");
+				Error("Order ", n, " is not available");
 			fi;
 		fi;
 
@@ -180,7 +180,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif ind in [ [1, 4], [4, 1] ] then
 				Print("There are ", SOTRec.NumberGroupsPQRS(n), " isomorphism types of groups of order ", n, ".");
 			elif Sum(ind) >= 5 then
-				Error("Order ", n, " is not available in sotgrps.");
+				Error("Order ", n, " is not available");
 			fi;
 
     elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.");
@@ -221,7 +221,7 @@ InstallGlobalFunction( IdSOTGroup, function(group)
 		elif ind in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
-			Error("Groups of order ", n, " is not available in sotgrps: IdSOTGroup (#) determines groups of order # up to isomorphism, where # factorises into at most 4 primes or is of the form p^4q, where p, q are distinct primes.");
+			Error("Order ", n, " is not available");
 		fi;
 end);
 
