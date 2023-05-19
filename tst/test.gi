@@ -5,20 +5,19 @@ LoadPackage("sotgrps");
 ###
 ## The following are test functions.
 #
-# a test function (compare with SmallGroups Library, if possible)
-#
+# compare with SmallGroups Library, if possible
 SOTRec.testAllSOTGroups := function(n)
-	local mygroups, lib, duplicates, missing;
+	local sotgroups, lib, duplicates, missing;
 				duplicates := [];
 				missing    := [];
-				mygroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
+				sotgroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
 						lib    := [1..NumberSmallGroups(n)];
-				if Size(mygroups) = NumberSmallGroups(n) and AsSet(mygroups) = lib then
+				if Size(sotgroups) = NumberSmallGroups(n) and AsSet(sotgroups) = lib then
 					return true;
-				elif not Size(mygroups) = NumberSmallGroups(n) or not AsSet(mygroups) = lib then
-					Append(duplicates, List(Filtered(Collected(mygroups), x->x[2] > 1), x->x[1]));
+				elif not Size(sotgroups) = NumberSmallGroups(n) or not AsSet(sotgroups) = lib then
+					Append(duplicates, List(Filtered(Collected(sotgroups), x->x[2] > 1), x->x[1]));
 					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
-					 Append(missing, Filtered(lib, x-> not x in mygroups));
+					 Append(missing, Filtered(lib, x-> not x in sotgroups));
 					Print(("missing groups of order "), n,(" with id "), missing, ".");
 				fi;
 end;
@@ -27,7 +26,7 @@ end;
   ## and tests whether IdSOTGroup(SOTGroup(n, i)) = (n, i) and IdSOTGroup(AllSOTGroups(n)[i]) = (n, i).
   ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
 SOTRec.testAll := function(arg)
-  local todo, nr, i, myCnstAll, myCnstbyID, myID, sgl, ids, idss;
+  local todo, nr, i, sotCnstAll, sotCnstbyID, sotID, sgl, ids, idss;
 	  USE_NC:=false;
 	  if Length(arg) = 2 then
 	    todo := Filtered([arg[1]..arg[2]], x-> IsSOTAvailable(x));
@@ -46,10 +45,10 @@ SOTRec.testAll := function(arg)
 	      fi;
 	    fi;
 
-	    myCnstbyID := List([1..nr],x->SOTGroup(i,x));
-	    ids := List(myCnstbyID, x->IdSOTGroup(x)[2]);
-	    myCnstAll := AllSOTGroups(i);
-	    idss := List(myCnstAll, x->IdSOTGroup(x)[2]);
+	    sotCnstbyID := List([1..nr],x->SOTGroup(i,x));
+	    ids := List(sotCnstbyID, x->IdSOTGroup(x)[2]);
+	    sotCnstAll := AllSOTGroups(i);
+	    idss := List(sotCnstAll, x->IdSOTGroup(x)[2]);
 	    if not ids = [1..nr] then
 	      Error("Revise SOTGroup/IdSOTGroup for order ",i,": ids are",ids,"\n");
 	    fi;
@@ -65,7 +64,7 @@ end;
 
 ## SOTRec.testAllEnumeration(from, to) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
 SOTRec.testAllEnumeration := function(arg)
-local todo, i, my, gap;
+local todo, i, sot, gap;
 	if Length(arg) = 2 then
    todo:=Filtered([arg[1]..arg[2]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
 	 elif Length(arg) = 1 then
@@ -75,9 +74,9 @@ local todo, i, my, gap;
 	 fi;
    for i in todo do
 		 # Display(i);
-		 my:=NumberOfSOTGroups(i);
+		 sot:=NumberOfSOTGroups(i);
 		 gap:=NumberSmallGroups(i);
-      if not my = gap then
+      if not sot = gap then
          Error("ERROR at order ",i,"\n");
       fi;
    od;
@@ -120,8 +119,9 @@ getRandomPc := function(G)
 
 
 ## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
-testId := function(n)
-	local nr, gap, my, myy, i, copies,  gapid, new;
+## test against SOT itself
+SOTRec.testId := function(n)
+	local nr, gap, sot, soty, i, copies,  gapid, new;
 	repeat
 	   n := n+1;
 	   if IsSOTAvailable(n) then
@@ -129,26 +129,26 @@ testId := function(n)
 	      gap := SmallGroupsAvailable(n);
 	      Print("start ",nr," groups of size ",n,"\n");
 
-	      my := List([1..nr],x->SOTGroup(n,x));
-	      myy := AllSOTGroups(n);
+	      sot := List([1..nr],x->SOTGroup(n,x));
+	      soty := AllSOTGroups(n);
 	      for i in [1..nr] do
 	          copies := [];
-	          Add(copies, getRandomPerm(my[i]));
-	          Add(copies, getRandomPerm(myy[i]));
+	          Add(copies, getRandomPerm(sot[i]));
+	          Add(copies, getRandomPerm(soty[i]));
 	          Add(copies, getRandomPc(copies[1]));
 	          Add(copies, getRandomPc(copies[2]));
 
-		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID perm", [n,i]); fi;
+		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID perm", [n,i]); fi;
 	      od;
-	      Display(" ... my stuff correct");
+	      Display(" ... SOT output correct");
 
 	    ## can compare with gap library?
 	      if gap then
-	          gapid := List(my,IdSmallGroup);
+	          gapid := List(sot,IdSmallGroup);
 		  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
 		  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
 	          new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
-		  if not IsDuplicateFreeList(new) then Error("my id"); fi;
+		  if not IsDuplicateFreeList(new) then Error("SOT id"); fi;
 		  Display(" ... gap comparison ok");
 	      fi;
 
@@ -158,8 +158,8 @@ testId := function(n)
 	end;
 
 ## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
-testIdPc := function(n)
-	local nr, gap, my, i, copies, gapid, new;
+SOTRec.testIdPc := function(n)
+	local nr, gap, sot, i, copies, gapid, new;
 	repeat
 	   n := n+1;
 	   if IsSOTAvailable(n) then
@@ -167,20 +167,20 @@ testIdPc := function(n)
 	      gap := SmallGroupsAvailable(n);
 	      Print("start ",nr," groups of size ",n,"\n");
 
-	      my := List([1..nr],x->AllSOTGroups(n)[x]);
+	      sot := List([1..nr],x->AllSOTGroups(n)[x]);
 	      for i in [1..nr] do
-	          copies := List([1..5],x->getRandomPc(my[i]));
-		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("my ID pc", [n,i]); fi;
+	          copies := List([1..5],x->getRandomPc(sot[i]));
+		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID pc", [n,i]); fi;
 	      od;
-	      Display(" ... my stuff correct");
+	      Display(" ... SOT output correct");
 
 	    ## can compare with gap library?
 	      if gap then
-	          gapid := List(my,IdSmallGroup);
+	          gapid := List(sot,IdSmallGroup);
 		  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
 		  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
 	          new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
-		  if not IsDuplicateFreeList(new) then Error("my id"); fi;
+		  if not IsDuplicateFreeList(new) then Error("SOT id"); fi;
 		  Display(" ... gap comparison ok");
 	      fi;
 
@@ -189,7 +189,7 @@ testIdPc := function(n)
 	return true;
 	end;
 
-## SOTConst returns runtimes.
+## SOTConst returns runtime.
 SOTconst := function( list )
 	local nums, grps, ids, tm, tg, tim, tgi, ids2, grg, grm, tgm;
 

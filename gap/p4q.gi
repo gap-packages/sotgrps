@@ -11,9 +11,7 @@
 ###################################################################
 SOTRec.allGroupsP4Q := function(arg)
   local n, fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
-        R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m,
-        c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
-        c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30;
+        R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m;
     if Length(arg) = 1 then
       n := arg[1];
       fac := Collected(Factors(n));
@@ -634,8 +632,7 @@ end;
 SOTRec.GroupP4Q := function(n, id)
   local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, TupleiById, i, j, k, l, m,
-        c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
-        c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, data;
+        C0, C, data;
     fac := Collected(Factors(n));
     if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] or id < 1 then
       Error("Argument must be of the form of (p^4q, id), where p, q are distinct primes and id is a positive natural number.");
@@ -682,42 +679,42 @@ SOTRec.GroupP4Q := function(n, id)
     fi;
     ##construct all nilpotent groups:
     all := [];
-    c0 := 15 - SOTRec.delta(2, p);
-    c1 := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3) + SOTRec.w((q - 1), p^4);
-    c2 := 2*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3);
-    c3 := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
-    c4 := 2*SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
-    c5 := SOTRec.w((q - 1), p);
-    c6 := 3*SOTRec.w((q - 1), p);
-    c7 := (1 - SOTRec.delta(2, p))*(p*SOTRec.w((q - 1), p) + p*SOTRec.w((q - 1), p^2)) + 3*SOTRec.delta(2, p);
-    c8 := (1 - SOTRec.delta(2, p))*(p + 1)*SOTRec.w((q - 1), p) + SOTRec.delta(2, p)*(2 + SOTRec.w((q - 1), 4));
-    c9 := 2*SOTRec.w((q - 1), p) + (1 - SOTRec.delta(2, p))*SOTRec.w((q - 1), p^2);
-    c10 := p*SOTRec.w((q - 1), p) + (p - 1)*SOTRec.w((q - 1), p^2);
-    c11 := 2*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), 4)*SOTRec.delta(2, p);
-    c12 := p*SOTRec.w((q - 1), p) + SOTRec.delta(2, p);
-    c13 := p*SOTRec.w((q - 1), p) - SOTRec.delta(3, p)*SOTRec.w((q - 1), p);
-    c14 := 2*SOTRec.w((q - 1), p) + SOTRec.delta(3, p)*SOTRec.w((q - 1), p);
-    c15 := (1 - SOTRec.delta(2, p))*2*SOTRec.w((q - 1), p);
-    c16 := SOTRec.w((p - 1), q);
-    c17 := (q + 1)*SOTRec.w((p - 1), q);
-    c18 := 1/2*(q + 3 - SOTRec.delta(2, q))*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q));
-    c19 := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q);
-    c20 := 1/24*(q^3 + 7*q^2 + 21*q + 39 + 16*SOTRec.w((q - 1), 3) + 12*SOTRec.w((q - 1), 4))*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(2, q)) + 4*SOTRec.delta(2, q)
+    C0 := 15 - SOTRec.delta(2, p);
+    C[1] := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3) + SOTRec.w((q - 1), p^4);
+    C[2] := 2*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3);
+    C[3] := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
+    C[4] := 2*SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
+    C[5] := SOTRec.w((q - 1), p);
+    C[6] := 3*SOTRec.w((q - 1), p);
+    C[7] := (1 - SOTRec.delta(2, p))*(p*SOTRec.w((q - 1), p) + p*SOTRec.w((q - 1), p^2)) + 3*SOTRec.delta(2, p);
+    C[8] := (1 - SOTRec.delta(2, p))*(p + 1)*SOTRec.w((q - 1), p) + SOTRec.delta(2, p)*(2 + SOTRec.w((q - 1), 4));
+    C[9] := 2*SOTRec.w((q - 1), p) + (1 - SOTRec.delta(2, p))*SOTRec.w((q - 1), p^2);
+    C[10] := p*SOTRec.w((q - 1), p) + (p - 1)*SOTRec.w((q - 1), p^2);
+    C[11] := 2*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), 4)*SOTRec.delta(2, p);
+    C[12] := p*SOTRec.w((q - 1), p) + SOTRec.delta(2, p);
+    C[13] := p*SOTRec.w((q - 1), p) - SOTRec.delta(3, p)*SOTRec.w((q - 1), p);
+    C[14] := 2*SOTRec.w((q - 1), p) + SOTRec.delta(3, p)*SOTRec.w((q - 1), p);
+    C[15] := (1 - SOTRec.delta(2, p))*2*SOTRec.w((q - 1), p);
+    C[16] := SOTRec.w((p - 1), q);
+    C[17] := (q + 1)*SOTRec.w((p - 1), q);
+    C[18] := 1/2*(q + 3 - SOTRec.delta(2, q))*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q));
+    C[19] := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q);
+    C[20] := 1/24*(q^3 + 7*q^2 + 21*q + 39 + 16*SOTRec.w((q - 1), 3) + 12*SOTRec.w((q - 1), 4))*SOTRec.w((p - 1), q)*(1 - SOTRec.delta(2, q)) + 4*SOTRec.delta(2, q)
         + 1/4*(q + 5 + 2*SOTRec.w((q - 1), 4))*SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q))
         + SOTRec.w((p^2 + p +1), q)*(1 - SOTRec.delta(3, q))
         + SOTRec.w((p^2 + 1), q)*(1 - SOTRec.delta(2, q));
-    c21 := 1/2*(q + 3 - SOTRec.delta(2,q))*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q));
-    c22 := SOTRec.w((p - 1), q);
-    c23 := (q + 1)*SOTRec.w((p - 1), q);
-    c24 := (q + 1)*SOTRec.w((p - 1), q) + SOTRec.delta(n, 3*2^4);;
-    c25 := SOTRec.w((p - 1), q);
-    c26 := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q) - SOTRec.delta(n, 3*2^4);
-    c27 := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
-    c28 := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
-    c29 := (q + 1)*SOTRec.w((p - 1), q);
-    c30 := SOTRec.w((p - 1), q);
+    C[21] := 1/2*(q + 3 - SOTRec.delta(2,q))*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q));
+    C[22] := SOTRec.w((p - 1), q);
+    C[23] := (q + 1)*SOTRec.w((p - 1), q);
+    C[24] := (q + 1)*SOTRec.w((p - 1), q) + SOTRec.delta(n, 3*2^4);;
+    C[25] := SOTRec.w((p - 1), q);
+    C[26] := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q) - SOTRec.delta(n, 3*2^4);
+    C[27] := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
+    C[28] := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
+    C[29] := (q + 1)*SOTRec.w((p - 1), q);
+    C[30] := SOTRec.w((p - 1), q);
 
-    if id < c0 + 1 then
+    if id < C0 + 1 then
       data := SOTRec.lowpowerPGroups(p, 4, 0)[id];
       Add(data[1], q);
       return SOTRec.groupFromData(data);
@@ -726,7 +723,7 @@ SOTRec.GroupP4Q := function(n, id)
 
     ##Class 2: Group G is solvable, nonnilpotent. Sylow q-subgroup is normal in G. Thus G \cong P \ltimes C_q is a nonabelian split extension.
     #1 P \cong C_{p^4}
-    elif id > c0 and id < c0 + c1 + 1 then
+    elif id > C0 and id < C0 + C[1] + 1 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]], [5, 1, [5, R1]] ]);
       fi;
@@ -739,10 +736,10 @@ SOTRec.GroupP4Q := function(n, id)
       if (q - 1) mod p^4 = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]], [5, 1, [5, R4]], [5, 2, [5, R3]], [5, 3, [5, R2]], [5, 4, [5, R1]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0]);
+      return SOTRec.groupFromData(all[id - C0]);
 
     #2 P \cong C_{p^3} \times C_p
-    elif id > c0 + c1 and id < c0 + c1 + c2 + 1 then
+    elif id > C0 + C[1] and id < C0 + Sum([1..2],x->C[x]) + 1 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [5, 4, [5, R1]] ]); #Z(G) \cong C_{p^3}
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [5, 1, [5, R1]] ]); #Z(G) \cong C_{p^2} \times C_p
@@ -754,20 +751,20 @@ SOTRec.GroupP4Q := function(n, id)
       if (q - 1) mod p^3 = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [2, [3, 1]], [5, 1, [5, R3]], [5, 2, [5, R2]], [5, 3, [5, R1]] ]); #Z(G) \cong C_p
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1]);
+      return SOTRec.groupFromData(all[id - C0 - C[1]]);
 
     #3 P \cong C_{p^2} \times C_{p^2}
-    elif id > c0 + c1 + c2 and id < c0 + c1 + c2 + c3 + 1 then
+    elif id > C0 + Sum([1..2],x->C[x]) and id < C0 + Sum([1..3],x->C[x]) + 1 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [3, [4, 1]], [5, 1, [5, R1]] ]); #Z(G) \cong C_{p^2} \times C_p
       fi;
       if (q - 1) mod p^2 = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [3, [4, 1]], [5, 1, [5, R2]], [5, 2, [5, R1]] ]); #Z(G) \cong C_{p^2}
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2]);
+      return SOTRec.groupFromData(all[id - C0 - C[1] - C[2]]);
 
     #4 P \cong C_{p^2} \times C_p^2
-    elif id > c0 + c1 + c2 + c3 and id < c0 + c1 + c2 + c3 + c4 + 1 then
+    elif id > C0 + Sum([1..3],x->C[x]) and id < C0 + Sum([1..4],x->C[x]) + 1 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [5, 3, [5, R1]] ]); #Z(G) \cong C_{p^2} \times C_p
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [5, 1, [5, R1]] ]); #Z(G) \cong C_p^3
@@ -775,18 +772,18 @@ SOTRec.GroupP4Q := function(n, id)
       if (q - 1) mod p^2 = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [5, 1, [5, R2]], [5, 2, [5, R1]] ]); #Z(G) \cong C_p^2
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..3],x->C[x])]);
 
     #5 P \cong C_p^4
-    elif id > c0 + c1 + c2 + c3 + c4 and id < c0 + c1 + c2 + c3 + c4 + c5 + 1 then
+    elif id > C0 + Sum([1..4],x->C[x]) and id < C0 + Sum([1..5],x->C[x]) + 1 then
       if (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [5, 1, [5, R1]] ]); #Z(G) \cong C_p^3
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..4],x->C[x])]);
 
     #6 P \cong [ [p, p, p, p], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or P \cong [ [2, 2, 2, 2], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + 1 then
+    elif id > C0 + Sum([1..5],x->C[x]) and id < C0 + Sum([1..6],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -798,11 +795,11 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong D_4 \times C_q, G \cong C_2 \ltimes (C_4 \ltimes C_q \times C_2), Z(G) \cong C_2
         Add(all, [ [2, 2, 2, 2, q], [2, [4, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [3, 2, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]);#F(G) \cong Q_8 \times C_q, G \cong C_2 \ltimes (Q_8 \ltimes C_q), Z(G) \cong C_2
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..5],x->C[x])]);
 
     #7 P \cong [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 1 then
+  elif id > C0 + Sum([1..6],x->C[x]) and id < C0 + Sum([1..7],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           for k in [1..p - 1] do
@@ -821,12 +818,12 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 4, [5, q - 1]] ]);#F(G) \cong D_4 \times C_q, G \cong D_q \times D_4
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, q - 1]] ]);#F(G) \cong C_q \times C_2^3, G \cong (D_4 \ltimes C_q) \times C_2
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..6],x->C[x])]);
 
 
     #8 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1 then
+    elif id > C0 + Sum([1..7],x->C[x]) and id < C0 + Sum([1..8],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           for k in [1..p - 1] do #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -842,11 +839,11 @@ SOTRec.GroupP4Q := function(n, id)
           Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, R2]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_2^2 \times C_q, G \cong C_2 \ltimes ((C_4 \ltimes C_q) \times C_2)
         fi;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..7],x->C[x])]);
 
     #9 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1 then
+    elif id > C0 + Sum([1..8],x->C[x]) and id < C0 + Sum([1..9],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -859,11 +856,11 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q, G \cong C_2 \times (Q_8 \ltimes C_q)
         Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 4, [5, q - 1]] ]); #F(G) \cong Q_8 \times C_q, G \cong D_q \times Q_8
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..9],x->C[x])]);
 
     #10 P \cong [ [p, p, p, p], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1 then
+    elif id > C0 + Sum([1..9],x->C[x]) and id < C0 + Sum([1..10],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -883,11 +880,11 @@ SOTRec.GroupP4Q := function(n, id)
           Add(all, [ [2, 2, 2, 2, q], [1, [2, 1]], [3, [4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, R2]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_4 \times C_q
         fi;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..9],x->C[x])]);
 
     #11 P \cong [ [p, p, p, p], [3, 1, [2, 1, 3, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 1 then
+  elif id > C0 + Sum([1..10],x->C[x]) and id < C0 + Sum([1..11],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [5, 4, [5, R1]] ]); #F(G) \cong p_+ \times C_q
@@ -901,12 +898,12 @@ SOTRec.GroupP4Q := function(n, id)
           Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 4, 1]], [5, 2, [5, R2]], [5, 3, [5, q - 1]] ]); #F(G) \cong C_q \times C_2^2
         fi;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..10],x->C[x])]);
 
     #12 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1]], [3, 1,[3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 1 then
+    elif id > C0 + Sum([1..11],x->C[x])
+      and id < C0 + Sum([1..12],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           for k in [1..(p - 1)/2] do
@@ -926,12 +923,12 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1]], [3, 1, [3, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times D_4
         Add(all, [ [2, 2, 2, 2, q], [2, [4, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1]], [3, 1, [3, 1, 4, 1]], [3, 2, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times Q_8
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..11],x->C[x])]);
 
     #13 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1 then
+    elif id > C0 + Sum([1..12],x->C[x])
+      and id < C0 + Sum([1..13],x->C[x]) + 1 then
       if p > 3 and (q - 1) mod p = 0 then
         for k in [1..(p - 1)/2] do
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(a), 4, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -947,12 +944,12 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times C_8
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times D_4
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..12],x->C[x])]);
 
     #14 P \cong [ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1 then
+    elif id > C0 + Sum([1..13],x->C[x])
+      and id < C0 + Sum([1..14],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
           Add(all, [ [p, p, p, p, q], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
@@ -965,12 +962,12 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times C_8
         Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [3, 1, [3, 1, 4, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times Q_8
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..13],x->C[x])]);
 
     #15 P \cong [ [p, p, p, p], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ] if p > 3,
     #or P \cong [ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ] if p = 3
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + 1 then
+    elif id > C0 + Sum([1..14],x->C[x])
+      and id < C0 + Sum([1..15],x->C[x]) + 1 then
       if p > 3 and (q - 1) mod p = 0 then
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong C_p^3 \times C_q
         Add(all, [ [p, p, p, p, q], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 4, [5, R1]] ]); #F(G) \cong p_- \times C_q
@@ -979,12 +976,12 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [p, p, p, p, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 2, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
         Add(all, [ [p, p, p, p, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 2, 4, 1]], [5, 2, [5, R1]] ]); #F(G) \cong p_- \times C_q
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..14],x->C[x])]);
 
     ##Class 2: Group G is solvable, nonnilpotent. Sylow q-subgroup is normal in G. Thus G \cong P \ltimes C_q is a nonabelian split extension.
     #1 P \cong C_{p^4}
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 1 then
+    elif id > C0 + C[1] + C[2] + C[3] + C[4] + C[5] + C[6] + C[7] + C[8] + C[9] + C[10] + C[11] + C[12] + C[13] + C[14] + C[15]
+      and id < C0 + C[1] + C[2] + C[3] + C[4] + C[5] + C[6] + C[7] + C[8] + C[9] + C[10] + C[11] + C[12] + C[13] + C[14] + C[15] + C[16] + 1 then
       if (p - 1) mod q = 0 then
         u := S4 mod p;
         v := (S4 - u)/p mod p;
@@ -992,11 +989,11 @@ SOTRec.GroupP4Q := function(n, id)
         y := (((S4 - u)/p - v)/p - x)/p;
         Add(all, [ [q, p, p, p, p], [2, [3, 1]], [3, [4, 1]], [4, [5, 1]], [2, 1, [2, u, 3, v, 4, x, 5, y]], [3, 1, [3, u, 4, v, 5, x]], [4, 1, [4, u, 5, v]], [5, 1, [5, u]] ]); #unique
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15]);
+      return SOTRec.groupFromData(all[id - C0 - C[1] - C[2] - C[3] - C[4] - C[5] - C[6] - C[7] - C[8] - C[9] - C[10] - C[11] - C[12] - C[13] - C[14] - C[15]]);
 
     #2 P \cong C_{p^3} \times C_p
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1 then
+    elif id > C0 + Sum([1..16],x->C[x])
+      and id < C0 + Sum([1..17],x->C[x]) + 1 then
         if (p - 1) mod q = 0 then
           u := S3 mod p;
           v := (S3 - u)/p mod p;
@@ -1007,11 +1004,11 @@ SOTRec.GroupP4Q := function(n, id)
             Add(all, [ [q, p, p, p, p], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, u, 3, v, 4, x]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [5, Int(s1^k)]] ]); #Z(G) = 1
           od;
         fi;
-        return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15 - c16]);
+        return SOTRec.groupFromData(all[id - C0 - Sum([1..16],x->C[x])]);
 
     #3 P \cong C_{p^2} \times C_{p^2}
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + 1 then
+    elif id > C0 + Sum([1..17],x->C[x])
+      and id < C0 + Sum([1..18],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         u := S2 mod p;
         v := (S2 - u)/p;
@@ -1029,11 +1026,11 @@ SOTRec.GroupP4Q := function(n, id)
         [4, 1, [2, mat[1][3], 3, mat[2][3], 4, mat[3][3], 5, mat[4][3]]],
         [5, 1, [2, mat[1][4], 3, mat[2][4], 4, mat[3][4], 5, mat[4][4]]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15 - c16 - c17]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..17],x->C[x])]);
 
     #4 P \cong C_{p^2} \times C_p^2
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + c19 + 1 then
+    elif id > C0 + Sum([1..18],x->C[x])
+      and id < C0 + Sum([1..19],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1058,16 +1055,13 @@ SOTRec.GroupP4Q := function(n, id)
         matGL2 := SOTRec.QthRootGL2P(p, q);
         Add(all, [ [q, p, p, p, p], [4, [5, 1]], [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]], [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15 - c16 - c17 - c18]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..18],x->C[x])]);
 
     #5 P \cong C_p^4
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19 + c20 + 1 then
+    elif id > C0 + Sum([1..19],x->C[x])
+      and id < C0 + Sum([1..20],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
-        if id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-          + c16 + c17 + c18 + c19
+        if id < C0 + Sum([1..19],x->C[x])
           + 1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + 1/2*(q^2 - 2*q + 3)*SOTRec.w((p - 1), q) + 1 then
           Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]] ]); #Z(G) \cong C_p^3, G \cong (C_q \ltimes C_p) \times C_p^3
           for k in [0..Int((q - 1)/2)] do
@@ -1117,10 +1111,9 @@ SOTRec.GroupP4Q := function(n, id)
               Add(all, [ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, S1]], [4, 1, [4, Int(s1^(Int(b^k)))]], [5, 1, [5, Int(s1^(Int(b^l)))]] ]);
             od;
           od;
-          return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15 - c16 - c17 - c18 - c19]);
+          return SOTRec.groupFromData(all[id - C0 - Sum([1..19],x->C[x])]);
 
-        elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-          + c16 + c17 + c18 + c19
+        elif id > C0 + Sum([1..19],x->C[x])
           + (1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*SOTRec.w((p - 1), q) then
           TupleiById := function(q,id)
           local qq, res, a,b,c,d,t,cnt;
@@ -1144,8 +1137,7 @@ SOTRec.GroupP4Q := function(n, id)
               od;
                if qq mod 4 = 0 and id = 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4)) then return  [(q-1)/4, (q-1)/2, 3*(q-1)/4]; fi;
             end;
-            k := TupleiById(q, id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-            - c16 - c17 - c18 - c19 - (1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*SOTRec.w((p - 1), q));
+            k := TupleiById(q, id - C0 - Sum([1..19],x->C[x])  - (1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*SOTRec.w((p - 1), q));
             return SOTRec.groupFromData([ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[3]))))]] ]);
         fi;
 
@@ -1171,15 +1163,13 @@ SOTRec.GroupP4Q := function(n, id)
         [4, 1, [2, Int(matGL4[1][3]), 3, Int(matGL4[2][3]), 4, Int(matGL4[3][3]), 5, Int(matGL4[4][3])]],
         [5, 1, [2, Int(matGL4[1][4]), 3, Int(matGL4[2][4]), 4, Int(matGL4[3][4]), 5, Int(matGL4[4][4])]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19]);
+      return SOTRec.groupFromData(all[id - C0 - C[1] - C[2] - C[3] - C[4] - C[5] - C[6] - C[7] - C[8] - C[9] - C[10] - C[11] - C[12] - C[13] - C[14] - C[15]
+      - C[16] - C[17] - C[18] - C[19]]);
 
     #6 P \cong [ [p, p, p, p], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [3, [4, 1]], [2, 1, [2, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19 + c20
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19 + c20 + c21 + 1 then
+    elif id > C0 + Sum([1..20],x->C[x])
+      and id < C0 + Sum([1..21],x->C[x])  + 1 then
       if (p - 1) mod q = 0 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1196,29 +1186,23 @@ SOTRec.GroupP4Q := function(n, id)
       elif p = 2 and q = 3 then ##PROVE?DOUBLE CHECK
         Add(all, [ [3, 2, 2, 2, 2], [2, [5, 1]], [3, [5, 1]], [4, [5, 1]], [3, 1, [4, 1]], [4, 1, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..20],x->C[x]) ]);
 
     #7 P \cong [ [p, p, p, p], [1, [2, 1]], [2, [3, 1]], [4, 1, [3, 1, 4, 1]] ]
 
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19 + c20 + c21
-      and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-      + c16 + c17 + c18 + c19 + c20 + c21 + c22 + 1 then
+    elif id > C0 + Sum([1..21],x->C[x])
+      and id < C0 + Sum([1..22],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         u := S3 mod p;
         v := (S3 - u)/p mod p;
         x := ((S3 - u)/p - v)/p;
         Add(all, [ [q, p, p, p, p], [2, [3, 1]], [3, [4, 1]], [2, 1, [2, u, 3, v, 4, x]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 2, [4, 1, 5, 1]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..21],x->C[x])]);
 
     #8 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + 1 then
+    elif id > C0 + Sum([1..22],x->C[x])
+        and id < C0 + Sum([1..23],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1228,15 +1212,12 @@ SOTRec.GroupP4Q := function(n, id)
           Add(all, [ [q, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [5, 1, [5, Int(s1^k)]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]);
         od;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..22],x->C[x])]);
 
     #9 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + 1 then
+    elif id > C0 + Sum([1..23],x->C[x])
+        and id < C0 + Sum([1..24],x->C[x]) + 1 then
       if (p - 1) mod q = 0 and p > 2 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1251,27 +1232,21 @@ SOTRec.GroupP4Q := function(n, id)
       elif p = 2 and q = 3 then
         Add(all, [ [3, 2, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]); #Z(G) \cong C_2^2
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..23],x->C[x])]);
 
     #10 P \cong [ [p, p, p, p], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 1 then
+    elif id > C0 + Sum([1..24],x->C[x])
+        and id < C0 + Sum([1..25],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
         Add(all, [ [q, p, p, p, p], [2, [5, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]] ]); #Z(G) \cong C_p, G \cong C_q \ltimes (C_{p^2} \ltimes C_{p^2})
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..24],x->C[x])]);
 
     #11 P \cong [ [p, p, p, p], [2, 1, [2, 1, 3, 1]] ] HARD!
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + 1 then
+    elif id > C0 + Sum([1..25],x->C[x])
+        and id < C0 + Sum([1..26],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [2, 1, [2, Int(s1^(-1))]], [3, 1, [3, S1]] ]); #Z(G) \cong C_p^2, G' \cong C_p^3
         Add(all, [ [q, p, p, p, p], [3, 2, [3, 1, 4, 1]], [5, 1, [5, S1]] ]); #Z(G) \cong C_p, G' \cong C_p^2
@@ -1303,14 +1278,11 @@ SOTRec.GroupP4Q := function(n, id)
         [2, 1, [2, Int(matGL2[1][1]), 3, Int(matGL2[2][1])]],
         [3, 1, [2, Int(matGL2[1][2]), 3, Int(matGL2[2][2])]] ]);
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..25],x->C[x])]);
 
     #12 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + 1 then
+    elif id > C0 + Sum([1..26],x->C[x])
+        and id < C0 + Sum([1..27],x->C[x]) + 1 then
       if (p - 1) mod q = 0 and q > 2 then #Z(G) = 1, G' \cong C_p \ltimes C_{p^2}
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1323,14 +1295,11 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [5, 2, [4, 1, 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [5, (p - 1)]] ]); #Z(G) = 1, G' \cong C_p \times C_{p^2}
         Add(all, [ [2, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [5, 2, [4, 1, 5, 1]], [2, 1, [2, (p - 1)]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [4, (p - 1), 5, 1]] ]); #Z(G) = 1, G' \cong P
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25 - c26]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..26],x->C[x])]);
 
     #13 P \cong [ [p, p, p, p], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + 1 then
+    elif id > C0 + Sum([1..27],x->C[x])
+        and id < C0 + Sum([1..28],x->C[x]) + 1 then
       if (p - 1) mod q = 0 and q > 2 then
         u := S2 mod p;;
         v := (S2 - u)/p;;
@@ -1345,14 +1314,11 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, p, p, p, p], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [5, 2, [4, Int(a), 5, 1]], [3, 1, [3, u, 4, v]], [4, 1, [4, u]], [5, 1, [5, (p - 1)]] ]); #Z(G) = 1, G' \cong C_p \times C_{p^2}
         Add(all, [ [2, p, p, p, p], [3, [4, Int(a)]], [3, 2, [3, 1, 5, 1]], [5, 2, [4, 1, 5, 1]], [2, 1, [2, (p - 1)]], [3, 1, [3, (p - 1), 4, Int(-a)]], [4, 1, [4, p - 1]], [5, 1, [4, (p - 1), 5, 1]] ]); #Z(G) = 1, G' \cong P
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25 - c26 - c27]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..27],x->C[x])]);
 
     #14 P \cong [ [p, p, p, p], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ]
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + c29 + 1 then
+    elif id > C0 + Sum([1..28],x->C[x])
+        and id < C0 + Sum([1..29],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         Add(all, [ [q, p, p, p, p], [4, 2, [3, 1, 4, 1]], [5, 2, [4, 1, 5, 1]], [2, 1, [2, S1]], [4, 1, [3, Int(s1^(-1)*(s1-1)/2), 4, Int(s1^(-1))]], [5, 1, [5, Int(s1^(-2))]] ]); #Z(G) \cong C_p, G \cong C_q \ltimes (C_p \ltimes C_p^2) \times C_p
         for k in [0..q - 1] do  #Z(G) = 1
@@ -1363,15 +1329,12 @@ SOTRec.GroupP4Q := function(n, id)
           Add(all, [ [q, p, p, p, p], [4, 2, [3, 1, 4, 1]], [5, 2, [4, 1, 5, 1]], [2, 1, [2, Int(x)]], [3, 1, [3, S1]], [4, 1, [3, Int(y), 4, Int(v)]], [5, 1, [5, Int(w)]] ]);
         od;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25 - c26 - c27 - c28]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..28],x->C[x])]);
 
     #15 P \cong [ [p, p, p, p], [1, [2, 1]], [3, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]] ] if p > 3,
     #or P \cong [ [p, p, p, p], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, r, 4, 1]] ] if p = 3
-    elif id > c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + c29
-        and id < c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
-        + c16 + c17 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + c29 + c30 + 1 then
+    elif id > C0 + Sum([1..29],x->C[x])
+        and id < C0 + Sum([1..30],x->C[x]) + 1 then
       if (p - 1) mod q = 0 then
         if p > 3 then
           u := S2 mod p;;
@@ -1381,8 +1344,7 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, p, p, p, p], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 5, 1]], [5, 2, [4, 2, 5, 1]], [2, 1, [2, 2, 4, 2]], [3, 1, [3, 2, 4, 2]], [4, 1, [4, 2]], [5, 1, [4, 1, 5, 1]] ]);
         fi;
       fi;
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25 - c26 - c27 - c28 - c29]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..29],x->C[x])]);
 
     #Class 3: G is solvable, no normal Sylow Subgroups
     elif n = 2^4*3 and id > 48 and id < 53 then
@@ -1390,8 +1352,8 @@ SOTRec.GroupP4Q := function(n, id)
       Add(all, [ [2, 2, 3, 2, 2], [1, [2, 1]], [3, 1, [3, 2]], [4, 1, [5, 1]], [5, 1, [4, 1]], [4, 3, [5, 1]], [5, 3, [4, 1, 5, 1]] ]); #C_4 \ltimes Alt_4
       Add(all, [ [2, 3, 2, 2, 2], [3, [5, 1]], [4, [5, 1]], [3, 2, [4, 1, 5, 1]], [4, 2, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]], [2, 1, [2, 2]], [3, 1, [4, 1]], [4, 1, [3, 1]] ]); #G \cong C_2 \ltimes (C_3 \ltimes Q_8)
       Add(all, [ [2, 3, 2, 2, 2], [1, [5, 1]], [3, [5, 1]], [4, [5, 1]], [3, 2, [4, 1, 5, 1]], [4, 2, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]], [2, 1, [2, 2]], [3, 1, [4, 1]], [4, 1, [3, 1]] ]); #G \cong C_2 . (C_3 \ltimes Q_8)
-      return SOTRec.groupFromData(all[id - c0 - c1 - c2 - c3 - c4 - c5 - c6 - c7 - c8 - c9 - c10 - c11 - c12 - c13 - c14 - c15
-      - c16 - c17 - c18 - c19 - c20 - c21 - c22 - c23 - c24 - c25 - c26 - c27 - c28 - c29 - c30]);
+      return SOTRec.groupFromData(all[id - C0 - C[1] - C[2] - C[3] - C[4] - C[5] - C[6] - C[7] - C[8] - C[9] - C[10] - C[11] - C[12] - C[13] - C[14] - C[15]
+      - C[16] - C[17] - C[18] - C[19] - C[20] - C[21] - C[22] - C[23] - C[24] - C[25] - C[26] - C[27] - C[28] - C[29] - C[30]]);
     elif n = 3^4*13 and id = 51 then
       matGL3 := SOTRec.QthRootGL3P(p, q);
       m := [ [ 0, 2, 1 ], [ 1, 2, 2 ], [ 1, 1, 1 ] ];
