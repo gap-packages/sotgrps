@@ -1,6 +1,8 @@
 ## Some test functions
 
 LoadPackage("sotgrps");
+LoadPackage("grpconst");
+
 ###
 ###
 ## The following are test functions.
@@ -120,14 +122,13 @@ getRandomPc := function(G)
 
 ## SOTRec.testIdSOTGroup(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
 ## test against SOT itself
-SOTRec.testIdSOTGroup := function(n)
-	local nr, gap, sot, soty, i, copies,  gapid, new;
-	repeat
-	   n := n+1;
+SOTRec.testIdSOTGroup := function(orders)
+	local n, nr, gap, sot, soty, i, copies,  gapid, new;
+	for n in orders do
 	   if IsSOTAvailable(n) then
 	      nr  := NumberOfSOTGroups(n);
 	      gap := SmallGroupsAvailable(n);
-	      Print("start ",nr," groups of size ",n,"\n");
+	      Print("order ", n, ": testing ", nr, " groups\n");
 
 	      sot := List([1..nr],x->SOTGroup(n,x));
 	      soty := AllSOTGroups(n);
@@ -135,33 +136,32 @@ SOTRec.testIdSOTGroup := function(n)
 	          copies := [];
 	          Add(copies, getRandomPerm(sot[i]));
 	          Add(copies, getRandomPerm(soty[i]));
-	          Add(copies, getRandomPc(copies[1]));
-	          Add(copies, getRandomPc(copies[2]));
+	          if IsSolvableGroup(sot[i]) then
+	              Add(copies, getRandomPc(copies[1]));
+	              Add(copies, getRandomPc(copies[2]));
+	          fi;
 
 		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID perm", [n,i]); fi;
 	      od;
-	      Display(" ... SOT output correct");
 
 	    ## can compare with gap library?
 	      if gap then
-	          gapid := List(sot,IdSmallGroup);
+	      gapid := List(sot,IdSmallGroup);
 		  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
 		  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
-	          new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
+	      new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
 		  if not IsDuplicateFreeList(new) then Error("SOT id"); fi;
-		  Display(" ... gap comparison ok");
 	      fi;
 
 	   fi;
-	until false;
+	od;;
 	return true;
 	end;
 
 ## SOTRec.testIdSOTGroupPc(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
-SOTRec.testIdSOTGroupPc := function(n)
-	local nr, gap, sot, i, copies, gapid, new;
-	repeat
-	   n := n+1;
+SOTRec.testIdSOTGroupPc := function(orders)
+	local n, nr, gap, sot, i, copies, gapid, new;
+	for n in orders do
 	   if IsSOTAvailable(n) then
 	      nr  := NumberOfSOTGroups(n);
 	      gap := SmallGroupsAvailable(n);
@@ -185,9 +185,10 @@ SOTRec.testIdSOTGroupPc := function(n)
 	      fi;
 
 	   fi;
-	until false;
+	od;
 	return true;
 	end;
+
 ## test by RandomIsomorphismTest
 SOTRec.testbyRandomIsomorphismTest := function(x)
 local t,sot,gap,tg,cd;
