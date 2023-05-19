@@ -1469,6 +1469,9 @@ idstodo := [ [ 5, 1, 9, 6, 3, 7, 8, 2, 10, 13, 14, 11, 12, 4 ], [ 5, 1, 6, 7, 3,
 
 testtranslation:=function()
   local groups, sglids, n;
+    # groups := List(Filtered([1..50000], x->isp2qr(x) or isp2q2(x)), x->SOTRec.SGLordered(x));
+    # sglids := List(groups, x->List(x, i->IdGroup(i)[2]));
+    # return sglids = List(sglids, x->[1..Length(x)]);
     groups := List([1..4307], i->List(idstodo[i], x->AllSOTGroups(ordstodo[i])[x]));;
     sglids := List([1..4307], i->List(groups[i], x->IdGroup(x)[2]));;
     return sglids = List([1..4307], i->[1..NumberOfSOTGroups(ordstodo[i])]);
