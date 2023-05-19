@@ -392,7 +392,7 @@ SOTRec.infoP2QR := function(n)
       Print("\n  All groups of order ", n, " are abelian.\n");
     else
       Print("\n  There are ", m + 2, " groups of order ", n,".\n");
-      Print("\n  The groups of order p2qr are either solvable or isomorphic to Alt(5).\n");
+      Print("\n  The groups of order p^2qr are either solvable or isomorphic to Alt(5).\n");
       Print("  The solvable groups are sorted by their Fitting subgroup. \n");
       Print(sot, "1 - 2 are the nilpotent groups.\n" );
       for i in [1..7] do

@@ -510,7 +510,7 @@ SOTRec.infoP3Q := function(n)
   local fac, sot, p, q, c, m, prop, i;
     fac := Factors(n);
     sot := SOTRec.sot(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
+    if not List(Collected(fac), x->x[2]) in [ [1, 3], [3, 1] ] then
       Error("Argument must be of the form of p^3q"); fi;
     p := fac[2];
     if fac[1] = fac[2] then
@@ -539,7 +539,7 @@ SOTRec.infoP3Q := function(n)
     m := Sum(c);
 
     Print("\n  There are ", m + 5, " groups of order ", n,".\n");
-    Print("\n  The groups of order p3q are solvable by Burnside's pq-Theorem.\n");
+    Print("\n  The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
     Print(sot, "1 - 3 are abelian.\n");
     Print(sot, "4 - 5 are nonabelian nilpotent and have normal Sylow ", p,"-subgroup and normal Sylow ", q, "-subgroup.\n");

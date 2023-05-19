@@ -82,6 +82,13 @@ SOTRec.allGroupsP2Q2 := function(n)
     fi;
 
     #### Cluster 3: C_{q^2} \ltimes C_p^2
+    if n = 36 then
+      matq := SOTRec.QthRootGL2P(2, 3);
+      Add(all, [ [3, 3, 2, 2], [1, [2, 1]],
+      [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+      [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
+    fi;
+
     if (p - 1) mod q = 0 or n = 36 then
       Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, S1]] ]);
       if q mod 2 = 1 then
@@ -110,12 +117,6 @@ SOTRec.allGroupsP2Q2 := function(n)
         Add(all, [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ]);
       fi;
 
-      if n = 36 then
-        matq := SOTRec.QthRootGL2P(2, 3);
-        Add(all, [ [3, 3, 2, 2], [1, [2, 1]],
-        [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
-        [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
-      fi;
     fi;
     if (p + 1) mod q = 0 and q mod 2 = 1 then
       matq := SOTRec.QthRootGL2P(p, q);
@@ -170,8 +171,8 @@ SOTRec.NumberGroupsP2Q2 := function(n)
 		local fac, p, q, w;
 				fac := Factors(n);
 				## check input
-				if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
-					Error("Argument has to be of the form p^2*q^2, where p, q are primes");
+				if not List(Collected(fac), x->x[2]) = [2, 2] then
+					Error("Argument has to be of the form p^2q^2, where p, q are primes");
 				fi;
 
 				q := fac[1];
@@ -189,8 +190,8 @@ SOTRec.GroupP2Q2 := function(n, i)
   local fac, p, q, a, b, c, d, e, f, qq, ii, qqq, iii, l0, lst, G, k, t, matq, matq2, matp, matp2,
   c1, c2, c3, c4, c5, s1, S1, s2, S2, r1, R1, r2, R2;
     fac := Factors(n);
-    if not Length(fac) = 4 or not fac[1] = fac[2] or not fac[3] = fac[4] then
-      Error("Argument has to be of the form p^2*q^2, where p, q are primes");
+    if not List(Collected(fac), x->x[2]) = [2, 2] then
+      Error("Argument has to be of the form p^2q^2, where p, q are primes");
 		fi;
     q := fac[1];
     p := fac[4];
@@ -269,6 +270,12 @@ SOTRec.GroupP2Q2 := function(n, i)
     #### Cluster 3: C_{q^2} \ltimes C_p^2
     elif i > 4 + c1 + c2 and i < 5 + c1 + c2 + c3 then
       lst := [];
+      if n = 36 then ## ! C_{p^2} \ltimes C_q^2
+        matq := SOTRec.QthRootGL2P(2, 3);
+        Add(lst, [ [3, 3, 2, 2], [1, [2, 1]],
+        [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+        [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
+      fi;
 
       if (p - 1) mod q = 0 or n = 36 then
         Add(lst, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, S1]] ]);
@@ -299,12 +306,6 @@ SOTRec.GroupP2Q2 := function(n, i)
           Add(lst, [ [2, 2, p, p], [1, [2, 1]], [3, 1, [3, p-1]], [4, 1, [4, Int(a^((p - 1)/4))]], [4, 2, [4, p-1]] ]);
         fi;
 
-        if n = 36 then
-          matq := SOTRec.QthRootGL2P(2, 3);
-          Add(lst, [ [3, 3, 2, 2], [1, [2, 1]],
-          [3, 1, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
-          [4, 1, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]);
-        fi;
       fi;
       if (p + 1) mod q = 0 and q mod 2 = 1 then
         matq := SOTRec.QthRootGL2P(p, q);
@@ -355,3 +356,46 @@ SOTRec.GroupP2Q2 := function(n, i)
       return SOTRec.groupFromData(lst[i - 4 - c1 - c2 - c3]);
     fi;
 end;
+############################################################################
+SOTRec.infoP2Q2 := function(n)
+  local fac, sot, p, q, c, m, prop, i;
+    fac := Factors(n);
+    sot := SOTRec.sot(n);
+    if not List(Collected(fac), x->x[2]) = [2, 2] then
+      Error("Argument must be of the form of p^2q^2"); fi;
+    q := fac[1];
+    p := fac[4];
+    prop := [ [[q^2, 1], [p^2, 1]], [[q^2, 2], [p^2, 1]],
+      [[q^2, 1], [p^2, 2]], [[q^2, 2], [p^2, 2]] ];
+
+    #### Enumeration
+    c := [];
+    c[1] := SOTRec.w((p - 1), q) + SOTRec.w((p - 1), q^2);
+    c[2] := SOTRec.w((p - 1), q);
+    c[3] := 1/2*(q + 3 - SOTRec.w(2, q))*SOTRec.w((p - 1), q) + 1/2*(q^2 + q + 2)*SOTRec.w((p - 1), q^2) + (1 - SOTRec.w(2, q))*SOTRec.w((p + 1), q) + SOTRec.w((p + 1), q^2) + SOTRec.delta(n, 36);
+    c[4] := 1/2*(q + 5 - SOTRec.w(2, q))*SOTRec.w((p - 1), q) + (1 - SOTRec.w(2, q))*SOTRec.w((p + 1), q) + SOTRec.delta(n, 36);
+    m := Sum(c);
+
+    ### Info
+    Print("\n  There are ", m + 4, " groups of order ", n,".\n");
+    Print("\n  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.\n");
+    Print("  These groups are sorted by their Sylow subgroups.\n");
+    Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
+    if n = 36 then
+      Print(sot, "5 is non-abelian, non-nilpotent and has normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
+      Print(sot, "6 is non-abelian, non-nilpotent and has normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
+      Print(sot, "7 is non-abelian, non-nilpotent and has normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
+      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+    else
+      for i in [1..4] do
+        if c[i] = 1 then
+          Print(sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+        elif c[i] > 1 then
+          Print(sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
+          " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+        fi;
+      od;
+    fi;
+    Print("\n");
+  end;

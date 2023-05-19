@@ -170,7 +170,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
   		elif ind = [1, 1, 1] then
   			Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
   		elif ind = [2, 2] then
-  			Print("There are ", SOTRec.NumberGroupsP2Q2(n), " isomorphism types of groups of order ", n, ".");
+  			SOTRec.infoP2Q2(n);
   		elif ind in [ [1, 3], [3, 1] ] then
 				SOTRec.infoP3Q(n);
   		elif ind in [ [1, 1, 2], [1, 2, 1], [2, 1, 1] ] then
