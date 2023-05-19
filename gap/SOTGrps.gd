@@ -54,7 +54,7 @@ DeclareGlobalFunction("SOTGroup");
 #! gap> NumberOfSOTGroups(2*3*5*7);
 #! 12
 #! gap> NumberOfSOTGroups(2*3*5*7*11);
-#! Error, Order 2310 is not available: NumberOfSOTGroups(#) returns the number of isomorphism types of groups of order that factorises into at most 4 primes or of the form p^4q.
+#! Error, Order 2310 is not available
 #! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
 
