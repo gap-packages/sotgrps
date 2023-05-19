@@ -145,46 +145,44 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 			n := arg[1];
 			fac := Collected(Factors(n));
 			ind := List(fac, x -> x[2]);
+			if Length(ind) = 1 then ##p-groups
+				if ind = [1] then Print("There is a unique group of order", n, "up to isomorphism, and it is cyclic.");
+				elif ind = [2] then Print("There are two isomorphism types of p-groups of order ", n, ": there is one cyclic group, and one elementary abelian group.");
+				elif ind = [3] then Print("There are five isomorpshim types of p-groups of order ", n, ": there are three abelian groups, and two extraspecial groups.");
+				elif ind = [4] then
+					if fac[1] = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
+					else Print("There are 15 isomorphism types of groups of order ", n, ": there are 5 abelian groups, and 10 nonabelian groups.");
+					fi;
+				fi;
+			fi;
 
-  		if Length(ind) = 1 then ##p-groups
-  			if ind = [1] then Print("There is a unique group of order", n, "up to isomorphism, and it is cyclic.");
-  			elif ind = [2] then Print("There are two isomorphism types of p-groups of order ", n, ": there is one cyclic group, and one elementary abelian group.");
-  			elif ind = [3] then Print("There are five isomorpshim types of p-groups of order ", n, ": there are three abelian groups, and two extraspecial groups.");
-  			elif ind = [4] then
-  				if fac[1] = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
-  				else Print("There are 15 isomorphism types of groups of order ", n, ": there are 5 abelian groups, and 10 nonabelian groups.");
-  				fi;
-  			fi;
-  		fi;
-
-  		if ind = [1, 1] then ##pq, a = 1
-  			if (fac[2][1] - 1) mod fac[1][1] = 0 then
-  				Print("There are two isomorphism types of squarefree groups of order ", n, ": there is one abelian group, and one nonebalian group.");
-  			else Print("There is a unique group of order ", n, ", up to isomorphism, and it is abelian.");
-  			fi;
-  		elif ind in [ [1, 2], [2, 1] ] then
-  			if not (fac[1][1] - 1) mod fac[2][1] = 0 and not (fac[2][1] - 1) mod fac[1][1] = 0 then
-  				Print("There are two isomorphism types of order ", n, ": one is cyclic, and one is isomorphic to the abelian group(", [n, 2], ").");
-  			else Print("There are ", SOTRec.NumberGroupsP2Q(n), " isomorphism types of groups of order ", n, ".");
-  			fi;
-  		elif ind = [1, 1, 1] then
-  			Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
-  		elif ind = [2, 2] then
-  			SOTRec.infoP2Q2(n);
-  		elif ind in [ [1, 3], [3, 1] ] then
+			if ind = [1, 1] then ##pq, a = 1
+				if (fac[2][1] - 1) mod fac[1][1] = 0 then
+					Print("There are two isomorphism types of squarefree groups of order ", n, ": there is one abelian group, and one nonebalian group.");
+				else Print("There is a unique group of order ", n, ", up to isomorphism, and it is abelian.");
+				fi;
+			elif ind in [ [1, 2], [2, 1] ] then
+				if not (fac[1][1] - 1) mod fac[2][1] = 0 and not (fac[2][1] - 1) mod fac[1][1] = 0 then
+					Print("There are two isomorphism types of order ", n, ": one is cyclic, and one is isomorphic to the abelian group(", [n, 2], ").");
+				else Print("There are ", SOTRec.NumberGroupsP2Q(n), " isomorphism types of groups of order ", n, ".");
+				fi;
+			elif ind = [1, 1, 1] then
+				Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
+			elif ind = [2, 2] then
+				SOTRec.infoP2Q2(n);
+			elif ind in [ [1, 3], [3, 1] ] then
 				SOTRec.infoP3Q(n);
-  		elif ind in [ [1, 1, 2], [1, 2, 1], [2, 1, 1] ] then
+			elif ind in [ [1, 1, 2], [1, 2, 1], [2, 1, 1] ] then
 				SOTRec.infoP2QR(n);
-  		elif ind = [1, 1, 1, 1] then
+			elif ind = [1, 1, 1, 1] then
 				SOTRec.infoPQRS(n);
-  		elif ind in [ [1, 4], [4, 1] ] then
-				Print("There are ", SOTRec.NumberGroupsPQRS(n), " isomorphism types of groups of order ", n, ".");
+			elif ind in [ [1, 4], [4, 1] ] then
+				Print("There are ", SOTRec.NumberGroupsP4Q(n), " isomorphism types of groups of order ", n, ".");
 			elif Sum(ind) >= 5 then
 				Error("Order ", n, " is not available");
 			fi;
-
-    elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.");
-    fi;
+		elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.");
+		fi;
 end);
 
 ######################################################
