@@ -680,6 +680,7 @@ SOTRec.GroupP4Q := function(n, id)
     ##construct all nilpotent groups:
     all := [];
     C0 := 15 - SOTRec.delta(2, p);
+    C := [];
     C[1] := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3) + SOTRec.w((q - 1), p^4);
     C[2] := 2*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3);
     C[3] := SOTRec.w((q - 1), p) + SOTRec.w((q - 1), p^2);
@@ -856,7 +857,7 @@ SOTRec.GroupP4Q := function(n, id)
         Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q, G \cong C_2 \times (Q_8 \ltimes C_q)
         Add(all, [ [2, 2, 2, 2, q], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 4, [5, q - 1]] ]); #F(G) \cong Q_8 \times C_q, G \cong D_q \times Q_8
       fi;
-      return SOTRec.groupFromData(all[id - C0 - Sum([1..9],x->C[x])]);
+      return SOTRec.groupFromData(all[id - C0 - Sum([1..8],x->C[x])]);
 
     #10 P \cong [ [p, p, p, p], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ], p > 2
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ]
