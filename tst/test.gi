@@ -11,13 +11,13 @@ SOTRec.testAllSOTGroups := function(n)
 				duplicates := [];
 				missing    := [];
 				sotgroups   := List(AllSOTGroups(n),x->IdSmallGroup(x)[2]);
-						lib    := [1..NumberSmallGroups(n)];
+				lib    := [1..NumberSmallGroups(n)];
 				if Size(sotgroups) = NumberSmallGroups(n) and AsSet(sotgroups) = lib then
 					return true;
 				elif not Size(sotgroups) = NumberSmallGroups(n) or not AsSet(sotgroups) = lib then
 					Append(duplicates, List(Filtered(Collected(sotgroups), x->x[2] > 1), x->x[1]));
 					Print(("duplicate groups of order "), n,(" with id "), duplicates, ", ");
-					 Append(missing, Filtered(lib, x-> not x in sotgroups));
+					Append(missing, Filtered(lib, x-> not x in sotgroups));
 					Print(("missing groups of order "), n,(" with id "), missing, ".");
 				fi;
 end;
@@ -31,9 +31,9 @@ SOTRec.testSOTGroup := function(arg)
 	  if Length(arg) = 2 then
 	    todo := Filtered([arg[1]..arg[2]], x-> IsSOTAvailable(x));
 	  elif Length(arg) = 0 then
-			todo := Filtered([2..50000], x-> IsSOTAvailable(x));
+		  todo := Filtered([2..50000], x-> IsSOTAvailable(x));
 		elif Length(arg) = 1 then
-			todo := Filtered([2..arg], x-> IsSOTAvailable(x));
+		todo := Filtered([2..arg], x-> IsSOTAvailable(x));
 	  fi;
 	  for i in todo do
 	    nr := NumberOfSOTGroups(i);
@@ -88,8 +88,8 @@ getRandomPerm := function(G)
 	local H, gens, K;
 	    H := Image(IsomorphismPermGroup(G));
 	    repeat
-	       gens := List([1..Size(GeneratorsOfGroup(G))+3],x->Random(H));
-	       K := Group(gens);
+	    gens := List([1..Size(GeneratorsOfGroup(G))+3],x->Random(H));
+	    K := Group(gens);
 	    until Size(K) = Size(G);
 	    return K;
 	end;
@@ -102,16 +102,16 @@ getRandomPc := function(G)
 	   H    := G;
 	   rel  := [];
 	   repeat
-	      ns  := Filtered(MaximalSubgroupClassReps(H),x-> IsNormal(H,x) and
+	   ns  := Filtered(MaximalSubgroupClassReps(H),x-> IsNormal(H,x) and
 	              Size(x)<Size(H) and IsPrimeInt(Size(H)/Size(x)));
-	      N   := Random(ns);
-	      hom := NaturalHomomorphismByNormalSubgroup(H,N);
-	      el  := MinimalGeneratingSet(Image(hom))[1];
-	      el  := el^Random(Filtered([1..Order(el)],i-> Gcd(i,Order(el))=1));
-	      if not Order(el) mod Size(Image(hom))=0 then Error("mhmm"); fi;
-	      Add(els,PreImagesRepresentative(hom,el));
-	      Add(rel,Size(Image(hom)));
-	      H   := N;
+	   N   := Random(ns);
+	   hom := NaturalHomomorphismByNormalSubgroup(H,N);
+	   el  := MinimalGeneratingSet(Image(hom))[1];
+	   el  := el^Random(Filtered([1..Order(el)],i-> Gcd(i,Order(el))=1));
+	   if not Order(el) mod Size(Image(hom))=0 then Error("mhmm"); fi;
+	   Add(els,PreImagesRepresentative(hom,el));
+	   Add(rel,Size(Image(hom)));
+	   H   := N;
 	   until Size(H)=1;
 	   pcgs := PcgsByPcSequence(FamilyObj(els[1]),els);
 	   return GroupByPcgs(pcgs);
@@ -137,7 +137,6 @@ SOTRec.testIdSOTGroup := function(n)
 	          Add(copies, getRandomPerm(soty[i]));
 	          Add(copies, getRandomPc(copies[1]));
 	          Add(copies, getRandomPc(copies[2]));
-
 		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID perm", [n,i]); fi;
 	      od;
 	      Display(" ... SOT output correct");
@@ -169,7 +168,7 @@ SOTRec.testIdSOTGroupPc := function(n)
 
 	      sot := List([1..nr],x->AllSOTGroups(n)[x]);
 	      for i in [1..nr] do
-	          copies := List([1..5],x->getRandomPc(sot[i]));
+			  copies := List([1..5],x->getRandomPc(sot[i]));
 		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID pc", [n,i]); fi;
 	      od;
 	      Display(" ... SOT output correct");
@@ -218,7 +217,6 @@ end;
 ## SOTConst returns runtime.
 SOTconst := function( list )
 	local nums, tm, tg, grg;
-
 	   nums:= Sum(List(list,NumberOfSOTGroups));
 	   Print("there are ",nums," groups \n");
 	   tg  := Runtime();
