@@ -382,11 +382,11 @@ SOTRec.infoP2Q2 := function(n)
     Print("  These groups are sorted by their Sylow subgroups.\n");
     Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
     if n = 36 then
-      Print(sot, "5 is non-abelian, non-nilpotent and has normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
-      Print(sot, "6 is non-abelian, non-nilpotent and has normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
-      Print(sot, "7 is non-abelian, non-nilpotent and has normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
-      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
-      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
+      Print(sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
+      Print(sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
+      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
     else
       for i in [1..4] do
         if c[i] = 1 then

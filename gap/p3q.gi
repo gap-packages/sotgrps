@@ -542,20 +542,20 @@ SOTRec.infoP3Q := function(n)
     Print("\n  The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
     Print(sot, "1 - 3 are abelian.\n");
-    Print(sot, "4 - 5 are nonabelian nilpotent and have normal Sylow ", p,"-subgroup and normal Sylow ", q, "-subgroup.\n");
+    Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
     for i in [1..5] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
         Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
-        " are non-nilpotent and have normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     for i in [6..10] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     if c[11] = 1 then
