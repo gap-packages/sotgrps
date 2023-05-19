@@ -8,7 +8,7 @@
 
 SetPackageInfo( rec(
 
-PackageName := "sotgrps",
+PackageName := "SOTGrps",
 Subtitle    := "Constructing and identifying groups of small order type",
 Version     := "1.0",
 Date        := "01/01/2021",
