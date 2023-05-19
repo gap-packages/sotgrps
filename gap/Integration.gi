@@ -21,11 +21,11 @@ pos := Maximum(List([
 
 # meta data on small groups data we provide
 SMALL_AVAILABLE_FUNCS[layer] := function( size )
-    if size = 3^8 then
+    if IsSOTAvailable(size) then
         return rec (
             lib := layer,
             func := pos,
-            number := 123456    # number of groups of this order
+            number := NumberOfSOTGroups(size)    # number of groups of this order
         );
     fi;
 end;
@@ -51,7 +51,7 @@ SMALL_GROUP_FUNCS[ pos ] := function( size, i, inforec )
     local g;
 
     # Now create the actual group
-    Error("TODO");
+    g := SOTGroup(size, i);
 
     return g;
 end;
@@ -69,14 +69,14 @@ SELECT_SMALL_GROUPS_FUNCS[ pos ] := SELECT_SMALL_GROUPS_FUNCS[ 11 ];
 
 # Optional: Method for IdGroup(size, i).
 ID_GROUP_FUNCS[ pos ] := function( G, inforec )
-    Error("TODO");
+    return IdSOTGroup(G);
 end;
 
 # Method for SmallGroupsInformation(size):
 SMALL_GROUPS_INFORMATION[ pos ] := function( size, inforec, num )
     Print( " \n");
     Print( "      This database was created by BLA, see paper BLUB.\n");
-    # TODO: add more
+    return SOTGroupsInformation(size);
 end;
 
 
