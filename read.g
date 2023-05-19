@@ -11,7 +11,6 @@
 ##
 BindGlobal("SOTRec", rec());
 
-DeclareAttribute( "SOTGroup_id", IsGroup );
 ReadPackage("sotgrps", "gap/sot.gi");                #preliminary functions
 ReadPackage("sotgrps", "gap/pq.gi");
 ReadPackage("sotgrps", "gap/p2q.gi");

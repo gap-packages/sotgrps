@@ -93,23 +93,23 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 				return SOTRec.PGroup(p, k, i);
 			elif ind = [1, 1] then
 				G := SOTRec.GroupPQ(n, i);
-				SetSOTGroup_id(G,[n,i]);
+				SetIdSOTGroup(G,[n,i]);
 				return G;
 			elif ind in [ [1, 2], [2, 1] ] then
 				G := SOTRec.GroupP2Q(n, i);
-				SetSOTGroup_id(G,[n,i]);
+				SetIdSOTGroup(G,[n,i]);
 				return G;
 			elif ind = [1, 1, 1] then
 				G := SOTRec.GroupPQR(n, i);
-				SetSOTGroup_id(G,[n,i]);
+				SetIdSOTGroup(G,[n,i]);
 				return G;
 			elif ind = [2, 2] then
 				G := SOTRec.GroupP2Q2(n, i);
-				SetSOTGroup_id(G,[n,i]);
+				SetIdSOTGroup(G,[n,i]);
 				return G;
 			elif ind in [ [1, 3], [3, 1] ] then
 				G := SOTRec.GroupP3Q(n, i);
-				SetSOTGroup_id(G, [n, i]);
+				SetIdSOTGroup(G, [n, i]);
 				return G;
 			elif ind in [ [ 1, 1, 2 ], [ 1, 2, 1 ], [2, 1, 1] ] then
 				return SOTRec.GroupP2QR(n, i);
@@ -119,7 +119,7 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 				else
 					G := SOTRec.GroupPQRS(n, i);
 				fi;
-				SetSOTGroup_id(G, [n, i]);
+				SetIdSOTGroup(G, [n, i]);
 				return G;
 			elif ind in [ [1, 4], [4, 1] ] then
 				return SOTRec.GroupP4Q(n, i);
@@ -190,10 +190,11 @@ end);
 ######################################################
 ##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that IsSOTAvailable(n) = true and determines its SOT-group ID.
 	##That is, it outputs an ordered pair (n, i) where m = |G| and i is the position of G in the list AllSOTGroups(n).
-InstallGlobalFunction( IdSOTGroup, function(group)
+InstallMethod( IdSOTGroup, [ IsGroup ],
+function(group)
 	local n, ind, fac;
-		if HasSOTGroup_id(group) then
-			return SOTGroup_id(group);
+		if not IsFinite(group) then
+		    TryNextMethod();
 		fi;
 		n := Size(group);
 		fac := Collected(Factors(n));
