@@ -39,7 +39,7 @@ gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
 
-  The groups of order p2qr are either solvable or isomorphic to Alt(5).
+  The groups of order p^2qr are either solvable or isomorphic to Alt(5).
   The solvable groups are sorted by their Fitting subgroup.
      SOT 1 - 2 are the nilpotent groups.
      SOT 3 has Fitting subgroup of order 57.
