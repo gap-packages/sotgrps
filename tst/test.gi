@@ -5,7 +5,7 @@ LoadPackage("sotgrps");
 ###
 ## The following are test functions.
 #
-# compare with SmallGroups Library, if possible
+# SOTRec.testAllSOTGroups compares AllSOTGroups with AllSmallGroups, if possible
 SOTRec.testAllSOTGroups := function(n)
 	local sotgroups, lib, duplicates, missing;
 				duplicates := [];
@@ -22,10 +22,10 @@ SOTRec.testAllSOTGroups := function(n)
 				fi;
 end;
 
-## testAll([a, b]) tests the functions for groups of order n such that a ≤ n ≤ b by comparing the size of the output of AllSOTGroups(n) and the enumeration NumberOfSOTGroups(n),
+## SOTRec.testSOTGroup([a, b]) tests the functions for groups of order n such that a ≤ n ≤ b by comparing the size of the output of AllSOTGroups(n) and the enumeration NumberOfSOTGroups(n),
   ## and tests whether IdSOTGroup(SOTGroup(n, i)) = (n, i) and IdSOTGroup(AllSOTGroups(n)[i]) = (n, i).
   ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
-SOTRec.testAll := function(arg)
+SOTRec.testSOTGroup := function(arg)
   local todo, nr, i, sotCnstAll, sotCnstbyID, sotID, sgl, ids, idss;
 	  USE_NC:=false;
 	  if Length(arg) = 2 then
@@ -62,8 +62,8 @@ end;
 
 
 
-## SOTRec.testAllEnumeration(from, to) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
-SOTRec.testAllEnumeration := function(arg)
+## SOTRec.testNumberOfSOTGroups([from, to]) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
+SOTRec.testNumberOfSOTGroups := function(arg)
 local todo, i, sot, gap;
 	if Length(arg) = 2 then
    todo:=Filtered([arg[1]..arg[2]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
@@ -118,9 +118,9 @@ getRandomPc := function(G)
 	end;
 
 
-## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
+## SOTRec.testIdSOTGroup(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
 ## test against SOT itself
-SOTRec.testId := function(n)
+SOTRec.testIdSOTGroup := function(n)
 	local nr, gap, sot, soty, i, copies,  gapid, new;
 	repeat
 	   n := n+1;
@@ -157,8 +157,8 @@ SOTRec.testId := function(n)
 	return true;
 	end;
 
-## testId(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
-SOTRec.testIdPc := function(n)
+## SOTRec.testIdSOTGroupPc(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
+SOTRec.testIdSOTGroupPc := function(n)
 	local nr, gap, sot, i, copies, gapid, new;
 	repeat
 	   n := n+1;
@@ -188,10 +188,36 @@ SOTRec.testIdPc := function(n)
 	until false;
 	return true;
 	end;
+## test by RandomIsomorphismTest
+SOTRec.testbyRandomIsomorphismTest := function(x)
+local t,sot,gap,tg,cd;
+   if not IsSOTAvailable(x) then Error("Wrong input."); fi;
+   t := Runtime();
+   sot := AllSOTGroups(x);
+   t := Runtime()-t;
+   Display(["done",x,Size(sot),t]);
+   if SmallGroupsAvailable(x) then
+      if not Size(sot)=NumberSmallGroups(x) then Error("Revise enumeration."); fi;
+      if not AsSet(List(sot,IdSmallGroup))=AsSet(List([1..NumberSmallGroups(x)],i->[x,i])) then Error("Gulp! Construction contains duplicate(s)!");fi;
+   else
+      Print("start gap\n");
+      tg := Runtime();
+      gap := ConstructAllGroups(x);
+      tg := Runtime()-tg;
+      if not Size(sot)=Size(gap) then Error("Revise enumeration."); fi;
+      Display([x,t,tg]);
+      cd := List(sot,x->rec(order:=Size(x),code:=CodePcGroup(x)));
+      Print("start random\n");
+      cd := RandomIsomorphismTest(cd,10);
+      if Size(cd)<Size(sot) then Error("random is"); else Print("ok\n");fi;
+   fi;
+   if not ForAll(sot,i->Order(i)=x) then Error("order"); fi;
+   return t;
+end;
 
 ## SOTConst returns runtime.
 SOTconst := function( list )
-	local nums, grps, ids, tm, tg, tim, tgi, ids2, grg, grm, tgm;
+	local nums, tm, tg, grg;
 
 	   nums:= Sum(List(list,NumberOfSOTGroups));
 	   Print("there are ",nums," groups \n");

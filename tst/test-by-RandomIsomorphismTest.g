@@ -20,7 +20,7 @@ LoadPackage("grpconst");
 #p4q: if p = 2, 3, 5, 7 then compare sot groups with GAP SmallGroups Lib, otherwise compare with grpconst list.
 SOTRec.testordP4Q := function(x) #test by RandomIsomorphismTest
 local t,sot,gap,tg,cd;
-   if not isp4q(x) then Error("input"); fi;
+   if not isp4q(x) then Error("Wrong input."); fi;
    t := Runtime();
    sot := SOTRec.allGroupsP4Q(x);
    t := Runtime()-t;
@@ -52,7 +52,7 @@ for n in p4q do Print("start ", n,"\n"); if not Size(SOTRec.allGroupsP4Q(n) = SO
 #pqrs
 SOTRec.testordPQRS := function(x)
 local t,sot,gap,tg,cd;
-   if not ispqrs(x) then Error("input"); fi;
+   if not ispqrs(x) then Error("Wrong input."); fi;
    t := Runtime();
    sot := SOTRec.allGroupsPQRS(x);
    t := Runtime()-t;
@@ -65,7 +65,7 @@ local t,sot,gap,tg,cd;
       tg := Runtime();
       gap := ConstructAllGroups(x);
       tg := Runtime()-tg;
-      if not Size(sot)=Size(gap) then Error("nr 2"); fi;
+      if not Size(sot)=Size(gap) then Error("Revise enumeration."); fi;
       Display([x,t,tg]);
       cd := List(sot,x->rec(order:=Size(x),code:=CodePcGroup(x)));
       Print("start random\n");
@@ -81,20 +81,20 @@ end;
 #p2q2
 SOTRec.testordP2Q2 := function(x)
 local t,sot, gap,tg,cd;
-   if not isp2q2(x) then Error("input"); fi;
+   if not isp2q2(x) then Error("Wrong input."); fi;
    t := Runtime();
    sot := SOTRec.allGroupsP2Q2(x);
    t := Runtime()-t;
    Display(["done",x,Size(sot),t]);
    if x < 50001 then
-      if not Size(sot)=NumberSmallGroups(x) then Error("nr"); fi;
+      if not Size(sot)=NumberSmallGroups(x) then Error("Revise enumeration."); fi;
       if not AsSet(List(sot,IdSmallGroup))=AsSet(List([1..NumberSmallGroups(x)],i->[x,i])) then Error("gulp");fi;
    else
       Print("start gap\n");
       tg := Runtime();
       gap := ConstructAllGroups(x);
       tg := Runtime()-tg;
-      if not Size(sot)=Size(gap) then Error("nr 2"); fi;
+      if not Size(sot)=Size(gap) then Error("Revise enumeration."); fi;
       Display([x,t,tg]);
       cd := List(sot,x->rec(order:=Size(x),code:=CodePcGroup(x)));
       Print("start random\n");
@@ -108,7 +108,7 @@ end;
 #p2qr
 SOTRec.testordP2QR := function(x)
 local t,sot,gap,tg,cd;
-   if not isp2qr(x) then Error("input"); fi;
+   if not isp2qr(x) then Error("Wrong input."); fi;
    t := Runtime();
    sot := SOTRec.allGroupsP2QR(x);
    t := Runtime()-t;
@@ -121,7 +121,7 @@ local t,sot,gap,tg,cd;
       tg := Runtime();
       gap := ConstructAllGroups(x);
       tg := Runtime()-tg;
-      if not Size(sot)=Size(gap) then Error("nr 2"); fi;
+      if not Size(sot)=Size(gap) then Error("Revise enumeration."); fi;
       Display([x,t,tg]);
       cd := List(sot,x->rec(order:=Size(x),code:=CodePcGroup(x)));
       Print("start random\n");
