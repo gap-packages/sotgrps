@@ -82,7 +82,7 @@ end;
 
 
 # p2qr or p2q2 orders up to 50 000 that need to change
-ordstodo := [ 36, 100, 196, 225, 441, 484, 676, 1089, 1156, 1225, 1444, 1521, 2116, 2601, 3025, 3249, 3364, 3844, 4225, 4761, 5476, 5929, 6724, 7225, 7396, 7569, 8281, 8649, 8836, 9025,
+SOTRec.ordstodo := [ 36, 100, 196, 225, 441, 484, 676, 1089, 1156, 1225, 1444, 1521, 2116, 2601, 3025, 3249, 3364, 3844, 4225, 4761, 5476, 5929, 6724, 7225, 7396, 7569, 8281, 8649, 8836, 9025,
   11236, 12321, 13225, 13924, 14161, 14884, 15129, 16641, 17689, 17956, 19881, 20164, 20449, 21025, 21316, 24025, 24964, 25281, 25921, 27556, 31329, 31684, 33489, 34225, 34969,
   37636, 40401, 40804, 41209, 42025, 42436, 43681, 45369, 45796, 46225, 47089, 47524, 47961, 48841, 60, 84, 90, 126, 132, 140, 150, 156, 198, 204, 220, 228, 234, 260, 276, 294,
   306, 308, 315, 340, 342, 348, 350, 364, 372, 380, 414, 444, 460, 476, 490, 492, 495, 516, 522, 525, 532, 550, 558, 564, 572, 580, 585, 620, 636, 644, 650, 666, 693, 708,
@@ -250,7 +250,7 @@ ordstodo := [ 36, 100, 196, 225, 441, 484, 676, 1089, 1156, 1225, 1444, 1521, 21
   49332, 49338, 49340, 49396, 49401, 49412, 49436, 49444, 49460, 49468, 49482, 49484, 49524, 49539, 49540, 49548, 49550, 49554, 49556, 49575, 49581, 49596, 49612, 49617, 49628,
   49668, 49676, 49724, 49726, 49756, 49772, 49775, 49796, 49806, 49836, 49844, 49850, 49876, 49882, 49884, 49887, 49908, 49924, 49941, 49986, 49996 ];;
 
-idstodo := [ [ 5, 1, 9, 6, 3, 7, 8, 2, 10, 13, 14, 11, 12, 4 ], [ 5, 1, 6, 7, 3, 8, 9, 2, 10, 13, 11, 12, 16, 14, 15, 4 ], [ 5, 1, 6, 3, 7, 8, 2, 9, 12, 10, 11, 4 ],
+SOTRec.idstodo := [ [ 5, 1, 9, 6, 3, 7, 8, 2, 10, 13, 14, 11, 12, 4 ], [ 5, 1, 6, 7, 3, 8, 9, 2, 10, 13, 11, 12, 16, 14, 15, 4 ], [ 5, 1, 6, 3, 7, 8, 2, 9, 12, 10, 11, 4 ],
   [ 1, 3, 5, 2, 6, 4 ], [ 5, 1, 6, 3, 7, 8, 9, 2, 13, 10, 11, 12, 4 ], [ 5, 1, 6, 3, 7, 8, 2, 9, 12, 10, 11, 4 ], [ 5, 1, 6, 7, 3, 8, 9, 2, 10, 11, 12, 13, 16, 14, 15, 4 ],
   [ 1, 3, 5, 2, 6, 4 ], [ 5, 1, 6, 7, 3, 8, 9, 2, 10, 11, 12, 13, 16, 14, 15, 4 ], [ 1, 3, 2, 4 ], [ 5, 1, 6, 3, 7, 8, 2, 9, 12, 11, 10, 4 ],
   [ 5, 1, 6, 3, 7, 8, 9, 2, 13, 10, 11, 12, 4 ], [ 1, 5, 3, 6, 2, 7, 8, 4, 12, 9, 11, 10 ], [ 1, 3, 2, 5, 4, 6, 7 ], [ 1, 5, 3, 6, 2, 7, 8, 9, 10, 4, 15, 12, 11, 13, 14 ],
@@ -1444,35 +1444,34 @@ idstodo := [ [ 5, 1, 9, 6, 3, 7, 8, 2, 10, 13, 14, 11, 12, 4 ], [ 5, 1, 6, 7, 3,
   [ 1, 3, 2, 4 ], [ 1, 9, 4, 11, 10, 12, 2, 8, 3, 5, 7, 6, 13, 14, 15 ], [ 1, 5, 4, 6, 2, 3, 7, 8, 9 ], [ 1, 3, 2, 4 ], [ 1, 4, 3, 5, 2, 8, 6, 9, 7, 10 ],
   [ 1, 7, 6, 8, 2, 3, 4, 5, 9, 10, 11 ] ];;
 
-  # functions to convert AllSOTGroups output into SGL ordering
-  SOTRec.SGLordered := function(arg)
-    local n, i, group, groups, pos;
-      if Length(arg) = 1 then
-        n := arg[1];
-        if n in ordstodo then
-          pos := Position(ordstodo, n);;
-          groups := List(idstodo[pos], x->AllSOTGroups(n)[x]);;
-        fi;
-        return groups;
-      elif Length(arg) = 2 then
-        n := arg[1];
-        if n in ordstodo then
-          pos := Position(ordstodo, n);;
-          i := idstodo[pos][arg[2]];
-          group := SOTGroup(n, i);;
-          return group;
-        else return false;
-        fi;
-      else return false;
-      fi;
-    end;
+SortParallel(SOTRec.ordstodo, SOTRec.idstodo);
+MakeImmutable(SOTRec.ordstodo);
+MakeImmutable(SOTRec.idstodo);
+
+# functions to convert AllSOTGroups output into SGL ordering
+SOTRec.SGLordered := function(arg)
+  local n, pos, i;
+  n := arg[1];
+  pos := PositionSet(SOTRec.ordstodo, n);
+  if Length(arg) = 1 then
+    if pos <> fail then
+      return List(SOTRec.idstodo[pos], x->AllSOTGroups(n)[x]);;
+    fi;
+  elif Length(arg) = 2 then
+    if pos <> fail then
+      i := SOTRec.idstodo[pos][arg[2]];
+      return SOTGroup(n, i);
+    fi;
+  fi;
+  return false;
+end;
 
 testtranslation:=function()
   local groups, sglids, n;
     # groups := List(Filtered([1..50000], x->isp2qr(x) or isp2q2(x)), x->SOTRec.SGLordered(x));
     # sglids := List(groups, x->List(x, i->IdGroup(i)[2]));
     # return sglids = List(sglids, x->[1..Length(x)]);
-    groups := List([1..4307], i->List(idstodo[i], x->AllSOTGroups(ordstodo[i])[x]));;
+    groups := List([1..4307], i->List(SOTRec.idstodo[i], x->AllSOTGroups(SOTRec.ordstodo[i])[x]));;
     sglids := List([1..4307], i->List(groups[i], x->IdGroup(x)[2]));;
-    return sglids = List([1..4307], i->[1..NumberOfSOTGroups(ordstodo[i])]);
+    return sglids = List([1..4307], i->[1..NumberOfSOTGroups(SOTRec.ordstodo[i])]);
   end;
