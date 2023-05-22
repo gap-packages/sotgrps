@@ -144,7 +144,7 @@ SOTRec.testIdSOTGroup := function(orders)
 						else Append(copies, [getRandomPc(sot[i]), getRandomPerm(soty[i])]);
 						fi;
 
-		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("SOT ID perm", [n,i]); fi;
+		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("Revise SOT ID", [n,i]); fi;
 	      od;
 
 	    ## can compare with gap library?
