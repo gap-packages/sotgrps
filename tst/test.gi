@@ -141,7 +141,7 @@ SOTRec.testIdSOTGroup := function(orders)
 								Add(copies, getRandomPc(copies[1]));
 								Add(copies, getRandomPc(copies[2]));
 							fi;
-						else Append(copies, [getRandomPc(sot[i]), getRandomPerm(soty[i])]);
+						else Append(copies, [getRandomPc(sot[i]), getRandomPc(soty[i])]);
 						fi;
 
 		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("Revise SOT ID", [n,i]); fi;
