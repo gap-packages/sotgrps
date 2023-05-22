@@ -35,17 +35,17 @@ gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not available
 
 # doc/_Chapter_The_SOTGrps_package.xml:111-124
-gap> SOTGroupsInformation(2116);
+gap> SOTGroupsInformation(2^2*3*19);
 
-  There are 12 groups of order 2116.
+  There are 15 groups of order 228.
 
-  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.
-  These groups are sorted by their Sylow subgroups.
-     SOT 1 - 4 are abelian and all Sylow subgroups are normal.
-     SOT 5 is non-abelian, non-nilpotent and has a normal Sylow 23-subgroup [ 529, 1 ], and Sylow 2-subgroup [ 4, 1 ].
-     SOT 6 is non-abelian, non-nilpotent and has a normal Sylow 23-subgroup [ 529, 1 ], and Sylow 2-subgroup [ 4, 2 ].
-     SOT 7 - 9 are non-abelian, non-nilpotent and have a normal Sylow 23-subgroup [ 529, 2 ], and Sylow 2-subgroup [ 4, 1 ].
-     SOT 10 - 12 are non-abelian, non-nilpotent and have a normal Sylow 23-subgroup [ 529, 2 ], and Sylow 2-subgroup [ 4, 2 ].
+  The groups of order p^2qr are either solvable or isomorphic to Alt(5).
+  The solvable groups are sorted by their Fitting subgroup.
+     SOT 1 - 2 are the nilpotent groups.
+     SOT 3 has Fitting subgroup of order 57.
+     SOT 4 - 7 have Fitting subgroup of order 76.
+     SOT 8 - 9 have Fitting subgroup of order 38.
+     SOT 10 - 15 have Fitting subgroup of order 114.
 
 
 #
