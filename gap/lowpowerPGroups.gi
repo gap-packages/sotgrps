@@ -97,12 +97,9 @@ SOTRec.lowpowerPGroups := function(arg)
 					list := order16;
 				fi;
 				return list;
-			fi;
-
-			if k > 4 then
+			elif k > 4 then
 				Error("AllSOTGroups is not available for p-groups of order not dividing p^4.");
-			fi;
-			if p = 1 and k = 1 then
+			elif p = 1 and k = 1 then
 				list := [AbelianGroup([1])];
 				return list;
 			fi;
