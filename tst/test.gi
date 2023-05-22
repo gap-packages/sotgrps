@@ -127,7 +127,7 @@ SOTRec.testIdSOTGroup := function(orders)
 	for n in orders do
 	   if IsSOTAvailable(n) then
 	      nr  := NumberOfSOTGroups(n);
-	      gap := SmallGroupsAvailable(n);
+	      gap := SmallGroupsAvailable(n) and IdGroupsAvailable(n);
 	      Print("order ", n, ": testing ", nr, " groups\n");
 
 	      sot := List([1..nr],x->SOTGroup(n,x));

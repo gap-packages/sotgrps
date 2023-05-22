@@ -197,4 +197,10 @@ order 14415: testing 26 groups
 true
 
 #
+gap> SOTRec.testIdSOTGroup([2943,6655]);
+order 2943: testing 16 groups
+order 6655: testing 26 groups
+true
+
+#
 gap> STOP_TEST("tests.tst", 1);

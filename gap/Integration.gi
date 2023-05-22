@@ -74,8 +74,8 @@ end;
 
 # Method for SmallGroupsInformation(size):
 SMALL_GROUPS_INFORMATION[ pos ] := function( size, inforec, num )
-    Print( " \n");
-    Print( "      This database was created by BLA, see paper BLUB.\n");
+    #Print( " \n");
+    #Print( "      This database was created by BLA, see paper BLUB.\n");
     return SOTGroupsInformation(size);
 end;
 
