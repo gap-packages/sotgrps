@@ -1169,7 +1169,7 @@ SOTRec.IdGroupP2QR := function(group)
             pcgs := [gens[1]^x, gens[1]^(x*p), gens[3], gens[4]];
             pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
             exp1 := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
-            k := Position(SOTRec.groupofunitsP2(p), LogFFE(exp1[4]*One(GF(r)), a^((r-1)/(p^2))) mod (p^2));
+            k := PositionSet(SOTRec.groupofunitsP2(p), LogFFE(exp1[4]*One(GF(r)), a^((r-1)/(p^2))) mod (p^2));
             return [n, 2 + k + c1 + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
             + SOTRec.w((q - 1), (p^2))];
           elif (not IsOne(Comm(gens[2], gens[4]))) and IsOne(Comm(gens[2], gens[3])) then ## p | (q - 1), p^2 | (r - 1), and G \cong C_{p^2} \ltimes (C_q \times C_r)
@@ -1256,7 +1256,7 @@ SOTRec.IdGroupP2QR := function(group)
           else k := LogFFE(LogFFE(x[2], x[1])*One(GF(q)), c) mod (q - 1);
                l := LogFFE(LogFFE(x[2], x[1])*One(GF(r)), a) mod (r - 1);
           fi;
-          m := Position(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
+          m := PositionSet(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
           return [n, 3 + (m - 1) + c1 + c2
           + 3*SOTRec.w((p - 1), q*r)
           + (r - 1 + q - 1) * SOTRec.w((p - 1), q*r)];

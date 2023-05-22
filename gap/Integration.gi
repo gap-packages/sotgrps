@@ -1466,12 +1466,30 @@ SOTRec.SGLordered := function(arg)
   return false;
 end;
 
-testtranslation:=function()
-  local groups, sglids, n;
-    # groups := List(Filtered([1..50000], x->isp2qr(x) or isp2q2(x)), x->SOTRec.SGLordered(x));
-    # sglids := List(groups, x->List(x, i->IdGroup(i)[2]));
-    # return sglids = List(sglids, x->[1..Length(x)]);
-    groups := List([1..4307], i->List(SOTRec.idstodo[i], x->AllSOTGroups(SOTRec.ordstodo[i])[x]));;
-    sglids := List([1..4307], i->List(groups[i], x->IdGroup(x)[2]));;
-    return sglids = List([1..4307], i->[1..NumberOfSOTGroups(SOTRec.ordstodo[i])]);
-  end;
+SOTRec.testtranslation:=function(arg)
+    local groups, sglids, n, nr, from, to;
+    if Length(arg) = 0 then
+        groups := List([1..4307], i->SOTRec.SGLordered(SOTRec.ordstodo[i]));;
+        sglids := List([1..4307], i->List(groups[i], x->IdGroup(x)[2]));;
+        return sglids = List([1..4307], i->[1..NumberOfSOTGroups(SOTRec.ordstodo[i])]);
+    elif Length(arg) = 1 then
+        n := arg[1];
+        groups := SOTRec.SGLordered(SOTRec.ordstodo[n]);;
+        sglids := List(groups, x->IdGroup(x)[2]);;
+        return sglids = [1..NumberOfSOTGroups(SOTRec.ordstodo[n])];
+    elif Length(arg) = 2 then
+        from := arg[1];
+        to := arg[2];
+        for n in [from..to] do
+            n := SOTRec.ordstodo[n];
+            nr := NumberOfSOTGroups(n);
+            Print("order ", n, ": testing ", nr, " groups\n");
+            groups := SOTRec.SGLordered(n);
+            sglids := List(groups, x->IdGroup(x)[2]);
+            if not sglids = [1..nr] then
+                Error("Revide translation order ", n);
+            fi;
+        od;
+        return true;
+    fi;
+end;

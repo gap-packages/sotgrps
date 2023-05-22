@@ -145,4 +145,29 @@ order 100: testing 16 groups
 true
 
 #
+gap> SOTRec.testtranslation(60,80);
+order 735: testing 6 groups
+order 738: testing 10 groups
+order 740: testing 15 groups
+order 748: testing 11 groups
+order 774: testing 16 groups
+order 804: testing 15 groups
+order 812: testing 16 groups
+order 819: testing 11 groups
+order 820: testing 20 groups
+order 825: testing 5 groups
+order 836: testing 9 groups
+order 846: testing 10 groups
+order 850: testing 10 groups
+order 852: testing 10 groups
+order 855: testing 5 groups
+order 860: testing 11 groups
+order 868: testing 9 groups
+order 876: testing 18 groups
+order 884: testing 15 groups
+order 940: testing 11 groups
+order 948: testing 15 groups
+true
+
+#
 gap> STOP_TEST("tests.tst", 1);
