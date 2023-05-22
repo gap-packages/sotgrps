@@ -756,3 +756,276 @@ SOTRec.infoPQRS := function(n)
     fi;
     Print("\n");
   end;
+
+  #
+  # the case of groups of order pqrs
+  #
+  SOTRec.IdGroupPQRS := function(group)
+    local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
+    G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
+    c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,
+    pcgsp, pcgsq, pcgsr, pcgss;
+      n := Order(group);
+      fac := Factors(n);
+      if not List(Collected(fac), x->x[2]) = [1, 1, 1, 1] then
+        Error("Argument must be of the form of pqrs");
+      else
+        p := fac[1];
+        q := fac[2];
+        r := fac[3];
+        s := fac[4];
+      fi;
+
+      P := SylowSubgroup(group, p);
+      Q := SylowSubgroup(group, q);
+      R := SylowSubgroup(group, r);
+      S := SylowSubgroup(group, s);
+      pcgsp := Pcgs(P);
+      pcgsq := Pcgs(Q);
+      pcgsr := Pcgs(R);
+      pcgss := Pcgs(S);
+
+      u := Z(q);
+      v := Z(r);
+      w := Z(s);
+
+      if IsAbelian(group) then return [n, 1];
+      else
+        flag := [Size(FittingSubgroup(group)), Size(Centre(group))];
+        pcgs := [pcgsp[1], pcgsq[1], pcgsr[1], pcgss[1]];
+        pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
+        exprp := ExponentsOfPcElement(pc, pcgs[3]^pcgs[1]);
+        exprq := ExponentsOfPcElement(pc, pcgs[3]^pcgs[2]);
+        expsp := ExponentsOfPcElement(pc, pcgs[4]^pcgs[1]);
+        expsq := ExponentsOfPcElement(pc, pcgs[4]^pcgs[2]);
+        expsr := ExponentsOfPcElement(pc, pcgs[4]^pcgs[3]);
+        expqp := ExponentsOfPcElement(pc, pcgs[2]^pcgs[1]);
+      fi;
+
+      c1 := SOTRec.w((s - 1), (p*q*r));
+      c2 := SOTRec.w((r - 1), (p*q))
+      + SOTRec.w((s - 1), (p*q))
+      + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+      + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+      + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+      + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+      + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+      + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q)
+      + SOTRec.w((r - 1), q)*SOTRec.w((s - 1), p);
+      c3 := SOTRec.w((s - 1), p*r)
+      + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+      + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r));
+      c4 := SOTRec.w((s - 1), (q*r));
+      c5 := SOTRec.w((q - 1), p)
+      + SOTRec.w((r - 1), p)
+      + SOTRec.w((s - 1), p)
+      + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+      + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+      + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+      + (p - 1)^2*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p);
+      c6 := SOTRec.w((r - 1), q)
+      + SOTRec.w((s - 1), q)
+      + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), q);
+      if flag[1] = s and (s - 1) mod (p*q*r) = 0 then
+        return [n, 2];
+      fi;
+      if flag[1] = r * s and (r - 1)*(s - 1) mod (p*q) = 0 then
+        if flag[2] = s then return [n, 2 + c1];
+        elif flag[2] = r then
+          return [n, 2 + c1
+          + SOTRec.w((r - 1), (p*q))];
+        elif (s - 1) mod (p*q) = 0 and (r - 1) mod (p*q) = 0 and
+          exprp[3] <> 1 and
+          exprq[3] <> 1 and
+          expsp[4] <> 1 and
+          expsq[4] <> 1 then
+          x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
+          y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
+          k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
+          l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
+          return [n, 2 + c1
+          + SOTRec.w((r - 1), (p*q))
+          + SOTRec.w((s - 1), (p*q))
+          + l + (k - 1)*(q - 1) - 1 ];
+        elif (r - 1) mod p = 0 and (s - 1) mod (p*q) = 0 and exprq[3] = 1 then
+          if expsp[4] <> 1 and expsq[4] <> 1 then
+            x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
+            k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + k - 1 ];
+          elif (r - 1) mod p = 0 and (s - 1) mod q = 0 and expsp[4] = 1 then
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q)) ];
+          fi;
+        elif (r - 1) mod q = 0 and (s - 1) mod (p*q) = 0 and exprp[3] = 1 then
+          if expsp[4] <> 1 and expsq[4] <> 1 then
+            y := Inverse(LogFFE(expsq[4]*One(GF(s)), w^((s - 1)/q))) mod q;
+            l := LogFFE(exprq[3]^y*One(GF(r)), v^((r - 1)/q)) mod q;
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + l - 1 ];
+          elif (r - 1) mod q = 0 and (s - 1) mod p = 0 and expsq[4] = 1 then
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) ];
+          fi;
+        elif expsq[4] = 1 then
+          if exprp[3] <> 1 and exprq[3]<> 1 then
+            x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
+            k := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + k - 1 ];
+          elif (r - 1) mod q = 0 and (s - 1) mod p = 0 and expsq[4] = 1 then
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((r - 1), p)*SOTRec.w((s - 1), q) ];
+            fi;
+        elif expsp[4] = 1 then
+          if exprp[3] <> 1 and exprq[3] <> 1 then
+            y := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
+            l := LogFFE(expsq[4]^y*One(GF(s)), w^((s - 1)/q)) mod q;
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + l - 1 ];
+          elif (r - 1) mod p = 0 and (s - 1) mod q = 0 and exprq[3] = 1 then
+            return [n, 2 + c1
+            + SOTRec.w((r - 1), (p*q))
+            + SOTRec.w((s - 1), (p*q))
+            + (p - 1)*(q - 1)*SOTRec.w((s - 1), (p*q))*SOTRec.w((r - 1), (p*q))
+            + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), (p*q))
+            + (q - 1)*SOTRec.w((r - 1), q)*SOTRec.w((s - 1), (p*q))
+            + (p - 1)*SOTRec.w((s - 1), p)*SOTRec.w((r - 1), (p*q))
+            + (q - 1)*SOTRec.w((s - 1), q)*SOTRec.w((r - 1), (p*q)) ];
+          fi;
+        fi;
+      fi;
+      if flag[1] = q * s then
+        if flag[2] = q then
+          return [n, 2 + c1 + c2];
+        elif (s - 1) mod r = 0 and (q - 1) mod p = 0 and expsp[4] = 1 then
+          return [n, 2 + c1 + c2
+          + SOTRec.w((s - 1), p*r)];
+        elif (q - 1) mod p = 0 and (s - 1) mod (p*r) = 0 then
+          if expsp[4] <> 1 and expsr[4] <> 1 then
+            x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
+            k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
+            return [n, 2 + c1 + c2
+            + SOTRec.w((s - 1), p*r)
+            + SOTRec.w((s - 1), r)*SOTRec.w((q - 1), p)
+            + k - 1 ];
+          fi;
+        fi;
+      fi;
+      if flag[1] = p * s then
+        return [n, 2 + c1 + c2 + c3];
+      fi;
+      if flag[1] = q * r * s then
+        if flag[2] = r * s then
+          return [n, 2 + c1 + c2 + c3 + c4];
+        elif flag[2] = q * s then
+          return [n, 2 +  c1 + c2 + c3 + c4
+          + SOTRec.w((q - 1), p) ];
+        elif flag[2] = q * r then
+          return [n, 2 + c1 + c2 + c3 + c4
+          + SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)];
+        elif flag[2] = s then
+          if exprp[3] <> 1 then
+            x := Inverse(LogFFE(exprp[3]*One(GF(r)), v^((r - 1)/p))) mod p;
+            k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
+            return [n, 2 + c1 + c2 + c3 + c4
+            + SOTRec.w((q - 1), p)
+            + SOTRec.w((r - 1), p)
+            + SOTRec.w((s - 1), p)
+            + k - 1 ];
+          fi;
+        elif flag[2] = r then
+          if expsp[4] <> 1 then
+            x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
+            k := LogFFE(expqp[2]^x*One(GF(q)), u^((q - 1)/p)) mod p;
+            return [n, 2 + c1 + c2 + c3 + c4
+            + SOTRec.w((q - 1), p)
+            + SOTRec.w((r - 1), p)
+            + SOTRec.w((s - 1), p)
+            + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+            + k - 1 ];
+          fi;
+        elif flag[2] = q then
+          if expsp[4] <> 1 then
+            x := Inverse(LogFFE(expsp[4]*One(GF(s)), w^((s - 1)/p))) mod p;
+            k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
+            return [n, 2 + c1 + c2 + c3 + c4
+            + SOTRec.w((q - 1), p)
+            + SOTRec.w((r - 1), p)
+            + SOTRec.w((s - 1), p)
+            + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+            + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+            + k - 1 ];
+          fi;
+        elif expqp[2] <> 1 then
+          x := Inverse(LogFFE(expqp[2]*One(GF(q)), u^((q - 1)/p))) mod p;
+          k := LogFFE(exprp[3]^x*One(GF(r)), v^((r - 1)/p)) mod p;
+          l := LogFFE(expsp[4]^x*One(GF(s)), w^((s - 1)/p)) mod p;
+          return [n, 2 + c1 + c2 + c3 + c4
+          + SOTRec.w((q - 1), p)
+          + SOTRec.w((r - 1), p)
+          + SOTRec.w((s - 1), p)
+          + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p)
+          + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), p)
+          + (p - 1)*SOTRec.w((r - 1), p)*SOTRec.w((s - 1), p)
+          + l + (k - 1)*(p - 1) - 1 ];
+        fi;
+      fi;
+      if flag[1] = p * r * s then
+        if expsq[4] = 1 and exprq[3] <> 1 then
+          return [n, 2 + c1 + c2 + c3 + c4 + c5];
+        elif expsq[4] <> 1 and exprq[3] = 1 then
+          return [n, 2 + c1 + c2 + c3 + c4 + c5
+          + SOTRec.w((r - 1), q) ];
+        elif exprq[3] <> 1 then
+          x := Inverse(LogFFE(exprq[3]*One(GF(r)), v^((r - 1)/q))) mod q;
+          k := LogFFE(expsq[4]^x*One(GF(s)), w^((s - 1)/q)) mod q;
+          return [n, 2 + c1 + c2 + c3 + c4 + c5
+          + SOTRec.w((r - 1), q)
+          + SOTRec.w((s - 1), q)
+          + k - 1 ];
+        fi;
+      fi;
+      if flag[1] = p * q * s then
+        return [n, 2 + c1 + c2 + c3 + c4 + c5 + c6];
+      fi;
+  end;
