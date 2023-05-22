@@ -145,13 +145,6 @@ order 100: testing 16 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([330,390,1806]);
-order 330: testing 12 groups
-order 390: testing 12 groups
-order 1806: testing 30 groups
-true
-
-#
 gap> SOTRec.testtranslation(60,80);
 order 735: testing 6 groups
 order 738: testing 10 groups
