@@ -27,7 +27,6 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 			return SOTRec.allGroupsP2QR(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
 			return SOTRec.allGroupsPQRS(n);
-		fi;
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
