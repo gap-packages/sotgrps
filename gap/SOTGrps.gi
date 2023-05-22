@@ -26,11 +26,8 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 4 and Length(fac) = 3 then
 			return SOTRec.allGroupsP2QR(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
-			## To use the construction by case distinction on the size of F (the Fitting subgroup of G), set USE_pqrsII := false; otherwise, the main construction functions AllSOTGroups and SOTGroup use the case distinction by the centre and the derived subgroup of G, with USE_pqrsII = true.
-			if USE_pqrsII = true then
-				return SOTRec.allGroupsPQRSII(n);
-			else return SOTRec.allGroupsPQRS(n);
-			fi;
+			return SOTRec.allGroupsPQRS(n);
+		fi;
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
@@ -114,11 +111,7 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			elif ind in [ [ 1, 1, 2 ], [ 1, 2, 1 ], [2, 1, 1] ] then
 				return SOTRec.GroupP2QR(n, i);
 			elif ind = [1, 1, 1, 1] then
-				if USE_pqrsII = true then
-					G := SOTRec.GroupPQRSII(n, i);
-				else
-					G := SOTRec.GroupPQRS(n, i);
-				fi;
+				G := SOTRec.GroupPQRS(n, i);
 				SetIdSOTGroup(G, [n, i]);
 				return G;
 			elif ind in [ [1, 4], [4, 1] ] then
@@ -212,11 +205,7 @@ function(group)
 		elif ind in [ [ 1, 1, 2 ], [ 1, 2, 1 ], [2, 1, 1] ] then
 			return SOTRec.IdGroupP2QR(group);
 		elif ind = [1, 1, 1, 1] then
-			if USE_pqrsII = true then
-				return SOTRec.IdGroupPQRSII(group);
-			else
-				return SOTRec.IdGroupPQRS(group);
-			fi;
+			return SOTRec.IdGroupPQRS(group);
 		elif ind in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
