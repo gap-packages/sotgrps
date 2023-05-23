@@ -34,7 +34,7 @@ gap> NumberOfSOTGroups(2*3*5*7);
 gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not available
 
-# doc/_Chapter_The_SOTGrps_package.xml:111-140
+# doc/_Chapter_The_SOTGrps_package.xml:110-135
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
@@ -46,9 +46,6 @@ gap> SOTGroupsInformation(2^2*3*19);
      SOT 4 - 7 have Fitting subgroup of order 76.
      SOT 8 - 9 have Fitting subgroup of order 38.
      SOT 10 - 15 have Fitting subgroup of order 114.
-
-gap> SmallGroupsAvailable(2662);
-false
 gap> SOTGroupsInformation(2662);
 
   There are 15 groups of order 2662.
@@ -62,7 +59,6 @@ gap> SOTGroupsInformation(2662);
      10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].
      13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
      15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
-
 
 #
 gap> STOP_TEST("sotgrps01.tst", 1);
