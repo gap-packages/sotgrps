@@ -170,7 +170,7 @@ order 948: testing 15 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([112,162,225,272,330,390,405,496,625,1053,1806,1875,6875,13203,73205]);
+gap> SOTRec.testIdSOTGroup([112,162,225,272,330,390,405,496,625,1053,1806,1875,1911,6875,13203,73205]);
 order 112: testing 43 groups
 order 162: testing 55 groups
 order 225: testing 6 groups
@@ -183,33 +183,71 @@ order 625: testing 15 groups
 order 1053: testing 51 groups
 order 1806: testing 30 groups
 order 1875: testing 21 groups
+order 1911: testing 15 groups
 order 6875: testing 59 groups
 order 13203: testing 63 groups
 order 73205: testing 110 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([150,156,260,294,1815,1911,14415]);
+gap> SOTRec.testIdSOTGroup([150,156,260,294,1815,1911,5415,12615,14415,18755,38829]);
 order 150: testing 13 groups
 order 156: testing 18 groups
 order 260: testing 15 groups
 order 294: testing 23 groups
 order 1815: testing 9 groups
 order 1911: testing 15 groups
+order 5415: testing 8 groups
+order 12615: testing 5 groups
 order 14415: testing 26 groups
+order 18755: testing 27 groups
+order 38829: testing 40 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([2943,6655]);
+gap> SOTRec.testIdSOTGroup([147,2943,6655]);
+order 147: testing 6 groups
 order 2943: testing 16 groups
 order 6655: testing 26 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([2601,3249]);
+gap> SOTRec.testIdSOTGroup([2601,255025]);
 order 2601: testing 7 groups
-order 3249: testing 21 groups
+order 255025: testing 32 groups
 true
+
+#
+gap> SOTGroupsInformation(5^4*3);
+
+  There are 21 groups of order 1875.
+
+  The groups of order p^4q are solvable by Burnside's pq-Theorem.
+  These groups are sorted by their Sylow subgroups.
+     SOT 1 - 15 are nilpotent and all Sylow subgroups are normal.
+     SOT 16 is sovable, non-nilpotentand has a normal abelian Sylow 5-subgroup [ 625, 2 ],
+         with cyclic Sylow 3-subgroup .
+     SOT 17 is sovable, non-nilpotentand has a normal abelian Sylow 5-subgroup [ 625, 11 ],
+         with cyclic Sylow 3-subgroup .
+     SOT 18 - 19 are sovable, non-nilpotentand have a normal elementary abelian Sylow 5-subgroup 3,
+         with cyclic Sylow 3-subgroup .
+     SOT 20 is sovable, non-nilpotentand has a normal nonabelian Sylow 5-subgroup [ 625, 14 ],
+         with cyclic Sylow 3-subgroup .
+     SOT 21 is sovable, non-nilpotentand has a normal nonabelian Sylow 5-subgroup [ 625, 12 ],
+         with cyclic Sylow 3-subgroup .
+
+#
+gap> SOTGroupsInformation(255025);
+
+  There are 32 groups of order 255025.
+
+  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.
+  These groups are sorted by their Sylow subgroups.
+     SOT 1 - 4 are abelian and all Sylow subgroups are normal.
+     SOT 5 - 6 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 1 ], and Sylow 5-subgroup [ 25, 1 ].
+     SOT 7 is non-abelian, non-nilpotent and has a normal Sylow 101-subgroup [ 10201, 1 ], and Sylow 5-subgroup [ 25, 2 ].
+     SOT 8 - 27 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ], and Sylow 5-subgroup [ 25, 1 ].
+     SOT 28 - 32 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ], and Sylow 5-subgroup [ 25, 2 ].
 
 #
 gap> STOP_TEST("tests.tst", 1);
