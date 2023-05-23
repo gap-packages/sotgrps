@@ -345,68 +345,6 @@ SOTRec.NumberGroupsP2QR := function(n)
   end;
 ######################################################
 ######################################################
-SOTRec.infoP2QR := function(n)
-  local fac, primefac, p, q, r, m, c, fit, i;
-    c := [];
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
-      Error("Argument must be of the form of p^2qr"); fi;
-      primefac := function(n)
-        local i, j, tmp;
-          tmp := [];
-          for i in Collected(fac) do
-            if i[2] = 2 then j := i[1];
-            elif i[2] = 1 then Add(tmp, i[1]);
-            fi;
-          od;
-          Sort(tmp);
-          Add(tmp, j);
-          return tmp;
-        end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
-    fit := [r, q*r, p^2, p^2*q, p^2*r, p*r, p*q*r];
-    ############ enumeration of distinct cases
-    c[1] := SOTRec.w((r - 1), p^2*q);;
-    c[2] := SOTRec.w((q - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p^2)*SOTRec.w((r - 1), p)
-      + (p^2 - p)*SOTRec.w((r - 1), p^2)*SOTRec.w((q - 1), p^2)
-      + SOTRec.w((r - 1), p^2) + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p^2)
-      + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p);;
-    c[3] := 1/2*(q*r+q+r+7)*SOTRec.w((p - 1), q*r)
-      + SOTRec.w((p^2 - 1), q*r)*(1 - SOTRec.w((p - 1), q*r))*(1 - SOTRec.delta(q, 2))
-      + 2*SOTRec.w((p + 1), r)*SOTRec.delta(q, 2);;
-    c[4] := 1/2*(r + 5)*SOTRec.w((p - 1), r) + SOTRec.w((p + 1), r);;
-    c[5] := 8*SOTRec.delta(q, 2)
-      + (1 - SOTRec.delta(q, 2))*(1/2*(q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)
-      + 1/2*(q - 1)*SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q)
-      + 1/2*(q + 5)*SOTRec.w((p - 1), q)
-      + 2*SOTRec.w((r - 1), q)
-      + SOTRec.w((p + 1), q));;
-    c[6] := SOTRec.w((r - 1), p)*(SOTRec.w((p - 1), q)*(1 + (q - 1)*SOTRec.w((r - 1), q))
-      + 2*SOTRec.w((r - 1), q));;
-    c[7] := 2*(SOTRec.w((q - 1), p) + SOTRec.w((r - 1), p)
-      + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p));;
-    m := Sum(c);
-    if m = 0 then
-      Print("\n  There are 2 groups of order ", n,".\n");
-      Print("\n  All groups of order ", n, " are abelian.\n");
-    else
-      Print("\n  There are ", m + 2, " groups of order ", n,".\n");
-      Print("\n  The groups of order p^2qr are either solvable or isomorphic to Alt(5).\n");
-      Print("  The solvable groups are sorted by their Fitting subgroup. \n");
-      Print(SOTRec.sot, "1 - 2 are the nilpotent groups.\n" );
-      for i in [1..7] do
-        if c[i] = 1 then
-          Print(SOTRec.sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
-        elif c[i] > 1 then
-          Print(SOTRec.sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
-        fi;
-      od;
-      if n = 60 then
-        Print(SOTRec.sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
-      fi;
-    fi;
-  end;
-######################################################
 SOTRec.GroupP2QR := function(n, i)
   local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
   Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2, rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2,

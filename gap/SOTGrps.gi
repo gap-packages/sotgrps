@@ -128,7 +128,7 @@ end);
 ############################################################################
 ##SOTGroupsInformation() introduces the main function AllSOTGroups.
 ##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
-SOTRec.sot := "     SOT ";
+SOTRec.sot :=  "     SOT ";
 InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local fac, ind, n;
 		if Length(arg) = 0 then
@@ -169,7 +169,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 			elif ind = [1, 1, 1, 1] then
 				SOTRec.infoPQRS(n);
 			elif ind in [ [1, 4], [4, 1] ] then
-				Print("There are ", SOTRec.NumberGroupsP4Q(n), " isomorphism types of groups of order ", n, ".");
+				SOTRec.infoP4Q(n);
 			elif Sum(ind) >= 5 then
 				Error("Order ", n, " is not available");
 			fi;

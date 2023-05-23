@@ -24,5 +24,6 @@ ReadPackage("sotgrps", "gap/lowpowerPGroups.gi");
 ReadPackage("sotgrps", "gap/SOTGrps.gi");
 ReadPackage("sotgrps", "gap/IdFunc.gi");
 ReadPackage("sotgrps", "gap/IdFuncP4Q.gi");
+ReadPackage("sotgrps", "gap/SOTinfo.gi");
 ReadPackage("sotgrps", "gap/SOTtoSGL.gi");
-ReadPackage("sotgrps", "gap/Integration.gi");
+#ReadPackage("sotgrps", "gap/Integration.gi");

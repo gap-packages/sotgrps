@@ -1,6 +1,6 @@
 ## Construct all groups of order p^4q: all such groups are solvable.
 ## The isomorphism types of nilpotent groups of such order are in one-to-one correspondence with the isomorphism type of the Sylow p-subgroup. In particular, such groups are stored by "lowpowerPGroups".
-## It remains to investigate the nonnilpotent groups. There are three classes of such groups: one class where the Sylow p-subgroup is normal, one where the Sylow q-subgroup is normal, and one with no normal Sylow subgroups.
+## It remains to investigate the non-nilpotent groups. There are three classes of such groups: one class where the Sylow p-subgroup is normal, one where the Sylow q-subgroup is normal, and one with no normal Sylow subgroups.
 ## Note that two split extensions C_q \ltimes_\phi P and C_q \ltimes_\psi P are isomorphic if and only if Im(\phi) and Im(\psi) are conjugate in Aut(P) (see [2, Proposition 3.6]).
   ## Moreover, we apply the following result (Lemma 9 in The enumeration of groups of order p^nq for n ≤ 5 by Eick & Moede):
   ## Theorem:
@@ -630,13 +630,14 @@ SOTRec.allGroupsP4Q := function(arg)
 end;
 ###################################################################
 SOTRec.GroupP4Q := function(n, id)
-  local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
+  local fac, LF, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, TupleiById, i, j, k, l, m,
         C0, C, data;
     fac := Collected(Factors(n));
-    if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] or id < 1 then
-      Error("Argument must be of the form of (p^4q, id), where p, q are distinct primes and id is a positive natural number.");
-    elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
+    LF := List(fac, x -> x[2]);
+    if not LF in [ [4, 1], [1, 4] ] or id < 1 then
+        Error("Argument must be of the form of (p^4q, id), where p, q are distinct primes and id is a positive natural number.");
+    elif LF = [1, 4] then p := fac[2][1]; q := fac[1][1];
     else p := fac[1][1]; q := fac[2][1];
     fi;
 
