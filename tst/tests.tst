@@ -170,7 +170,7 @@ order 948: testing 15 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([112,162,225,272,330,390,405,496,625,1053,1806,1875,1911,6875,13203,73205]);
+gap> SOTRec.testIdSOTGroup([112,162,225,272,330,390,405,496,625,1053,1806,1875,1911,6875,7203,13203,73205,102576253]);
 order 112: testing 43 groups
 order 162: testing 55 groups
 order 225: testing 6 groups
@@ -185,8 +185,10 @@ order 1806: testing 30 groups
 order 1875: testing 21 groups
 order 1911: testing 15 groups
 order 6875: testing 59 groups
+order 7203: testing 69 groups
 order 13203: testing 63 groups
 order 73205: testing 110 groups
+order 102576253: testing 446 groups
 true
 
 #
@@ -212,8 +214,10 @@ order 6655: testing 26 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([2601,255025]);
+gap> SOTRec.testIdSOTGroup([1444,2601,3249,255025]);
+order 1444: testing 12 groups
 order 2601: testing 7 groups
+order 3249: testing 21 groups
 order 255025: testing 32 groups
 true
 
