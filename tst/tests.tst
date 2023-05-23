@@ -207,8 +207,9 @@ order 38829: testing 40 groups
 true
 
 #
-gap> SOTRec.testIdSOTGroup([147,2943,6655]);
+gap> SOTRec.testIdSOTGroup([147,375,2943,6655]);
 order 147: testing 6 groups
+order 375: testing 7 groups
 order 2943: testing 16 groups
 order 6655: testing 26 groups
 true
