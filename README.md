@@ -1,3 +1,5 @@
+[![CI](https://github.com/xpan-eileen/sotgrps/actions/workflows/CI.yml/badge.svg)](https://github.com/xpan-eileen/sotgrps/actions/workflows/CI.yml)
+[![codecov](https://codecov.io/gh/xpan-eileen/sotgrps/branch/master/graph/badge.svg)](https://codecov.io/gh/xpan-eileen/sotgrps)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/xpan-eileen/sotgrps_gap_pkg/HEAD)
 
 # SOTGrps
