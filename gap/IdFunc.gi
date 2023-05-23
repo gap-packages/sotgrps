@@ -983,7 +983,7 @@ SOTRec.IdGroupP2QR := function(group)
           else k := LogFFE(LogFFE(x[2], x[1])*One(GF(q)), c) mod (q - 1);
                l := LogFFE(LogFFE(x[2], x[1])*One(GF(r)), a) mod (r - 1);
           fi;
-          m := PositionSet(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
+          m := Position(tmp, AsSet([[k, l], [(-k) mod (q - 1), (-l) mod (r - 1)]]));
           return [n, 3 + (m - 1) + c1 + c2
           + 3*SOTRec.w((p - 1), q*r)
           + (r - 1 + q - 1) * SOTRec.w((p - 1), q*r)];
