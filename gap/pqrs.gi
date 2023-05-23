@@ -382,8 +382,7 @@ SOTRec.GroupPQRS := function(n, i)
 end;
 ######################################################
 SOTRec.infoPQRS := function(n)
-  local c, sot, fac, p, q, r, s, m;
-    sot := SOTRec.sot(n);
+  local c, fac, p, q, r, s, m;
     c := [];
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
@@ -419,24 +418,23 @@ SOTRec.infoPQRS := function(n)
       Print("\n  All groups of order ", n, " are abelian.\n");
     else
       Print("\n  There are ", m + 1, " groups of order ", n,".\n");
-      Print("\n  The groups of order pqrs are solvable and classified by H\"older.\n");
+      Print("\n  The groups of order pqrs are solvable and classified by O. H\"older.\n");
       Print("  These groups are sorted by their centre. \n");
-      Print(sot, "1 is abelian.\n");
+      Print(SOTRec.sot, "1 is abelian.\n");
       if c[1] = 1 then
-        Print(sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
+        Print(SOTRec.sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
       elif c[1] > 1 then
-        Print(sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
+        Print(SOTRec.sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
       fi;
       if c[2] = 1 then
-        Print(sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
+        Print(SOTRec.sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
       elif c[2] > 1 then
-        Print(sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
+        Print(SOTRec.sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
       fi;
       if c[3] = 1 then
-        Print(sot, 1+m," has trivial centre.\n");
+        Print(SOTRec.sot, 1+m," has trivial centre.\n");
       elif c[2] > 1 then
-        Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
+        Print(SOTRec.sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
       fi;
     fi;
-    Print("\n");
   end;

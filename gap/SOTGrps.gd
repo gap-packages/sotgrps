@@ -91,8 +91,6 @@ DeclareGlobalFunction("IsSOTAvailable");
 #!      SOT 8 - 9 have Fitting subgroup of order 38.
 #!      SOT 10 - 15 have Fitting subgroup of order 114.
 #!
-#! gap> SmallGroupsAvailable(2662);
-#! false
 #! gap> SOTGroupsInformation(2662);
 #!
 #!   There are 15 groups of order 2662.

@@ -358,9 +358,8 @@ SOTRec.GroupP2Q2 := function(n, i)
 end;
 ############################################################################
 SOTRec.infoP2Q2 := function(n)
-  local fac, sot, p, q, c, m, prop, i;
+  local fac, p, q, c, m, prop, i;
     fac := Factors(n);
-    sot := SOTRec.sot(n);
     if not List(Collected(fac), x->x[2]) = [2, 2] then
       Error("Argument must be of the form of p^2q^2"); fi;
     q := fac[1];
@@ -380,22 +379,21 @@ SOTRec.infoP2Q2 := function(n)
     Print("\n  There are ", m + 4, " groups of order ", n,".\n");
     Print("\n  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
+    Print(SOTRec.sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
     if n = 36 then
-      Print(sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
-      Print(sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
-      Print(sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
-      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
-      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(SOTRec.sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
+      Print(SOTRec.sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
+      Print(SOTRec.sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
+      Print(SOTRec.sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(SOTRec.sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
     else
       for i in [1..4] do
         if c[i] = 1 then
-          Print(sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+          Print(SOTRec.sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
         elif c[i] > 1 then
-          Print(sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
+          Print(SOTRec.sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
           " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
         fi;
       od;
     fi;
-    Print("\n");
   end;

@@ -128,12 +128,12 @@ end);
 ############################################################################
 ##SOTGroupsInformation() introduces the main function AllSOTGroups.
 ##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
+SOTRec.sot := "     SOT ";
 InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local fac, ind, n;
 		if Length(arg) = 0 then
 			Print("AllSOTGroups(#) constructs all groups of order # up to isomorphism, where # factorises into at most 4 primes or # = p^4q, where p and q are distinct primes.");
-		fi;
-		if Length(arg) = 1 then
+		elif Length(arg) = 1 then
 			n := arg[1];
 			fac := Collected(Factors(n));
 			ind := List(fac, x -> x[2]);

@@ -507,9 +507,8 @@ SOTRec.GroupP3Q := function(n, i)
 end;
 ############################################################################
 SOTRec.infoP3Q := function(n)
-  local fac, sot, p, q, c, m, prop, i;
+  local fac, p, q, c, m, prop, i;
     fac := Factors(n);
-    sot := SOTRec.sot(n);
     if not List(Collected(fac), x->x[2]) in [ [1, 3], [3, 1] ] then
       Error("Argument must be of the form of p^3q"); fi;
     p := fac[2];
@@ -541,25 +540,24 @@ SOTRec.infoP3Q := function(n)
     Print("\n  There are ", m + 5, " groups of order ", n,".\n");
     Print("\n  The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(sot, "1 - 3 are abelian.\n");
-    Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
+    Print(SOTRec.sot, "1 - 3 are abelian.\n");
+    Print(SOTRec.sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
     for i in [1..5] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(SOTRec.sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
+        Print(SOTRec.sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
         " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     for i in [6..10] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(SOTRec.sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(SOTRec.sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     if c[11] = 1 then
-      Print(sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.\n");
+      Print(SOTRec.sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.\n");
     fi;
-    Print("\n");
   end;
