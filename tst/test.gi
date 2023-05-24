@@ -134,15 +134,14 @@ SOTRec.testIdSOTGroup := function(orders)
 	      soty := AllSOTGroups(n);
 	      for i in [1..nr] do
 	          copies := [];
-						if n < 5000 then
-							Add(copies, getRandomPerm(sot[i]));
-							Add(copies, getRandomPerm(soty[i]));
-							if IsSolvableGroup(sot[i]) then
-								Add(copies, getRandomPc(copies[1]));
-								Add(copies, getRandomPc(copies[2]));
-							fi;
-						else Append(copies, [getRandomPc(sot[i]), getRandomPc(soty[i])]);
-						fi;
+			  if n < 5000 then
+				  Add(copies, getRandomPerm(sot[i]));
+				  Add(copies, getRandomPerm(soty[i]));
+				  if IsSolvableGroup(sot[i]) then
+					  Add(copies, getRandomPc(copies[2]));
+				  fi;
+			  else Append(copies, [getRandomPc(sot[i]), getRandomPc(soty[i])]);
+			  fi;
 
 		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("Revise SOT ID", [n,i]); fi;
 	      od;
