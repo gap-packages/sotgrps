@@ -223,7 +223,7 @@ SOTRec.testSOTconst := function(n)
 		all := AllSOTGroups(n);
 		g := all[Random([1..NumberOfSOTGroups(n)])];
 		id := IdSOTGroup(g);
-		return IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2]));
+		if not IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2])) then Error("Revise p4q.");fi;
 	end;
 
 ## SOTConst returns runtime.

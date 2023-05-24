@@ -197,20 +197,30 @@ order 73205: testing 110 groups
 
 #
 gap> SOTRec.testSOTconst(102576253);
-true
+gap> SOTRec.testSOTconst(4950967);
 
 #
-gap> SOTRec.testIdSOTGroup([150,156,260,294,1815,1911,5415,12615,14415,18755,38829]);
+gap> SOTRec.testIdSOTGroup(150);
 order 150: testing 13 groups
+gap> SOTRec.testIdSOTGroup(156);
 order 156: testing 18 groups
+gap> SOTRec.testIdSOTGroup(260);
 order 260: testing 15 groups
+gap> SOTRec.testIdSOTGroup(294);
 order 294: testing 23 groups
+gap> SOTRec.testIdSOTGroup(1815);
 order 1815: testing 9 groups
+gap> SOTRec.testIdSOTGroup(1911);
 order 1911: testing 15 groups
+gap> SOTRec.testIdSOTGroup(5415);
 order 5415: testing 8 groups
+gap> SOTRec.testIdSOTGroup(12615);
 order 12615: testing 5 groups
+gap> SOTRec.testIdSOTGroup(14415);
 order 14415: testing 26 groups
+gap> SOTRec.testIdSOTGroup(18755);
 order 18755: testing 27 groups
+gap> SOTRec.testIdSOTGroup(38829);
 order 38829: testing 40 groups
 
 #
@@ -221,12 +231,17 @@ order 2943: testing 16 groups
 order 6655: testing 26 groups
 
 #
-gap> SOTRec.testIdSOTGroup([1444,2601,3249,176435,255025]);
+gap> SOTRec.testIdSOTGroup([1444,2601,3249,176435]);
 order 1444: testing 12 groups
 order 2601: testing 7 groups
 order 3249: testing 21 groups
 order 176435: testing 40 groups
+gap> SOTRec.testIdSOTGroup(255025);
 order 255025: testing 32 groups
+gap> SOTRec.testIdSOTGroup(555025);
+order 555025: testing 7 groups
+gap> SOTRec.testIdSOTGroup(1901641);
+order 1901641: testing 47 groups
 
 #
 gap> SOTGroupsInformation(5^4*3);
