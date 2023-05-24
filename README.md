@@ -64,7 +64,7 @@ constructed by `AllSOTGroups(n)`.
 ## References
 
 [1] X. Pan, Groups of small order type. MPhil thesis at Monash
-University.
+University. <https://xpan-eileen.github.io/documents/Thesis_Groups_of_small_order_type.pdf>
 
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at
 most four primes. In: Journal of Symbolic Computation (108) (2022), pp.
