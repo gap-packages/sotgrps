@@ -124,6 +124,7 @@ getRandomPc := function(G)
 ## test against SOT itself
 SOTRec.testIdSOTGroup := function(orders)
 	local n, nr, gap, sot, soty, i, copies,  gapid, new;
+	if IsInt(orders) then orders := [orders]; fi;
 	for n in orders do
 	   if IsSOTAvailable(n) then
 	      nr  := NumberOfSOTGroups(n);
@@ -157,7 +158,6 @@ SOTRec.testIdSOTGroup := function(orders)
 
 	   fi;
 	od;;
-	return true;
 	end;
 
 ## SOTRec.testIdSOTGroupPc(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
@@ -188,7 +188,6 @@ SOTRec.testIdSOTGroupPc := function(orders)
 
 	   fi;
 	od;
-	return true;
 	end;
 
 ## test by RandomIsomorphismTest
