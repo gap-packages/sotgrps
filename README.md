@@ -47,8 +47,6 @@ available.
 - `SOTGroupsInformation(n)`: returns a brief comment on the
 enumeration of the isomorphism types of groups of order `n`.
 
-- `SOTGroupsInformation()`: returns information of the available order
-types that `AllSOTGroups` applies to.
 
 
 Note that the construction of small groups could be different to the
