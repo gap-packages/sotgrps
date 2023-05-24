@@ -23,7 +23,7 @@ Persons := [
       IsAuthor      := true,
       IsMaintainer  := true,
       Email         := "xpan.eileen@gmail.com",
-      WWWHome       := "https://xpan-eileen.github.io/",
+      WWWHome       := "https://xpan-eileen.github.io/about/",
       PostalAddress := Concatenation( [
             "School of Mathematics",
             "Monash University\n",
