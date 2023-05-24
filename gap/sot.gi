@@ -4,8 +4,6 @@
     ## Analogously, we compute \sigma_{p^k} by computing ZmodnZObj(Int(Z(p)), p^k) or ZmodnZObj(Int(Z(p)), p^k) + p for the canonical primitive root modulo p^k (k is a positive integer), and \rho(p^k, b) accordingly for b dividing (p - 1).
     ## The SOTGrps library overlaps with the SmallGrps library.
 ############################################################################
-USE_NC := true;
-USE_PCP := false;
 ############################################################################
 #
 # constructs a pc/pcp group given by a list data;
@@ -14,27 +12,29 @@ USE_PCP := false;
 # encode conjugate relations (if data[i][2] is an integer)
 # or a power relation (if data[i][2] is a list
 #
-SOTRec.groupFromData := function(data)
-  local coll, i, j, n ,G;
-   n := Size(data[1]);
-   coll := FromTheLeftCollector(n);
-   for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
-   for i in [2..Length(data)] do
-      if IsInt(data[i][2]) then
-         SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
-      else
-         SetPowerNC(coll,data[i][1],data[i][2]);
-      fi;
-   od;
-   UpdatePolycyclicCollector(coll);
-  if USE_NC then
+SOTRec.groupFromData := function(arg)
+  local data, coll, i, j, n, G;
+    if Length(arg) = 1 then
+        data := arg[1];
+    else data := arg[1];
+    fi;
+    n := Size(data[1]);
+    coll := FromTheLeftCollector(n);
+    for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
+    for i in [2..Length(data)] do
+        if IsInt(data[i][2]) then
+            SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
+        else
+            SetPowerNC(coll,data[i][1],data[i][2]);
+        fi;
+    od;
+    UpdatePolycyclicCollector(coll);
+
     G := PcpGroupByCollectorNC(coll);
-  else G := PcpGroupByCollector(coll);
-  fi;
-  if USE_PCP = false then
-    return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
-  else return G;
-  fi;
+    if Length(arg) = 2 and arg[2] = IsPcpGroup then
+        return G;
+    else return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+    fi;
 end;
 ############################################################################
 #
