@@ -92,7 +92,7 @@ SOTRec.IdPGroup := function(group)
           fi;
         elif flag = [9, false, 3, true, 3, 3] then
           if IsAbelian(Omega(group, 3)) then return [81, 15];
-          else m := Size(Filtered(Elements(group), x -> Order(x) < 4));
+          else m := Size(Filtered(group, x -> Order(x) < 4));
             if m = 27 then return [81, 12];
             elif m = 63 then return [81, 13];
             elif m = 45 then return [81, 14];
@@ -588,7 +588,7 @@ SOTRec.IdGroupP3Q := function(group)
         return [24, 9];
       elif [tst[1], tst[2], tst[4], tst[6]] = [ false, true, 4, 8 ] then
         d := pcgsq[1];
-        repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
+        repeat c := Random(P); until not c in Centre(P) and d*c = c*d;
         O := Group([c, d, Pcgs(Zen)[1]]);
         if IsCyclic(O) then return [24, 11];
         else return [24, 10];
@@ -636,16 +636,16 @@ SOTRec.IdGroupP3Q := function(group)
       elif not tst[3] = true and tst[4] = p and p > 2 then return [n, 6 + c1 + c2 + c3];
       elif not tst[3] = true and tst[4] = 4 and tst[6] = 8 then
         d := pcgsq[1];
-        repeat c := Random(Elements(P)); until not c in Centre(P) and d*c = c*d;
+        repeat c := Random(P); until not c in Centre(P) and d*c = c*d;
         O := Group([c, d, Pcgs(Zen)[1]]);
         if IsCyclic(O) then return [n, 11 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
         else return [n, 10 + 2*SOTRec.w((q - 1), p^2) + SOTRec.w((q - 1), p^3)];
         fi;
       ## class 5: when P is extraspecial - type
       elif not tst[3] = true and tst[4] = p^2 and p > 2 then
-        repeat c := Random(Elements(P)); until Order(c) = p and not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
+        repeat c := Random(P); until Order(c) = p and not c in Centre(P) and not IsCyclic(Group([c, Pcgs(Centre(P))[1]]));
         d := pcgsq[1];
-        repeat g := Random(Elements(P)); until Order(g) = p^2 and g^p in Centre(P);
+        repeat g := Random(P); until Order(g) = p^2 and g^p in Centre(P);
         h := g^p;
         gens := [c, g, h, d];;
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
@@ -690,7 +690,7 @@ SOTRec.IdGroupP3Q := function(group)
       elif tst[3] = true and tst[4] = p^2 and tst[5] = p then ## (C_q \ltimes C_{p^2}) \times C_p
         return [n, 8];
       elif tst[3] = true and tst[4] = p^2 and tst[5] = 1 and q > 2 then ## C_q \ltimes (C_{p^2} \times C_p)
-        repeat g := Random(Elements(P)); until Order(g) = p and not g in FrattiniSubgroup(P);
+        repeat g := Random(P); until Order(g) = p and not g in FrattiniSubgroup(P);
         h := Filtered(pcgsp, x -> Order(x) = p^2)[1];
         gens:= [pcgsq[1], h, h^p, g];
         G := PcgsByPcSequence(FamilyObj(gens[1]), gens);

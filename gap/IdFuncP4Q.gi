@@ -193,9 +193,9 @@ SOTRec.IdGroupP4Q := function(group)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
-            repeat g := Random(Elements(P)); until not g in Zen and pcgsq[1]^g = pcgsq[1];
+            repeat g := Random(P); until not g in Zen and pcgsq[1]^g = pcgsq[1];
             if Order(g) = p^3 then
-              repeat h := Random(Elements(P)); until pcgsq[1]^h <> pcgsq[1] and h^g = h*g^(p^2);
+              repeat h := Random(P); until pcgsq[1]^h <> pcgsq[1] and h^g = h*g^(p^2);
               gens := [g, h, pcgsq[1], g^(p^2)];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               k := LogFFE(ExponentsOfPcElement(G, gens[3]^gens[2])[3] * One(GF(q)), r1) mod p;
@@ -204,8 +204,8 @@ SOTRec.IdGroupP4Q := function(group)
             fi;
           elif idfp[1] = p^2 then
             if idfp[2] = 1 then
-              repeat g3 := Random(Elements(P)); until Group([g3^p]) = Zen and pcgsq[1]^g3 = pcgsq[1];
-              repeat g := Random(Elements(P)); until Group([g^p]) = Centre(P) and g^(p^2) = g3^p;
+              repeat g3 := Random(P); until Group([g3^p]) = Zen and pcgsq[1]^g3 = pcgsq[1];
+              repeat g := Random(P); until Group([g^p]) = Centre(P) and g^(p^2) = g3^p;
               gens := [g, g^p, g3, g^(p^2), pcgsq[1]];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               x := Inverse(ExponentsOfPcElement(G, gens[3]^gens[1])[4]) mod p;
@@ -228,9 +228,9 @@ SOTRec.IdGroupP4Q := function(group)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
-            repeat h := Random(Elements(P)); until Group([h^p]) = DerivedSubgroup(P) and pcgsq[1]^h = pcgsq[1];
-            repeat g := Random(Elements(P)); until pcgsq[1]^g <> pcgsq[1] and h^g <> h^(p+1);
-            repeat g4 := Random(Elements(P)); until Group([h^p, g4]) = Zen;
+            repeat h := Random(P); until Group([h^p]) = DerivedSubgroup(P) and pcgsq[1]^h = pcgsq[1];
+            repeat g := Random(P); until pcgsq[1]^g <> pcgsq[1] and h^g <> h^(p+1);
+            repeat g4 := Random(P); until Group([h^p, g4]) = Zen;
             gens := [g, h, h^p, pcgsq[1], g4];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
@@ -273,11 +273,11 @@ SOTRec.IdGroupP4Q := function(group)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
-            repeat h := Random(Elements(P)); until not h in Zen and pcgsq[1]^h = pcgsq[1] and Order(h) = p^2;
+            repeat h := Random(P); until not h in Zen and pcgsq[1]^h = pcgsq[1] and Order(h) = p^2;
               if Group([h^p]) <> DerivedSubgroup(P) then
                 return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1];
               elif Group([h^p]) = DerivedSubgroup(P) then
-                repeat g := Random(Elements(P)); until pcgsq[1]^g <> pcgsq[1] and h^g = h^(p+1);
+                repeat g := Random(P); until pcgsq[1]^g <> pcgsq[1] and h^g = h^(p+1);
                 gens := [g, h, h^p, pcgsq[1], g^p];
                 G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
                 x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
@@ -285,8 +285,8 @@ SOTRec.IdGroupP4Q := function(group)
                 return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1 + k];
               fi;
           elif idfp[1] = p^2 then
-            repeat h := Random(Elements(P)); until Group([h^p]) = Zen and pcgsq[1]^h = pcgsq[1];
-            repeat g := Random(Elements(P)); until pcgsq[1]^g <> pcgsq[1] and h^g = h^(p+1);
+            repeat h := Random(P); until Group([h^p]) = Zen and pcgsq[1]^h = pcgsq[1];
+            repeat g := Random(P); until pcgsq[1]^g <> pcgsq[1] and h^g = h^(p+1);
             gens := [g, h, h^p, pcgsq[1], g^p];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
@@ -295,7 +295,7 @@ SOTRec.IdGroupP4Q := function(group)
           fi;
         elif p = 2 then
           if idfp[1] = 8 then
-            repeat g := Random(Elements(P)); until Group([g^p, pcgsq[1]]) = flag[3];
+            repeat g := Random(P); until Group([g^p, pcgsq[1]]) = flag[3];
             if pcgsq[1]^g <> pcgsq[1] then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1];
             else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 2];
             fi;
@@ -331,9 +331,9 @@ SOTRec.IdGroupP4Q := function(group)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
-            repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
-            repeat g2 := Random(Elements(P)); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1];
-            repeat g1 := Random(Elements(P)); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^p;
+            repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
+            repeat g2 := Random(P); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1];
+            repeat g1 := Random(P); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^p;
             gens := [g1, g2, g4, pcgsq[1], g2^p];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
@@ -344,9 +344,9 @@ SOTRec.IdGroupP4Q := function(group)
           elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2];
           elif idfp[2] = 4 then
             if p > 3 then
-              repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
-              repeat g2 := Random(Elements(P)); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1]^R1;
-              repeat g1 := Random(Elements(P)); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^p;
+              repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
+              repeat g2 := Random(P); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1]^R1;
+              repeat g1 := Random(P); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^p;
               gens := [g1, g2, g4, pcgsq[1], g2^p];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
@@ -371,9 +371,9 @@ SOTRec.IdGroupP4Q := function(group)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 3 then
           if idfp[2] = 2 then
-            repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
-            repeat g2 := Random(Elements(P)); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1];
-            repeat g1 := Random(Elements(P)); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^(Int(a)*p);
+            repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
+            repeat g2 := Random(P); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1];
+            repeat g1 := Random(P); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^(Int(a)*p);
             gens := [g1, g2, g4, pcgsq[1], g2^p];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
@@ -383,9 +383,9 @@ SOTRec.IdGroupP4Q := function(group)
             fi;
           elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2];
           elif idfp[2] = 4 then
-            repeat g4 := Random(Elements(P)); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
-            repeat g2 := Random(Elements(P)); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1]^R1;
-            repeat g1 := Random(Elements(P)); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^(Int(a)*p);
+            repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
+            repeat g2 := Random(P); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1]^R1;
+            repeat g1 := Random(P); until pcgsq[1]^g1 <> pcgsq[1] and Order(g1) = p and g4^g1 = g4*g2^(Int(a)*p);
             gens := [g1, g2, g4, pcgsq[1], g2^p];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
@@ -441,8 +441,8 @@ SOTRec.IdGroupP4Q := function(group)
         if sc = p then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 1];
         elif sc = p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 2];
         elif sc = 1 then
-          repeat g := Random(Elements(P)); until Order(g) = p^3 and Group([g^p]) = f;
-          repeat h := Random(Elements(P)); until Order(h) = p and Group([g, h]) = P;
+          repeat g := Random(P); until Order(g) = p^3 and Group([g^p]) = f;
+          repeat h := Random(P); until Order(h) = p and Group([g, h]) = P;
           gens := [pcgsq[1], g, g^p, g^(p^2), h];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
           x := Inverse(LogMod(ExponentsOfPcElement(G, gens[4]^gens[1])[4], Int(s3), p)) mod q;
@@ -499,7 +499,7 @@ SOTRec.IdGroupP4Q := function(group)
             group := group/Zen;
             P := SylowSubgroup(group, p);
             Q := SylowSubgroup(group, q);
-            repeat g := Random(Elements(P)); until Order(g) = p and not g in FrattiniSubgroup(P);
+            repeat g := Random(P); until Order(g) = p and not g in FrattiniSubgroup(P);
             h := Filtered(Pcgs(P), x -> Order(x) = p^2)[1];
             gens:= [Pcgs(Q)[1], g, h, h^p];
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -507,9 +507,9 @@ SOTRec.IdGroupP4Q := function(group)
             k := LogFFE(ExponentsOfPcElement(G, gens[2]^gens[1])[2]^x*One(GF(p)), s1) mod q;
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + 1 + Int((q + 3)/2) + k];
           elif sc = 1 then
-            repeat g4 := Random(Elements(P)); until Order(g4) = p^2 and Group([g4^p]) = f;
-            repeat g3 := Random(Elements(P)); until Order(g3) = p and not g3 in f;
-            repeat g := Random(Elements(P)); until Order(g) = p and Group([g, g3, g4, g4^p]) = P;
+            repeat g4 := Random(P); until Order(g4) = p^2 and Group([g4^p]) = f;
+            repeat g3 := Random(P); until Order(g3) = p and not g3 in f;
+            repeat g := Random(P); until Order(g) = p and Group([g, g3, g4, g4^p]) = P;
             gens := [pcgsq[1], g, g3, g4, g4^p];;
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
@@ -685,9 +685,9 @@ SOTRec.IdGroupP4Q := function(group)
                       + c18 + c19 + c20 + 2];
             elif Size(flag[3]) = p^4 then
               zenp := Centre(P);
-              repeat g2 := Random(Elements(zenp)); until Group([g2]) = zenp;
+              repeat g2 := Random(zenp); until Group([g2]) = zenp;
               g := Filtered(Pcgs(dG), x -> not x in zenp)[1];
-              repeat h := Random(Elements(dG)); until h^g <> h;
+              repeat h := Random(dG); until h^g <> h;
               gens := [pcgsq[1], g, g2, g2^p, h];;
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
@@ -721,8 +721,8 @@ SOTRec.IdGroupP4Q := function(group)
           fi;
         elif sc = 1 then
           zenp := Centre(P);
-          repeat g := Random(Elements(flag[3])); until Group([g^p]) = f;
-          repeat h := Random(Elements(flag[3])); until Order(h) = p and not h in f;;
+          repeat g := Random(flag[3]); until Group([g^p]) = f;
+          repeat h := Random(flag[3]); until Order(h) = p and not h in f;;
           gens := [pcgsq[1], h, g, g^p];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogMod(ExponentsOfPcElement(G, gens[4]^gens[1])[4], Int(s2), p)) mod q;
@@ -742,7 +742,7 @@ SOTRec.IdGroupP4Q := function(group)
           elif sc = 1 then
             zenp := Centre(P);
             if Size(flag[3]) = p^4 then
-              repeat g := Random(Elements(P)); until Order(g) = p and not g in zenp;
+              repeat g := Random(P); until Order(g) = p and not g in zenp;
               h := Filtered(pcgsp, x -> Order(x) = p^2 and x^p in f)[1];
               gens := [pcgsq[1], g, Pcgs(DerivedSubgroup(P))[1], h, h^p];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
@@ -780,9 +780,9 @@ SOTRec.IdGroupP4Q := function(group)
               pcgsp := Pcgs(P);
               pcgsq := Pcgs(Q);
               zenp := Centre(P);
-              repeat g4 := Random(Elements(zenp)); until Group([g4]) = zenp;
+              repeat g4 := Random(zenp); until Group([g4]) = zenp;
               g3 := Filtered(pcgsp, x -> not x in zenp)[1];
-              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              repeat g2 := Random(P); until g3^g2 = g3*g4;
               gens := [pcgsq[1], g2, g3, g4];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
@@ -797,10 +797,10 @@ SOTRec.IdGroupP4Q := function(group)
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + k - 1];
             elif Size(flag[3]) = p^4 and q > 2 then
               zenp := Centre(P);
-              repeat g4 := Random(Elements(zenp)); until Group([g4]) = Zen;
-              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
+              repeat g4 := Random(zenp); until Group([g4]) = Zen;
+              repeat g5 := Random(zenp); until Group([g4, g5]) = zenp;
               g3 := Filtered(pcgsp, x -> not x in zenp)[1];
-              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              repeat g2 := Random(P); until g3^g2 = g3*g4;
               gens := [pcgsq[1], g2, g3, g4, g5];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);;
@@ -827,10 +827,10 @@ SOTRec.IdGroupP4Q := function(group)
           elif sc = 1 then
             zenp := Centre(P);
             if Size(flag[3]) = p^3 then
-              repeat g4 := Random(Elements(zenp)); until Group([g4]) = DerivedSubgroup(P);
-              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
-              repeat g3 := Random(Elements(P)); until not g3 in zenp;
-              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              repeat g4 := Random(zenp); until Group([g4]) = DerivedSubgroup(P);
+              repeat g5 := Random(zenp); until Group([g4, g5]) = zenp;
+              repeat g3 := Random(P); until not g3 in zenp;
+              repeat g2 := Random(P); until g3^g2 = g3*g4;
               gens := [pcgsq[1], g2, g3, g4, g5];
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
               x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(p)), s1)) mod q;
@@ -838,10 +838,10 @@ SOTRec.IdGroupP4Q := function(group)
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + (q - 1)*(1 - SOTRec.delta(2, q)) + k];
             elif Size(flag[3]) = p^4 then
-              repeat g4 := Random(Elements(zenp)); until Group([g4]) = DerivedSubgroup(P);
-              repeat g5 := Random(Elements(zenp)); until Group([g4, g5]) = zenp;
+              repeat g4 := Random(zenp); until Group([g4]) = DerivedSubgroup(P);
+              repeat g5 := Random(zenp); until Group([g4, g5]) = zenp;
               g3 := Filtered(pcgsp, x -> not x in zenp)[1];
-              repeat g2 := Random(Elements(P)); until g3^g2 = g3*g4;
+              repeat g2 := Random(P); until g3^g2 = g3*g4;
               gens := [pcgsq[1], g2, g3, g4, g5];;
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);;
@@ -958,9 +958,9 @@ SOTRec.IdGroupP4Q := function(group)
         elif sc = 1 then
           zenp := Centre(P);
           dP := DerivedSubgroup(P);
-          repeat g := Random(Elements(dP)); until Group([g, Pcgs(zenp)[1]]) = dP;
-          repeat h := Random(Elements(P)); until not h in dP and g^h = g;
-          repeat g2 := Random(Elements(P)); until not g2 in dP and g^g2 <> g;
+          repeat g := Random(dP); until Group([g, Pcgs(zenp)[1]]) = dP;
+          repeat h := Random(P); until not h in dP and g^h = g;
+          repeat g2 := Random(P); until not g2 in dP and g^g2 <> g;
           gens := [pcgsq[1], g2, Pcgs(zenp)[1], g, h];
           G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
           x := Inverse(LogFFE(ExponentsOfPcElement(G, gens[3]^gens[1])[3] * One(GF(p)), s1)) mod q;
@@ -978,7 +978,7 @@ SOTRec.IdGroupP4Q := function(group)
         if Size(f) = 1 then return [48, 49];
         elif Size(f) = 2 and Size(dG) = 12 then return [48, 50];
         elif Size(f) = 2 and Size(dG) = 24 then
-          repeat g := Random(Elements(P)); until Order(g) < 8 and not g in dG and not g in Zen;
+          repeat g := Random(P); until Order(g) < 8 and not g in dG and not g in Zen;
           if Order(g) = 2 then return [48, 51];
           else return [48, 52];
           fi;
