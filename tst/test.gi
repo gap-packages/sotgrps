@@ -149,10 +149,10 @@ SOTRec.testIdSOTGroup := function(orders)
 	    ## can compare with gap library?
 	      if gap then
 	      gapid := List(sot,IdSmallGroup);
-		  if not Size(gapid) = NumberSmallGroups(n) then Error("gap nr"); fi;
-		  if not IsDuplicateFreeList(gapid) then Error("gap id"); fi;
+		  if not Size(gapid) = NumberSmallGroups(n) then Error("Revise enumeration."); fi;
+		  if not IsDuplicateFreeList(gapid) then Error("Revise ID and construction."); fi;
 	      new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
-		  if not IsDuplicateFreeList(new) then Error("SOT id"); fi;
+		  if not IsDuplicateFreeList(new) then Error("Revise SOT ID."); fi;
 	      fi;
 
 	   fi;
@@ -222,7 +222,7 @@ end;
 SOTRec.testSOTconst := function(n)
 	local all, g, id;
 		all := AllSOTGroups(n);
-		g := Random(all);
+		g := all[Random([1..NumberOfSOTGroups(n)])];
 		id := IdSOTGroup(g);
 		return IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2]));
 	end;
