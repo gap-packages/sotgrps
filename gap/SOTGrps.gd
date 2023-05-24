@@ -5,7 +5,8 @@
 #!    complete and irredundant list of isomorphism type representatives of the groups of order
 #!    - that factorises into at most four primes;
 #!    - p^4q, for disctinct primes p and q.
-##
+#!
+#! The mathematical background for this package is described in <Cite Key="DEP22"/>.
 
 ###############################
 ##

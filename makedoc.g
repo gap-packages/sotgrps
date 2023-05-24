@@ -9,6 +9,8 @@ AutoDoc(rec(
     autodoc := rec(
         files := ["doc/intro.autodoc"],
     ),
-    scaffold := true,
+    scaffold := rec(
+        bib := "bib",
+    ),
     extract_examples := true,
 ));
