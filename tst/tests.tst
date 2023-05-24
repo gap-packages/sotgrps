@@ -191,11 +191,7 @@ order 73205: testing 110 groups
 true
 
 #
-gap> List(AllSOTGroups(102576253),x->IdSOTGroup(x)[2]) = [1..NumberOfSOTGroups(102576253)];
-true
-
-#
-gap> List([1..446], i->IdSOTGroup(SOTGroup(102576253,i))[2]) = [1..NumberOfSOTGroups(102576253)];
+gap> SOTRec.testSOTconst(102576253);
 true
 
 #

@@ -218,6 +218,15 @@ local t,sot,gap,tg,cd;
    return t;
 end;
 
+## minimal sanity check for large orders
+SOTRec.testSOTconst := function(n)
+	local all, g, id;
+		all := AllSOTGroups(n);
+		g := Random(all);
+		id := IdSOTGroup(g);
+		return IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2]));
+	end;
+
 ## SOTConst returns runtime.
 SOTconst := function( list )
 	local nums, tm, tg, grg;
