@@ -17,8 +17,7 @@
 #! @Description
 #!  takes in a number n that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
-#!  Solvable groups are using refined polycyclic presentations and then converted into PcGroup using <K>PcpGroupToPcGroup</K>.
-#  If PcpGroups are preferred (for instance, to reduce runtime), set <K>USE_PCP := true</K>, then the groups are given as PcpGroup.
+#!  Solvable groups are using refined polycyclic presentations.
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n
 #! @BeginExampleSession

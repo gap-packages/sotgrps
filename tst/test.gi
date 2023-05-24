@@ -29,7 +29,6 @@ end;
   ## testAll() runs the above test for all nontrivial SOT groups of order available up to 10^6.
 SOTRec.testSOTGroup := function(arg)
   local todo, nr, i, sotCnstAll, sotCnstbyID, sotID, sgl, ids, idss;
-	  USE_NC:=false;
 	  if Length(arg) = 2 then
 	    todo := Filtered([arg[1]..arg[2]], x-> IsSOTAvailable(x));
 	  elif Length(arg) = 0 then
@@ -58,7 +57,6 @@ SOTRec.testSOTGroup := function(arg)
 	      Error("Revise AllSOTGroups/IdSOTGroup for order ",i,": ids are",idss,"\n");
 	    fi;
 	  od;
-	  USE_NC := true;
 	  return true;
 end;
 
