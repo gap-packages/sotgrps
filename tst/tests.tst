@@ -235,15 +235,15 @@ gap> SOTGroupsInformation(5^4*3);
   These groups are sorted by their Sylow subgroups.
      SOT 1 - 15 are nilpotent and all Sylow subgroups are normal.
      SOT 16 is sovable, non-nilpotentand has a normal abelian Sylow 5-subgroup [ 625, 2 ],
-         with cyclic Sylow 3-subgroup .
+         with cyclic Sylow 3-subgroup.
      SOT 17 is sovable, non-nilpotentand has a normal abelian Sylow 5-subgroup [ 625, 11 ],
-         with cyclic Sylow 3-subgroup .
+         with cyclic Sylow 3-subgroup.
      SOT 18 - 19 are sovable, non-nilpotentand have a normal elementary abelian Sylow 5-subgroup [ 625, 15 ],
-         with cyclic Sylow 3-subgroup .
+         with cyclic Sylow 3-subgroup.
      SOT 20 is sovable, non-nilpotentand has a normal nonabelian Sylow 5-subgroup [ 625, 14 ],
-         with cyclic Sylow 3-subgroup .
+         with cyclic Sylow 3-subgroup.
      SOT 21 is sovable, non-nilpotentand has a normal nonabelian Sylow 5-subgroup [ 625, 12 ],
-         with cyclic Sylow 3-subgroup 
+         with cyclic Sylow 3-subgroup.
 
 #
 gap> SOTGroupsInformation(255025);

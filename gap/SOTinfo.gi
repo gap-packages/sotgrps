@@ -274,10 +274,10 @@ SOTRec.infoP4Q := function(n)
         j := 15+i;
         if c[j] = 1 then
             Print(SOTRec.sot, c0+Sum([1..j],x->c[x]),
-                " is ", prop[i][1], "and has a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup ", ".\n");
+                " is ", prop[i][1], "and has a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
         elif c[j] > 1 then
             Print(SOTRec.sot, c0+1+Sum([1..j-1],x->c[x])," - ", c0+Sum([1..j],x->c[x]),
-            " are ", prop[i][1], "and have a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup ", ".\n");
+            " are ", prop[i][1], "and have a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
         fi;
     od;
     if n = 48 then
