@@ -46,7 +46,7 @@ AbstractHTML :=
 PackageWWWHome := "https://github.com/xpan-eileen/sotgrps",
 
 PackageDoc := rec(
-  BookName  := "sotgrps",
+  BookName  := "SOTGrps",
   ArchiveURLSubset := ["doc"],
   HTMLStart := "doc/chap0_mj.html",
   PDFFile   := "doc/manual.pdf",
