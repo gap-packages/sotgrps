@@ -34,19 +34,21 @@ presentations and use `PcpGroupToPcGroup` to convert them from
 `PcpGroup` to `PcGroup`, if `PcpGroup` is preferred, set `USE_PCP :=
 true`.
 
-- `SOTGroup(n, i)`: returns the i-th group with respect to the ordering
-of the list AllSOTGroups(n) without constructing all groups in the list.
+- `SOTGroup(n, i)`: returns the `i`-th group with respect to the ordering
+of the list `AllSOTGroups(n)` without constructing all groups in the list.
 
 - `IdSOTGroup(G)`: returns false if G is not a group or |G| is not
 available; otherwise returns the SOT-group ID (n, i), where n = |G| and
 G is isomorphic to `SOTGroup(n, i)`.
 
 - `IsSOTAvailable(n)`: returns true if the groups of order n are
-available. SOTGroupsInformation(n): returns a brief comment on the
+available.
+
+- `SOTGroupsInformation(n)`: returns a brief comment on the
 enumeration of the isomorphism types of groups of order `n`.
 
-- `SOTGroupsInformation(n)`: returns information of the available order
-types that `AllSOTGroups(n)` applies to.
+- `SOTGroupsInformation()`: returns information of the available order
+types that `AllSOTGroups` applies to.
 
 
 Note that the construction of small groups could be different to the
