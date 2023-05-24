@@ -8,7 +8,7 @@ This package for the [GAP computer algebra system](https://www.gap-system.org)
 is complementary to an MPhil thesis "Groups of small order type" and the
 joint paper "Groups whose order factorise into at most four primes"
 (Dietrich, Eick, & Pan, 2020) available at
-https://doi.org/10.1016/j.jsc.2021.04.005.
+<https://doi.org/10.1016/j.jsc.2021.04.005>.
 
 Using this package requires GAP, you can get it from
 <https://www.gap-system.org/Download/>. If you have GAP installed, then
@@ -68,4 +68,4 @@ University.
 
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at
 most four primes. In: Journal of Symbolic Computation (108) (2022), pp.
-23–40. (https://doi.org/10.1016/j.jsc.2021.04.005)
+23–40. <https://doi.org/10.1016/j.jsc.2021.04.005>
