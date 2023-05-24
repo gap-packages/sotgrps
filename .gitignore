@@ -3,7 +3,6 @@
 
 /doc/*.aux
 /doc/*.bbl
-/doc/*.bib
 /doc/*.blg
 /doc/*.brf
 /doc/*.css

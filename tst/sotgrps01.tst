@@ -10,7 +10,7 @@
 #
 gap> START_TEST("sotgrps01.tst");
 
-# doc/_Chapter_The_SOTGrps_package.xml:29-42
+# doc/_Chapter_The_SOTGrps_package.xml:31-44
 gap> AllSOTGroups(60);
 [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
@@ -24,17 +24,17 @@ gap> AllSOTGroups(60);
  Alt( [ 1 .. 5 ] ) ]
 gap> USE_PCP := false;;
 
-# doc/_Chapter_The_SOTGrps_package.xml:54-57
+# doc/_Chapter_The_SOTGrps_package.xml:56-59
 gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
-# doc/_Chapter_The_SOTGrps_package.xml:68-73
+# doc/_Chapter_The_SOTGrps_package.xml:70-75
 gap> NumberOfSOTGroups(2*3*5*7);
 12
 gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not available
 
-# doc/_Chapter_The_SOTGrps_package.xml:110-135
+# doc/_Chapter_The_SOTGrps_package.xml:112-137
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
