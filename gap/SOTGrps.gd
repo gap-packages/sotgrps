@@ -18,7 +18,7 @@
 #!  takes in a number n that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
 #!  Solvable groups are using refined polycyclic presentations and then converted into PcGroup using <K>PcpGroupToPcGroup</K>.
-#!  If PcpGroups are preferred (for instance, to reduce runtime), set <K>USE_PCP := true</K>, then the groups are given as PcpGroup.
+#  If PcpGroups are preferred (for instance, to reduce runtime), set <K>USE_PCP := true</K>, then the groups are given as PcpGroup.
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n
 #! @BeginExampleSession
@@ -28,13 +28,6 @@
 #!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
 #!  Alt( [ 1 .. 5 ] ) ]
 
-#! gap> USE_PCP := true;;
-#! gap> AllSOTGroups(60);
-#! [ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!  Alt( [ 1 .. 5 ] ) ]
-#! gap> USE_PCP := false;;
 #! @EndExampleSession
 DeclareGlobalFunction("AllSOTGroups");
 

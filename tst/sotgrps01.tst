@@ -10,31 +10,24 @@
 #
 gap> START_TEST("sotgrps01.tst");
 
-# doc/_Chapter_The_SOTGrps_package.xml:31-44
+# doc/_Chapter_The_SOTGrps_package.xml:30-36
 gap> AllSOTGroups(60);
 [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  Alt( [ 1 .. 5 ] ) ]
-gap> USE_PCP := true;;
-gap> AllSOTGroups(60);
-[ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
- Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
- Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
- Alt( [ 1 .. 5 ] ) ]
-gap> USE_PCP := false;;
 
-# doc/_Chapter_The_SOTGrps_package.xml:56-59
+# doc/_Chapter_The_SOTGrps_package.xml:48-51
 gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
-# doc/_Chapter_The_SOTGrps_package.xml:70-75
+# doc/_Chapter_The_SOTGrps_package.xml:62-67
 gap> NumberOfSOTGroups(2*3*5*7);
 12
 gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not available
 
-# doc/_Chapter_The_SOTGrps_package.xml:112-137
+# doc/_Chapter_The_SOTGrps_package.xml:104-129
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
