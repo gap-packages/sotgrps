@@ -419,45 +419,6 @@ SOTRec.IdGroupP2Q2 := function(group)
     if ( p + 1) mod (q^2) = 0 and q > 2 and ind[3] = 1 then
       return [n, 6];
     fi;
-    if (p - 1) mod (q^2) = 0 and q > 2 then
-      if ind = [p^2, q^2, 1] then
-        return [n, 11 + q];
-      elif ind = [p, q^2, p] then
-        return [n, 12 + q];
-      elif ind = [p, q^2, 1] then
-        g := Filtered(pcgsq, x -> Order(x)=q^2)[1];
-        h := Filtered(pcgsp, x -> not x in Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1];
-        if Size(Centre(Group([g^q, pcgsp[1], pcgsp[2]]))) = p then
-          gens := [g, g^q, h, Pcgs(Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1]];
-          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-          x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), mat), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
-          ev := List(Eigenvalues(GF(p), mat^x), x -> LogFFE(x, a^((p - 1)/(q^2))));
-          k := Filtered(ev, x -> x <> 1)[1]/q;
-          return [n, 12 + q + (q^2 - q + 2)/2 + k];
-        else
-          gens := [g, g^q, h, Filtered(pcgsp, x -> x <> h)[1]];
-          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-          x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/(q^2)))) mod q^2;
-          ev := List(Eigenvalues(GF(p), mat^x), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
-          if Length(ev) = 1 then k := 0;
-            return [n, 12 + q + k + 1];
-          elif Length(ev) > 1 then
-            k := Filtered(ev, x -> x <> 0)[1];
-            if k > (q^2 - q)/2 then
-              return [n, 12 + q + (q^2 - q - k) + 1];
-            else
-              return [n, 12 + q + k + 1];
-            fi;
-          fi;
-        fi;
-      fi;
-    fi;
 
     if q = 2 and p > 3 then
       if ind = [p^2, 4, 2] then
