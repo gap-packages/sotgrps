@@ -384,8 +384,6 @@ SOTRec.IdGroupP2Q2 := function(group)
         fi;
       elif ind = [p, q, q * p] and q > 2 then
         return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
-      elif ind = [p, q, q * p] and q = 2 then
-        return [n, 9];
       elif ind = [p, q, q] and q > 2 then
         g := Filtered(pcgsq, x -> not x in Zen)[1];
         h := Pcgs(Zen)[1];
@@ -401,12 +399,8 @@ SOTRec.IdGroupP2Q2 := function(group)
         else k := (q - 1) - det;
         fi;
         return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
-      elif ind = [p, q, q] and q = 2 then
-        return [n, 10];
       elif ind = [p, q, 1] and q > 2 then
         return [n, 10 + q + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2];
-      elif ind = [p, q, 1] and q = 2 then
-        return [n, 11];
       fi;
     fi;
     if (p + 1) mod q = 0 and q > 2 then
