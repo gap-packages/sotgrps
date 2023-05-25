@@ -28,7 +28,7 @@ gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
 # doc/_Chapter_The_SOTGrps_package.xml:90-95
-gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));
+gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));;
 gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
 gap> IsIsomorphicSOTGroups(G,H);
 true
