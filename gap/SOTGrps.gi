@@ -182,7 +182,7 @@ InstallMethod( IdSOTGroup, [ IsGroup ],
 function(group)
 	local n, ind, fac;
 		if not IsFinite(group) then
-		    TryNextMethod();
+			TryNextMethod();
 		fi;
 		n := Size(group);
 		fac := Collected(Factors(n));
