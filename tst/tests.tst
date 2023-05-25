@@ -214,6 +214,8 @@ gap> SOTRec.testIdSOTGroup(1911);
 order 1911: testing 15 groups
 gap> SOTRec.testIdSOTGroup(5415);
 order 5415: testing 8 groups
+gap> SOTRec.testIdSOTGroup(6321);
+order 6321: testing 22 groups
 gap> SOTRec.testIdSOTGroup(12615);
 order 12615: testing 5 groups
 gap> SOTRec.testIdSOTGroup(14415);
