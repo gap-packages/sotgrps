@@ -86,44 +86,32 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			if ind in [ [1], [2], [3], [4] ] then
 				p := fac[1][1];
 				k := fac[1][2];
-				return SOTRec.PGroup(p, k, i);
+				G := SOTRec.PGroup(p, k, i);
 			elif ind = [1, 1] then
 				G := SOTRec.GroupPQ(n, i);
-				SetIdSOTGroup(G,[n,i]);
-				return G;
 			elif ind in [ [1, 2], [2, 1] ] then
 				G := SOTRec.GroupP2Q(n, i);
-				SetIdSOTGroup(G,[n,i]);
-				return G;
 			elif ind = [1, 1, 1] then
 				G := SOTRec.GroupPQR(n, i);
-				SetIdSOTGroup(G,[n,i]);
-				return G;
 			elif ind = [2, 2] then
 				G := SOTRec.GroupP2Q2(n, i);
-				SetIdSOTGroup(G,[n,i]);
-				return G;
 			elif ind in [ [1, 3], [3, 1] ] then
 				G := SOTRec.GroupP3Q(n, i);
-				SetIdSOTGroup(G, [n, i]);
-				return G;
 			elif ind in [ [ 1, 1, 2 ], [ 1, 2, 1 ], [2, 1, 1] ] then
-				return SOTRec.GroupP2QR(n, i);
+				G := SOTRec.GroupP2QR(n, i);
 			elif ind = [1, 1, 1, 1] then
 				G := SOTRec.GroupPQRS(n, i);
-				SetIdSOTGroup(G, [n, i]);
-				return G;
 			elif ind in [ [1, 4], [4, 1] ] then
-				return SOTRec.GroupP4Q(n, i);
+				G := SOTRec.GroupP4Q(n, i);
 			else
 				Error("Order ", n, " is not available");
 			fi;
+
+			SetIdSOTGroup(G, [n, i]);
+			return G;
 		fi;
 
-		if i > NumberOfSOTGroups(n) then
-			Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " groups of order ", n, ".");
-		fi;
-
+		Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " groups of order ", n, ".");
 end);
 ############################################################################
 ##SOTGroupsInformation() introduces the main function AllSOTGroups.
