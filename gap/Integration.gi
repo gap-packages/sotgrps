@@ -76,7 +76,6 @@ end;
 SMALL_GROUPS_INFORMATION[ pos ] := function( size, inforec, num )
     #Print( " \n");
     #Print( "      This database was created by BLA, see paper BLUB.\n");
-    SOTRec.sot := "     ";
     SOTGroupsInformation(size);
     return;
 end;

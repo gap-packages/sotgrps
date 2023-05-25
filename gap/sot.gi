@@ -221,6 +221,18 @@ SOTRec.EigenvaluesGL4P2 := function(mat, p)
   return evm;
 end;
 ############################################################################
+## For the SOTGroupsInformation function, we use the following to distinguish SOT Ids and the SmallGroups Ids
 ############################################################################
-
+SOTRec.sot :=  function(n)
+	local sot, i , sglav;
+		i := 0;
+		repeat i := i + 1; sglav := SMALL_AVAILABLE_FUNCS[i](n);
+		until sglav <> fail or i = 11;
+		if sglav <> fail then
+			sot := "     SOT ";
+		else sot := "     ";
+		fi;
+		return sot;
+	end;
+############################################################################
 ############################################################################

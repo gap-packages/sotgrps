@@ -15,8 +15,8 @@
 #! @Section Main functions
 
 #! @Description
-#!  takes in a number n that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
-#!  and complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
+#!  takes in a number <A>n</A> that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
+#!  and returns a complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
 #!  Solvable groups are using refined polycyclic presentations.
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n
@@ -31,28 +31,31 @@
 DeclareGlobalFunction("AllSOTGroups");
 
 #! @Description
-#!  returns the <A>i</A>-th group with respect to the ordering of
+#!  takes in a number <A>n</A> that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
+#!  and returns the number of isomorphism types of groups of order <A>n</A>.
+#! @Arguments n
+#! @BeginExampleSession
+#! gap> NumberOfSOTGroups(2*3*5*7);
+#! 12
+#! gap> NumberOfSOTGroups(2*3*5*7*11);
+#! Error, Order 2310 is not supported by SOTGrps, please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.
+#! @EndExampleSession
+DeclareGlobalFunction("NumberOfSOTGroups");
+
+#! @Description
+#!  takes in a pair of numbers <A>n, i</A>, where <A>n</A> factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
+#!  and returns the <A>i</A>-th group with respect to the ordering of
 #!  the list <C>AllSOTGroups(<A>n</A>)</C> without constructing all groups in the list.
 #! @Arguments n, i
 #! @BeginExampleSession
 #! gap> SOTGroup(2*3*5*7, 1);
 #! <pc group of size 210 with 4 generators>
 #! @EndExampleSession
+#!  If the input <A>i</A> exceeds the number of groups of order <A>n</A>, an error message is returned.
 DeclareGlobalFunction("SOTGroup");
 
 #! @Description
-#!  returns the number of isomorphism types of groups of order <A>n</A>.
-#! @Arguments n
-#! @BeginExampleSession
-#! gap> NumberOfSOTGroups(2*3*5*7);
-#! 12
-#! gap> NumberOfSOTGroups(2*3*5*7*11);
-#! Error, Order 2310 is not available
-#! @EndExampleSession
-DeclareGlobalFunction("NumberOfSOTGroups");
-
-#! @Description
-#!  determines the SOT library number of <A>G</A>;
+#!  takes in a group of order determines the SOT library number of <A>G</A>;
 #!  that is, the function returns a pair [<A>n</A>, <A>i</A>] where <A>G</A> is isomorphic to <C>SOTGroup(<A>n</A>, <A>i</A>)</C>.
 #! @Arguments G
 DeclareAttribute( "IdSOTGroup", IsGroup );
@@ -60,6 +63,12 @@ DeclareAttribute( "IdSOTGroup", IsGroup );
 #! @Description
 #! determines whether two groups <A>G</A>, <A>H</A> are isomorphic. It is assumed that the input groups are available in the &SOTGrps; library.
 #! @Arguments G, H
+#! @BeginExampleSession
+#! gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));;
+#! gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
+#! gap> IsIsomorphicSOTGroups(G,H);
+#! true
+#! @EndExampleSession
 DeclareGlobalFunction("IsIsomorphicSOTGroups");
 
 #! @Description
@@ -69,7 +78,9 @@ DeclareGlobalFunction("IsSOTAvailable");
 
 #! @Description
 #!  prints information on the groups of the specified order.
-#!  Since there are some overlaps between the existing SmallGrps library and the &SOTGrps; library. In particular, &SOTGrps; may construct the groups in a different order and so generate a different group ID; we denote such IDs by <K>SOT</K>.
+#!  Since there are some overlaps between the existing SmallGrps library and the &SOTGrps; library.
+#!  In particular, &SOTGrps; may construct the groups in a different order and so generate a different group ID; we denote such IDs by <K>SOT</K>.
+#!  If the order covered in &SOTGrps; library has no conflicts with the existing library, then such a flag is removed.
 #! @BeginExampleSession
 #! gap> SOTGroupsInformation(2^2*3*19);
 #!
@@ -88,13 +99,13 @@ DeclareGlobalFunction("IsSOTAvailable");
 #!
 #!   The groups of order p^3q are solvable by Burnside's pq-Theorem.
 #!   These groups are sorted by their Sylow subgroups.
-#!      SOT 1 - 3 are abelian.
-#!      SOT 4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.
-#!      SOT 6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].
-#!      SOT 7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].
-#!      SOT 10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].
-#!      SOT 13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
-#!      SOT 15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
+#!      1 - 3 are abelian.
+#!      4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.
+#!      6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].
+#!      7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].
+#!      10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].
+#!      13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
+#!      15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
 #! @EndExampleSession
 #! @Arguments
 DeclareGlobalFunction("SOTGroupsInformation");

@@ -273,11 +273,11 @@ gap> SOTGroupsInformation(255025);
 
   The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.
   These groups are sorted by their Sylow subgroups.
-     SOT 1 - 4 are abelian and all Sylow subgroups are normal.
-     SOT 5 - 6 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 1 ], and Sylow 5-subgroup [ 25, 1 ].
-     SOT 7 is non-abelian, non-nilpotent and has a normal Sylow 101-subgroup [ 10201, 1 ], and Sylow 5-subgroup [ 25, 2 ].
-     SOT 8 - 27 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ], and Sylow 5-subgroup [ 25, 1 ].
-     SOT 28 - 32 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ], and Sylow 5-subgroup [ 25, 2 ].
+     1 - 4 are abelian and all Sylow subgroups are normal.
+     5 - 6 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 1 ] with Sylow 5-subgroup [ 25, 1 ].
+     7 is non-abelian, non-nilpotent and has a normal Sylow 101-subgroup [ 10201, 1 ] with Sylow 5-subgroup [ 25, 2 ].
+     8 - 27 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ] with Sylow 5-subgroup [ 25, 1 ].
+     28 - 32 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ] with Sylow 5-subgroup [ 25, 2 ].
 
 #
 gap> STOP_TEST("tests.tst", 1);

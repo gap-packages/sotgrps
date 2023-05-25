@@ -1,8 +1,9 @@
 SOTRec.infoP2Q2 := function(n)
-  local fac, p, q, c, m, prop, i;
+  local fac, sot, p, q, c, m, prop, i;
+    sot := SOTRec.sot(n);
     fac := Factors(n);
     if not List(Collected(fac), x->x[2]) = [2, 2] then
-      Error("Argument must be of the form of p^2q^2"); fi;
+      Error("Argument must be of the form of p^2q^2".\n); fi;
     q := fac[1];
     p := fac[4];
     prop := [ [[q^2, 1], [p^2, 1]], [[q^2, 2], [p^2, 1]],
@@ -20,30 +21,31 @@ SOTRec.infoP2Q2 := function(n)
     Print("\n  There are ", m + 4, " groups of order ", n,".\n");
     Print("\n  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(SOTRec.sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
+    Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
     if n = 36 then
-      Print(SOTRec.sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], ", and Sylow ", q, "-subgroup ", prop[1][1], ".\n");
-      Print(SOTRec.sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], ", and Sylow ", q, "-subgroup ", prop[2][1], ".\n");
-      Print(SOTRec.sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2], and Sylow 3-subgroup [9, 1].\n");
-      Print(SOTRec.sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
-      Print(SOTRec.sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], ", and Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], " with Sylow ", q, "-subgroup ", prop[1][1], ".\n");
+      Print(sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], " with Sylow ", q, "-subgroup ", prop[2][1], ".\n");
+      Print(sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2] with Sylow 3-subgroup [9, 1].\n");
+      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".\n");
     else
       for i in [1..4] do
         if c[i] = 1 then
-          Print(SOTRec.sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+          Print(sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".\n");
         elif c[i] > 1 then
-          Print(SOTRec.sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
-          " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], ", and Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+          Print(sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
+          " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".\n");
         fi;
       od;
     fi;
   end;
 ##############################################################################
 SOTRec.infoP3Q := function(n)
-  local fac, p, q, c, m, prop, i;
+  local fac, sot, p, q, c, m, prop, i;
+    sot := SOTRec.sot(n);
     fac := Factors(n);
     if not List(Collected(fac), x->x[2]) in [ [1, 3], [3, 1] ] then
-      Error("Argument must be of the form of p^3q"); fi;
+      Error("Argument must be of the form of p^3q.\n"); fi;
     p := fac[2];
     if fac[1] = fac[2] then
     q := fac[4]; elif fac[3] = fac[4] then
@@ -73,34 +75,35 @@ SOTRec.infoP3Q := function(n)
     Print("\n  There are ", m + 5, " groups of order ", n,".\n");
     Print("\n  The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(SOTRec.sot, "1 - 3 are abelian.\n");
-    Print(SOTRec.sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
+    Print(sot, "1 - 3 are abelian.\n");
+    Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
     for i in [1..5] do
       if c[i] = 1 then
-        Print(SOTRec.sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
-        Print(SOTRec.sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
+        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
         " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     for i in [6..10] do
       if c[i] = 1 then
-        Print(SOTRec.sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       elif c[i] > 1 then
-        Print(SOTRec.sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
       fi;
     od;
     if c[11] = 1 then
-      Print(SOTRec.sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.\n");
+      Print(sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.\n");
     fi;
   end;
 ##############################################################################
 SOTRec.infoP2QR := function(n)
-  local fac, primefac, p, q, r, m, c, fit, i;
+  local fac, sot, primefac, p, q, r, m, c, fit, i;
+    sot := SOTRec.sot(n);
     c := [];
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
-      Error("Argument must be of the form of p^2qr"); fi;
+      Error("Argument must be of the form of p^2qr.\n"); fi;
       primefac := function(n)
         local i, j, tmp;
           tmp := [];
@@ -143,26 +146,27 @@ SOTRec.infoP2QR := function(n)
       Print("\n  There are ", m + 2, " groups of order ", n,".\n");
       Print("\n  The groups of order p^2qr are either solvable or isomorphic to Alt(5).\n");
       Print("  The solvable groups are sorted by their Fitting subgroup. \n");
-      Print(SOTRec.sot, "1 - 2 are the nilpotent groups.\n" );
+      Print(sot, "1 - 2 are the nilpotent groups.\n" );
       for i in [1..7] do
         if c[i] = 1 then
-          Print(SOTRec.sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
+          Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
         elif c[i] > 1 then
-          Print(SOTRec.sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
+          Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
         fi;
       od;
       if n = 60 then
-        Print(SOTRec.sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
+        Print(sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
       fi;
     fi;
   end;
 ##############################################################################
 SOTRec.infoP4Q := function(n)
-    local fac, LF, p, q, c, c0, m, prop, i, j;
+    local sot, fac, LF, p, q, c, c0, m, prop, i, j;
+    sot := SOTRec.sot(n);
     fac := Collected(Factors(n));
     LF := List(fac, x -> x[2]);
     if not LF in [ [1, 4], [4, 1] ] then
-        Error("Argument must be of the form of p^4q.");
+        Error("Argument must be of the form of p^4q.\n");
     elif LF = [1, 4] then
         p := fac[2][1]; q := fac[1][1];
     elif LF = [4, 1] then
@@ -260,40 +264,41 @@ SOTRec.infoP4Q := function(n)
     Print("\n  There are ", m + c0, " groups of order ", n,".\n");
     Print("\n  The groups of order p^4q are solvable by Burnside's pq-Theorem.\n");
     Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(SOTRec.sot, "1 - ",c0, " are nilpotent and all Sylow subgroups are normal.\n");
+    Print(sot, "1 - ",c0, " are nilpotent and all Sylow subgroups are normal.\n");
     for i in [1..c0] do
         if c[i] = 1 then
-            Print(SOTRec.sot, c0+Sum([1..i],x->c[x]),
+            Print(sot, c0+Sum([1..i],x->c[x]),
             " is ", prop[i][1], "and has a normal Sylow ", q, "-subgroup,", "\n         with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".\n");
         elif c[i] > 1 then
-            Print(SOTRec.sot, c0+1+Sum([1..i-1],x->c[x])," - ", c0+Sum([1..i],x->c[x]),
+            Print(sot, c0+1+Sum([1..i-1],x->c[x])," - ", c0+Sum([1..i],x->c[x]),
             " are ", prop[i][1], "and have a normal Sylow ", q, "-subgroup,", "\n         with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".\n");
         fi;
     od;
     for i in [1..15] do
         j := 15+i;
         if c[j] = 1 then
-            Print(SOTRec.sot, c0+Sum([1..j],x->c[x]),
+            Print(sot, c0+Sum([1..j],x->c[x]),
                 " is ", prop[i][1], "and has a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
         elif c[j] > 1 then
-            Print(SOTRec.sot, c0+1+Sum([1..j-1],x->c[x])," - ", c0+Sum([1..j],x->c[x]),
+            Print(sot, c0+1+Sum([1..j-1],x->c[x])," - ", c0+Sum([1..j],x->c[x]),
             " are ", prop[i][1], "and have a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
         fi;
     od;
     if n = 48 then
-        Print(SOTRec.sot, "49 - 52 are solvable, non-nilpotent, and have no normal Sylow subgroups.\n");
+        Print(sot, "49 - 52 are solvable, non-nilpotent, and have no normal Sylow subgroups.\n");
     elif n = 1053 then
-        Print(SOTRec.sot, "51 is solvable, non-nilpotent, and has no normal Sylow subgroups.\n");
+        Print(sot, "51 is solvable, non-nilpotent, and has no normal Sylow subgroups.\n");
     fi;
   end;
 
 ##############################################################################
 SOTRec.infoPQRS := function(n)
-  local c, fac, p, q, r, s, m;
+  local sot, c, fac, p, q, r, s, m;
+    sot := SOTRec.sot(n);
     c := [];
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
-      Error("Argument must be of the form of pqrs");
+      Error("Argument must be of the form of pqrs.\n");
     else
       p := fac[1];
       q := fac[2];
@@ -327,21 +332,21 @@ SOTRec.infoPQRS := function(n)
       Print("\n  There are ", m + 1, " groups of order ", n,".\n");
       Print("\n  The groups of order pqrs are solvable and classified by O. H\"older.\n");
       Print("  These groups are sorted by their centre. \n");
-      Print(SOTRec.sot, "1 is abelian.\n");
+      Print(sot, "1 is abelian.\n");
       if c[1] = 1 then
-        Print(SOTRec.sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
+        Print(sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
       elif c[1] > 1 then
-        Print(SOTRec.sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
+        Print(sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
       fi;
       if c[2] = 1 then
-        Print(SOTRec.sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
+        Print(sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
       elif c[2] > 1 then
-        Print(SOTRec.sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
+        Print(sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
       fi;
       if c[3] = 1 then
-        Print(SOTRec.sot, 1+m," has trivial centre.\n");
+        Print(sot, 1+m," has trivial centre.\n");
       elif c[2] > 1 then
-        Print(SOTRec.sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
+        Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
       fi;
     fi;
   end;
