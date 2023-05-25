@@ -27,12 +27,7 @@ groups of order `n`.
 outputs a complete and duplicate-free list of isomorphism class
 representatives of the groups of order `n`. If a group is solvable, then
 it constructs the group using refined polycyclic presentations;
-otherwise the group is given as a permutation group. Upon construction,
-we check consistency of the pcgs and relators, to remove such tests, set
-`USE_NC := false`. We construct solvable groups using polycyclic
-presentations and use `PcpGroupToPcGroup` to convert them from
-`PcpGroup` to `PcGroup`, if `PcpGroup` is preferred, set `USE_PCP :=
-true`.
+otherwise the group is given as a permutation group.
 
 - `SOTGroup(n, i)`: returns the `i`-th group with respect to the ordering
 of the list `AllSOTGroups(n)` without constructing all groups in the list.

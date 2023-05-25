@@ -4,7 +4,6 @@
 ## In particular, G is isomorphic to <x, y | x^a, y^b, y^x = y^r > for some non-negative integer r such that r^a = 1 mod b, and gcd(a(r - 1), b) = 1.
 ## Alternatively, one can use the fact that G is solvable and has a nontrivial, abelian Fitting subgroup, denoted by F, to construct and classify the isomorphism types of G as an extension of F by G/F.
   #Note that G/F embeds into Aut(F).
-## To use the construction by case distinction on the size of F (the Fitting subgroup of G), set USE_pqrsII := false; otherwise, the main construction functions AllSOTGroups and SOTGroup use the case distinction by the centre and the derived subgroup of G, with USE_pqrsII = true.
 
 ##############################################
 SOTRec.allGroupsPQRS := function(n)

@@ -1,7 +1,7 @@
 ##In the following we give the main functions of the SOTGrps package.
 ############################################################################
 ##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
-	##If the group is solvable, then it is presented as a PcGroup; set USE_PCP := true if PcpGroup is desired.
+##If the group is solvable, then it is presented as a PcGroup.
 InstallGlobalFunction( AllSOTGroups, function(n)
 	local length, PF, fac, k, p, q, r;
 		PF := Factors(n);
