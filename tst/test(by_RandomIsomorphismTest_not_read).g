@@ -56,27 +56,6 @@ end;
 
 
 
-## SOTRec.testNumberOfSOTGroups([from, to]) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
-SOTRec.testNumberOfSOTGroups := function(arg)
-local todo, i, sot, gap;
-	if Length(arg) = 2 then
-   todo:=Filtered([arg[1]..arg[2]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 elif Length(arg) = 1 then
-		 todo:=Filtered([2..arg[1]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 elif Length(arg) = 0 then
-		 todo:=Filtered([2..10^6], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 fi;
-   for i in todo do
-		 # Display(i);
-		 sot:=NumberOfSOTGroups(i);
-		 gap:=NumberSmallGroups(i);
-      if not sot = gap then
-         Error("ERROR at order ",i,"\n");
-      fi;
-   od;
-   return true;
-end;
-
 ## SOTRec.testIdSOTGroupPc(n) tests whether the same isomorphism type (given as random isomorphic copies of PcGroups) has the same SOT-group ID.
 SOTRec.testIdSOTGroupPc := function(orders)
 	local n, nr, gap, sot, i, copies, gapid, new;
@@ -133,15 +112,6 @@ local t,sot,gap,tg,cd;
    if not ForAll(sot,i->Order(i)=x) then Error("order"); fi;
    return t;
 end;
-
-## minimal sanity check for large orders
-SOTRec.testSOTconst := function(n)
-	local all, g, id;
-		all := AllSOTGroups(n);
-		g := all[Random([1..NumberOfSOTGroups(n)])];
-		id := IdSOTGroup(g);
-		if not IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2])) then Error("Revise p4q.");fi;
-	end;
 
 ## SOTConst returns runtime.
 SOTconst := function( list )
