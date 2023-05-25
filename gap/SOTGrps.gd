@@ -64,7 +64,7 @@ DeclareAttribute( "IdSOTGroup", IsGroup );
 #! determines whether two groups <A>G</A>, <A>H</A> are isomorphic. It is assumed that the input groups are available in the &SOTGrps; library.
 #! @Arguments G, H
 #! @BeginExampleSession
-#! gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));
+#! gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));;
 #! gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
 #! gap> IsIsomorphicSOTGroups(G,H);
 #! true
