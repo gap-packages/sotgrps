@@ -27,7 +27,13 @@ Error, Order 2310 is not supported by SOTGrps, please refer to the documentation
 gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
-# doc/_Chapter_The_SOTGrps_package.xml:109-134
+# doc/_Chapter_The_SOTGrps_package.xml:90-95
+gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));
+gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
+gap> IsIsomorphicSOTGroups(G,H);
+true
+
+# doc/_Chapter_The_SOTGrps_package.xml:117-142
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
