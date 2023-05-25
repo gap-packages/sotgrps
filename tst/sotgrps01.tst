@@ -17,17 +17,17 @@ gap> AllSOTGroups(60);
  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  Alt( [ 1 .. 5 ] ) ]
 
-# doc/_Chapter_The_SOTGrps_package.xml:48-51
-gap> SOTGroup(2*3*5*7, 1);
-<pc group of size 210 with 4 generators>
-
-# doc/_Chapter_The_SOTGrps_package.xml:62-67
+# doc/_Chapter_The_SOTGrps_package.xml:48-53
 gap> NumberOfSOTGroups(2*3*5*7);
 12
 gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not available
 
-# doc/_Chapter_The_SOTGrps_package.xml:104-129
+# doc/_Chapter_The_SOTGrps_package.xml:66-69
+gap> SOTGroup(2*3*5*7, 1);
+<pc group of size 210 with 4 generators>
+
+# doc/_Chapter_The_SOTGrps_package.xml:109-134
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
@@ -45,13 +45,13 @@ gap> SOTGroupsInformation(2662);
 
   The groups of order p^3q are solvable by Burnside's pq-Theorem.
   These groups are sorted by their Sylow subgroups.
-     SOT 1 - 3 are abelian.
-     SOT 4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.
-     SOT 6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].
-     SOT 7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].
-     SOT 10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].
-     SOT 13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
-     SOT 15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
+     1 - 3 are abelian.
+     4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.
+     6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].
+     7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].
+     10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].
+     13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
+     15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
 
 #
 gap> STOP_TEST("sotgrps01.tst", 1);

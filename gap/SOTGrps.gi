@@ -30,7 +30,7 @@ InstallGlobalFunction( AllSOTGroups, function(n)
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
 			return SOTRec.allGroupsP4Q(n);
 		else
-			Error("Order ", n, " is not available");
+			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for AllSOTGroups for the list of supported orders.\n");
 		fi;
 end);
 ############################################################################
@@ -59,7 +59,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind in [ [1, 4], [4, 1] ] then
 			return SOTRec.NumberGroupsP4Q(n);
 		else
-			Error("Order ", n, " is not available");
+			Error("Order ", n, " is not supported by SOTGrps, please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.\n");
 		fi;
 	end);
 
@@ -116,19 +116,17 @@ InstallGlobalFunction( SOTGroup, function(n, i)
 			elif ind in [ [1, 4], [4, 1] ] then
 				return SOTRec.GroupP4Q(n, i);
 			else
-				Error("Order ", n, " is not available");
+				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function SOTGroup for the list of suppoorted orders.\n");
 			fi;
 		fi;
 
 		if i > NumberOfSOTGroups(n) then
-			Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " groups of order ", n, ".");
+			Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " groups of order ", n, ".\n");
 		fi;
 
 end);
 ############################################################################
-##SOTGroupsInformation() introduces the main function AllSOTGroups.
 ##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
-SOTRec.sot :=  "     SOT ";
 InstallGlobalFunction( SOTGroupsInformation, function(arg)
 	local fac, ind, n;
 		if Length(arg) = 1 then
@@ -169,9 +167,9 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 			elif ind in [ [1, 4], [4, 1] ] then
 				SOTRec.infoP4Q(n);
 			elif Sum(ind) >= 5 then
-				Error("Order ", n, " is not available");
+				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for SOTGroupsInformation for the list of supported groups.");
 			fi;
-		elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.");
+		elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.\n");
 		fi;
 end);
 
@@ -206,7 +204,7 @@ function(group)
 		elif ind in [ [1, 4], [4, 1]] then
 			return SOTRec.IdGroupP4Q(group);
 		else
-			Error("Order ", n, " is not available");
+			Error("Groups of order ", n, " are not supported by SOTGrps; please refer to the documentation for IdSOTGroup for the list of supported groups.");
 		fi;
 end);
 
