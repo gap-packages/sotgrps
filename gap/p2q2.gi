@@ -168,21 +168,21 @@ end;
 ##
 ############################################################################
 SOTRec.NumberGroupsP2Q2 := function(n)
-		local fac, p, q, w;
-				fac := Factors(n);
-				## check input
-				if not List(Collected(fac), x->x[2]) = [2, 2] then
-					Error("Argument has to be of the form p^2q^2, where p, q are primes");
-				fi;
+  local fac, p, q, w;
+    fac := Factors(n);
+    ## check input
+    if not List(Collected(fac), x->x[2]) = [2, 2] then
+      Error("Argument has to be of the form p^2q^2, where p, q are primes");
+    fi;
 
-				q := fac[1];
-				p := fac[4];
-				if n = 36 then w := 14;
-				elif q = 2 then w := 11 + 5*SOTRec.w((p-1), 4) + SOTRec.w((p+1), 4);
-				else w := 4 + (6+q)*SOTRec.w((p-1), q) + (4+q+q^2)*SOTRec.w((p-1), q^2)/2 + 2*SOTRec.w((p+1),q) + SOTRec.w((p+1), q^2);
-				fi;
-			return w;
-		end;
+    q := fac[1];
+    p := fac[4];
+    if n = 36 then w := 14;
+    elif q = 2 then w := 11 + 5*SOTRec.w((p-1), 4) + SOTRec.w((p+1), 4);
+    else w := 4 + (6+q)*SOTRec.w((p-1), q) + (4+q+q^2)*SOTRec.w((p-1), q^2)/2 + 2*SOTRec.w((p+1),q) + SOTRec.w((p+1), q^2);
+    fi;
+  return w;
+end;
 
 
 ############################################################################
@@ -192,7 +192,7 @@ SOTRec.GroupP2Q2 := function(n, i)
     fac := Factors(n);
     if not List(Collected(fac), x->x[2]) = [2, 2] then
       Error("Argument has to be of the form p^2q^2, where p, q are primes");
-		fi;
+    fi;
     q := fac[1];
     p := fac[4];
     #### case1: q nmid (p-1), q nmid (p^2 -1), q > 2
@@ -317,10 +317,10 @@ SOTRec.GroupP2Q2 := function(n, i)
         matq2 := SOTRec.QsquaredthRootGL2P(p, q);
         matq := matq2^q;
         Add(lst, [ [q, q, p, p], [1, [2, 1]],
-      		[3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
-      		[4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
-      		[3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
-      		[4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
+            [3, 1, [3, Int(matq2[1][1]), 4, Int(matq2[2][1])]],
+            [4, 1, [3, Int(matq2[1][2]), 4, Int(matq2[2][2])]],
+            [3, 2, [3, Int(matq[1][1]), 4, Int(matq[2][1])]],
+            [4, 2, [3, Int(matq[1][2]), 4, Int(matq[2][2])]] ]); ##C_{q^2} \ltimes C_p^2, \phi(Q) = C_{q^2}
       fi;
       return SOTRec.groupFromData(lst[i - 4 - c1 - c2]);
 

@@ -66,7 +66,7 @@ local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, lis
 		od;
 	elif (p + 1) mod q = 0 and q > 2 then
 		mat := SOTRec.QthRootGL2P(p, q);
-	 Add(all, [ [q, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ]);
+		Add(all, [ [q, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ]);
 	fi;
 
 ##Cluster 3: non-nilpotent groups with a normal Sylow p-subgroup that is isomorphic to C_{p^2}
@@ -173,7 +173,7 @@ local fac, p, q, all, a, b, c, d, G, k, r1, R1, r2, R2, r3, R3, ii, qq, mat, l0,
 			od;
 		elif (p + 1) mod q = 0 and q > 2 then
 			mat := SOTRec.QthRootGL2P(p, q);
-		 Add(l2, [ [q, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ]);
+			Add(l2, [ [q, p, p], [2, 1, [2, Int(mat[1][1]), 3, Int(mat[2][1])]], [3, 1, [2, Int(mat[1][2]), 3, Int(mat[2][2])]] ]);
 		fi;
 		data := l2[i - c1];
 		return SOTRec.groupFromData(data);

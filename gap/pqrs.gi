@@ -127,12 +127,12 @@ SOTRec.allGroupsPQRS := function(n)
     ##Cluster 4: Z(G) = 1
       ##class 1: G' \cong C_{qrs}, G \cong C_p \ltimes C_{qrs}
       if (q - 1) mod p = 0 and (r - 1) mod p = 0 and (s - 1) mod p = 0 then
-	      for k in [1..(p - 1)] do
-	        for l in [1..(p - 1)] do
-	          Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]], [3, 1, [3, Int(v^(k*(r - 1)/p))]], [4, 1, [4, Int(w^(l*(s - 1)/p))]] ]);
-	        od;
-	      od;
-	    fi;
+        for k in [1..(p - 1)] do
+          for l in [1..(p - 1)] do
+            Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]], [3, 1, [3, Int(v^(k*(r - 1)/p))]], [4, 1, [4, Int(w^(l*(s - 1)/p))]] ]);
+          od;
+        od;
+      fi;
 
       ##class 2: G' \cong C_{rs}, G \cong C_{pq} \ltimes C_{rs}
       if (s - 1) mod (p*q) = 0 and (r - 1) mod (p*q) = 0 then
@@ -320,12 +320,12 @@ SOTRec.GroupPQRS := function(n, i)
       all := [];
       ##class 1: G' \cong C_{qrs}, G \cong C_p \ltimes C_{qrs}
       if (q - 1) mod p = 0 and (r - 1) mod p = 0 and (s - 1) mod p = 0 then
-	      for k in [1..(p - 1)] do
-	        for l in [1..(p - 1)] do
-	          Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]], [3, 1, [3, Int(v^(k*(r - 1)/p))]], [4, 1, [4, Int(w^(l*(s - 1)/p))]] ]);
-	        od;
-	      od;
-	    fi;
+        for k in [1..(p - 1)] do
+          for l in [1..(p - 1)] do
+            Add(all, [ [p, q, r, s], [2, 1, [2, rootqp]], [3, 1, [3, Int(v^(k*(r - 1)/p))]], [4, 1, [4, Int(w^(l*(s - 1)/p))]] ]);
+          od;
+        od;
+      fi;
 
       ##class 2: G' \cong C_{rs}, G \cong C_{pq} \ltimes C_{rs}
       if (s - 1) mod (p*q) = 0 and (r - 1) mod (p*q) = 0 then
@@ -377,7 +377,7 @@ SOTRec.GroupPQRS := function(n, i)
         Add(all, [ [p, q, r, s], [4, 1, [4, rootsp]], [4, 2, [4, rootsq]], [4, 3, [4, rootsr]] ]);
       fi;
       data := all[i - 1 - c1 - c2];
-			return SOTRec.groupFromData(data);
+      return SOTRec.groupFromData(data);
     fi;
 end;
 ######################################################

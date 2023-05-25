@@ -282,7 +282,7 @@ SOTRec.IdGroupP2Q2 := function(group)
     fac := Factors(n);
     if not List(Collected(fac), x->x[2]) = [2, 2] then
       Error("Argument has to be of the form p^2*q^2, where p, q are primes");
-		fi;
+    fi;
     q := fac[1];
     p := fac[4];
     Q := SylowSubgroup(group, q);
