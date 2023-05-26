@@ -64,7 +64,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind in [ [1, 4], [4, 1] ] then
 			return SOTRec.NumberGroupsP4Q(n);
 		else
-			Error("Order ", n, " is not supported by SOTGrps, please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.\n");
+			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.\n");
 		fi;
 	end);
 
