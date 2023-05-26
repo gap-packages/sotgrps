@@ -12,29 +12,45 @@
 # encode conjugate relations (if data[i][2] is an integer)
 # or a power relation (if data[i][2] is a list
 #
-SOTRec.groupFromData := function(arg)
-  local data, coll, i, j, n, G;
-    if Length(arg) = 1 then
-        data := arg[1];
-    else data := arg[1];
-    fi;
+SOTRec.groupFromData := function(data)
+  local coll, gens, conj, pw, i, j, n, G;
     n := Size(data[1]);
-    coll := FromTheLeftCollector(n);
-    for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
-    for i in [2..Length(data)] do
-        if IsInt(data[i][2]) then
-            SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
-        else
-            SetPowerNC(coll,data[i][1],data[i][2]);
-        fi;
-    od;
-    UpdatePolycyclicCollector(coll);
+    if SOTRec.PCP = true then
+        coll := FromTheLeftCollector(n);
+        for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
+        for i in [2..Length(data)] do
+            if IsInt(data[i][2]) then
+                SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
+            else
+                SetPowerNC(coll,data[i][1],data[i][2]);
+            fi;
+        od;
+        UpdatePolycyclicCollector(coll);
 
-    G := PcpGroupByCollectorNC(coll);
-    if Length(arg) = 2 and arg[2] = IsPcpGroup then
-        return G;
-    else return PcpGroupToPcGroup(G:FreeGroupFamilyType:="syllable");
+        G := PcpGroupByCollectorNC(coll);
+    else
+        gens := FreeGroup(IsSyllableWordsFamily, n);;
+        coll := SingleCollector(gens, data[1]);
+        for i in [2..Length(data)] do
+            if IsInt(data[i][2]) then
+                conj := [];;
+                for j in [1..Length(data[i][3])/2] do
+                    Add(conj, gens.(data[i][3][2*j-1])^(data[i][3][2*j]));
+                od;
+                SetConjugateNC(coll,data[i][1],data[i][2],Product(conj));
+            else
+                pw := [];;
+                for j in [1..Length(data[i][2])/2] do
+                    Add(pw, gens.(data[i][2][2*j-1])^(data[i][2][2*j]));
+                od;
+                SetPowerNC(coll,data[i][1],Product(pw));
+            fi;
+        od;
+        UpdatePolycyclicCollector(coll);
+        G := GroupByRwsNC(coll);
     fi;
+
+    return G;
 end;
 ############################################################################
 #

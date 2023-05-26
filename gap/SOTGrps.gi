@@ -2,8 +2,13 @@
 ############################################################################
 ##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
 ##If the group is solvable, then it is presented as a PcGroup.
-InstallGlobalFunction( AllSOTGroups, function(n)
-	local length, PF, fac, k, p, q, r;
+InstallGlobalFunction( AllSOTGroups, function(arg)
+	local n, length, PF, fac, k, p, q, r;
+		n := arg[1];
+		if Length(arg) > 1 and arg[2] = IsPcpGroup then
+			SOTRec.PCP := true;
+		else SOTRec.PCP := false;
+		fi;
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(PF);
@@ -78,8 +83,16 @@ InstallGlobalFunction( IsSOTAvailable, function(n)
 end);
 ############################################################################
 ##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
-InstallGlobalFunction( SOTGroup, function(n, i)
-	local fac, ind, p, k, G;
+InstallGlobalFunction( SOTGroup, function(arg)
+	local n, i, fac, ind, p, k, G;
+		n := arg[1];
+		i := arg[2];
+		n := arg[1];
+		i := arg[2];
+		if Length(arg) > 2 and arg[3] = IsPcpGroup then
+			SOTRec.PCP := true;
+		else SOTRec.PCP := false;
+		fi;
 		fac := Collected(Factors(n));
 		ind := List(fac, x -> x[2]);
 		if i <= NumberOfSOTGroups(n) then
