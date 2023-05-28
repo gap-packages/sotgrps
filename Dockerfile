@@ -8,7 +8,7 @@ ENV GAP_VERSION 4.11.1
 # Remove previous JupyterKernel installation, copy this repository and make new install
 
 RUN cd /home/gap/inst/gap-${GAP_VERSION}/pkg/ \
-    && wget https://github.com/xpan-eileen/sotgrps_gap_pkg/archive/master.zip \
+    && wget https://github.com/gap-packages/sotgrps_gap_pkg/archive/master.zip \
     && unzip -q master.zip \
     && rm master.zip \
     && mv sotgrps_gap_pkg-master sotgrps_gap_pkg

@@ -12,8 +12,6 @@ PackageName := "SOTGrps",
 Subtitle    := "Constructing and identifying groups of small order type",
 Version     := "1.0",
 Date        := "01/01/2021",
-ArchiveURL := "https://github.com/xpan-eileen/sotgrps",
-ArchiveFormats := ".tar.gz",
 
 Persons := [
 
@@ -34,16 +32,22 @@ Persons := [
 ],
 
 Status := "other",
-CommunicatedBy := " (Annapolis)",
-AcceptDate := " ",
 
-README_URL := "https://github.com/xpan-eileen/sotgrps/blob/master/README.md",
-PackageInfoURL := "https://github.com/xpan-eileen/sotgrps/blob/master/PackageInfo.g",
+SourceRepository := rec(
+    Type := "git",
+    URL := "https://github.com/gap-packages/sotgrps",
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := "https://gap-packages.github.io/sotgrps",
+README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
+PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
+ArchiveURL      := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/", ~.PackageName, "-", ~.Version ),
+ArchiveFormats := ".tar.gz",
 
 AbstractHTML :=
 "The <span class=\"pkgname\">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.",
-
-PackageWWWHome := "https://github.com/xpan-eileen/sotgrps",
 
 PackageDoc := rec(
   BookName  := "SOTGrps",
