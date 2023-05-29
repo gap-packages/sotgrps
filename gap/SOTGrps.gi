@@ -2,13 +2,9 @@
 ############################################################################
 ##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
 ##If the group is solvable, then it is presented as a PcGroup.
-InstallGlobalFunction( AllSOTGroups, function(arg)
-	local n, length, PF, fac, grps, i;
-		n := arg[1];
-		if Length(arg) > 1 and arg[2] = IsPcpGroup then
-			SOTRec.PCP := true;
-		else SOTRec.PCP := false;
-		fi;
+InstallGlobalFunction( AllSOTGroups, function(n, arg...)
+	local length, PF, fac, grps, i;
+		SOTRec.PCP := Length(arg) > 0 and arg[1] = IsPcpGroup;
 		PF := Factors(n);
 		length := Length(PF);
 		fac := Collected(PF);
@@ -84,14 +80,9 @@ InstallGlobalFunction( IsSOTAvailable, function(n)
 end);
 ############################################################################
 ##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
-InstallGlobalFunction( SOTGroup, function(arg)
-	local n, i, fac, ind, p, k, G;
-		n := arg[1];
-		i := arg[2];
-		if Length(arg) > 2 and arg[3] = IsPcpGroup then
-			SOTRec.PCP := true;
-		else SOTRec.PCP := false;
-		fi;
+InstallGlobalFunction( SOTGroup, function(n, i, arg...)
+	local fac, ind, p, k, G;
+		SOTRec.PCP := Length(arg) > 0 and arg[1] = IsPcpGroup;
 		fac := Collected(Factors(n));
 		ind := List(fac, x -> x[2]);
 		if i <= NumberOfSOTGroups(n) then
@@ -126,10 +117,8 @@ InstallGlobalFunction( SOTGroup, function(arg)
 end);
 ############################################################################
 ##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
-InstallGlobalFunction( SOTGroupsInformation, function(arg)
-	local fac, ind, n;
-		if Length(arg) = 1 then
-			n := arg[1];
+InstallGlobalFunction( SOTGroupsInformation, function(n)
+	local fac, ind;
 			fac := Collected(Factors(n));
 			ind := List(fac, x -> x[2]);
 			if Length(ind) = 1 then ##p-groups
@@ -168,8 +157,6 @@ InstallGlobalFunction( SOTGroupsInformation, function(arg)
 			elif Sum(ind) >= 5 then
 				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for SOTGroupsInformation for the list of supported groups.");
 			fi;
-		elif Length(arg) > 1 then Error("Too many arguments: number of arguments must be 0 or 1.\n");
-		fi;
 end);
 
 ######################################################

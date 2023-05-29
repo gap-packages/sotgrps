@@ -9,16 +9,10 @@
 ## This implies that if G is a finite group. Recall that O_p(G) (PCore(G) in GAP) is the largest normal p-subgroup of G. The natural projection \pi : G \to O_p(G) thus is a homomorphism with p-group kernel. It then follows that the number of conjugacy classes of subgroups of order q in G coincides with that in G/O_p(G).
   ## In particular, setting G \cong Aut(P), this shows that the number of isomorphism types of C_q \ltimes P for a given p-group P coincides with the number of conjugacy classes of subgroups of order q in Aut(P)/O_p(Aut(P)).
 ###################################################################
-SOTRec.allGroupsP4Q := function(arg)
-  local n, fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
+SOTRec.allGroupsP4Q := function(n, arg...)
+  local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m;
-    if Length(arg) = 1 then
-      n := arg[1];
-      fac := Collected(Factors(n));
-    elif Length(arg) = 2 then
-      n := arg[1];
-      fac := Collected(Factors(n));
-    fi;
+    fac := Collected(Factors(n));
     if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
       Error("Argument must be of the form of p^4q");
     elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
@@ -624,7 +618,7 @@ SOTRec.allGroupsP4Q := function(arg)
       [4, 2, [3, Int(matGL3[1][2]), 4, Int(matGL3[2][2]), 5, Int(matGL3[3][2])]],
       [5, 2, [3, Int(matGL3[1][3]), 4, Int(matGL3[2][3]), 5, Int(matGL3[3][3])]] ]);
     fi;
-    if Length(arg) = 1 then return List(all, x -> SOTRec.groupFromData(x));
+    if Length(arg) = 0 then return List(all, x -> SOTRec.groupFromData(x));
     else return all;
     fi;
 end;
