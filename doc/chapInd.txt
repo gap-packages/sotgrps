@@ -1,0 +1,14 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XAllSOTGroups[102X 1.1-1 
+  [2XIdSOTGroup[102X, for IsGroup 1.1-4 
+  [2XIsIsomorphicSOTGroups[102X 1.1-5 
+  [2XIsSOTAvailable[102X 1.1-6 
+  [2XNumberOfSOTGroups[102X 1.1-3 
+  [2XSOTGroup[102X 1.1-2 
+  [2XSOTGroupsInformation[102X 1.1-7 
+  
+  
+  -------------------------------------------------------

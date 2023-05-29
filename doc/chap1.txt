@@ -1,0 +1,117 @@
+  
+  [1X1 [33X[0;0YThe [5XSOTGrps[105X[101X[1X package[133X[101X
+  
+  [33X[0;0YWith  some  overlaps, the [5XSOTGrps[105X package extends the Small Group Library to
+  give access to some more [21Xsmall[121X orders. For example, it constructs a complete
+  and  irredundant  list  of isomorphism type representatives of the groups of
+  order[133X
+  
+  [30X    [33X[0;6Ythat factorises into at most four primes;[133X
+  
+  [30X    [33X[0;6Y[22Xp^4q[122X, for distinct primes [22Xp[122X and [22Xq[122X.[133X
+  
+  [33X[0;0YThe mathematical background for this package is described in [DEP22].[133X
+  
+  
+  [1X1.1 [33X[0;0YMain functions[133X[101X
+  
+  [1X1.1-1 AllSOTGroups[101X
+  
+  [33X[1;0Y[29X[2XAllSOTGroups[102X( [3Xn[103X ) [32X function[133X
+  
+  [33X[0;0Ytakes  in a number n that factorises into at most four primes or of the form
+  [22Xp^4q[122X  ([22Xp[122X,  [22Xq[122X  are  distinct primes), and complete and duplicate-free list of
+  isomorphism  class representatives of the groups of order [3Xn[103X. Solvable groups
+  are  using  refined polycyclic presentations and then converted into PcGroup
+  using [9XPcpGroupToPcGroup[109X. Nonsolvable groups are given as permutation groups.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllSOTGroups(60);[127X[104X
+    [4X[28X[ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X Alt( [ 1 .. 5 ] ) ][128X[104X
+  [4X[32X[104X
+  
+  [1X1.1-2 SOTGroup[101X
+  
+  [33X[1;0Y[29X[2XSOTGroup[102X( [3Xn[103X, [3Xi[103X ) [32X function[133X
+  
+  [33X[0;0Yreturns   the   [3Xi[103X-th  group  with  respect  to  the  ordering  of  the  list
+  [10XAllSOTGroups([3Xn[103X[10X)[110X without constructing all groups in the list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSOTGroup(2*3*5*7, 1);[127X[104X
+    [4X[28X<pc group of size 210 with 4 generators>[128X[104X
+  [4X[32X[104X
+  
+  [1X1.1-3 NumberOfSOTGroups[101X
+  
+  [33X[1;0Y[29X[2XNumberOfSOTGroups[102X( [3Xn[103X ) [32X function[133X
+  
+  [33X[0;0Yreturns the number of isomorphism types of groups of order [3Xn[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfSOTGroups(2*3*5*7);[127X[104X
+    [4X[28X12[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfSOTGroups(2*3*5*7*11);[127X[104X
+    [4X[28XError, Order 2310 is not available[128X[104X
+  [4X[32X[104X
+  
+  [1X1.1-4 IdSOTGroup[101X
+  
+  [33X[1;0Y[29X[2XIdSOTGroup[102X( [3XG[103X ) [32X attribute[133X
+  
+  [33X[0;0Ydetermines the SOT library number of [3XG[103X; that is, the function returns a pair
+  [[3Xn[103X, [3Xi[103X] where [3XG[103X is isomorphic to [10XSOTGroup([3Xn[103X[10X, [3Xi[103X[10X)[110X.[133X
+  
+  [1X1.1-5 IsIsomorphicSOTGroups[101X
+  
+  [33X[1;0Y[29X[2XIsIsomorphicSOTGroups[102X( [3XG[103X, [3XH[103X ) [32X function[133X
+  
+  [33X[0;0Ydetermines  whether  two  groups [3XG[103X, [3XH[103X are isomorphic. It is assumed that the
+  input groups are available in the [5XSOTGrps[105X library.[133X
+  
+  [1X1.1-6 IsSOTAvailable[101X
+  
+  [33X[1;0Y[29X[2XIsSOTAvailable[102X( [3Xn[103X ) [32X function[133X
+  
+  [33X[0;0Yreturns  [9Xtrue[109X  if the order [3Xn[103X is available in the [5XSOTGrps[105X library, and [9Xfalse[109X
+  otherwise.[133X
+  
+  [1X1.1-7 SOTGroupsInformation[101X
+  
+  [33X[1;0Y[29X[2XSOTGroupsInformation[102X(  ) [32X function[133X
+  
+  [33X[0;0Yprints  information  on  the  groups of the specified order. Since there are
+  some  overlaps  between  the  existing  SmallGrps  library  and  the [5XSOTGrps[105X
+  library.  In  particular,  [5XSOTGrps[105X  may  construct the groups in a different
+  order and so generate a different group ID; we denote such IDs by [9XSOT[109X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSOTGroupsInformation(2^2*3*19);[127X[104X
+    [4X[28X[128X[104X
+    [4X[28X  There are 15 groups of order 228.[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X  The groups of order p^2qr are either solvable or isomorphic to Alt(5).[128X[104X
+    [4X[28X  The solvable groups are sorted by their Fitting subgroup.[128X[104X
+    [4X[28X     SOT 1 - 2 are the nilpotent groups.[128X[104X
+    [4X[28X     SOT 3 has Fitting subgroup of order 57.[128X[104X
+    [4X[28X     SOT 4 - 7 have Fitting subgroup of order 76.[128X[104X
+    [4X[28X     SOT 8 - 9 have Fitting subgroup of order 38.[128X[104X
+    [4X[28X     SOT 10 - 15 have Fitting subgroup of order 114.[128X[104X
+    [4X[25Xgap>[125X [27XSOTGroupsInformation(2662);[127X[104X
+    [4X[28X[128X[104X
+    [4X[28X  There are 15 groups of order 2662.[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X  The groups of order p^3q are solvable by Burnside's pq-Theorem.[128X[104X
+    [4X[28X  These groups are sorted by their Sylow subgroups.[128X[104X
+    [4X[28X     SOT 1 - 3 are abelian.[128X[104X
+    [4X[28X     SOT 4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.[128X[104X
+    [4X[28X     SOT 6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].[128X[104X
+    [4X[28X     SOT 7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].[128X[104X
+    [4X[28X     SOT 10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].[128X[104X
+    [4X[28X     SOT 13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].[128X[104X
+    [4X[28X     SOT 15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].[128X[104X
+  [4X[32X[104X
+  

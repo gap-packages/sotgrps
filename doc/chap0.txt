@@ -1,1 +1,44 @@
-Placeholder
+  
+  
+                                   [1X SOTGrps [101X
+  
+  
+           [1X Constructing and identifying groups of small order type [101X
+  
+  
+                                      1.0
+  
+  
+                                 1 January 2021
+  
+  
+                                   Eileen Pan
+  
+  
+  
+  Eileen Pan
+      Email:    [7Xmailto:xpan.eileen@gmail.com[107X
+      Homepage: [7Xhttps://xpan-eileen.github.io/about/[107X
+      Address:  [33X[0;14YSchool of MathematicsMonash University[133X
+                [33X[0;14YVIC 3800[133X
+                [33X[0;14YMelbourne, Australia[133X
+  
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (SOTGrps)[101X
+  
+  1 [33X[0;0YThe [5XSOTGrps[105X package[133X
+    1.1 [33X[0;0YMain functions[133X
+      1.1-1 AllSOTGroups
+      1.1-2 SOTGroup
+      1.1-3 NumberOfSOTGroups
+      1.1-4 IdSOTGroup
+      1.1-5 IsIsomorphicSOTGroups
+      1.1-6 IsSOTAvailable
+      1.1-7 SOTGroupsInformation
+  
+  
+  [32X
