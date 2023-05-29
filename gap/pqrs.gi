@@ -175,7 +175,7 @@ SOTRec.allGroupsPQRS := function(n)
       fi;
       if (q - 1) mod p = 0 and (s - 1) mod (p*r) = 0 then
         for k in [1..(p - 1)] do
-          Add(all, [ [p, r, q, s], [3, 1, [3, Int(u^(k*(q - 1)/p))]], [4, 1, [4, rootsp]], [4, 2, [4, rootsr]] ]);
+          Add(all, [ [p, q, r, s], [2, 1, [2, Int(u^(k*(q - 1)/p))]], [4, 1, [4, rootsp]], [4, 3, [4, rootsr]] ]);
         od;
       fi;
 
