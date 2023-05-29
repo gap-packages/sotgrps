@@ -18,7 +18,7 @@
 #!  takes in a number <A>n</A> that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and returns a complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
 #!  Solvable groups are using refined polycyclic presentations.
-#!  By defult, the function construct each solvable groups as PcGroup, but if PcpGroup is preferred (for the sake of shorter runtime, for example),
+#!  By defult, the function construct each solvable groups as PcGroup, but if PcpGroup is preferred (for the sake of shorter construction runtime, for example),
 #!  then <A>arg</A> can be set to be <C>IsPcpGroup</C>.
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n [, arg]
@@ -64,7 +64,9 @@ DeclareGlobalFunction("SOTGroup");
 
 #! @Description
 #!  takes in a group of order determines the SOT library number of <A>G</A>;
-#!  that is, the function returns a pair [<A>n</A>, <A>i</A>] where <A>G</A> is isomorphic to <C>SOTGroup(<A>n</A>, <A>i</A>)</C>.
+#!  that is, the function returns a pair [<A>n</A>, <A>i</A>] where <A>G</A> is isomorphic to <C>SOTGroup(<A>n</A>,<A>i</A>)</C>.
+#!  Note that if the input group is a PcpGroup, this may result in slow runtime, as <C>IdSOTGroup</C> may compute the <C>Centre</C> and/or the <C>FittingSubgroup</C>,
+#!  which is slow for PcpGroups.
 #! @Arguments G
 DeclareAttribute( "IdSOTGroup", IsGroup );
 

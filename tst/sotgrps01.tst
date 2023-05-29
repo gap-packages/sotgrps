@@ -33,13 +33,13 @@ gap> SOTGroup(2*3*5*7, 1);
 gap> SOTGroup(2*3*5*7, 1, IsPcpGroup);
 Pcp-group with orders [ 2, 3, 5, 7 ]
 
-# doc/_Chapter_The_SOTGrps_package.xml:99-104
+# doc/_Chapter_The_SOTGrps_package.xml:101-106
 gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));;
 gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
 gap> IsIsomorphicSOTGroups(G,H);
 true
 
-# doc/_Chapter_The_SOTGrps_package.xml:126-151
+# doc/_Chapter_The_SOTGrps_package.xml:128-153
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
