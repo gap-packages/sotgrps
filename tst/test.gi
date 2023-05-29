@@ -10,13 +10,14 @@ LoadPackage("sotgrps");
 ## SOTRec.testNumberOfSOTGroups([from, to]) compares enumeration given by NumberOfSOTGroups(n) and NumberSmallGroups(n) for n in [from..to].
 SOTRec.testNumberOfSOTGroups := function(arg)
 local todo, i, sot, gap;
-	if Length(arg) = 2 then
-   todo:=Filtered([arg[1]..arg[2]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 elif Length(arg) = 1 then
-		 todo:=Filtered([2..arg[1]], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 elif Length(arg) = 0 then
-		 todo:=Filtered([2..10^6], x->IsSOTAvailable(x) and SmallGroupsAvailable(x));;
-	 fi;
+   if Length(arg) = 2 then
+       todo := [arg[1]..arg[2]];
+   elif Length(arg) = 1 then
+       todo := [2..arg[1]];
+   elif Length(arg) = 0 then
+       todo := [2..50000];
+   fi;
+   todo := Filtered(todo, x-> IsSOTAvailable(x) and SmallGroupsAvailable(x));
    for i in todo do
 		 # Display(i);
 		 sot:=NumberOfSOTGroups(i);
@@ -73,39 +74,95 @@ SOTRec.testSOTconst := function(n)
 ## SOTRec.testIdSOTGroup(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
 ## test against SOT itself
 SOTRec.testIdSOTGroup := function(orders)
-	local n, nr, gap, sot, soty, i, copies,  gapid, new;
-	if IsInt(orders) then orders := [orders]; fi;
-	for n in orders do
-	   if IsSOTAvailable(n) then
-	      nr  := NumberOfSOTGroups(n);
-	      gap := SmallGroupsAvailable(n) and IdGroupsAvailable(n);
-	      Print("order ", n, ": testing ", nr, " groups\n");
+    local n, nr, gap, sot, soty, i, copies,  gapid, new;
+    if IsInt(orders) then orders := [orders]; fi;
+    for n in orders do
+        if not IsSOTAvailable(n) then
+            continue;
+        fi;
+        nr  := NumberOfSOTGroups(n);
+        gap := SmallGroupsAvailable(n) and IdGroupsAvailable(n);
+        Print("order ", n, ": testing ", nr, " groups\n");
 
-	      sot := List([1..nr],x->SOTGroup(n,x));
-	      soty := AllSOTGroups(n);
-	      for i in [1..nr] do
-	          copies := [];
-			  if n < 5000 then
-				  Add(copies, getRandomPerm(sot[i]));
-				  Add(copies, getRandomPerm(soty[i]));
-				  if IsSolvableGroup(sot[i]) then
-					  Add(copies, getRandomPc(copies[2]));
-				  fi;
-			  else Append(copies, [getRandomPc(sot[i]), getRandomPc(soty[i])]);
-			  fi;
+        sot := List([1..nr],x->SOTGroup(n,x));
+        soty := AllSOTGroups(n);
+        for i in [1..nr] do
+            Assert(0, HasIdSOTGroup(sot[i]));
+            #Assert(0, HasIdSOTGroup(soty[i]));
+            copies := [];
+            if n < 5000 then
+                Add(copies, getRandomPerm(sot[i]));
+                Add(copies, getRandomPerm(soty[i]));
+                if IsSolvableGroup(sot[i]) then
+                    Add(copies, getRandomPc(copies[2]));
+                fi;
+            else
+                Add(copies, getRandomPc(sot[i]));
+                Add(copies, getRandomPc(soty[i]));
+            fi;
 
-		  if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then Error("Revise SOT ID", [n,i]); fi;
-	      od;
+            if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then
+                Error("Revise SOT ID", [n,i]);
+            fi;
+        od;
 
-	    ## can compare with gap library?
-	      if gap then
-	      gapid := List(sot,IdSmallGroup);
-		  if not Size(gapid) = NumberSmallGroups(n) then Error("Revise enumeration."); fi;
-		  if not IsDuplicateFreeList(gapid) then Error("Revise ID and construction."); fi;
-	      new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
-		  if not IsDuplicateFreeList(new) then Error("Revise SOT ID."); fi;
-	      fi;
+        ## can compare with gap library?
+        if gap then
+            gapid := List(sot,IdSmallGroup);
+            if not Size(gapid) = NumberSmallGroups(n) then
+                Error("Revise enumeration.");
+            fi;
+            if not IsDuplicateFreeList(gapid) then
+                Error("Revise ID and construction.");
+            fi;
+            new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
+            if not IsDuplicateFreeList(new) then
+                Error("Revise SOT ID.");
+            fi;
+        fi;
+    od;
+end;
 
-	   fi;
-	od;;
-	end;
+# variant of SOTRec.testIdSOTGroup that avoids getRandomPerm and getRandomPc
+# for cases where those are too slow
+SOTRec.testIdSOTGroupCheap := function(orders)
+    local n, nr, gap, sot, soty, i, copies,  gapid, new;
+    if IsInt(orders) then orders := [orders]; fi;
+    for n in orders do
+        if not IsSOTAvailable(n) then
+            continue;
+        fi;
+        nr  := NumberOfSOTGroups(n);
+        gap := SmallGroupsAvailable(n) and IdGroupsAvailable(n);
+        Print("order ", n, ": testing ", nr, " groups\n");
+
+        sot := List([1..nr],x->SOTGroup(n,x));
+        soty := AllSOTGroups(n);
+        for i in [1..nr] do
+            Assert(0, HasIdSOTGroup(sot[i]));
+            #Assert(0, HasIdSOTGroup(soty[i]));
+            copies := [];
+            Add(copies, PcGroupCode(CodePcGroup(sot[i]), n));
+            Add(copies, PcGroupCode(CodePcGroup(soty[i]), n));
+
+            if not ForAll(copies,x->IdSOTGroup(x)=[n,i]) then
+                Error("Revise SOT ID", [n,i]);
+            fi;
+        od;
+
+        ## can compare with gap library?
+        if gap then
+            gapid := List(sot,IdSmallGroup);
+            if not Size(gapid) = NumberSmallGroups(n) then
+                Error("Revise enumeration.");
+            fi;
+            if not IsDuplicateFreeList(gapid) then
+                Error("Revise ID and construction.");
+            fi;
+            new := List([1..nr],x->IdSOTGroup(SmallGroup(n,x)));
+            if not IsDuplicateFreeList(new) then
+                Error("Revise SOT ID.");
+            fi;
+        fi;
+    od;
+end;

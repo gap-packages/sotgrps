@@ -198,8 +198,10 @@ gap> SOTRec.testIdSOTGroup(199927);
 order 199927: testing 22 groups
 
 #
-gap> SOTRec.testSOTconst(102576253);
-gap> SOTRec.testSOTconst(4950967);
+gap> SOTRec.testIdSOTGroupCheap(102576253);
+order 102576253: testing 446 groups
+gap> SOTRec.testIdSOTGroupCheap(4950967);
+order 4950967: testing 166 groups
 
 #
 gap> SOTRec.testIdSOTGroup(150);
