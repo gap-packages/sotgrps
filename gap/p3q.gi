@@ -209,7 +209,7 @@ SOTRec.allGroupsP3Q := function(n)
       Add(all, [ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
 ############ Cluster 12: no normal Sylow subgroup -- if and only if G \cong Sym_4
-    if n = 24 then
+    if p = 2 and q = 3 then
       Add(all, [ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
 
@@ -501,7 +501,7 @@ SOTRec.GroupP3Q := function(n, i)
       return SOTRec.groupFromData([ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
 ############ case 3: no normal Sylow subgroup -- necessarily n = 24
-    if n = 24 and i = 15 then
+    if p = 2 and q = 3 and i = 15 then
       return SOTRec.groupFromData([ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
 end;
