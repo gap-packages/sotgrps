@@ -117,5 +117,5 @@ DeclareGlobalFunction("IsSOTAvailable");
 #!      13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].
 #!      15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].
 #! @EndExampleSession
-#! @Arguments
+#! @Arguments n
 DeclareGlobalFunction("SOTGroupsInformation");

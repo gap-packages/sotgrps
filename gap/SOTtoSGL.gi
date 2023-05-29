@@ -1358,17 +1358,16 @@ MakeImmutable(SOTRec.ordstodo);
 MakeImmutable(SOTRec.idstodo);
 
 # functions to convert AllSOTGroups output into SGL ordering
-SOTRec.SGLordered := function(arg)
-  local n, pos, i;
-  n := arg[1];
+SOTRec.SGLordered := function(n, arg...)
+  local pos, i;
   pos := PositionSet(SOTRec.ordstodo, n);
-  if Length(arg) = 1 then
+  if Length(arg) = 0 then
     if pos <> fail then
       return List(SOTRec.idstodo[pos], x->AllSOTGroups(n)[x]);;
     fi;
-  elif Length(arg) = 2 then
+  elif Length(arg) = 1 then
     if pos <> fail then
-      i := SOTRec.idstodo[pos][arg[2]];
+      i := SOTRec.idstodo[pos][arg[1]];
       return SOTGroup(n, i);
     fi;
   fi;
