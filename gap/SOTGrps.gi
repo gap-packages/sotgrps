@@ -3,7 +3,7 @@
 ##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
 ##If the group is solvable, then it is presented as a PcGroup.
 InstallGlobalFunction( AllSOTGroups, function(arg)
-	local n, length, PF, fac, k, p, q, r;
+	local n, length, PF, fac, grps, i;
 		n := arg[1];
 		if Length(arg) > 1 and arg[2] = IsPcpGroup then
 			SOTRec.PCP := true;
@@ -13,30 +13,31 @@ InstallGlobalFunction( AllSOTGroups, function(arg)
 		length := Length(PF);
 		fac := Collected(PF);
 		if Length(fac) = 1 then
-			p := PF[1];
-			k := length;
-			return SOTRec.lowpowerPGroups(p, k);
-		fi;
-
-		if List(fac, x -> x[2]) = [1, 1] then
-			return SOTRec.allGroupsPQ(n);
+			grps := SOTRec.lowpowerPGroups(PF[1], length);
+		elif List(fac, x -> x[2]) = [1, 1] then
+			grps := SOTRec.allGroupsPQ(n);
 		elif length = 3 and Length(fac) = 2 then
-			return SOTRec.allGroupsP2Q(n);
+			grps := SOTRec.allGroupsP2Q(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1] then
-			return SOTRec.allGroupsPQR(n);
+			grps := SOTRec.allGroupsPQR(n);
 		elif List(fac, x -> x[2]) = [2, 2] then
-			return SOTRec.allGroupsP2Q2(n);
+			grps := SOTRec.allGroupsP2Q2(n);
 		elif length = 4 and Length(fac) = 2 and PF[2] = PF[3] then
-			return SOTRec.allGroupsP3Q(n);
+			grps := SOTRec.allGroupsP3Q(n);
 		elif length = 4 and Length(fac) = 3 then
-			return SOTRec.allGroupsP2QR(n);
+			grps := SOTRec.allGroupsP2QR(n);
 		elif List(fac, x -> x[2]) = [1, 1, 1, 1] then
-			return SOTRec.allGroupsPQRS(n);
+			grps := SOTRec.allGroupsPQRS(n);
 		elif length = 5 and List(Collected(PF), x -> x[2]) in [ [1, 4], [4, 1] ] then
-			return SOTRec.allGroupsP4Q(n);
+			grps := SOTRec.allGroupsP4Q(n);
 		else
 			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for AllSOTGroups for the list of supported orders.\n");
 		fi;
+
+        for i in [1..Length(grps)] do
+            SetIdSOTGroup(grps[i], [n, i]);
+        od;
+        return grps;
 end);
 ############################################################################
 ##NumberOfSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs the number of isomorphism types of groups of order n.
@@ -46,7 +47,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		fac := Collected(Factors(n));
 		ind := List(fac, x -> x[2]);
 		if ind in [ [1], [2], [3], [4] ] then
-				return SOTRec.NumberPGroups(n);
+			return SOTRec.NumberPGroups(n);
 		elif ind = [1, 1] then
 			return SOTRec.NumberGroupsPQ(n);
 		elif ind in [ [1, 2], [2, 1] ] then

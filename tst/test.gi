@@ -88,7 +88,7 @@ SOTRec.testIdSOTGroup := function(orders)
         soty := AllSOTGroups(n);
         for i in [1..nr] do
             Assert(0, HasIdSOTGroup(sot[i]));
-            #Assert(0, HasIdSOTGroup(soty[i]));
+            Assert(0, HasIdSOTGroup(soty[i]));
             copies := [];
             if n < 5000 then
                 Add(copies, getRandomPerm(sot[i]));
@@ -140,7 +140,7 @@ SOTRec.testIdSOTGroupCheap := function(orders)
         soty := AllSOTGroups(n);
         for i in [1..nr] do
             Assert(0, HasIdSOTGroup(sot[i]));
-            #Assert(0, HasIdSOTGroup(soty[i]));
+            Assert(0, HasIdSOTGroup(soty[i]));
             copies := [];
             Add(copies, PcGroupCode(CodePcGroup(sot[i]), n));
             Add(copies, PcGroupCode(CodePcGroup(soty[i]), n));
