@@ -88,8 +88,6 @@ InstallGlobalFunction( SOTGroup, function(arg)
 	local n, i, fac, ind, p, k, G;
 		n := arg[1];
 		i := arg[2];
-		n := arg[1];
-		i := arg[2];
 		if Length(arg) > 2 and arg[3] = IsPcpGroup then
 			SOTRec.PCP := true;
 		else SOTRec.PCP := false;
