@@ -754,29 +754,20 @@ end;
 # the case of groups of order p^2qr
 #
 SOTRec.IdGroupP2QR := function(group)
-  local n, fac, primefac, pfac, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
+  local n, fac, PF, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
   matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
   pcgsp, pcgsq, pcgsr;
     n := Size(group);
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
+    PF := Collected(fac);
+    if Length(fac) <> 4 or Length(PF) <> 3 then
       Error("Argument must be of the form of p^2qr");
     fi;
-    primefac := function(n)
-      local i, j, tmp;
-        tmp := [];
-        for i in Collected(fac) do
-          if i[2] = 2 then j := i[1];
-          elif i[2] = 1 then Add(tmp, i[1]);
-          fi;
-        od;
-        Sort(tmp);
-        Add(tmp, j);
-      return tmp;
-    end;
-    pfac:=primefac(n);
-    p := pfac[3]; q := pfac[1]; r := pfac[2];
+    SortBy(PF, Reversed);
+    p := PF[3][1];
+    q := PF[1][1];
+    r := PF[2][1];
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;
