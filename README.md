@@ -64,3 +64,15 @@ University. <https://xpan-eileen.github.io/documents/Thesis_Groups_of_small_orde
 [2] H. Dietrich, B. Eick, & X. Pan, Groups whose order factorise into at
 most four primes. In: Journal of Symbolic Computation (108) (2022), pp.
 23–40. <https://doi.org/10.1016/j.jsc.2021.04.005>
+
+## License
+
+The SOTGrps package is free software; you can redistribute and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or (at
+your opinion) any later version.
+
+The SOTGrps package is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+General Public License for more details.
