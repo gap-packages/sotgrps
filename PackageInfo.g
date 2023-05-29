@@ -38,7 +38,7 @@ SourceRepository := rec(
     URL := "https://github.com/gap-packages/sotgrps",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://gap-packages.github.io/sotgrps",
+PackageWWWHome  := "https://gap-packages.github.io/sotgrps/",
 README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
@@ -56,7 +56,7 @@ PackageDoc := rec(
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Constructing and identifying groups of small order type",
-  Autoload  := true),
+),
 
 Dependencies := rec(
   GAP := ">=4.10",
