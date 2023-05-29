@@ -245,8 +245,7 @@ SOTRec.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) )
 ############################################################################
 SOTRec.GroupP3Q := function(n, i)
   local fac, p, q, all, G, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq,
-  matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10,
-  newfunc, oldfunc;
+  matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10;
     fac := Factors(n);
     if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
       Error("Argument must be of the form of p^3q"); fi;
