@@ -8,18 +8,9 @@
   ## For each case depending on the size of F, we construct the isomorphism types of non-nilpotent, solvable groups G.
   ## For further details, see [2, Section 3.2 & 3.7].
 
-SOTRec.allGroupsP2QR := function(n)
-local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
+SOTRec.allGroupsP2QR := function(p, q, r)
+local a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
   rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2, matq, matr, matqr, mat, mat_k, all, list;
-    fac := Factors(n);
-    PF := Collected(fac);
-    if Length(fac) <> 4 or Length(PF) <> 3 then
-      Error("Argument must be of the form of p^2qr");
-    fi;
-    SortBy(PF, Reversed);
-    p := PF[3][1];
-    q := PF[1][1];
-    r := PF[2][1];
     ####
     Assert(1, r > q);
     Assert(1, IsPrimeInt(p));
@@ -293,32 +284,21 @@ local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, R
 
 ############
     list := List(all, x->SOTRec.groupFromData(x));
-    if n = 60 then
+    if p = 2 and q = 3 and r = 5 then
       Add(list, AlternatingGroup(5));
     fi;
   return list;
 end;
 
 ######################################################
-SOTRec.NumberGroupsP2QR := function(n)
-  local s, fac, PF, p, q, r, m;
-    s := [];
-    fac := Factors(n);
-    PF := Collected(fac);
-    if Length(fac) <> 4 or Length(PF) <> 3 then
-      Error("Argument must be of the form of p^2qr");
-    fi;
-    SortBy(PF, Reversed);
-    p := PF[3][1];
-    q := PF[1][1];
-    r := PF[2][1];
-
-    if n = 60 then m := 13;
+SOTRec.NumberGroupsP2QR := function(p, q, r)
+  local m;
+    if p = 2 and q = 3 and r = 5 then m := 13;
     fi;
     if q = 2 then
       m := 10 + (2*r + 7)*SOTRec.w((p - 1), r) + 3*SOTRec.w((p + 1), r) + 6*SOTRec.w((r - 1), p) + 2*SOTRec.w((r - 1), (p^2));
     fi;
-    if q > 2 and not n = 60 then
+    if q > 2 and not (p = 2 and q = 3 and r = 5) then
       m := 2 + (p^2 - p)*SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), (p^2))
       + (p - 1)*(SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p^2))*SOTRec.w((q - 1), p) + 2*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p))
       + (q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)/2
@@ -333,22 +313,17 @@ SOTRec.NumberGroupsP2QR := function(n)
   end;
 ######################################################
 ######################################################
-SOTRec.GroupP2QR := function(n, i)
-  local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
-  Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2, rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2,
-  c1, c2, c3, c4, c5, c6, c7, l1, l2, l3, l4, l5, l6, l7, l0, data, G;
-    fac := Factors(n);
-    PF := Collected(fac);
-    if Length(fac) <> 4 or Length(PF) <> 3 then
-      Error("Argument must be of the form of p^2qr");
-    fi;
-    SortBy(PF, Reversed);
-    p := PF[3][1];
-    q := PF[1][1];
-    r := PF[2][1];
-    if r = 2 then
-      Error("r must be a prime greater than q");
-    fi;
+SOTRec.GroupP2QR := function(p, q, r, i)
+local a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
+    Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2, rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2,
+    c1, c2, c3, c4, c5, c6, c7, l1, l2, l3, l4, l5, l6, l7, l0, data, G;
+
+    ####
+    Assert(1, r > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+
 ############ precompute Roots:
     a := Z(r);
     b := Z(p);
@@ -672,7 +647,7 @@ SOTRec.GroupP2QR := function(n, i)
     fi;
 
 ############
-    if n = 60 and i = 13 then
+    if p = 2 and q = 3 and r = 5 and i = 13 then
       return AlternatingGroup(5);
     fi;
 ############

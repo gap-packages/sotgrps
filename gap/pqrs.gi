@@ -5,17 +5,15 @@
 
 ##############################################
 ######################################################
-SOTRec.NumberGroupsPQRS := function(n)
-  local fac, p, q, r, s, m;
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
-      Error("Argument must be of the form of pqrs");
-    else
-      p := fac[1];
-      q := fac[2];
-      r := fac[3];
-      s := fac[4];
-    fi;
+SOTRec.NumberGroupsPQRS := function(p, q, r, s)
+local m;
+    ####
+    Assert(1, s > r and r > q and q > p);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+    Assert(1, IsPrimeInt(s));
+    ####
     m := 1 + SOTRec.w((s - 1), p*q*r)
     + SOTRec.w((r - 1), p*q) + SOTRec.w((s - 1), p*q)
     + (p - 1)*(q - 1)*SOTRec.w((s - 1), p*q)*SOTRec.w((r - 1), p*q)
@@ -36,17 +34,16 @@ SOTRec.NumberGroupsPQRS := function(n)
 end;
 ######################################################
 ######################################################
-SOTRec.allGroupsPQRS := function(n)
-  local all, fac, p, q, r, s, u, v, w, k, l, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, listall;
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
-      Error("Argument must be of the form of pqrs");
-    else
-      p := fac[1];
-      q := fac[2];
-      r := fac[3];
-      s := fac[4];
-    fi;
+SOTRec.allGroupsPQRS := function(p, q, r, s)
+local all, u, v, w, k, l, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, listall;
+    ####
+    Assert(1, s > r and r > q and q > p);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+    Assert(1, IsPrimeInt(s));
+    ####
+
     ##Cluster 1: Abelian group, Z(G) = G
     all := [ [ [p, q, r, s] ] ];
 
@@ -187,17 +184,15 @@ SOTRec.allGroupsPQRS := function(n)
   return listall;
 end;
 ######################################################
-SOTRec.GroupPQRS := function(n, i)
-  local all, fac, p, q, r, s, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, data;
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
-      Error("Argument must be of the form of pqrs");
-    else
-      p := fac[1];
-      q := fac[2];
-      r := fac[3];
-      s := fac[4];
-    fi;
+SOTRec.GroupPQRS := function(p, q, r, s, i)
+local all, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, data;
+    ####
+    Assert(1, s > r and r > q and q > p);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+    Assert(1, IsPrimeInt(s));
+
     ##Cluster 1: Abelian group, Z(G) = G
     all := [ [ [p, q, r, s] ] ];
 

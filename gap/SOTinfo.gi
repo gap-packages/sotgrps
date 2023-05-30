@@ -1,11 +1,13 @@
-SOTRec.infoP2Q2 := function(n)
-  local fac, sot, p, q, c, m, prop, i;
+SOTRec.infoP2Q2 := function(n, fac)
+  local sot, p, q, c, m, prop, i;
     sot := SOTRec.sot(n);
-    fac := Factors(n);
-    if not List(Collected(fac), x->x[2]) = [2, 2] then
-      Error("Argument must be of the form of p^2q^2".\n); fi;
-    q := fac[1];
-    p := fac[4];
+    p := fac[2][1];
+    q := fac[1][1];
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ####
     prop := [ [[q^2, 1], [p^2, 1]], [[q^2, 2], [p^2, 1]],
       [[q^2, 1], [p^2, 2]], [[q^2, 2], [p^2, 2]] ];
 
@@ -40,17 +42,17 @@ SOTRec.infoP2Q2 := function(n)
     fi;
   end;
 ##############################################################################
-SOTRec.infoP3Q := function(n)
-  local fac, sot, p, q, c, m, prop, i;
+SOTRec.infoP3Q := function(n, fac)
+  local sot, p, q, c, m, syl, i;
     sot := SOTRec.sot(n);
-    fac := Factors(n);
-    if not List(Collected(fac), x->x[2]) in [ [1, 3], [3, 1] ] then
-      Error("Argument must be of the form of p^3q.\n"); fi;
-    p := fac[2];
-    if fac[1] = fac[2] then
-    q := fac[4]; elif fac[3] = fac[4] then
-    q := fac[1]; fi;
-    prop := [[p^3, 1], [p^3, 2], [p^3, 5], [p^3, 3], [p^3, 4],
+    p := fac[2][1];
+    q := fac[1][1];
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ####
+    syl := [[p^3, 1], [p^3, 2], [p^3, 5], [p^3, 3], [p^3, 4],
             [p^3, 1], [p^3, 2], [p^3, 5], [p^3, 3], [p^3, 4]];
     ######## enumeration
     c := [];
@@ -79,17 +81,17 @@ SOTRec.infoP3Q := function(n)
     Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
     for i in [1..5] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", syl[i], ".\n");
       elif c[i] > 1 then
         Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
-        " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i], ".\n");
+        " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", syl[i], ".\n");
       fi;
     od;
     for i in [6..10] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", syl[i], ".\n");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", prop[i], ".\n");
+        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", syl[i], ".\n");
       fi;
     od;
     if c[11] = 1 then
@@ -97,19 +99,18 @@ SOTRec.infoP3Q := function(n)
     fi;
   end;
 ##############################################################################
-SOTRec.infoP2QR := function(n)
-  local fac, PF, sot, p, q, r, m, c, fit, i;
+SOTRec.infoP2QR := function(n, fac)
+  local sot, p, q, r, m, c, fit, i;
     sot := SOTRec.sot(n);
     c := [];
-    fac := Factors(n);
-    PF := Collected(fac);
-    if Length(fac) <> 4 or Length(PF) <> 3 then
-      Error("Argument must be of the form of p^2qr.\n");
-    fi;
-    SortBy(PF, Reversed);
-    p := PF[3][1];
-    q := PF[1][1];
-    r := PF[2][1];
+    p := fac[3][1];
+    q := fac[1][1];
+    r := fac[2][1];
+    ####
+    Assert(1, r > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
     fit := [r, q*r, p^2, p^2*q, p^2*r, p*r, p*q*r];
     ############ enumeration of distinct cases
     c[1] := SOTRec.w((r - 1), p^2*q);;
@@ -153,18 +154,15 @@ SOTRec.infoP2QR := function(n)
     fi;
   end;
 ##############################################################################
-SOTRec.infoP4Q := function(n)
-    local sot, fac, LF, p, q, c, c0, m, prop, i, j;
+SOTRec.infoP4Q := function(n, fac)
+    local sot, p, q, c, c0, m, prop, i, j;
     sot := SOTRec.sot(n);
-    fac := Collected(Factors(n));
-    LF := List(fac, x -> x[2]);
-    if not LF in [ [1, 4], [4, 1] ] then
-        Error("Argument must be of the form of p^4q.\n");
-    elif LF = [1, 4] then
-        p := fac[2][1]; q := fac[1][1];
-    elif LF = [4, 1] then
-        p := fac[1][1]; q := fac[2][1];
-    fi;
+    p := fac[2][1];
+    q := fac[1][1];
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+
     prop := [];
     if p > 3 then
         prop[1] := ["sovable, non-nilpotent", "cylic", [p^4, 1]];
@@ -285,19 +283,22 @@ SOTRec.infoP4Q := function(n)
   end;
 
 ##############################################################################
-SOTRec.infoPQRS := function(n)
-  local sot, c, fac, p, q, r, s, m;
+SOTRec.infoPQRS := function(n, fac)
+  local sot, c, p, q, r, s, m;
     sot := SOTRec.sot(n);
     c := [];
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 4 then
-      Error("Argument must be of the form of pqrs.\n");
-    else
-      p := fac[1];
-      q := fac[2];
-      r := fac[3];
-      s := fac[4];
-    fi;
+    p := fac[1][1];
+    q := fac[2][1];
+    r := fac[3][1];
+    s := fac[4][1];
+
+    ####
+    Assert(1, s > r and r > q and q > p);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+    Assert(1, IsPrimeInt(s));
+
     ##Cluster 1: Abelian group, Z(G) = G
     ##enumeration of each case by size of the centre
     c[1] := SOTRec.w((s - 1), r) + SOTRec.w((s - 1), q) + SOTRec.w((r - 1), q)

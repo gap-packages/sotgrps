@@ -21,9 +21,9 @@ InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 		elif ind = [1, 3] then
 			grps := SOTRec.allGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
-			grps := SOTRec.allGroupsP2QR(n);
+			grps := SOTRec.allGroupsP2QR(fac[3][1], fac[1][1], fac[2][1]);
 		elif ind = [1, 1, 1, 1] then
-			grps := SOTRec.allGroupsPQRS(n);
+			grps := SOTRec.allGroupsPQRS(fac[1][1], fac[2][1], fac[3][1], fac[4][1]);
 		elif ind = [1, 4] then
 			grps := SOTRec.allGroupsP4Q(fac[2][1], fac[1][1]);
 		else
@@ -56,9 +56,9 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind = [1, 3] then
 			return SOTRec.NumberGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
-			return SOTRec.NumberGroupsP2QR(n);
+			return SOTRec.NumberGroupsP2QR(fac[3][1], fac[1][1], fac[2][1]);
 		elif ind = [1, 1, 1, 1] then
-			return SOTRec.NumberGroupsPQRS(n);
+			return SOTRec.NumberGroupsPQRS(fac[1][1], fac[2][1], fac[3][1], fac[4][1]);
 		elif ind = [1, 4] then
 			return SOTRec.NumberGroupsP4Q(fac[2][1], fac[1][1]);
 		else
@@ -101,9 +101,9 @@ InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 			elif ind = [1, 3] then
 				G := SOTRec.GroupP3Q(fac[2][1], fac[1][1], i);
 			elif ind = [1, 1, 2] then
-				G := SOTRec.GroupP2QR(n, i);
+				G := SOTRec.GroupP2QR(fac[3][1], fac[1][1], fac[2][1], i);
 			elif ind = [1, 1, 1, 1] then
-				G := SOTRec.GroupPQRS(n, i);
+				G := SOTRec.GroupPQRS(fac[1][1], fac[2][1], fac[3][1], fac[4][1], i);
 			elif ind = [1, 4] then
 				G := SOTRec.GroupP4Q(fac[2][1], fac[1][1], i);
 			else
@@ -144,15 +144,15 @@ InstallGlobalFunction( SOTGroupsInformation, function(n)
 			elif ind = [1, 1, 1] then
 				Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
 			elif ind = [2, 2] then
-				SOTRec.infoP2Q2(n);
+				SOTRec.infoP2Q2(n, fac);
 			elif ind = [1, 3] then
-				SOTRec.infoP3Q(n);
+				SOTRec.infoP3Q(n, fac);
 			elif ind = [1, 1, 2] then
-				SOTRec.infoP2QR(n);
+				SOTRec.infoP2QR(n, fac);
 			elif ind = [1, 1, 1, 1] then
-				SOTRec.infoPQRS(n);
+				SOTRec.infoPQRS(n, fac);
 			elif ind = [1, 4] then
-				SOTRec.infoP4Q(n);
+				SOTRec.infoP4Q(n, fac);
 			elif Sum(ind) >= 5 then
 				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for SOTGroupsInformation for the list of supported groups.");
 			fi;

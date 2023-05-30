@@ -202,6 +202,8 @@ gap> SOTRec.testIdSOTGroupCheap(102576253);
 order 102576253: testing 446 groups
 gap> SOTRec.testIdSOTGroupCheap(4950967);
 order 4950967: testing 166 groups
+gap> SOTRec.testIdSOTGroupCheap(3262539);
+order 3262539: testing 61 groups
 
 #
 gap> SOTRec.testIdSOTGroup(150);
@@ -280,6 +282,77 @@ gap> SOTGroupsInformation(255025);
      7 is non-abelian, non-nilpotent and has a normal Sylow 101-subgroup [ 10201, 1 ] with Sylow 5-subgroup [ 25, 2 ].
      8 - 27 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ] with Sylow 5-subgroup [ 25, 1 ].
      28 - 32 are non-abelian, non-nilpotent and have a normal Sylow 101-subgroup [ 10201, 2 ] with Sylow 5-subgroup [ 25, 2 ].
+
+#
+gap> SOTGroupsInformation(36);
+
+  There are 14 groups of order 36.
+
+  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.
+  These groups are sorted by their Sylow subgroups.
+     SOT 1 - 4 are abelian and all Sylow subgroups are normal.
+     SOT 5 is non-abelian, non-nilpotent and has a normal Sylow 3-subgroup [ 9, 1 ] with Sylow 2-subgroup [ 4, 1 ].
+     SOT 6 is non-abelian, non-nilpotent and has a normal Sylow 3-subgroup [ 9, 1 ] with Sylow 2-subgroup [ 4, 2 ].
+     SOT 7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2] with Sylow 3-subgroup [9, 1].
+     SOT 8 - 10 are non-abelian, non-nilpotent and have a normal Sylow 3-subgroup [ 9, 2 ] with Sylow 2-subgroup [ 4, 1 ].
+     SOT 11 - 14 are non-abelian, non-nilpotent and have a normal Sylow 3-subgroup [ 9, 2 ] with Sylow 2-subgroup [ 4, 1 ].
+
+#
+gap> SOTGroupsInformation(81*5);
+
+  There are 16 groups of order 405.
+
+  The groups of order p^4q are solvable by Burnside's pq-Theorem.
+  These groups are sorted by their Sylow subgroups.
+     SOT 1 - 15 are nilpotent and all Sylow subgroups are normal.
+     SOT 16 is sovable, non-nilpotentand has a normal elementary abelian Sylow 3-subgroup [ 81, 15 ],
+         with cyclic Sylow 5-subgroup.
+gap> SOTGroupsInformation(16*17);
+
+  There are 54 groups of order 272.
+
+  The groups of order p^4q are solvable by Burnside's pq-Theorem.
+  These groups are sorted by their Sylow subgroups.
+     SOT 1 - 14 are nilpotent and all Sylow subgroups are normal.
+     SOT 15 - 18 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with cylic Sylow 2-subgroup [ 16, 1 ].
+     SOT 19 - 23 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with abelian Sylow 2-subgroup [ 16, 5 ].
+     SOT 24 - 25 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with abelian Sylow 2-subgroup [ 16, 2 ].
+     SOT 26 - 28 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with abelian Sylow 2-subgroup [ 16, 10 ].
+     SOT 29 is sovable, non-nilpotentand has a normal Sylow 17-subgroup,
+         with elementary abelian Sylow 2-subgroup [ 16, 14 ].
+     SOT 30 - 32 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 13 ].
+     SOT 33 - 35 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 11 ].
+     SOT 36 - 38 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 3 ].
+     SOT 39 - 40 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 12 ].
+     SOT 41 - 43 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 4 ].
+     SOT 44 - 47 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 6 ].
+     SOT 48 - 50 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 8 ].
+     SOT 51 - 52 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 7 ].
+     SOT 53 - 54 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
+         with nonabelian Sylow 2-subgroup [ 16, 9 ].
+#
+gap> SOTGroupsInformation(3*7*43*3613);
+
+  There are 61 groups of order 3262539.
+
+  The groups of order pqrs are solvable and classified by O. H"older.
+  These groups are sorted by their centre.
+     SOT 1 is abelian.
+     SOT 2 - 7 have centre of order that is a product of two distinct primes.
+     SOT 8 - 23 have a cyclic centre of prime order.
+     SOT 24 - 61 have a trivial centre.
 
 #
 gap> STOP_TEST("tests.tst", 1);
