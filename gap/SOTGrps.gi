@@ -11,13 +11,13 @@ InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 		if Length(fac) = 1 then
 			grps := SOTRec.lowpowerPGroups(fac[1][1], fac[1][2]);
 		elif ind = [1, 1] then
-			grps := SOTRec.allGroupsPQ(n);
+			grps := SOTRec.allGroupsPQ(fac[2][1], fac[1][1]);
 		elif ind = [1, 2] then
 			grps := SOTRec.allGroupsP2Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 1] then
 			grps := SOTRec.allGroupsPQR(n);
 		elif ind = [2, 2] then
-			grps := SOTRec.allGroupsP2Q2(n);
+			grps := SOTRec.allGroupsP2Q2(fac[2][1], fac[1][1]);
 		elif ind = [1, 3] then
 			grps := SOTRec.allGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
@@ -44,15 +44,15 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		SortBy(fac, Reversed);
 		ind := List(fac, x -> x[2]);
 		if ind in [ [1], [2], [3], [4] ] then
-			return SOTRec.NumberPGroups(n);
+			return SOTRec.NumberPGroups(fac[1][1], fac[1][2]);
 		elif ind = [1, 1] then
-			return SOTRec.NumberGroupsPQ(n);
+			return SOTRec.NumberGroupsPQ(fac[2][1], fac[1][1]);
 		elif ind = [1, 2] then
 			return SOTRec.NumberGroupsP2Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 1] then
-			return SOTRec.NumberGroupsPQR(n);
+			return SOTRec.NumberGroupsPQR(fac[3][1], fac[2][1], fac[1][1]);
 		elif ind = [2, 2] then
-			return SOTRec.NumberGroupsP2Q2(n);
+			return SOTRec.NumberGroupsP2Q2(fac[2][1], fac[1][1]);
 		elif ind = [1, 3] then
 			return SOTRec.NumberGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
@@ -91,13 +91,13 @@ InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 			if ind in [ [1], [2], [3], [4] ] then
 				G := SOTRec.PGroup(fac[1][1], fac[1][2], i);
 			elif ind = [1, 1] then
-				G := SOTRec.GroupPQ(n, i);
+				G := SOTRec.GroupPQ(fac[2][1], fac[1][1], i);
 			elif ind = [1, 2] then
 				G := SOTRec.GroupP2Q(fac[2][1], fac[1][1], i);
 			elif ind = [1, 1, 1] then
-				G := SOTRec.GroupPQR(n, i);
+				G := SOTRec.GroupPQR(fac[3][1], fac[2][1], fac[1][1], i);
 			elif ind = [2, 2] then
-				G := SOTRec.GroupP2Q2(n, i);
+				G := SOTRec.GroupP2Q2(fac[2][1], fac[1][1], i);
 			elif ind = [1, 3] then
 				G := SOTRec.GroupP3Q(fac[2][1], fac[1][1], i);
 			elif ind = [1, 1, 2] then

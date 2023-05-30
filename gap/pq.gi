@@ -1,46 +1,45 @@
 #Classification of groups of order pq
 ####The following functions contribute to AllSOTGroups, NumberOfSOTGroups, and SOTGroup, respectively.
 ##############################################
-SOTRec.allGroupsPQ := function(n)
-  local fac, p, q, abelian, nonabelian, s;
-    s := [];
-    fac := Factors(n);
-    if Length(fac) > 2 then
-      Error("Argument must be a product of two distinct primes."); fi;
-    q := fac[1];
-    p := fac[2];
+SOTRec.allGroupsPQ := function(p, q)
+local abelian, nonabelian, s;
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ####
     ## typ pq
     abelian := [ [p, q] ];
     if not (p - 1) mod q = 0 then
-      Add(s, SOTRec.groupFromData(abelian));
+      s := [SOTRec.groupFromData(abelian)];
       return s;
     else
       ## typ Dpq
       nonabelian := [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ];
-      Append(s, [SOTRec.groupFromData(nonabelian),SOTRec.groupFromData(abelian)]);
+      s := [SOTRec.groupFromData(nonabelian),SOTRec.groupFromData(abelian)];
     fi;
   return s;
 end;
 
 ##############################################
-SOTRec.NumberGroupsPQ := function(n)
-  local fac, p, q, w;
-    fac := Factors(n);
-    if Length(fac) > 2 then
-      Error("Argument must be a product of two distinct primes."); fi;
-    q := fac[1];
-    p := fac[2];
+SOTRec.NumberGroupsPQ := function(p, q)
+local w;
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ####
     w := 1 + SOTRec.w((p - 1), q);
   return w;
 end;
 ##############################################
-SOTRec.GroupPQ := function(n, i)
-  local fac, p, q, all, G;
-    fac := Factors(n);
-    if Length(fac) > 2 then
-      Error("Argument must be a product of two distinct primes."); fi;
-    q := fac[1];
-    p := fac[2];
+SOTRec.GroupPQ := function(p, q, i)
+local all, G;
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ####
     all := [ [ [p, q] ] ];
     if (p - 1) mod q = 0 then
       Add(all, [ [q, p], [2, 1, [2, Int((Z(p))^((p-1)/q))]] ], 1);

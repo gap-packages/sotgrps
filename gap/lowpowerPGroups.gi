@@ -112,15 +112,13 @@ SOTRec.lowpowerPGroups := function(p, k, arg...)
 end;
 
 ######################################
-SOTRec.NumberPGroups := function(n)
-	local power, prime, w;
-		prime := Collected(Factors(n))[1][1];
-		power := Collected(Factors(n))[1][2];
-		if power = 1 then w := 1; fi;
-		if power = 2 then w := 2; fi;
-		if power = 3 then w := 5;	fi;
-		if power = 4 and prime = 2 then w := 14; fi;
-		if power = 4 and prime > 2 then w := 15; fi;
+SOTRec.NumberPGroups := function(p, k)
+	local w;
+		if k = 1 then w := 1; fi;
+		if k = 2 then w := 2; fi;
+		if k = 3 then w := 5;	fi;
+		if k = 4 and p = 2 then w := 14; fi;
+		if k = 4 and p > 2 then w := 15; fi;
 	return w;
 end;
 #####################################
