@@ -15,7 +15,7 @@ InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 		elif ind = [1, 2] then
 			grps := SOTRec.allGroupsP2Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 1] then
-			grps := SOTRec.allGroupsPQR(n);
+			grps := SOTRec.allGroupsPQR(fac[3][1], fac[2][1], fac[1][1]);
 		elif ind = [2, 2] then
 			grps := SOTRec.allGroupsP2Q2(fac[2][1], fac[1][1]);
 		elif ind = [1, 3] then
