@@ -9,25 +9,17 @@
   ## For further details, see [2, Section 3.2 & 3.7].
 
 SOTRec.allGroupsP2QR := function(n)
-local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
+local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2,
   rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2, matq, matr, matqr, mat, mat_k, all, list;
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
+    PF := Collected(fac);
+    if Length(fac) <> 4 or Length(PF) <> 3 then
       Error("Argument must be of the form of p^2qr");
     fi;
-    primefac := function(n)
-      local i, j, tmp;
-        tmp := [];
-        for i in Collected(fac) do
-          if i[2] = 2 then j := i[1];
-          elif i[2] = 1 then Add(tmp, i[1]);
-          fi;
-        od;
-        Sort(tmp);
-        Add(tmp, j);
-      return tmp;
-    end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    SortBy(PF, Reversed);
+    p := PF[3][1];
+    q := PF[1][1];
+    r := PF[2][1];
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;
@@ -306,24 +298,17 @@ end;
 
 ######################################################
 SOTRec.NumberGroupsP2QR := function(n)
-  local s, fac, primefac, p, q, r, m;
+  local s, fac, PF, p, q, r, m;
     s := [];
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
-      Error("Argument must be of the form of p^2qr"); fi;
-      primefac := function(n)
-        local i, j, tmp;
-          tmp := [];
-          for i in Collected(fac) do
-            if i[2] = 2 then j := i[1];
-            elif i[2] = 1 then Add(tmp, i[1]);
-            fi;
-          od;
-          Sort(tmp);
-          Add(tmp, j);
-          return tmp;
-        end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    PF := Collected(fac);
+    if Length(fac) <> 4 or Length(PF) <> 3 then
+      Error("Argument must be of the form of p^2qr");
+    fi;
+    SortBy(PF, Reversed);
+    p := PF[3][1];
+    q := PF[1][1];
+    r := PF[2][1];
 
     if n = 60 then m := 13;
     fi;
@@ -346,26 +331,18 @@ SOTRec.NumberGroupsP2QR := function(n)
 ######################################################
 ######################################################
 SOTRec.GroupP2QR := function(n, i)
-  local fac, primefac, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
+  local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
   Rootpr, Rootpq, Rootrq, Rootrp, Rootrp2, Rootqp, Rootqp2, rootpr, rootpq, rootrq, rootrp, rootrp2, rootqp, rootqp2,
   c1, c2, c3, c4, c5, c6, c7, l1, l2, l3, l4, l5, l6, l7, l0, data, G;
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
+    PF := Collected(fac);
+    if Length(fac) <> 4 or Length(PF) <> 3 then
       Error("Argument must be of the form of p^2qr");
     fi;
-    primefac := function(n)
-      local i, j, tmp;
-        tmp := [];
-        for i in Collected(fac) do
-          if i[2] = 2 then j := i[1];
-          elif i[2] = 1 then Add(tmp, i[1]);
-          fi;
-        od;
-        Sort(tmp);
-        Add(tmp, j);
-      return tmp;
-    end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    SortBy(PF, Reversed);
+    p := PF[3][1];
+    q := PF[1][1];
+    r := PF[2][1];
     if r = 2 then
       Error("r must be a prime greater than q");
     fi;

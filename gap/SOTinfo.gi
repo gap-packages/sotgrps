@@ -98,25 +98,18 @@ SOTRec.infoP3Q := function(n)
   end;
 ##############################################################################
 SOTRec.infoP2QR := function(n)
-  local fac, sot, primefac, p, q, r, m, c, fit, i;
+  local fac, PF, sot, p, q, r, m, c, fit, i;
     sot := SOTRec.sot(n);
     c := [];
     fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 3 then
-      Error("Argument must be of the form of p^2qr.\n"); fi;
-      primefac := function(n)
-        local i, j, tmp;
-          tmp := [];
-          for i in Collected(fac) do
-            if i[2] = 2 then j := i[1];
-            elif i[2] = 1 then Add(tmp, i[1]);
-            fi;
-          od;
-          Sort(tmp);
-          Add(tmp, j);
-          return tmp;
-        end;
-    p := primefac(n)[3]; q := primefac(n)[1]; r := primefac(n)[2];
+    PF := Collected(fac);
+    if Length(fac) <> 4 or Length(PF) <> 3 then
+      Error("Argument must be of the form of p^2qr.\n");
+    fi;
+    SortBy(PF, Reversed);
+    p := PF[3][1];
+    q := PF[1][1];
+    r := PF[2][1];
     fit := [r, q*r, p^2, p^2*q, p^2*r, p*r, p*q*r];
     ############ enumeration of distinct cases
     c[1] := SOTRec.w((r - 1), p^2*q);;
