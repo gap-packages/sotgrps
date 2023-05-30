@@ -271,7 +271,7 @@ SOTRec.IdGroupP2Q2 := function(group, n, fac)
 local p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, mat, Id, k, l, x, y, det, mat1, mat2, pcgsp, pcgsq;
     q := fac[1][1];
-    p := fac[4][2];
+    p := fac[2][1];
     ####
     Assert(1, p > q);
     Assert(1, IsPrimeInt(p));
