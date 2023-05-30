@@ -20,9 +20,12 @@ local fac, PF, p, q, r, a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, R
     p := PF[3][1];
     q := PF[1][1];
     r := PF[2][1];
-    if r = 2 then
-      Error("r must be a prime greater than q");
-    fi;
+    ####
+    Assert(1, r > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+
     a := Z(r); #\sigma_r
     b := Z(p); #\sigma_p
     c := Z(q); #\sigma_q

@@ -9,20 +9,19 @@
   ## This implies that if G is a finite group. Recall that O_p(G) (PCore(G) in GAP) is the largest normal p-subgroup of G. The natural projection \pi : G \to O_p(G) thus is a homomorphism with p-group kernel. It then follows that the number of conjugacy classes of subgroups of order q in G coincides with that in G/O_p(G).
     ## In particular, setting G \cong Aut(P), this shows that the number of isomorphism types of C_q \ltimes P for a given p-group P coincides with the number of conjugacy classes of subgroups of order q in Aut(P)/O_p(Aut(P)).
 ##########################################
-SOTRec.IdGroupP4Q := function(group)
-  local n, fac, p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
+SOTRec.IdGroupP4Q := function(group, n, fac)
+  local p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
         sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, Idfunc, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y, z,
         exps1, exps2, pcgs, pcgsp, pcgsq, idP, fp, fq, g1, g2, g3, g4, g5, char, dP, dG,
         exp1, exp2, exp3, exp4, det, tmp, ev, evm, N1, N2,
         c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, data;
-    n := Size(group);;
-    fac := Collected(Factors(n));;
-    if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
-      Error("Argument must be of the form of (p^4q, id), where p, q are distinct primes and id is a positive natural number.");
-    elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
-    else p := fac[1][1]; q := fac[2][1];
-    fi;
+    p := fac[2][1];
+    q := fac[1][1];
+    ####
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(p));
     ####
     a := Z(p);
     b := Z(q);

@@ -172,23 +172,23 @@ function(group)
 		SortBy(fac, Reversed);
 		ind := List(fac, x -> x[2]);
 		if ind in [ [1], [2], [3], [4] ] then
-			return SOTRec.IdPGroup(group);
+			return SOTRec.IdPGroup(group, n, fac);
 		elif ind = [1, 1] then
-			return SOTRec.IdGroupPQ(group);
+			return SOTRec.IdGroupPQ(group, n, fac);
 		elif ind = [1, 2] then
-			return SOTRec.IdGroupP2Q(group);
+			return SOTRec.IdGroupP2Q(group, n, fac);
 		elif ind = [1, 1, 1] then
-			return SOTRec.IdGroupPQR(group);
+			return SOTRec.IdGroupPQR(group, n, fac);
 		elif ind = [2, 2] then
-			return SOTRec.IdGroupP2Q2(group);
+			return SOTRec.IdGroupP2Q2(group, n, fac);
 		elif ind = [1, 3] then
-			return SOTRec.IdGroupP3Q(group);
+			return SOTRec.IdGroupP3Q(group, n, fac);
 		elif ind = [1, 1, 2] then
-			return SOTRec.IdGroupP2QR(group);
+			return SOTRec.IdGroupP2QR(group, n, fac);
 		elif ind = [1, 1, 1, 1] then
-			return SOTRec.IdGroupPQRS(group);
+			return SOTRec.IdGroupPQRS(group, n, fac);
 		elif ind = [1, 4] then
-			return SOTRec.IdGroupP4Q(group);
+			return SOTRec.IdGroupP4Q(group, n, fac);
 		else
 			Error("Groups of order ", n, " are not supported by SOTGrps; please refer to the documentation for IdSOTGroup for the list of supported groups.");
 		fi;

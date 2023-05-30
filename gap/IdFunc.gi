@@ -6,123 +6,118 @@
 ##
 ## the case of p-groups of order dividing p^4
 ##
-SOTRec.IdPGroup := function(group)
-  local n, PF, length, fac, p, k, i, Id, flag, a, b, c, d, F, N, Zen, gens, pcgs, G, m, x, y;
-    n := Size(group);
-    PF := Factors(n);
-    length := Length(PF);
-    fac := Collected(Factors(n));
-
+SOTRec.IdPGroup := function(group, n, fac)
+local p, k, i, Id, flag, a, b, c, d, F, N, Zen, gens, pcgs, G, m, x, y;
+    p := fac[1][1];
+    k := fac[1][2];
+    Assert(1, IsPrimeInt(p));
+##
     flag := [Exponent(group)];
 
-    if Length(fac) = 1 then
-      p := PF[1];
-      k := length;
-    fi;
     if k = 1 then
-      return [n, 1];
+        return [n, 1];
     fi;
 
     if k = 2 then
-      if flag[1] = n then
-        return [n, 1];
+        if flag[1] = n then
+            return [n, 1];
       else return [n, 2];
       fi;
     fi;
 
     if k = 3 then
-      if IsAbelian(group) then
-        if flag[1] = n then
-          return [n, 1];
-        elif flag[1] = p^2 then
-          return [n, 2];
-        else return [n, 3];
+        if IsAbelian(group) then
+            if flag[1] = n then
+                return [n, 1];
+            elif flag[1] = p^2 then
+                return [n, 2];
+            else return [n, 3];
+            fi;
+        elif flag[1] = p and p > 2 then
+            return [n, 4];
+        elif flag[1] > p and p > 2 then
+            return [n, 5];
+        elif p = 2 and Size(Omega(group, 2)) = 8 then return [8, 4];
+        elif p = 2 and Size(Omega(group, 2)) = 2 then return [8, 5];
         fi;
-      elif flag[1] = p and p > 2 then
-        return [n, 4];
-      elif flag[1] > p and p > 2 then
-        return [n, 5];
-      elif p = 2 and Size(Omega(group, 2)) = 8 then return [8, 4];
-      elif p = 2 and Size(Omega(group, 2)) = 2 then return [8, 5];
-      fi;
     fi;
 
     if k = 4 and p > 2 then
-      F := FrattiniSubgroup(group);
-      Zen := Centre(group);
+        F := FrattiniSubgroup(group);
+        Zen := Centre(group);
 
       if IsAbelian(group) then
-        Add(flag, Size(F));
-        if flag[1] = n then return [n, 1];
-        elif flag[1] = p^3 then return [n, 2];
-        elif flag = [p^2, p^2] then return [n, 3];
-        elif flag = [p^2, p] then return [n, 4];
-        else return [n, 5];
-        fi;
+          Add(flag, Size(F));
+          if flag[1] = n then return [n, 1];
+          elif flag[1] = p^3 then return [n, 2];
+          elif flag = [p^2, p^2] then return [n, 3];
+          elif flag = [p^2, p] then return [n, 4];
+          else return [n, 5];
+          fi;
       else
-        Append(flag, [IsPowerfulPGroup(group), Size(Zen), IsAbelian(DerivedSubgroup(group)), Exponent(group/DerivedSubgroup(group)), Exponent(Zen)]);
-        if flag = [p^2, true, p^2, true, p, p^2] then
-          return [n, 6];
-        elif flag = [p^3, true, p^2, true, p^2, p^2] then
-          return [n, 7];
-        elif flag = [p^2, true, p^2, true, p, p] then
-          return [n, 8];
-        elif flag = [p^2, false, p^2, true, p^2, p] then
-          return [n, 9];
-        elif flag = [p^2, true, p^2, true, p^2, p] then
-          return [n, 10];
-        elif flag = [p, false, p^2, true, p, p] then
-          return [n, 11];
-        elif flag = [p, false, p, true, p, p] then
-          return [n, 14];
-        elif flag = [p^2, false, p, true, p, p] and p > 3 then
-          d := Filtered(Pcgs(F), x -> not x in Zen)[1];
-          N := Centralizer(group, F);
-          if Exponent(N) = p then return [n, 15];
-          else gens := Pcgs(group);
-            a := Filtered(gens, x-> not x in N)[1];
-            b := Filtered(Pcgs(N), x->Order(x) = p^2 and x^p in Zen)[1];
-            pcgs := [a, b, b^p, d];
-            G := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
-            x := Inverse(ExponentsOfPcElement(G, pcgs[2]^pcgs[1])[4]) mod p;
-            y := ExponentsOfPcElement(G, pcgs[4]^(pcgs[1]^x))[3];
-            if Legendre(y, p) = 1 then return [n, 12];
-            else return [n, 13];
-            fi;
+          Append(flag, [IsPowerfulPGroup(group), Size(Zen), IsAbelian(DerivedSubgroup(group)), Exponent(group/DerivedSubgroup(group)), Exponent(Zen)]);
+          if flag = [p^2, true, p^2, true, p, p^2] then
+              return [n, 6];
+          elif flag = [p^3, true, p^2, true, p^2, p^2] then
+              return [n, 7];
+          elif flag = [p^2, true, p^2, true, p, p] then
+              return [n, 8];
+          elif flag = [p^2, false, p^2, true, p^2, p] then
+              return [n, 9];
+          elif flag = [p^2, true, p^2, true, p^2, p] then
+              return [n, 10];
+          elif flag = [p, false, p^2, true, p, p] then
+              return [n, 11];
+          elif flag = [p, false, p, true, p, p] then
+              return [n, 14];
+          elif flag = [p^2, false, p, true, p, p] and p > 3 then
+              d := Filtered(Pcgs(F), x -> not x in Zen)[1];
+              N := Centralizer(group, F);
+              if Exponent(N) = p then return [n, 15];
+              else gens := Pcgs(group);
+                  a := Filtered(gens, x-> not x in N)[1];
+                  b := Filtered(Pcgs(N), x->Order(x) = p^2 and x^p in Zen)[1];
+                  pcgs := [a, b, b^p, d];
+                  G := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
+                  x := Inverse(ExponentsOfPcElement(G, pcgs[2]^pcgs[1])[4]) mod p;
+                  y := ExponentsOfPcElement(G, pcgs[4]^(pcgs[1]^x))[3];
+                  if Legendre(y, p) = 1 then return [n, 12];
+                  else return [n, 13];
+                  fi;
+              fi;
+          elif flag = [9, false, 3, true, 3, 3] then
+              if IsAbelian(Omega(group, 3)) then return [81, 15];
+              else m := Size(Filtered(group, x -> Order(x) < 4));
+                  if m = 27 then return [81, 12];
+                  elif m = 63 then return [81, 13];
+                  elif m = 45 then return [81, 14];
+                  fi;
+              fi;
           fi;
-        elif flag = [9, false, 3, true, 3, 3] then
-          if IsAbelian(Omega(group, 3)) then return [81, 15];
-          else m := Size(Filtered(group, x -> Order(x) < 4));
-            if m = 27 then return [81, 12];
-            elif m = 63 then return [81, 13];
-            elif m = 45 then return [81, 14];
-            fi;
-          fi;
-        fi;
       fi;
     elif k = 4 and p = 2 then
-      if IsAbelian(group) then
-        Add(flag, Size(Agemo(group, 2)));
-        if flag[1] = 16 then return [16, 1];
-        elif flag[1] = 8 then return [16, 2];
-        elif flag = [4, 4] then return [16, 3];
-        elif flag = [4, 2] then return [16, 4];
-        else return [16, 5];
+        if IsAbelian(group) then
+            Add(flag, Size(Agemo(group, 2)));
+            if flag[1] = 16 then return [16, 1];
+            elif flag[1] = 8 then return [16, 2];
+            elif flag = [4, 4] then return [16, 3];
+            elif flag = [4, 2] then return [16, 4];
+            else return [16, 5];
+            fi;
+        else
+            Zen := Centre(group);
+            flag := [Exponent(Zen), Size(Agemo(group, 2)), Size(Zen), Size(Omega(group, 2))];
+            if flag{[1, 2]} = [4, 2] then return [16, 6];
+            elif flag{[1, 2]} = [4, 4] then return [16, 11];
+            elif flag{[1, 2, 3, 4]} = [2, 2, 4, 16] then return [16, 7];
+            elif flag{[1, 2, 3, 4]} = [2, 4, 4, 8] then return [16, 8];
+            elif flag{[1, 2, 3, 4]} = [2, 2, 4, 4] then return [16, 9];
+            elif flag{[1, 2, 3, 4]} = [2, 4, 4, 4] then return [16, 10];
+            elif flag{[3, 4]} = [2, 8] then return [16, 12];
+            elif flag{[3, 4]} = [2, 16] then return [16, 13];
+            else return [16, 14];
+            fi;
         fi;
-      else
-        Zen := Centre(group);
-        flag := [Exponent(Zen), Size(Agemo(group, 2)), Size(Zen), Size(Omega(group, 2))];
-        if flag{[1, 2]} = [4, 2] then return [16, 6];
-        elif flag{[1, 2]} = [4, 4] then return [16, 11];
-        elif flag{[1, 2, 3, 4]} = [2, 2, 4, 16] then return [16, 7];
-        elif flag{[1, 2, 3, 4]} = [2, 4, 4, 8] then return [16, 8];
-        elif flag{[1, 2, 3, 4]} = [2, 2, 4, 4] then return [16, 9];
-        elif flag{[1, 2, 3, 4]} = [2, 4, 4, 4] then return [16, 10];
-        elif flag{[3, 4]} = [2, 8] then return [16, 12];
-        elif flag{[3, 4]} = [2, 16] then return [16, 13];
-        else return [16, 14];
-        fi;
-      fi;
     fi;
 end;
 
@@ -130,14 +125,17 @@ end;
 #
 # the case of groups of order pq
 #
-SOTRec.IdGroupPQ := function(group)
-  local n, fac, p, q, Id;
-    n   := Size(group);
-    fac := Factors(n);
-    q   := fac[1];
-    p   := fac[2];
+SOTRec.IdGroupPQ := function(group, n, fac)
+local p, q, Id;
+    q := fac[1][1];
+    p := fac[2][1];
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+
     if not (p - 1) mod q = 0 and IsAbelian(group) then
-      return [n, 1];
+        return [n, 1];
     elif IsAbelian(group) then return [n, 2];
     else return [n, 1];
     fi;
@@ -146,22 +144,14 @@ end;
 #
 # the case of groups of order p^2q
 #
-SOTRec.IdGroupP2Q := function(group)
-  local n, fac, p, q, Id, a, b, c, d, flag, P, Q, Zen,gens, G, exps1, exps2, pcgs, pc, m, det, x, k, pcgsp, pcgsq;
-    n := Size(group);
-    fac := Factors(n);
-    if not Length(fac) = 3 or fac[1] = fac[3] then
-        Error("Argument has to be of the form p^2*q, where p, q are primes");
-    fi;
-    p := fac[2];
-    if fac[2] = fac[1] then
-      q := fac[3];
-    else
-      q := fac[1];
-    fi;
-    if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
-      Error("wrong input");
-    fi;
+SOTRec.IdGroupP2Q := function(group, n, fac)
+local p, q, Id, a, b, c, d, flag, P, Q, Zen,gens, G, exps1, exps2, pcgs, pc, m, det, x, k, pcgsp, pcgsq;
+    p := fac[2][1];
+    q := fac[1][1];
+    ####
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
     ####
     a := Z(p);
     b := Z(q);
@@ -225,15 +215,17 @@ end;
 #
 # the case of groups of order pqr
 #
-SOTRec.IdGroupPQR := function(group)
-  local n, fac, p, q, r, a, b, k, G, Q, R, P, flag, c1, c2, c3, c4, c5, pcgs, pcp, pc, x, pcgsp, pcgsq, pcgsr;
-    n := Size(group);
-    fac := Factors(n);
-    if not Length(fac) = 3 then
-      Error("Argument must be a product of three distinct primes"); fi;
-    r := fac[1];
-    q := fac[2];
-    p := fac[3];
+SOTRec.IdGroupPQR := function(group, n, fac)
+local p, q, r, a, b, k, G, Q, R, P, flag, c1, c2, c3, c4, c5, pcgs, pcp, pc, x, pcgsp, pcgsq, pcgsr;
+    r := fac[1][1];
+    q := fac[2][1];
+    p := fac[3][1];
+    ####
+    Assert(1, p > q and q > r);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+
     a := Z(p);
     b := Z(q);
 
@@ -275,16 +267,16 @@ end;
 #
 # the case of groups of order p^2q^2
 #
-SOTRec.IdGroupP2Q2 := function(group)
-  local n, fac, p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
+SOTRec.IdGroupP2Q2 := function(group, n, fac)
+local p, q, P, Q, Zen,a, b, c, d, e, f, ind, gens, G, pcgs, pc, g, h, ev,
   gexp1, gexp2, gexp3, gexp4, mat, Id, k, l, x, y, det, mat1, mat2, pcgsp, pcgsq;
-    n := Order(group);
-    fac := Factors(n);
-    if not List(Collected(fac), x->x[2]) = [2, 2] then
-      Error("Argument has to be of the form p^2*q^2, where p, q are primes");
-    fi;
-    q := fac[1];
-    p := fac[4];
+    q := fac[1][1];
+    p := fac[4][2];
+    ####
+    Assert(1, p > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+
     Q := SylowSubgroup(group, q);
     P := SylowSubgroup(group, p);
     Zen := Centre(group);
@@ -307,169 +299,167 @@ SOTRec.IdGroupP2Q2 := function(group)
     ind := [Exponent(P), Exponent(Q)];
 
     if IsAbelian(group) then
-      if ind[1] = p^2 and ind[2] = q^2 then return [n, 1];
-      elif ind[2] = q^2 then return [n, 2];
-      elif ind[1] = p^2 then return [n, 3];
-      else return [n, 4];
-      fi;
+        if ind[1] = p^2 and ind[2] = q^2 then return [n, 1];
+        elif ind[2] = q^2 then return [n, 2];
+        elif ind[1] = p^2 then return [n, 3];
+        else return [n, 4];
+        fi;
     else
-      gens := [];
-      Append(gens, Filtered(pcgsq, x-> not x in Zen));
-      Append(gens, Filtered(pcgsq, x-> not x in gens));
-      Append(gens, pcgsp);
-      G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
-      Add(ind, Size(Zen));
+        gens := [];
+        Append(gens, Filtered(pcgsq, x-> not x in Zen));
+        Append(gens, Filtered(pcgsq, x-> not x in gens));
+        Append(gens, pcgsp);
+        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+        Add(ind, Size(Zen));
     fi;
 
     if n = 36 then
-      k := Position([ [ 9, 4, 36 ], [ 3, 4, 36 ], [ 9, 2, 36 ], [ 3, 2, 36 ], [ 9, 4, 2 ], [ 9, 2, 2 ], [ 9, 2, 3 ], [ 3, 4, 6 ], [ 3, 4, 2 ], [ 3, 4, 1 ], [ 3, 2, 6 ], [ 3, 2, 2 ], [ 3, 2, 1 ], [ 3, 2, 3 ] ], ind);
-      return [36, k];
+        k := Position([ [ 9, 4, 36 ], [ 3, 4, 36 ], [ 9, 2, 36 ], [ 3, 2, 36 ], [ 9, 4, 2 ], [ 9, 2, 2 ], [ 9, 2, 3 ], [ 3, 4, 6 ], [ 3, 4, 2 ], [ 3, 4, 1 ], [ 3, 2, 6 ], [ 3, 2, 2 ], [ 3, 2, 1 ], [ 3, 2, 3 ] ], ind);
+        return [36, k];
     fi;
     if ((p - 1) mod q = 0 and q > 2) then
-      if ind = [p^2, q^2, q] then
-        return [n, 5];
-      elif ind = [p^2, q^2, 1] and ((p - 1) mod q^2 = 0 and q > 2) then
-        return [n, 5 + SOTRec.w((p - 1), q^2)];
-      elif ind = [p^2, q, q] then
-        return [n, 6 + SOTRec.w((p - 1), q^2)];
-      elif ind = [p, q^2, q*p] then
-        return [n, 7 + SOTRec.w((p - 1), q^2)];
-      elif ind = [p, q^2, q] then
-        g := Filtered(pcgsq, x -> Order(x) = q^2)[1];
-        gens := [g, g^q, pcgsp[1], pcgsp[2]];
-        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
-        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-        x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/q))) mod q;
-        det := LogFFE((LogFFE(DeterminantMat(mat^x), a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
-        if det < (q + 1)/2 then
-          k := det;
-        else k := (q - 1) - det;
-        fi;
-        return [n, 6 + 2 + k + SOTRec.w((p - 1), q^2)];
-      elif ind = [p, q^2, p] and (p - 1) mod (q^2) = 0 and q > 2 then
-        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)];
-      elif ind = [p, q^2, 1] and (p - 1) mod (q^2) = 0 and q > 2 then
-        g := Filtered(pcgsq, x -> Order(x)=q^2)[1];
-        h := Filtered(pcgsp, x -> not x in Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1];
-        if Size(Centre(Group([g^q, pcgsp[1], pcgsp[2]]))) = p then
-          gens := [g, g^q, h, Pcgs(Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1]];
-          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-          x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), mat), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
-          ev := List(Eigenvalues(GF(p), mat^x), x -> LogFFE(x, a^((p - 1)/(q^2))));
-          k := Filtered(ev, x -> x <> 1)[1]/q;
-          return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q + 2)/2 + k];
-        else
-          gens := [g, g^q, h, Filtered(pcgsp, x -> x <> h)[1]];
-          G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
-          gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-          gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-          mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-          x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/(q^2)))) mod q^2;
-          ev := List(Eigenvalues(GF(p), mat^x), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
-          if Length(ev) = 1 then k := 0;
-            return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
-          elif Length(ev) > 1 then
-            k := Filtered(ev, x -> x <> 0)[1];
-            if k > (q^2 - q)/2 then
-              return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q - k) + 1];
-            else
-              return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
+        if ind = [p^2, q^2, q] then
+            return [n, 5];
+        elif ind = [p^2, q^2, 1] and ((p - 1) mod q^2 = 0 and q > 2) then
+            return [n, 5 + SOTRec.w((p - 1), q^2)];
+        elif ind = [p^2, q, q] then
+            return [n, 6 + SOTRec.w((p - 1), q^2)];
+        elif ind = [p, q^2, q*p] then
+            return [n, 7 + SOTRec.w((p - 1), q^2)];
+        elif ind = [p, q^2, q] then
+            g := Filtered(pcgsq, x -> Order(x) = q^2)[1];
+            gens := [g, g^q, pcgsp[1], pcgsp[2]];
+            G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+            gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+            gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+            mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+            x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/q))) mod q;
+            det := LogFFE((LogFFE(DeterminantMat(mat^x), a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
+            if det < (q + 1)/2 then
+                k := det;
+            else k := (q - 1) - det;
             fi;
-          fi;
+            return [n, 6 + 2 + k + SOTRec.w((p - 1), q^2)];
+        elif ind = [p, q^2, p] and (p - 1) mod (q^2) = 0 and q > 2 then
+            return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)];
+        elif ind = [p, q^2, 1] and (p - 1) mod (q^2) = 0 and q > 2 then
+            g := Filtered(pcgsq, x -> Order(x)=q^2)[1];
+            h := Filtered(pcgsp, x -> not x in Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1];
+            if Size(Centre(Group([g^q, pcgsp[1], pcgsp[2]]))) = p then
+                gens := [g, g^q, h, Pcgs(Centre(Group([g^q, pcgsp[1], pcgsp[2]])))[1]];
+                G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+                gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+                gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+                mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+                x := Inverse(LogFFE(Filtered(Eigenvalues(GF(p), mat), x -> Order(x) = q^2)[1], a^((p - 1)/(q^2)))) mod q^2;
+                ev := List(Eigenvalues(GF(p), mat^x), x -> LogFFE(x, a^((p - 1)/(q^2))));
+                k := Filtered(ev, x -> x <> 1)[1]/q;
+                return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q + 2)/2 + k];
+            else
+                gens := [g, g^q, h, Filtered(pcgsp, x -> x <> h)[1]];
+                G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
+                gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+                gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+                mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+                x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/(q^2)))) mod q^2;
+                ev := List(Eigenvalues(GF(p), mat^x), x -> LogMod(LogFFE(x, a^((p - 1)/(q^2))), Int(f), q^2) mod (q^2 - q));
+                if Length(ev) = 1 then k := 0;
+                    return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
+                elif Length(ev) > 1 then
+                    k := Filtered(ev, x -> x <> 0)[1];
+                    if k > (q^2 - q)/2 then
+                        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + (q^2 - q - k) + 1];
+                    else
+                        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2) + k + 1];
+                    fi;
+                fi;
+            fi;
+        elif ind = [p, q, q * p] and q > 2 then
+            return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
+        elif ind = [p, q, q] and q > 2 then
+            g := Filtered(pcgsq, x -> not x in Zen)[1];
+            h := Pcgs(Zen)[1];
+            gens := [g, h, pcgsp[1], pcgsp[2]];
+            G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
+            gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+            gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+            mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+            x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/q))) mod q;
+            det := LogFFE((LogFFE(DeterminantMat(mat^x), a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
+            if det < (q + 1)/2 then
+                k := det;
+            else k := (q - 1) - det;
+            fi;
+            return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
+        elif ind = [p, q, 1] and q > 2 then
+            return [n, 10 + q + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2];
         fi;
-      elif ind = [p, q, q * p] and q > 2 then
-        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 ];
-      elif ind = [p, q, q] and q > 2 then
-        g := Filtered(pcgsq, x -> not x in Zen)[1];
-        h := Pcgs(Zen)[1];
-        gens := [g, h, pcgsp[1], pcgsp[2]];
-        G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
-        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        mat := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-        x := Inverse(LogFFE(Eigenvalues(GF(p), mat)[1], a^((p - 1)/q))) mod q;
-        det := LogFFE((LogFFE(DeterminantMat(mat^x), a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
-        if det < (q + 1)/2 then
-          k := det;
-        else k := (q - 1) - det;
-        fi;
-        return [n, 6 + (q + 5)/2 + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2 + k + 1];
-      elif ind = [p, q, 1] and q > 2 then
-        return [n, 10 + q + SOTRec.w((p - 1), q^2)*(q^2 + q + 4)/2];
-      fi;
     fi;
     if (p + 1) mod q = 0 and q > 2 then
-      if ind = [p, q, q] then
-        return [n, 6 + SOTRec.w((p + 1), q^2)];
-      elif ind = [p, q^2, q] then
-        return [n, 5];
-      fi;
+        if ind = [p, q, q] then
+            return [n, 6 + SOTRec.w((p + 1), q^2)];
+        elif ind = [p, q^2, q] then
+            return [n, 5];
+        fi;
     fi;
     if ( p + 1) mod (q^2) = 0 and q > 2 and ind[3] = 1 then
-      return [n, 6];
+        return [n, 6];
     fi;
 
     if q = 2 and p > 3 then
-      if ind = [p^2, 4, 2] then
-        return [n, 5];
-      elif p mod 4 = 1 and ind = [p^2, 4, 1] then
-        return [n, 5 + SOTRec.w((p - 1), 4)];
-      elif ind{[1, 2]} = [p^2, 2] then
-        return [n, 6 + SOTRec.w((p - 1), 4)];
-      elif ind = [p, 4, 2*p] then
-        return [n, 7 + SOTRec.w((p - 1), 4)];
-      elif ind = [p, 4, 2] then
-        return [n, 8 + SOTRec.w((p - 1), 4)];
-      elif p mod 4 = 1 and ind = [p, 4, p] then
-        return [n, 8 + 1 + SOTRec.w((p - 1), 4)];
-      elif p mod 4 = 1 and ind = [p, 4, 1] then
-        gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
-        gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
-        gexp3 := ExponentsOfPcElement(G, gens[3]^gens[2]);
-        gexp4 := ExponentsOfPcElement(G, gens[4]^gens[2]);
-        mat1 := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
-        mat2 := [gexp3{[3, 4]}, gexp4{[3, 4]}]*One(GF(p));
-        x := DeterminantMat(mat1);
-        y := DeterminantMat(mat2);
-        if AsSet([Int(x), Int(y)]) = AsSet([p - 1, 1]) then
-          return [n, 8 + 2 + SOTRec.w((p - 1), 4)];
-        elif AsSet([Int(x), Int(y)]) = AsSet([1, 1]) then
-          return [n, 8 + 3 + SOTRec.w((p - 1), 4)];
-        elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
-          return [n, 8 + 4 + SOTRec.w((p - 1), 4)];
+        if ind = [p^2, 4, 2] then
+            return [n, 5];
+        elif p mod 4 = 1 and ind = [p^2, 4, 1] then
+            return [n, 5 + SOTRec.w((p - 1), 4)];
+        elif ind{[1, 2]} = [p^2, 2] then
+            return [n, 6 + SOTRec.w((p - 1), 4)];
+        elif ind = [p, 4, 2*p] then
+            return [n, 7 + SOTRec.w((p - 1), 4)];
+        elif ind = [p, 4, 2] then
+            return [n, 8 + SOTRec.w((p - 1), 4)];
+        elif p mod 4 = 1 and ind = [p, 4, p] then
+            return [n, 8 + 1 + SOTRec.w((p - 1), 4)];
+        elif p mod 4 = 1 and ind = [p, 4, 1] then
+            gexp1 := ExponentsOfPcElement(G, gens[3]^gens[1]);
+            gexp2 := ExponentsOfPcElement(G, gens[4]^gens[1]);
+            gexp3 := ExponentsOfPcElement(G, gens[3]^gens[2]);
+            gexp4 := ExponentsOfPcElement(G, gens[4]^gens[2]);
+            mat1 := [gexp1{[3, 4]}, gexp2{[3, 4]}]*One(GF(p));
+            mat2 := [gexp3{[3, 4]}, gexp4{[3, 4]}]*One(GF(p));
+            x := DeterminantMat(mat1);
+            y := DeterminantMat(mat2);
+            if AsSet([Int(x), Int(y)]) = AsSet([p - 1, 1]) then
+                return [n, 8 + 2 + SOTRec.w((p - 1), 4)];
+            elif AsSet([Int(x), Int(y)]) = AsSet([1, 1]) then
+                return [n, 8 + 3 + SOTRec.w((p - 1), 4)];
+            elif (not a^0 in Eigenvalues(GF(p), mat1) and a^0 in Eigenvalues(GF(p), mat2)) or (not a^0 in Eigenvalues(GF(p), mat2) and a^0 in Eigenvalues(GF(p), mat1)) then
+                return [n, 8 + 4 + SOTRec.w((p - 1), 4)];
+            fi;
+        elif p mod 4 = 3 and ind = [p, q^2, 1] then
+            return [n, 9];
+        elif ind = [p, q, 2 * p] then
+            return [n, 9 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
+        elif ind = [p, q, 2] then
+            return [n, 10 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
+        elif ind = [p, q, 1] then
+            return [n, 11 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
         fi;
-      elif p mod 4 = 3 and ind = [p, q^2, 1] then
-        return [n, 9];
-      elif ind = [p, q, 2 * p] then
-        return [n, 9 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
-      elif ind = [p, q, 2] then
-        return [n, 10 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
-      elif ind = [p, q, 1] then
-        return [n, 11 + SOTRec.w((p + 1), 4)+ 5*SOTRec.w((p - 1), 4)];
-      fi;
     fi;
 end;
 ######################################################
 #
 # the case of groups of order p^3q
 #
-SOTRec.IdGroupP3Q := function(group)
-  local n, fac, p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst,
+SOTRec.IdGroupP3Q := function(group, n, fac)
+local p, q, P, Q, O, Zen, a, b, r1, r2, r3, s1, s2, s3, c, d, e, f, g, h, x, y, k, l, tst,
   Id, gens, pc, pcgs, G, exp1, exp2, exp3, mat, matGL2, matGL3, det, Idfunc, tmp, ev, evm, N1, N2,
   c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, pcgsp, pcgsq;
-    n := Size(group);
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
-      Error("Argument must be of the form of p^3q"); fi;
-    p := fac[2];
-    if fac[1] = fac[2] then
-    q := fac[4]; elif fac[3] = fac[4] then
-    q := fac[1]; fi;
+    p := fac[2][1];
+    q := fac[1][1];
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    ##
     Idfunc := function(q, l)
       local x, y, a, b, tuple, n, id;
         x := l[1] mod (q - 1); y := l[2] mod (q - 1);
@@ -482,6 +472,7 @@ SOTRec.IdGroupP3Q := function(group)
           return Sum([1..a-1], x -> q - 1 - 3*x) + b + 1 - 2*a;
         fi;
     end;
+    ##
     a := Z(p);
     b := Z(q);
     if (q - 1) mod p = 0 then
@@ -753,24 +744,21 @@ end;
 #
 # the case of groups of order p^2qr
 #
-SOTRec.IdGroupP2QR := function(group)
-  local n, fac, PF, p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
+SOTRec.IdGroupP2QR := function(group, n, fac)
+local p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
   matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
   pcgsp, pcgsq, pcgsr;
-    n := Size(group);
-    fac := Factors(n);
-    PF := Collected(fac);
-    if Length(fac) <> 4 or Length(PF) <> 3 then
-      Error("Argument must be of the form of p^2qr");
-    fi;
-    SortBy(PF, Reversed);
-    p := PF[3][1];
-    q := PF[1][1];
-    r := PF[2][1];
-    if r = 2 then
-      Error("r must be a prime greater than q");
-    fi;
+
+    p := fac[3][1];
+    q := fac[1][1];
+    r := fac[2][1];
+    ####
+    Assert(1, r > q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+
     a := Z(r);;
     b := Z(p);;
     c := Z(q);;
@@ -1214,21 +1202,23 @@ SOTRec.IdGroupP2QR := function(group)
     fi;
 end;
 ##########################################
-SOTRec.IdGroupPQRS := function(group)
-  local n, fac, p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
-  G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
-  c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,
-  pcgsp, pcgsq, pcgsr, pcgss;
-    n := Order(group);
-    fac := Factors(n);
-    if not List(Collected(fac), x->x[2]) = [1, 1, 1, 1] then
-      Error("Argument must be of the form of pqrs");
-    else
-      p := fac[1];
-      q := fac[2];
-      r := fac[3];
-      s := fac[4];
-    fi;
+SOTRec.IdGroupPQRS := function(group, n, fac)
+local p, q, r, s, P, Q, R, S, H, u, v, w, k, l, flag, lst, sizefit,
+    G, pcgs, pc, fgens, i, a, b, c, d, x, y, Id,
+    c1, c2, c3, c4, c5, c6, exprp, exprq, expsp, expsq, expsr, expqp,
+    pcgsp, pcgsq, pcgsr, pcgss;
+
+    p := fac[1][1];
+    q := fac[2][1];
+    r := fac[3][1];
+    s := fac[4][1];
+
+    ####
+    Assert(1, p < q and q < r and r < s);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+    Assert(1, IsPrimeInt(r));
+    Assert(1, IsPrimeInt(s));
 
     P := SylowSubgroup(group, p);
     Q := SylowSubgroup(group, q);
