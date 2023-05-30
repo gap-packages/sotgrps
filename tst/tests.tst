@@ -307,6 +307,8 @@ gap> SOTGroupsInformation(81*5);
      SOT 1 - 15 are nilpotent and all Sylow subgroups are normal.
      SOT 16 is sovable, non-nilpotentand has a normal elementary abelian Sylow 3-subgroup [ 81, 15 ],
          with cyclic Sylow 5-subgroup.
+
+#
 gap> SOTGroupsInformation(16*17);
 
   There are 54 groups of order 272.
@@ -342,6 +344,7 @@ gap> SOTGroupsInformation(16*17);
          with nonabelian Sylow 2-subgroup [ 16, 7 ].
      SOT 53 - 54 are sovable, non-nilpotentand have a normal Sylow 17-subgroup,
          with nonabelian Sylow 2-subgroup [ 16, 9 ].
+
 #
 gap> SOTGroupsInformation(3*7*43*3613);
 
