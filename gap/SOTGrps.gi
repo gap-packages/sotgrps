@@ -13,19 +13,19 @@ InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 		elif ind = [1, 1] then
 			grps := SOTRec.allGroupsPQ(n);
 		elif ind = [1, 2] then
-			grps := SOTRec.allGroupsP2Q(n);
+			grps := SOTRec.allGroupsP2Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 1] then
 			grps := SOTRec.allGroupsPQR(n);
 		elif ind = [2, 2] then
 			grps := SOTRec.allGroupsP2Q2(n);
 		elif ind = [1, 3] then
-			grps := SOTRec.allGroupsP3Q(n);
+			grps := SOTRec.allGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
 			grps := SOTRec.allGroupsP2QR(n);
 		elif ind = [1, 1, 1, 1] then
 			grps := SOTRec.allGroupsPQRS(n);
 		elif ind = [1, 4] then
-			grps := SOTRec.allGroupsP4Q(n);
+			grps := SOTRec.allGroupsP4Q(fac[2][1], fac[1][1]);
 		else
 			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for AllSOTGroups for the list of supported orders.\n");
 		fi;
@@ -48,19 +48,19 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind = [1, 1] then
 			return SOTRec.NumberGroupsPQ(n);
 		elif ind = [1, 2] then
-			return SOTRec.NumberGroupsP2Q(n);
+			return SOTRec.NumberGroupsP2Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 1] then
 			return SOTRec.NumberGroupsPQR(n);
 		elif ind = [2, 2] then
 			return SOTRec.NumberGroupsP2Q2(n);
 		elif ind = [1, 3] then
-			return SOTRec.NumberGroupsP3Q(n);
+			return SOTRec.NumberGroupsP3Q(fac[2][1], fac[1][1]);
 		elif ind = [1, 1, 2] then
 			return SOTRec.NumberGroupsP2QR(n);
 		elif ind = [1, 1, 1, 1] then
 			return SOTRec.NumberGroupsPQRS(n);
 		elif ind = [1, 4] then
-			return SOTRec.NumberGroupsP4Q(n);
+			return SOTRec.NumberGroupsP4Q(fac[2][1], fac[1][1]);
 		else
 			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.\n");
 		fi;
@@ -93,19 +93,19 @@ InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 			elif ind = [1, 1] then
 				G := SOTRec.GroupPQ(n, i);
 			elif ind = [1, 2] then
-				G := SOTRec.GroupP2Q(n, i);
+				G := SOTRec.GroupP2Q(fac[2][1], fac[1][1], i);
 			elif ind = [1, 1, 1] then
 				G := SOTRec.GroupPQR(n, i);
 			elif ind = [2, 2] then
 				G := SOTRec.GroupP2Q2(n, i);
 			elif ind = [1, 3] then
-				G := SOTRec.GroupP3Q(n, i);
+				G := SOTRec.GroupP3Q(fac[2][1], fac[1][1], i);
 			elif ind = [1, 1, 2] then
 				G := SOTRec.GroupP2QR(n, i);
 			elif ind = [1, 1, 1, 1] then
 				G := SOTRec.GroupPQRS(n, i);
 			elif ind = [1, 4] then
-				G := SOTRec.GroupP4Q(n, i);
+				G := SOTRec.GroupP4Q(fac[2][1], fac[1][1], i);
 			else
 				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function SOTGroup for the list of suppoorted orders.\n");
 			fi;
@@ -139,7 +139,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(n)
 			elif ind = [1, 2] then
 				if not (fac[1][1] - 1) mod fac[2][1] = 0 and not (fac[2][1] - 1) mod fac[1][1] = 0 then
 					Print("There are two isomorphism types of order ", n, ": one is cyclic, and one is isomorphic to the abelian group(", [n, 2], ").");
-				else Print("There are ", SOTRec.NumberGroupsP2Q(n), " isomorphism types of groups of order ", n, ".");
+				else Print("There are ", SOTRec.NumberGroupsP2Q(fac[2][1], fac[1][1]), " isomorphism types of groups of order ", n, ".");
 				fi;
 			elif ind = [1, 1, 1] then
 				Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");

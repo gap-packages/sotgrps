@@ -16,22 +16,12 @@
 ## Globally, we use GAP's inbuilt function Z(p) to compute \sigma_p (see [2, Notation 2.3]) for the canonical primitive root modulo p (where p is a prime), and compute \rho(p, b) accordingly for b dividing (p - 1).
 	## Analogously, we compute \sigma_{p^k} for the canonical primitive root modulo (p^k) for positive integers k, and compute \rho(p^k, b) for b dividing (p - 1), accordingly.
 ##############################################################
-SOTRec.allGroupsP2Q := function(n)
-local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, list;
+SOTRec.allGroupsP2Q := function(p, q)
+local all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, list;
 ####
-	fac := Factors(n);
-	if not Length(fac) = 3 or fac[1] = fac[3] then
-			Error("Argument has to be of the form p^2*q, where p, q are primes");
-	fi;
-	p := fac[2];
-	if fac[2] = fac[1] then
-		q := fac[3];
-	else
-		q := fac[1];
-	fi;
-	if not Gcd(p,q)=1 or not ForAll([p,q],IsPrimeInt) then
-		Error("wrong input");
-	fi;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
 #### computing canonical roots:
 	a := Z(p);
 	b := Z(q);
@@ -94,17 +84,11 @@ local fac, p, q, all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, lis
 end;
 
 ######################################################
-SOTRec.NumberGroupsP2Q := function(n)
-  local fac, p, q, w;
-    fac := Factors(n);
-    if not Length(fac) = 3 or fac[1] = fac[3] then
-      Error("Argument has to be of the form p^2*q, where p, q are primes"); fi;
-      p := fac[2];
-      if fac[2] = fac[1] then
-      q := fac[3];
-      else
-      q := fac[1];
-      fi;
+SOTRec.NumberGroupsP2Q := function(p, q)
+  local w;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
     if q = 2 then w := 5;
     elif p > q then w := 2 + SOTRec.w((p+1), q) + (q+5)*SOTRec.w((p-1), q)/2;
     else w := 2 + 2*SOTRec.w((q-1), p) + SOTRec.w((p+1), q) + SOTRec.w((q-1), p^2);
@@ -116,19 +100,13 @@ end;
 SOTRec.isp2q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 2, 1 ], [ 1, 2 ] ];
 
 ##############################################################
-SOTRec.GroupP2Q := function(n, i)
-local fac, p, q, all, a, b, c, d, G, k, r1, R1, r2, R2, r3, R3, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3, c4, l4, c5, l5, data;
+SOTRec.GroupP2Q := function(p, q, i)
+local all, a, b, c, d, G, k, r1, R1, r2, R2, r3, R3, ii, qq, mat, l0, c1, l1, c2, l2, c3, l3, c4, l4, c5, l5, data;
 ####
-	fac := Factors(n);
-	if not Length(fac) = 3 or fac[1] = fac[3] then
-			Error("Argument has to be of the form p^2*q, where p, q are primes");
-	fi;
-	p := fac[2];
-	if fac[2] = fac[1] then
-		q := fac[3];
-	else
-		q := fac[1];
-	fi;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
+
 	a := Z(p);
 	b := Z(q);
 	if not Int(a)^(p - 1) mod p^2 = 1 then

@@ -9,15 +9,12 @@
 ## This implies that if G is a finite group. Recall that O_p(G) (PCore(G) in GAP) is the largest normal p-subgroup of G. The natural projection \pi : G \to O_p(G) thus is a homomorphism with p-group kernel. It then follows that the number of conjugacy classes of subgroups of order q in G coincides with that in G/O_p(G).
   ## In particular, setting G \cong Aut(P), this shows that the number of isomorphism types of C_q \ltimes P for a given p-group P coincides with the number of conjugacy classes of subgroups of order q in Aut(P)/O_p(Aut(P)).
 ###################################################################
-SOTRec.allGroupsP4Q := function(n, arg...)
-  local fac, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
+SOTRec.allGroupsP4Q := function(p, q, arg...)
+  local all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, funci, i, j, k, l, m;
-    fac := Collected(Factors(n));
-    if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
-      Error("Argument must be of the form of p^4q");
-    elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
-    else p := fac[1][1]; q := fac[2][1];
-    fi;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
 
     a := Z(p);
     b := Z(q);
@@ -623,17 +620,13 @@ SOTRec.allGroupsP4Q := function(n, arg...)
     fi;
 end;
 ###################################################################
-SOTRec.GroupP4Q := function(n, id)
-  local fac, LF, p, q, all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
+SOTRec.GroupP4Q := function(p, q, id)
+  local all, list, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4, u, v, w, x, y,
         R1, R2, R3, R4, S1, S2, S3, S4, mat, matGL2, matGL3, matGL4, func, TupleiById, i, j, k, l, m,
         C0, C, data;
-    fac := Collected(Factors(n));
-    LF := List(fac, x -> x[2]);
-    if not LF in [ [4, 1], [1, 4] ] or id < 1 then
-        Error("Argument must be of the form of (p^4q, id), where p, q are distinct primes and id is a positive natural number.");
-    elif LF = [1, 4] then p := fac[2][1]; q := fac[1][1];
-    else p := fac[1][1]; q := fac[2][1];
-    fi;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
 
     a := Z(p);
     b := Z(q);
@@ -702,9 +695,9 @@ SOTRec.GroupP4Q := function(n, id)
     C[21] := 1/2*(q + 3 - SOTRec.delta(2,q))*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q)*(1 - SOTRec.delta(2, q));
     C[22] := SOTRec.w((p - 1), q);
     C[23] := (q + 1)*SOTRec.w((p - 1), q);
-    C[24] := (q + 1)*SOTRec.w((p - 1), q) + SOTRec.delta(n, 3*2^4);;
+    C[24] := (q + 1)*SOTRec.w((p - 1), q) + SOTRec.delta([p,q], [2,3]);
     C[25] := SOTRec.w((p - 1), q);
-    C[26] := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q) - SOTRec.delta(n, 3*2^4);
+    C[26] := (1/2*(q^2 + 2*q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(2,q)) + 5*SOTRec.delta(2, q) - SOTRec.delta([p,q], [2,3]);
     C[27] := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
     C[28] := SOTRec.w((p - 1), q)*(1 + 2*SOTRec.delta(2, q));
     C[29] := (q + 1)*SOTRec.w((p - 1), q);
@@ -1343,14 +1336,14 @@ SOTRec.GroupP4Q := function(n, id)
       return SOTRec.groupFromData(all[id - C0 - Sum([1..29],x->C[x])]);
 
     #Class 3: G is solvable, no normal Sylow Subgroups
-    elif n = 2^4*3 and id > 48 and id < 53 then
+    elif p = 2 and q = 3 and id > 48 and id < 53 then
       Add(all, [ [2, 2, 3, 2, 2], [3, 2, [3, 2]], [4, 2, [5, 1]], [5, 2, [4, 1]], [4, 3, [5, 1]], [5, 3, [4, 1, 5, 1]] ]); #G \cong C_2 \times Sym_4
       Add(all, [ [2, 2, 3, 2, 2], [1, [2, 1]], [3, 1, [3, 2]], [4, 1, [5, 1]], [5, 1, [4, 1]], [4, 3, [5, 1]], [5, 3, [4, 1, 5, 1]] ]); #C_4 \ltimes Alt_4
       Add(all, [ [2, 3, 2, 2, 2], [3, [5, 1]], [4, [5, 1]], [3, 2, [4, 1, 5, 1]], [4, 2, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]], [2, 1, [2, 2]], [3, 1, [4, 1]], [4, 1, [3, 1]] ]); #G \cong C_2 \ltimes (C_3 \ltimes Q_8)
       Add(all, [ [2, 3, 2, 2, 2], [1, [5, 1]], [3, [5, 1]], [4, [5, 1]], [3, 2, [4, 1, 5, 1]], [4, 2, [3, 1, 4, 1]], [4, 3, [4, 1, 5, 1]], [2, 1, [2, 2]], [3, 1, [4, 1]], [4, 1, [3, 1]] ]); #G \cong C_2 . (C_3 \ltimes Q_8)
       return SOTRec.groupFromData(all[id - C0 - C[1] - C[2] - C[3] - C[4] - C[5] - C[6] - C[7] - C[8] - C[9] - C[10] - C[11] - C[12] - C[13] - C[14] - C[15]
       - C[16] - C[17] - C[18] - C[19] - C[20] - C[21] - C[22] - C[23] - C[24] - C[25] - C[26] - C[27] - C[28] - C[29] - C[30]]);
-    elif n = 3^4*13 and id = 51 then
+    elif p = 3 and q = 13 and id = 51 then
       matGL3 := SOTRec.QthRootGL3P(p, q);
       m := [ [ 0, 2, 1 ], [ 1, 2, 2 ], [ 1, 1, 1 ] ];
       return SOTRec.groupFromData([ [p, q, p, p, p], [2, 1, [2, R1]],
@@ -1363,19 +1356,16 @@ SOTRec.GroupP4Q := function(n, id)
     fi;
 end;
 ###################################################################
-SOTRec.NumberGroupsP4Q := function(n)
-  local fac, p, q, m;
-    fac := Collected(Factors(n));
-    if not List(fac, x -> x[2]) in [ [4, 1], [1, 4] ] then
-      Error("Argument must be of the form of p^4q");
-    elif List(fac, x -> x[2]) = [1, 4] then p := fac[2][1]; q := fac[1][1];
-    else p := fac[1][1]; q := fac[2][1];
-    fi;
+SOTRec.NumberGroupsP4Q := function(p, q)
+  local m;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
     if q = 2 then return 55;
     elif p = 2 and q <> 3 then return 14 + 28 + 9*SOTRec.w((q - 1), 4) + 2*SOTRec.w((q - 1), 8) + SOTRec.w((q - 1), 16) + SOTRec.delta(5, q) + SOTRec.delta(7, q);
     elif p = 3 and q <> 2 then return 15 + 2*SOTRec.delta(13, q) + SOTRec.delta(5, q) + 34*SOTRec.w((q - 1), 3) + 11*SOTRec.w((q - 1), 9) + 2*SOTRec.w((q - 1), 27) + SOTRec.w((q - 1), 81);
     elif q = 3 and p <> 2 then return 15 +54*SOTRec.w((p - 1), 3) + 6*SOTRec.w((p + 1), 3);
-    elif n = 48 then return 52;
+    elif p = 2 and q = 3 then return 52;
     else return 15 + SOTRec.w((q - 1), p)*(5*p + 19)
                    + SOTRec.w((q - 1), p^2)*(2*p + 5)
                    + SOTRec.w((q - 1), p^3)*2

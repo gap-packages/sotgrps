@@ -8,15 +8,11 @@
 ## The remaining isomorphism types are constructed as semidirect products Q \ltimes P and P \ltimes Q.
 ## For further details see [2, Section 3.2 & 3.5].
 ############################################################################
-SOTRec.allGroupsP3Q := function(n)
-  local fac, p, q, all, list, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq, matGL2, matGL3, func, k;
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
-      Error("Argument must be of the form of p^3q"); fi;
-    p := fac[2];
-    if fac[1] = fac[2] then
-    q := fac[4]; elif fac[3] = fac[4] then
-    q := fac[1]; fi;
+SOTRec.allGroupsP3Q := function(p, q)
+  local all, list, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq, matGL2, matGL3, func, k;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
     a := Z(p);
     b := Z(q);
     if (q - 1) mod p = 0 then
@@ -217,42 +213,35 @@ SOTRec.allGroupsP3Q := function(n)
   return list;
 end;
 ######################################################
-SOTRec.NumberGroupsP3Q := function(n)
-      local fac, p, q, m, s;
-        s := [];
-        fac := Factors(n);
-        if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
-          Error("Argument must be of the form of p^3q"); fi;
-        p := fac[2];
-        if fac[1] = fac[2] then
-        q := fac[4]; elif fac[3] = fac[4] then
-        q := fac[1]; fi;
+SOTRec.NumberGroupsP3Q := function(p, q)
+      local m;
+        Assert(1, p <> q);
+        Assert(1, IsPrimeInt(p));
+        Assert(1, IsPrimeInt(q));
 
-        if n mod 2 = 1 and q > 3 then
+        if p <> 2 and q > 3 then
           m := 5 + (5+p)*SOTRec.w((q-1), p) + 2*SOTRec.w((q-1), p^2)
             + SOTRec.w((q-1), p^3) + (36+q^2+13*q+4*SOTRec.w((q-1),3))*SOTRec.w((p-1), q)/6
             + 2*SOTRec.w((p+1), q) + SOTRec.w((p^2+p+1), q)*(1 - SOTRec.delta(q, 3));
-        elif n mod 2 = 1 and q = 3 then
+        elif p <> 2 and q = 3 then
           m := 5 + (5+p)*SOTRec.w((q-1), p) + 2*SOTRec.w((q-1), p^2)
             + SOTRec.w((q-1), p^3) + (36+q^2+13*q+4*SOTRec.w((q-1),3))*SOTRec.w((p-1), q)/6
             + 2*SOTRec.w((p+1), q);
-        else m := 5 + 7*SOTRec.delta(p,2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
-            + 10*SOTRec.delta(q, 2) + 3*SOTRec.delta(n,24) + SOTRec.delta(n, 56); fi;
+        else
+          m := 5 + 7*SOTRec.delta(p,2) + 2*SOTRec.w((q-1),4) + SOTRec.w((q-1), 8)
+            + 10*SOTRec.delta(q, 2) + 3*SOTRec.delta([p,q],[2,3]) + SOTRec.delta([p,q],[2,7]);
+        fi;
         return m;
       end;
 ######################################################
 SOTRec.isp3q := x -> IsInt( x ) and x > 1 and List( Collected( FactorsInt( x ) ),i->  i[2]) in [ [ 3, 1 ], [ 1, 3 ] ];
 ############################################################################
-SOTRec.GroupP3Q := function(n, i)
-  local fac, p, q, all, G, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq,
+SOTRec.GroupP3Q := function(p, q, i)
+  local all, G, a, b, c, d, e, f, r1, r2, r3, R1, R2, R3, s1, s2, s3, S1, S2, S3, s, ii, qq, iii, qqq,
   matGL2, matGL3, func, k, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, l1, l2, l3, l4, l5, l6, l7, l8, l9, l10;
-    fac := Factors(n);
-    if not Length(fac) = 4 or not Length(Collected(fac)) = 2 or not fac[2] = fac[3] then
-      Error("Argument must be of the form of p^3q"); fi;
-    p := fac[2];
-    if fac[1] = fac[2] then
-    q := fac[4]; elif fac[3] = fac[4] then
-    q := fac[1]; fi;
+    Assert(1, p <> q);
+    Assert(1, IsPrimeInt(p));
+    Assert(1, IsPrimeInt(q));
     a := Z(p);
     b := Z(q);
     if (q - 1) mod p = 0 then
@@ -283,7 +272,7 @@ SOTRec.GroupP3Q := function(n, i)
     c9 := (1/2*(q + 3)*SOTRec.w((p - 1), q) + SOTRec.w((p + 1), q))*(1 - SOTRec.delta(q, 2))*(1 - SOTRec.delta(p, 2))
     + 2*SOTRec.delta(q, 2);
     c10 := SOTRec.w((p - 1), q);
-    c11 := SOTRec.delta(n, 24);
+    c11 := SOTRec.delta([p,q], [2,3]);
 ############ add abelian groups in:
     all := [ [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, q], [1, [2, 1]] ], [ [p, p, p, q] ] ];
     if i < 4 then return SOTRec.groupFromData(all[i]); fi;
@@ -499,7 +488,7 @@ SOTRec.GroupP3Q := function(n, i)
     if p = 2 and q = 3 and i = 14 then #P \cong Q_8
       return SOTRec.groupFromData([ [3, 2, 2, 2], [2, [4, 1]], [3, [4, 1]], [3, 2, [3, 1, 4, 1]], [2, 1, [3, 1]], [3, 1, [2, 1, 3, 1]] ]);
     fi;
-############ case 3: no normal Sylow subgroup -- necessarily n = 24
+############ case 3: no normal Sylow subgroup -- necessarily order 24
     if p = 2 and q = 3 and i = 15 then
       return SOTRec.groupFromData([ [2, 3, 2, 2], [2, 1, [2, 2]], [3, 1, [4, 1]], [3, 2, [4, 1]], [4, 1, [3, 1]], [4, 2, [3, 1, 4, 1]] ]);
     fi;
