@@ -23,12 +23,30 @@ Persons := [
       IsMaintainer  := true,
       Email         := "xpan.eileen@gmail.com",
       WWWHome       := "https://xpan-eileen.github.io/about/",
-      PostalAddress := Concatenation( [
+      PostalAddress := Concatenation(
             "School of Mathematics",
             "Monash University\n",
-            "VIC 3800\n Melbourne, Australia" ] ),
+            "VIC 3800\n",
+            "Melbourne, Australia" ),
       Place         := "Melbourne",
-      Institution   := "Monash University"),
+      Institution   := "Monash University",
+ ),
+ rec(
+      FirstNames    := "Max",
+      LastName      := "Horn",
+      IsAuthor      := false,
+      IsMaintainer  := true,
+      Email         := "mhorn@rptu.de",
+      WWWHome       := "https://www.quendi.de/math",
+      PostalAddress := Concatenation(
+            "Fachbereich Mathematik\n",
+            "RPTU Kaiserslautern-Landau\n",
+            "Gottlieb-Daimler-Straße 48\n",
+            "67663 Kaiserslautern\n",
+            "Germany" ),
+      Place         := "Kaiserslautern, Germany",
+      Institution   := "RPTU Kaiserslautern-Landau",
+ ),
 
 ],
 
