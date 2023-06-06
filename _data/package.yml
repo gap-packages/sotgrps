@@ -1,6 +1,7 @@
 name: SOTGrps
-version: "1.0"
-date: 2021-01-01
+version: "1.1"
+license: "GPL-2.0-or-later"
+date: 2023-06-06
 description: |
     Constructing and identifying groups of small order type
 
@@ -11,16 +12,18 @@ authors:
 maintainers:
     - name: Eileen Pan
       url: https://xpan-eileen.github.io/about/
+    - name: Max Horn
+      url: https://www.quendi.de/math
 
 GAP: ">=4.10"
 
-www: https://gap-packages.github.io/sotgrps
+www: https://gap-packages.github.io/sotgrps/
 readme: README.md
-packageinfo: https://gap-packages.github.io/sotgrps/PackageInfo.g
+packageinfo: https://gap-packages.github.io/sotgrps//PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/sotgrps/releases/download/v1.0/SOTGrps-1.0.tar.gz
+      url: https://github.com/gap-packages/sotgrps/releases/download/v1.1/SOTGrps-1.1.tar.gz
 
 abstract: |
     The <span class="pkgname">SOTGrps</span> package contains methods to construct up to isomorphism the groups of a small order type.
@@ -32,27 +35,28 @@ keywords: |
     construction of finite groups, identification of finite groups.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>Pan21</span>]   <b class='BibAuthor'>Pan, E.</b>,
+    [<span class='BibKey'>PH23</span>]   <b class='BibAuthor'>Pan, E. and Horn, M.</b>,
      <i class='BibTitle'>SOTGrps, Constructing and identifying groups of small order type,
-             Version 1.0</i>
-     (<span class='BibYear'>2021</span>)<br />
+             Version 1.1</i>
+     (<span class='BibYear'>2023</span>)<br />
     (<span class='BibNote'>GAP package</span>),
-    <span class='BibHowpublished'><a href="https://gap-packages.github.io/sotgrps">https://gap-packages.github.io/sotgrps</a></span>.
+    <span class='BibHowpublished'><a href="https://gap-packages.github.io/sotgrps/">https://gap-packages.github.io/sotgrps/</a></span>.
     </p>
     
 
 bibtex: |
-    @misc{ SOTGrps1.0,
-      author =           {Pan, E.},
-      title =            {{SOTGrps},  Constructing  and  identifying  groups of small order
-                          type, {V}ersion 1.0},
-      month =            {Jan},
-      year =             {2021},
+    @misc{ SOTGrps1.1,
+      author =           {Pan, E. and Horn, M.},
+      title =            {{SOTGrps},  Constructing  and  identifying  groups  of
+                          small order type, {V}ersion 1.1},
+      month =            {Jun},
+      year =             {2023},
       note =             {GAP package},
-      howpublished =     {\href                    {https://gap-packages.github.io/sotgrps}
-                          {\texttt{https://gap\texttt{\symbol{45}}packages.github.io/}\discretionary
-                          {}{}{}\texttt{sotgrps}}},
-      keywords =         {construction of finite groups; identification of finite groups},
-      printedkey =       {Pan21}
+      howpublished =     {\href        {https://gap-packages.github.io/sotgrps/}
+                          {\texttt{https://gap-packages.github.io/}\discretionary
+                          {}{}{}\texttt{sotgrps/}}},
+      keywords =         {construction   of  finite  groups;  identification  of
+                          finite groups},
+      printedkey =       {PH23}
     }
 

@@ -10,8 +10,9 @@ SetPackageInfo( rec(
 
 PackageName := "SOTGrps",
 Subtitle    := "Constructing and identifying groups of small order type",
-Version     := "1.0",
-Date        := "01/01/2021",
+Version     := "1.1",
+Date        := "06/06/2023", # dd/mm/yyyy format
+License     := "GPL-2.0-or-later",
 
 Persons := [
 
@@ -22,12 +23,30 @@ Persons := [
       IsMaintainer  := true,
       Email         := "xpan.eileen@gmail.com",
       WWWHome       := "https://xpan-eileen.github.io/about/",
-      PostalAddress := Concatenation( [
+      PostalAddress := Concatenation(
             "School of Mathematics",
             "Monash University\n",
-            "VIC 3800\n Melbourne, Australia" ] ),
+            "VIC 3800\n",
+            "Melbourne, Australia" ),
       Place         := "Melbourne",
-      Institution   := "Monash University"),
+      Institution   := "Monash University",
+ ),
+ rec(
+      FirstNames    := "Max",
+      LastName      := "Horn",
+      IsAuthor      := false,
+      IsMaintainer  := true,
+      Email         := "mhorn@rptu.de",
+      WWWHome       := "https://www.quendi.de/math",
+      PostalAddress := Concatenation(
+            "Fachbereich Mathematik\n",
+            "RPTU Kaiserslautern-Landau\n",
+            "Gottlieb-Daimler-Straße 48\n",
+            "67663 Kaiserslautern\n",
+            "Germany" ),
+      Place         := "Kaiserslautern, Germany",
+      Institution   := "RPTU Kaiserslautern-Landau",
+ ),
 
 ],
 
@@ -38,7 +57,7 @@ SourceRepository := rec(
     URL := "https://github.com/gap-packages/sotgrps",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://gap-packages.github.io/sotgrps",
+PackageWWWHome  := "https://gap-packages.github.io/sotgrps/",
 README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
@@ -56,7 +75,7 @@ PackageDoc := rec(
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Constructing and identifying groups of small order type",
-  Autoload  := true),
+),
 
 Dependencies := rec(
   GAP := ">=4.10",

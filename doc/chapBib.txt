@@ -2,8 +2,8 @@
   
   [1XReferences[101X
   
-  [[20XDEP22[120X]  [16XDietrich,  H.,  Eick,  B.  and  Pan,  X.[116X, [17XGroups whose orders factorise into at most four
-  primes[117X, [18XJ. Symbolic Comput.[118X, [19X108[119X (2022), 23--40.
+  [[20XDEP22[120X]  [16XDietrich,  H.,  Eick, B. and Pan, X.[116X, [17XGroups whose orders factorise
+  into at most four primes[117X, [18XJ. Symbolic Comput.[118X, [19X108[119X (2022), 23--40.
   
   
   

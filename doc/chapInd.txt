@@ -6,8 +6,8 @@
   [2XIdSOTGroup[102X, for IsGroup 1.1-4 
   [2XIsIsomorphicSOTGroups[102X 1.1-5 
   [2XIsSOTAvailable[102X 1.1-6 
-  [2XNumberOfSOTGroups[102X 1.1-3 
-  [2XSOTGroup[102X 1.1-2 
+  [2XNumberOfSOTGroups[102X 1.1-2 
+  [2XSOTGroup[102X 1.1-3 
   [2XSOTGroupsInformation[102X 1.1-7 
   
   
