@@ -39,7 +39,8 @@ DeclareGlobalFunction("AllSOTGroups");
 #! gap> NumberOfSOTGroups(2*3*5*7);
 #! 12
 #! gap> NumberOfSOTGroups(2*3*5*7*11);
-#! Error, Order 2310 is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of supported orders.
+#! Error, Order 2310 is not supported by SOTGrps.
+#! Please refer to the SOTGrps documentation for the list of supported orders.
 #! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
 

@@ -1,3 +1,8 @@
+BindGlobal("_SOT_UnsupportedOrder", function(n)
+    Error("Order ", n, " is not supported by SOTGrps.\n",
+          "Please refer to the SOTGrps documentation for the list of supported orders.");
+end);
+
 ##In the following we give the main functions of the SOTGrps package.
 ############################################################################
 ##AllSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs all the isomorohism types of groups of order n.
@@ -27,7 +32,7 @@ InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 		elif ind = [1, 4] then
 			grps := SOTRec.allGroupsP4Q(fac[2][1], fac[1][1]);
 		else
-			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for AllSOTGroups for the list of supported orders.\n");
+			_SOT_UnsupportedOrder(n);
 		fi;
 
         for i in [1..Length(grps)] do
@@ -62,7 +67,7 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		elif ind = [1, 4] then
 			return SOTRec.NumberGroupsP4Q(fac[2][1], fac[1][1]);
 		else
-			Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.\n");
+			_SOT_UnsupportedOrder(n);
 		fi;
 	end);
 
@@ -107,7 +112,7 @@ InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 			elif ind = [1, 4] then
 				G := SOTRec.GroupP4Q(fac[2][1], fac[1][1], i);
 			else
-				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation of function SOTGroup for the list of suppoorted orders.\n");
+				_SOT_UnsupportedOrder(n);
 			fi;
 			SetIdSOTGroup(G, [n, i]);
 			return G;
@@ -154,7 +159,7 @@ InstallGlobalFunction( SOTGroupsInformation, function(n)
 			elif ind = [1, 4] then
 				SOTRec.infoP4Q(n, fac);
 			elif Sum(ind) >= 5 then
-				Error("Order ", n, " is not supported by SOTGrps; please refer to the documentation for SOTGroupsInformation for the list of supported groups.");
+				_SOT_UnsupportedOrder(n);
 			fi;
 end);
 
