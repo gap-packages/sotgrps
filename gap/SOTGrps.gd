@@ -28,10 +28,6 @@
 #!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
 #!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
 #!  Alt( [ 1 .. 5 ] ) ]
-#! gap> AllSOTGroups(60,IsPcpGroup);
-#! [ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!   Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],
-#!   Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Alt( [ 1 .. 5 ] ) ]
 #! @EndExampleSession
 DeclareGlobalFunction("AllSOTGroups");
 
@@ -56,8 +52,6 @@ DeclareGlobalFunction("NumberOfSOTGroups");
 #! @BeginExampleSession
 #! gap> SOTGroup(2*3*5*7, 1);
 #! <pc group of size 210 with 4 generators>
-#! gap> SOTGroup(2*3*5*7, 1, IsPcpGroup);
-#! Pcp-group with orders [ 2, 3, 5, 7 ]
 #! @EndExampleSession
 #!  If the input <A>i</A> exceeds the number of groups of order <A>n</A>, an error message is returned.
 DeclareGlobalFunction("SOTGroup");
