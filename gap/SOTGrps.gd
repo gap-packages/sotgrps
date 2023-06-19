@@ -15,18 +15,22 @@
 #! @Section Main functions
 
 #! @Description
-#!  takes in a number <A>n</A> that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
+#!  takes in a number <A>n</A> that factorises into at most four primes or is of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and returns a complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
 #!  Solvable groups are using refined polycyclic presentations.
-#!  By default, the function construct each solvable groups as PcGroup, but if PcpGroup is preferred (for the sake of shorter construction runtime, for example),
-#!  then <A>arg</A> can be set to be <C>IsPcpGroup</C>.
-#!  Nonsolvable groups are given as permutation groups.
-#! @Arguments n [, arg]
+#!  By default, solvable groups are constructed in the filter <C>IsPcGroup</C>,
+#!  but if the optional argument <A>filter</A> is set to <C>IsPcpGroup</C> then
+#!  the groups are constructed in that filter instead.
+#!  Nonsolvable groups are always returned as permutation groups.
+#! @Arguments n [, filter]
 #! @BeginExampleSession
 #! gap> AllSOTGroups(60);
-#! [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
-#!  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#! [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
+#!   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
 #!  Alt( [ 1 .. 5 ] ) ]
 #! @EndExampleSession
 DeclareGlobalFunction("AllSOTGroups");
