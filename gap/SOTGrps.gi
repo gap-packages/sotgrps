@@ -4,7 +4,7 @@
 ##If the group is solvable, then it is presented as a PcGroup.
 InstallGlobalFunction( AllSOTGroups, function(n, arg...)
 	local fac, ind, grps, i;
-		SOTRec.PCP := Length(arg) > 0 and arg[1] = IsPcpGroup;
+		SOTRec.PCP := Length(arg) > 0 and IsBoundGlobal("IsPcpGroup") and arg[1] = ValueGlobal("IsPcpGroup");
 		fac := Collected(Factors(n));
 		SortBy(fac, Reversed);
 		ind := List(fac, x -> x[2]);
@@ -83,7 +83,7 @@ end);
 ##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
 InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 	local fac, ind, G;
-		SOTRec.PCP := Length(arg) > 0 and arg[1] = IsPcpGroup;
+		SOTRec.PCP := Length(arg) > 0 and IsBoundGlobal("IsPcpGroup") and arg[1] = ValueGlobal("IsPcpGroup");
 		fac := Collected(Factors(n));
 		SortBy(fac, Reversed);
 		ind := List(fac, x -> x[2]);

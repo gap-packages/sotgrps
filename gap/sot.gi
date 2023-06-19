@@ -16,7 +16,7 @@ SOTRec.groupFromData := function(data)
   local coll, gens, conj, pw, i, j, n, G;
     n := Size(data[1]);
     if SOTRec.PCP = true then
-        coll := FromTheLeftCollector(n);
+        coll := ValueGlobal("FromTheLeftCollector")(n);
         for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
         for i in [2..Length(data)] do
             if IsInt(data[i][2]) then
@@ -27,7 +27,7 @@ SOTRec.groupFromData := function(data)
         od;
         UpdatePolycyclicCollector(coll);
 
-        G := PcpGroupByCollectorNC(coll);
+        G := ValueGlobal("PcpGroupByCollectorNC")(coll);
     else
         gens := FreeGroup(IsSyllableWordsFamily, n);;
         coll := SingleCollector(gens, data[1]);
