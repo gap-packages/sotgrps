@@ -18,7 +18,7 @@
 #!  takes in a number <A>n</A> that factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and returns a complete and duplicate-free list of isomorphism class representatives of the groups of order <A>n</A>.
 #!  Solvable groups are using refined polycyclic presentations.
-#!  By defult, the function construct each solvable groups as PcGroup, but if PcpGroup is preferred (for the sake of shorter construction runtime, for example),
+#!  By default, the function construct each solvable groups as PcGroup, but if PcpGroup is preferred (for the sake of shorter construction runtime, for example),
 #!  then <A>arg</A> can be set to be <C>IsPcpGroup</C>.
 #!  Nonsolvable groups are given as permutation groups.
 #! @Arguments n [, arg]
@@ -39,7 +39,7 @@ DeclareGlobalFunction("AllSOTGroups");
 #! gap> NumberOfSOTGroups(2*3*5*7);
 #! 12
 #! gap> NumberOfSOTGroups(2*3*5*7*11);
-#! Error, Order 2310 is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.
+#! Error, Order 2310 is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of supported orders.
 #! @EndExampleSession
 DeclareGlobalFunction("NumberOfSOTGroups");
 
@@ -47,7 +47,7 @@ DeclareGlobalFunction("NumberOfSOTGroups");
 #!  takes in a pair of numbers <A>n, i</A>, where <A>n</A> factorises into at most four primes or of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),
 #!  and returns the <A>i</A>-th group with respect to the ordering of
 #!  the list <C>AllSOTGroups(<A>n</A>)</C> without constructing all groups in the list.
-#!  The option of constructing a PcpGroup is available for solable groups.
+#!  The option of constructing a PcpGroup is available for solvable groups.
 #! @Arguments n, i[, arg]
 #! @BeginExampleSession
 #! gap> SOTGroup(2*3*5*7, 1);
