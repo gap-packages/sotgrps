@@ -6,10 +6,10 @@
            [1X Constructing and identifying groups of small order type [101X
   
   
-                                      1.1
+                                      1.2
   
   
-                                  6 June 2023
+                                  20 June 2023
   
   
                                    Eileen Pan

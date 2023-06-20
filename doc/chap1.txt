@@ -17,26 +17,26 @@
   
   [1X1.1-1 AllSOTGroups[101X
   
-  [33X[1;0Y[29X[2XAllSOTGroups[102X( [3Xn[103X[, [3Xarg[103X] ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSOTGroups[102X( [3Xn[103X[, [3Xfilter[103X] ) [32X function[133X
   
-  [33X[0;0Ytakes  in a number [3Xn[103X that factorises into at most four primes or of the form
-  [22Xp^4q[122X  ([22Xp[122X,  [22Xq[122X are distinct primes), and returns a complete and duplicate-free
-  list of isomorphism class representatives of the groups of order [3Xn[103X. Solvable
-  groups  are  using refined polycyclic presentations. By defult, the function
-  construct each solvable groups as PcGroup, but if PcpGroup is preferred (for
-  the  sake of shorter construction runtime, for example), then [3Xarg[103X can be set
-  to be [10XIsPcpGroup[110X. Nonsolvable groups are given as permutation groups.[133X
+  [33X[0;0Ytakes  in  a  number [3Xn[103X that factorises into at most four primes or is of the
+  form   [22Xp^4q[122X  ([22Xp[122X,  [22Xq[122X  are  distinct  primes),  and  returns  a  complete  and
+  duplicate-free  list  of  isomorphism class representatives of the groups of
+  order  [3Xn[103X.  Solvable  groups  are  using refined polycyclic presentations. By
+  default, solvable groups are constructed in the filter [10XIsPcGroup[110X, but if the
+  optional   argument  [3Xfilter[103X  is  set  to  [10XIsPcpGroup[110X  then  the  groups  are
+  constructed  in  that filter instead. Nonsolvable groups are always returned
+  as permutation groups.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XAllSOTGroups(60);[127X[104X
-    [4X[28X[ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
-    [4X[28X <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
-    [4X[28X <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X[ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
+    [4X[28X  <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,[128X[104X
     [4X[28X Alt( [ 1 .. 5 ] ) ][128X[104X
-    [4X[25Xgap>[125X [27XAllSOTGroups(60,IsPcpGroup);[127X[104X
-    [4X[28X[ Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ],[128X[104X
-    [4X[28X  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 3, 5, 2, 2 ], Pcp-group with orders [ 2, 2, 5, 3 ], Pcp-group with orders [ 2, 2, 3, 5 ],[128X[104X
-    [4X[28X  Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Pcp-group with orders [ 2, 2, 3, 5 ], Alt( [ 1 .. 5 ] ) ][128X[104X
   [4X[32X[104X
   
   [1X1.1-2 NumberOfSOTGroups[101X
@@ -51,7 +51,8 @@
     [4X[25Xgap>[125X [27XNumberOfSOTGroups(2*3*5*7);[127X[104X
     [4X[28X12[128X[104X
     [4X[25Xgap>[125X [27XNumberOfSOTGroups(2*3*5*7*11);[127X[104X
-    [4X[28XError, Order 2310 is not supported by SOTGrps; please refer to the documentation of function NumberOfSOTGroups for the list of suppoorted orders.[128X[104X
+    [4X[28XError, Order 2310 is not supported by SOTGrps.[128X[104X
+    [4X[28XPlease refer to the SOTGrps documentation for the list of supported orders.[128X[104X
   [4X[32X[104X
   
   [1X1.1-3 SOTGroup[101X
@@ -62,13 +63,11 @@
   or  of  the form [22Xp^4q[122X ([22Xp[122X, [22Xq[122X are distinct primes), and returns the [3Xi[103X-th group
   with   respect   to   the  ordering  of  the  list  [10XAllSOTGroups([3Xn[103X[10X)[110X  without
   constructing  all  groups in the list. The option of constructing a PcpGroup
-  is available for solable groups.[133X
+  is available for solvable groups.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XSOTGroup(2*3*5*7, 1);[127X[104X
     [4X[28X<pc group of size 210 with 4 generators>[128X[104X
-    [4X[25Xgap>[125X [27XSOTGroup(2*3*5*7, 1, IsPcpGroup);[127X[104X
-    [4X[28XPcp-group with orders [ 2, 3, 5, 7 ][128X[104X
   [4X[32X[104X
   
   [33X[0;0YIf  the input [3Xi[103X exceeds the number of groups of order [3Xn[103X, an error message is
