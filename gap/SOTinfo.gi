@@ -1,3 +1,34 @@
+############################################################################
+## For the SOTGroupsInformation function, we use the following to distinguish SOT Ids and the SmallGroups Ids
+############################################################################
+SOTRec.sot := function(n)
+	local i, sglav;
+		i := 0;
+		repeat i := i + 1; sglav := SMALL_AVAILABLE_FUNCS[i](n);
+		until sglav <> fail or i = 11;
+		return sglav <> fail;
+	end;
+
+SOTRec.Print := function(sot, args...)
+    local stop, x;
+    if sot then
+        Print("\n\>\>\>\>\>\>\>SOT ");
+        stop := "\<\<\<\<\<\<\<";
+    else
+        Print("\n\>\>\>");
+        stop := "\<\<\<";
+    fi;
+    for x in args do
+        #Print("\>\<", x);
+        if IsString(x) then
+            x := ReplacedString(x, " ", "\>\< ");
+        fi;
+        Print(x);
+    od;
+    Print(stop);
+end;
+
+##############################################################################
 SOTRec.infoP2Q2 := function(n, fac)
   local sot, p, q, c, m, prop, i;
     sot := SOTRec.sot(n);
@@ -20,26 +51,27 @@ SOTRec.infoP2Q2 := function(n, fac)
     m := Sum(c);
 
     ### Info
-    Print("\n  There are ", m + 4, " groups of order ", n,".\n");
-    Print("\n  The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.\n");
-    Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.\n");
+    Print("The groups of order p^2q^2 are solvable by Burnside's pq-Theorem.\n");
+    Print("These groups are sorted by their Sylow subgroups.");
+    Print("\>\>");
+    SOTRec.Print(sot, "1 - 4 are abelian and all Sylow subgroups are normal.");
     if n = 36 then
-      Print(sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], " with Sylow ", q, "-subgroup ", prop[1][1], ".\n");
-      Print(sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], " with Sylow ", q, "-subgroup ", prop[2][1], ".\n");
-      Print(sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2] with Sylow 3-subgroup [9, 1].\n");
-      Print(sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".\n");
-      Print(sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".\n");
+      SOTRec.Print(sot, "5 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[1][2], " with Sylow ", q, "-subgroup ", prop[1][1], ".");
+      SOTRec.Print(sot, "6 is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[2][2], " with Sylow ", q, "-subgroup ", prop[2][1], ".");
+      SOTRec.Print(sot, "7 is non-abelian, non-nilpotent and has a normal Sylow 2-subgroup [4, 2] with Sylow 3-subgroup [9, 1].");
+      SOTRec.Print(sot, "8 - 10 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".");
+      SOTRec.Print(sot, "11 - 14 are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[3][2], " with Sylow ", q, "-subgroup ", prop[3][1], ".");
     else
       for i in [1..4] do
         if c[i] = 1 then
-          Print(sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+          SOTRec.Print(sot, 4+Sum([1..i],x->c[x]), " is non-abelian, non-nilpotent and has a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".");
         elif c[i] > 1 then
-          Print(sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
-          " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".\n");
+          SOTRec.Print(sot, 5+Sum([1..i-1],x->c[x])," - ", 4+Sum([1..i],x->c[x]),
+          " are non-abelian, non-nilpotent and have a normal Sylow ", p, "-subgroup ", prop[i][2], " with Sylow ", q, "-subgroup ", prop[i][1], ".");
         fi;
       od;
     fi;
+    Print("\<\<");
   end;
 ##############################################################################
 SOTRec.infoP3Q := function(n, fac)
@@ -74,29 +106,30 @@ SOTRec.infoP3Q := function(n, fac)
     c[11] := SOTRec.delta(n, 24);
     m := Sum(c);
 
-    Print("\n  There are ", m + 5, " groups of order ", n,".\n");
-    Print("\n  The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
-    Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(sot, "1 - 3 are abelian.\n");
-    Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.\n");
+    Print("The groups of order p^3q are solvable by Burnside's pq-Theorem.\n");
+    Print("These groups are sorted by their Sylow subgroups.");
+    Print("\>\>");
+    SOTRec.Print(sot, "1 - 3 are abelian.");
+    SOTRec.Print(sot, "4 - 5 are nonabelian nilpotent and have a normal Sylow ", p,"-subgroup and a normal Sylow ", q, "-subgroup.");
     for i in [1..5] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", syl[i], ".\n");
+        SOTRec.Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", p, "-subgroup ", syl[i], ".");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
-        " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", syl[i], ".\n");
+        SOTRec.Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x]),
+        " are non-nilpotent and have a normal Sylow ", p, "-subgroup ", syl[i], ".");
       fi;
     od;
     for i in [6..10] do
       if c[i] = 1 then
-        Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", syl[i], ".\n");
+        SOTRec.Print(sot, 5+Sum([1..i],x->c[x])," is non-nilpotent and has a normal Sylow ", q, "-subgroup with Sylow ", p, "-subgroup ", syl[i], ".");
       elif c[i] > 1 then
-        Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup ", [q, 1], " with Sylow ", p, "-subgroup ", syl[i], ".\n");
+        SOTRec.Print(sot, 6+Sum([1..i-1],x->c[x])," - ", 5+Sum([1..i],x->c[x])," are non-nilpotent and have a normal Sylow ", q, "-subgroup with Sylow ", p, "-subgroup ", syl[i], ".");
       fi;
     od;
     if c[11] = 1 then
-      Print(sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.\n");
+      SOTRec.Print(sot, "15 is non-nilpotent, isomorphic to Sym(4), and has no normal Sylow subgroups.");
     fi;
+    Print("\<\<");
   end;
 ##############################################################################
 SOTRec.infoP2QR := function(n, fac)
@@ -134,24 +167,24 @@ SOTRec.infoP2QR := function(n, fac)
       + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((r - 1), p));;
     m := Sum(c);
     if m = 0 then
-      Print("\n  There are 2 groups of order ", n,".\n");
-      Print("\n  All groups of order ", n, " are abelian.\n");
+      Print("All groups of order ", n, " are abelian.\n");
     else
-      Print("\n  There are ", m + 2, " groups of order ", n,".\n");
-      Print("\n  The groups of order p^2qr are either solvable or isomorphic to Alt(5).\n");
-      Print("  The solvable groups are sorted by their Fitting subgroup. \n");
-      Print(sot, "1 - 2 are the nilpotent groups.\n" );
+      Print("The groups of order p^2qr are either solvable or isomorphic to Alt(5).\n");
+      Print("The solvable groups are sorted by their Fitting subgroup.");
+      Print("\>\>");
+      SOTRec.Print(sot, "1 - 2 are the nilpotent groups." );
       for i in [1..7] do
         if c[i] = 1 then
-          Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".\n");
+          SOTRec.Print(sot, 2+Sum([1..i],x->c[x])," has Fitting subgroup of order ", fit[i], ".");
         elif c[i] > 1 then
-          Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".\n");
+          SOTRec.Print(sot, 3+Sum([1..i-1],x->c[x])," - ", 2+Sum([1..i],x->c[x]), " have Fitting subgroup of order ", fit[i], ".");
         fi;
       od;
       if n = 60 then
-        Print(sot, "13 is nonsolvable and has Fitting subgroup of order 1.\n");
+        SOTRec.Print(sot, "13 is nonsolvable and has Fitting subgroup of order 1.");
       fi;
     fi;
+    Print("\<\<");
   end;
 ##############################################################################
 SOTRec.infoP4Q := function(n, fac)
@@ -165,52 +198,52 @@ SOTRec.infoP4Q := function(n, fac)
 
     prop := [];
     if p > 3 then
-        prop[1] := ["sovable, non-nilpotent", "cylic", [p^4, 1]];
-        prop[2] := ["sovable, non-nilpotent", "abelian", [p^4, 5]];
-        prop[3] := ["sovable, non-nilpotent", "abelian", [p^4, 2]];
-        prop[4] := ["sovable, non-nilpotent", "abelian", [p^4, 11]];
-        prop[5] := ["sovable, non-nilpotent", "elementary abelian", [p^4, 15]];
-        prop[6] := ["sovable, non-nilpotent", "nonabelian", [p^4, 14]];
-        prop[7] := ["sovable, non-nilpotent", "nonabelian", [p^4, 6]];
-        prop[8] := ["sovable, non-nilpotent", "nonabelian", [p^4, 13]];
-        prop[9] := ["sovable, non-nilpotent", "nonabelian", [p^4, 3]];
-        prop[10] := ["sovable, non-nilpotent", "nonabelian", [p^4, 4]];
-        prop[11] := ["sovable, non-nilpotent", "nonabelian", [p^4, 12]];
-        prop[12] := ["sovable, non-nilpotent", "nonabelian", [p^4, 9]];
-        prop[13] := ["sovable, non-nilpotent", "nonabelian", [p^4, 10]];
-        prop[14] := ["sovable, non-nilpotent", "nonabelian", [p^4, 7]];
-        prop[15] := ["sovable, non-nilpotent", "nonabelian", [p^4, 8]];
+        prop[1] := [, "cylic", [p^4, 1]];
+        prop[2] := [, "abelian", [p^4, 5]];
+        prop[3] := [, "abelian", [p^4, 2]];
+        prop[4] := [, "abelian", [p^4, 11]];
+        prop[5] := [, "elementary abelian", [p^4, 15]];
+        prop[6] := [, "nonabelian", [p^4, 14]];
+        prop[7] := [, "nonabelian", [p^4, 6]];
+        prop[8] := [, "nonabelian", [p^4, 13]];
+        prop[9] := [, "nonabelian", [p^4, 3]];
+        prop[10] := [, "nonabelian", [p^4, 4]];
+        prop[11] := [, "nonabelian", [p^4, 12]];
+        prop[12] := [, "nonabelian", [p^4, 9]];
+        prop[13] := [, "nonabelian", [p^4, 10]];
+        prop[14] := [, "nonabelian", [p^4, 7]];
+        prop[15] := [, "nonabelian", [p^4, 8]];
     elif p = 3 then
-        prop[1] := ["sovable, non-nilpotent", "cylic", [81, 1]];
-        prop[2] := ["sovable, non-nilpotent", "abelian", [81, 5]];
-        prop[3] := ["sovable, non-nilpotent", "abelian", [81, 2]];
-        prop[4] := ["sovable, non-nilpotent", "abelian", [81, 11]];
-        prop[5] := ["sovable, non-nilpotent", "elementary abelian", [81, 15]];
-        prop[6] := ["sovable, non-nilpotent", "nonabelian", [81, 14]];
-        prop[7] := ["sovable, non-nilpotent", "nonabelian", [81, 6]];
-        prop[8] := ["sovable, non-nilpotent", "nonabelian", [81, 13]];
-        prop[9] := ["sovable, non-nilpotent", "nonabelian", [81, 3]];
-        prop[10] := ["sovable, non-nilpotent", "nonabelian", [81, 4]];
-        prop[11] := ["sovable, non-nilpotent", "nonabelian", [81, 12]];
-        prop[12] := ["sovable, non-nilpotent", "nonabelian", [81, 8]];
-        prop[13] := ["sovable, non-nilpotent", "nonabelian", [81, 9]];
-        prop[14] := ["sovable, non-nilpotent", "nonabelian", [81, 7]];
-        prop[15] := ["sovable, non-nilpotent", "nonabelian", [81, 10]];
+        prop[1] := [, "cylic", [p^4, 1]];
+        prop[2] := [, "abelian", [p^4, 5]];
+        prop[3] := [, "abelian", [p^4, 2]];
+        prop[4] := [, "abelian", [p^4, 11]];
+        prop[5] := [, "elementary abelian", [p^4, 15]];
+        prop[6] := [, "nonabelian", [p^4, 14]];
+        prop[7] := [, "nonabelian", [p^4, 6]];
+        prop[8] := [, "nonabelian", [p^4, 13]];
+        prop[9] := [, "nonabelian", [p^4, 3]];
+        prop[10] := [, "nonabelian", [p^4, 4]];
+        prop[11] := [, "nonabelian", [p^4, 12]];
+        prop[12] := [, "nonabelian", [p^4, 8]];
+        prop[13] := [, "nonabelian", [p^4, 9]];
+        prop[14] := [, "nonabelian", [p^4, 7]];
+        prop[15] := [, "nonabelian", [p^4, 10]];
     elif p = 2 then
-        prop[1] := ["sovable, non-nilpotent", "cylic", [16, 1]];
-        prop[2] := ["sovable, non-nilpotent", "abelian", [16, 5]];
-        prop[3] := ["sovable, non-nilpotent", "abelian", [16, 2]];
-        prop[4] := ["sovable, non-nilpotent", "abelian", [16, 10]];
-        prop[5] := ["sovable, non-nilpotent", "elementary abelian", [16, 14]];
-        prop[6] := ["sovable, non-nilpotent", "nonabelian", [16, 13]];
-        prop[7] := ["sovable, non-nilpotent", "nonabelian", [16, 11]];
-        prop[8] := ["sovable, non-nilpotent", "nonabelian", [16, 3]];
-        prop[9] := ["sovable, non-nilpotent", "nonabelian", [16, 12]];
-        prop[10] := ["sovable, non-nilpotent", "nonabelian", [16, 4]];
-        prop[11] := ["sovable, non-nilpotent", "nonabelian", [16, 6]];
-        prop[12] := ["sovable, non-nilpotent", "nonabelian", [16, 8]];
-        prop[13] := ["sovable, non-nilpotent", "nonabelian", [16, 7]];
-        prop[14] := ["sovable, non-nilpotent", "nonabelian", [16, 9]];
+        prop[1] := [, "cylic", [p^4, 1]];
+        prop[2] := [, "abelian", [p^4, 5]];
+        prop[3] := [, "abelian", [p^4, 2]];
+        prop[4] := [, "abelian", [p^4, 10]];
+        prop[5] := [, "elementary abelian", [p^4, 14]];
+        prop[6] := [, "nonabelian", [p^4, 13]];
+        prop[7] := [, "nonabelian", [p^4, 11]];
+        prop[8] := [, "nonabelian", [p^4, 3]];
+        prop[9] := [, "nonabelian", [p^4, 12]];
+        prop[10] := [, "nonabelian", [p^4, 4]];
+        prop[11] := [, "nonabelian", [p^4, 6]];
+        prop[12] := [, "nonabelian", [p^4, 8]];
+        prop[13] := [, "nonabelian", [p^4, 7]];
+        prop[14] := [, "nonabelian", [p^4, 9]];
     fi;
 
     #### Enumeration
@@ -252,34 +285,35 @@ SOTRec.infoP4Q := function(n, fac)
     m := Sum(c);
 
     ### Info
-    Print("\n  There are ", m + c0, " groups of order ", n,".\n");
-    Print("\n  The groups of order p^4q are solvable by Burnside's pq-Theorem.\n");
-    Print("  These groups are sorted by their Sylow subgroups.\n");
-    Print(sot, "1 - ",c0, " are nilpotent and all Sylow subgroups are normal.\n");
+    Print("The groups of order p^4q are solvable by Burnside's pq-Theorem.\n");
+    Print("These groups are sorted by their Sylow subgroups.");
+    Print("\>\>");
+    SOTRec.Print(sot, "1 - ",c0, " are nilpotent and all Sylow subgroups are normal.");
     for i in [1..c0] do
         if c[i] = 1 then
-            Print(sot, c0+Sum([1..i],x->c[x]),
-            " is ", prop[i][1], "and has a normal Sylow ", q, "-subgroup,", "\n         with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".\n");
+            SOTRec.Print(sot, c0+Sum([1..i],x->c[x]),
+            " is sovable, non-nilpotent and has a normal Sylow ", q, "-subgroup, with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".");
         elif c[i] > 1 then
-            Print(sot, c0+1+Sum([1..i-1],x->c[x])," - ", c0+Sum([1..i],x->c[x]),
-            " are ", prop[i][1], "and have a normal Sylow ", q, "-subgroup,", "\n         with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".\n");
+            SOTRec.Print(sot, c0+1+Sum([1..i-1],x->c[x])," - ", c0+Sum([1..i],x->c[x]),
+            " are sovable, non-nilpotent and have a normal Sylow ", q, "-subgroup, with ", prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ".");
         fi;
     od;
     for i in [1..15] do
         j := 15+i;
         if c[j] = 1 then
-            Print(sot, c0+Sum([1..j],x->c[x]),
-                " is ", prop[i][1], "and has a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
+            SOTRec.Print(sot, c0+Sum([1..j],x->c[x]),
+                " is sovable, non-nilpotent and has a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ", with cyclic Sylow ", q, "-subgroup.");
         elif c[j] > 1 then
-            Print(sot, c0+1+Sum([1..j-1],x->c[x])," - ", c0+Sum([1..j],x->c[x]),
-            " are ", prop[i][1], "and have a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ",\n         with cyclic Sylow ", q, "-subgroup", ".\n");
+            SOTRec.Print(sot, c0+1+Sum([1..j-1],x->c[x])," - ", c0+Sum([1..j],x->c[x]),
+            " are sovable, non-nilpotent and have a normal ",  prop[i][2], " Sylow ", p, "-subgroup ", prop[i][3], ", with cyclic Sylow ", q, "-subgroup.");
         fi;
     od;
     if n = 48 then
-        Print(sot, "49 - 52 are solvable, non-nilpotent, and have no normal Sylow subgroups.\n");
+        SOTRec.Print(sot, "49 - 52 are solvable, non-nilpotent, and have no normal Sylow subgroups.");
     elif n = 1053 then
-        Print(sot, "51 is solvable, non-nilpotent, and has no normal Sylow subgroups.\n");
+        SOTRec.Print(sot, "51 is solvable, non-nilpotent, and has no normal Sylow subgroups.");
     fi;
+    Print("\<\<");
   end;
 
 ##############################################################################
@@ -320,27 +354,27 @@ SOTRec.infoPQRS := function(n, fac)
         + SOTRec.w((s - 1), (p*q*r));
     m := Sum(c);
     if m = 0 then
-      Print("\n  There is 1 group of order ", n,".\n");
-      Print("\n  All groups of order ", n, " are abelian.\n");
+      Print("All groups of order ", n, " are abelian.\n");
     else
-      Print("\n  There are ", m + 1, " groups of order ", n,".\n");
-      Print("\n  The groups of order pqrs are solvable and classified by O. H\"older.\n");
-      Print("  These groups are sorted by their centre. \n");
-      Print(sot, "1 is abelian.\n");
+      Print("The groups of order pqrs are solvable and classified by O. H\"older.\n");
+      Print("These groups are sorted by their centre.");
+      Print("\>\>");
+      SOTRec.Print(sot, "1 is abelian.");
       if c[1] = 1 then
-        Print(sot, 1+c[1]," has centre of order that is a product of two distinct primes.\n");
+        SOTRec.Print(sot, 1+c[1]," has centre of order that is a product of two distinct primes.");
       elif c[1] > 1 then
-        Print(sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.\n");
+        SOTRec.Print(sot, "2 - ", 1+c[1], " have centre of order that is a product of two distinct primes.");
       fi;
       if c[2] = 1 then
-        Print(sot, 1+c[1]+c[2]," has a cyclic centre of prime order.\n");
+        SOTRec.Print(sot, 1+c[1]+c[2]," has a cyclic centre of prime order.");
       elif c[2] > 1 then
-        Print(sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.\n");
+        SOTRec.Print(sot, 2 + c[1], " - ", 1+c[1]+c[2], " have a cyclic centre of prime order.");
       fi;
       if c[3] = 1 then
-        Print(sot, 1+m," has trivial centre.\n");
+        SOTRec.Print(sot, 1+m," has trivial centre.");
       elif c[2] > 1 then
-        Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.\n");
+        SOTRec.Print(sot, 2 + c[1]+c[2], " - ", 1+m, " have a trivial centre.");
       fi;
     fi;
+    Print("\<\<");
   end;
