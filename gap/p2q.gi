@@ -27,7 +27,8 @@ local all, a, b, c, d, r1, R1, r2, R2, r3, R3, G, k, ii, qq, mat, list;
 	b := Z(q);
 	if not Int(a^(p - 1)) mod p^2 = 1 then
 		d := ZmodnZObj(Int(a), p^2);
-	else d := ZmodnZObj(Int(a) + p, p^2);
+	else
+	    d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
 	if (p - 1) mod q = 0 then
 		## \rho(p, q)
@@ -89,9 +90,12 @@ SOTRec.NumberGroupsP2Q := function(p, q)
     Assert(1, p <> q);
     Assert(1, IsPrimeInt(p));
     Assert(1, IsPrimeInt(q));
-    if q = 2 then w := 5;
-    elif p > q then w := 2 + SOTRec.w((p+1), q) + (q+5)*SOTRec.w((p-1), q)/2;
-    else w := 2 + 2*SOTRec.w((q-1), p) + SOTRec.w((p+1), q) + SOTRec.w((q-1), p^2);
+    if q = 2 then
+      w := 5;
+    elif p > q then
+      w := 2 + SOTRec.w((p+1), q) + (q+5)*SOTRec.w((p-1), q)/2;
+    else
+      w := 2 + SOTRec.w((p+1), q) + 2*SOTRec.w((q-1), p) + SOTRec.w((q-1), p^2);
     fi;
   return w;
 end;
@@ -111,7 +115,8 @@ local all, a, b, c, d, G, k, r1, R1, r2, R2, r3, R3, ii, qq, mat, l0, c1, l1, c2
 	b := Z(q);
 	if not Int(a)^(p - 1) mod p^2 = 1 then
 		d := ZmodnZObj(Int(a), p^2);
-	else d := ZmodnZObj(Int(a) + p, p^2);
+	else
+	    d := ZmodnZObj(Int(a) + p, p^2);
 	fi;
 
 	if (p - 1) mod q = 0 then

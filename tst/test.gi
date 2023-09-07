@@ -46,7 +46,9 @@ getRandomPerm := function(G)
 ## getRandomPc(G) returns a PcGroup that is a random isomorphism copy of G.
 getRandomPc := function(G)
 	local els, H, rel, p, B, epi, A, i, U, N, hom, el, pcgs;
-	   if not IsPcGroup(G) then G := Image(IsomorphismPcGroup(G)); fi;
+	   if not IsPcGroup(G) then
+	     G := Image(IsomorphismPcGroup(G));
+	   fi;
 	   els  := [];
 	   H    := G;
 	   rel  := [];
@@ -91,14 +93,18 @@ SOTRec.testSOTconst := function(n)
 		all := AllSOTGroups(n);
 		g := all[Random(1,NumberOfSOTGroups(n))];
 		id := IdSOTGroup(g);
-		if not IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2])) then Error("Revise p4q.");fi;
+		if not IsIsomorphicSOTGroups(g, SOTGroup(id[1],id[2])) then
+          Error("Revise p4q.");
+		fi;
 	end;
 
 ## SOTRec.testIdSOTGroup(n) tests whether the same isomorphism type (given as random isomorphic copies of permutation groups) has the same SOT-group ID.
 ## test against SOT itself
 SOTRec.testIdSOTGroup := function(orders)
     local n, nr, gap, sot, soty, i, copies,  gapid, new, signature;
-    if IsInt(orders) then orders := [orders]; fi;
+    if IsInt(orders) then
+        orders := [orders];
+    fi;
     for n in orders do
         if not IsSOTAvailable(n) then
             continue;
@@ -156,7 +162,9 @@ end;
 # for cases where those are too slow
 SOTRec.testIdSOTGroupCheap := function(orders)
     local n, nr, gap, sot, soty, i, copies,  gapid, new;
-    if IsInt(orders) then orders := [orders]; fi;
+    if IsInt(orders) then
+      orders := [orders];
+    fi;
     for n in orders do
         if not IsSOTAvailable(n) then
             continue;

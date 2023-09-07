@@ -27,14 +27,16 @@ local a, b, c, d, e, f, qq, ii, qqq, iii,
     c := ZmodnZObj(Int(Z(p)), p^2);
     if not c^(p - 1) = ZmodnZObj(1, p^2) then
         d := c;
-    else d := c + 1;
+    else
+        d := c + 1;
     fi;
 
     #\sigma_{q^2}
     e := ZmodnZObj(Int(Z(q)), q^2);
     if not e^(q - 1) = ZmodnZObj(1, q^2) then
         f := e;
-    else f := e + 1;
+    else
+        f := e + 1;
     fi;
 
     if (p - 1) mod q = 0 then
@@ -88,7 +90,8 @@ local a, b, c, d, e, f, qq, ii, qqq, iii,
         Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, S1]] ]);
         if q mod 2 = 1 then
             t := (q - 1)/2;
-        else t := 0;
+        else
+            t := 0;
         fi;
         for k in [0..t] do
             Add(all, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, S1]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]);
@@ -133,7 +136,8 @@ local a, b, c, d, e, f, qq, ii, qqq, iii,
         Add(all, [ [q, q, p, p], [3, 1, [3, S1]] ]);
         if q mod 2 = 1 then
             t := (q - 1)/2;
-        else t := 0;
+        else
+            t := 0;
         fi;
 
         for k in [0..t] do
@@ -167,9 +171,12 @@ local w;
     Assert(1, IsPrimeInt(p));
     Assert(1, IsPrimeInt(q));
 
-    if p = 3 and q = 2 then w := 14;
-    elif q = 2 then w := 11 + 5*SOTRec.w((p-1), 4) + SOTRec.w((p+1), 4);
-    else w := 4 + (6+q)*SOTRec.w((p-1), q) + (4+q+q^2)*SOTRec.w((p-1), q^2)/2 + 2*SOTRec.w((p+1),q) + SOTRec.w((p+1), q^2);
+    if p = 3 and q = 2 then
+      w := 14;
+    elif q = 2 then
+      w := 11 + 5*SOTRec.w((p-1), 4) + SOTRec.w((p+1), 4);
+    else
+      w := 4 + (6+q)*SOTRec.w((p-1), q) + (4+q+q^2)*SOTRec.w((p-1), q^2)/2 + 2*SOTRec.w((p+1),q) + SOTRec.w((p+1), q^2);
     fi;
   return w;
 end;
@@ -185,20 +192,24 @@ c1, c2, c3, c4, c5, s1, S1, s2, S2, r1, R1, r2, R2;
     Assert(1, IsPrimeInt(q));
     #### case1: q nmid (p-1), q nmid (p^2 -1), q > 2
     l0 := [ [ [p, p, q, q], [1, [2, 1]], [3, [4, 1]] ], [ [p, p, q, q], [3, [4, 1]] ], [ [p, p, q, q], [1, [2, 1]] ], [ [p, p, q, q], [2, [3, 1]] ] ];
-    if i < 5 then return SOTRec.groupFromData(l0[i]); fi;
+    if i < 5 then
+        return SOTRec.groupFromData(l0[i]);
+    fi;
     a := Z(p);
     b := Z(q);
 
     c := ZmodnZObj(Int(Z(p)), p^2);
     if not c^(p - 1) = ZmodnZObj(1, p^2) then
         d := c;
-    else d := c + 1;
+    else
+        d := c + 1;
     fi;
 
     e := ZmodnZObj(Int(Z(q)), q^2);
     if not e^(q - 1) = ZmodnZObj(1, q^2) then
         f := e;
-    else f := e + 1;
+    else
+        f := e + 1;
     fi;
 
     if (p - 1) mod q = 0 then
@@ -270,7 +281,8 @@ c1, c2, c3, c4, c5, s1, S1, s2, S2, r1, R1, r2, R2;
 
             if q mod 2 = 1 then
                 t := (q - 1)/2;
-            else t := 0;
+            else
+                t := 0;
             fi;
             for k in [0..t] do
                 Add(lst, [ [q, q, p, p], [1, [2, 1]], [3, 1, [3, S1]], [4, 1, [4, Int(a^(Int(b^k)*(p-1)/q))]] ]);
@@ -318,7 +330,8 @@ c1, c2, c3, c4, c5, s1, S1, s2, S2, r1, R1, r2, R2;
             Add(lst, [ [q, q, p, p], [3, 1, [3, S1]] ]);
             if q mod 2 = 1 then
                 t := (q - 1)/2;
-            else t := 0;
+            else
+                t := 0;
             fi;
             for k in [0..t] do
                 Add(lst, [ [q, q, p, p], [3, 1, [3, S1]], [4, 1, [4, Int((a^(Int(b^k)*(p-1)/q)))]] ]);

@@ -113,13 +113,17 @@ end;
 
 ######################################
 SOTRec.NumberPGroups := function(p, k)
-	local w;
-		if k = 1 then w := 1; fi;
-		if k = 2 then w := 2; fi;
-		if k = 3 then w := 5;	fi;
-		if k = 4 and p = 2 then w := 14; fi;
-		if k = 4 and p > 2 then w := 15; fi;
-	return w;
+    if k = 1 then
+        return 1;
+    elif k = 2 then
+        return 2;
+    elif k = 3 then
+        return 5;
+    elif k = 4 and p = 2 then
+        return 14;
+    elif k = 4 and p > 2 then
+        return 15;
+    fi;
 end;
 #####################################
 SOTRec.PGroup := function(p, k, i, arg...)
@@ -133,7 +137,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := PG;
 					fi;
-				else Error("There is a unique group of prime order up to isomorphism.");
+				else
+				    Error("There is a unique group of prime order up to isomorphism.");
 				fi;
 			fi;
 
@@ -145,7 +150,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := P2[i];
 					fi;
-				else Error("There are two groups of prime-squared order up to isomorphism: one is cyclic and the other elementary abelian.");
+				else
+				    Error("There are two groups of prime-squared order up to isomorphism: one is cyclic and the other elementary abelian.");
 				fi;
 			fi;
 
@@ -157,7 +163,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := P3[i];
 					fi;
-				else Error("There are five isomorphism types of groups of prime-cubed order.");
+				else
+				    Error("There are five isomorphism types of groups of prime-cubed order.");
 				fi;
 			elif p = 2 and k = 3 then
 				order8 := [ [ [2, 2, 2], [1, [2, 1]], [2, [3, 1]] ], [ [2, 2, 2], [1, [2, 1]] ], [ [2, 2, 2] ], [ [2, 2, 2], [2, 1, [2, 1, 3, 1]] ], [ [2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ];
@@ -167,7 +174,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := order8[i];
 					fi;
-				else Error("There are five isomorphism types of groups of order 8.");
+				else
+				    Error("There are five isomorphism types of groups of order 8.");
 				fi;
 			fi;
 
@@ -190,7 +198,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := P4[i];
 					fi;
-				else Error("There are 15 isomorphism types of groups of this order.");
+				else
+				    Error("There are 15 isomorphism types of groups of this order.");
 				fi;
 			elif p = 3 and k = 4 then
 				r := Int(Z(p));
@@ -214,7 +223,8 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := order81[i];
 					fi;
-				else Error("There are 15 isomorphism types of groups of order 81.");
+				else
+				    Error("There are 15 isomorphism types of groups of order 81.");
 				fi;
 			elif p = 2 and k = 4 then
 				order16 := [ [ [2, 2, 2, 2], [1, [2, 1]], [2, [3, 1]], [3, [4, 1]] ],
@@ -237,14 +247,16 @@ SOTRec.PGroup := function(p, k, i, arg...)
 					elif Length(arg) = 1 then
 						G := order16[i];
 					fi;
-				else Error("There are 14 isomorphism types of groups of order 16.");
+				else
+				    Error("There are 14 isomorphism types of groups of order 16.");
 				fi;
 			fi;
 
 			if k > 4 then
 				Error("SOTGroup is not available for p-groups of order not dividing p^4.");
 			fi;
-		else G := AbelianGroup([1]);
+		else
+		    G := AbelianGroup([1]);
 		fi;
 	return G;
 end;

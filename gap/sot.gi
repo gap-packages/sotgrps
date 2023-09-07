@@ -17,7 +17,9 @@ SOTRec.groupFromData := function(data)
     n := Size(data[1]);
     if SOTRec.PCP = true then
         coll := ValueGlobal("FromTheLeftCollector")(n);
-        for i in [1..n] do SetRelativeOrder(coll,i,data[1][i]); od;
+        for i in [1..n] do
+          SetRelativeOrder(coll,i,data[1][i]);
+        od;
         for i in [2..Length(data)] do
             if IsInt(data[i][2]) then
                 SetConjugateNC(coll,data[i][1],data[i][2],data[i][3]);
@@ -33,7 +35,7 @@ SOTRec.groupFromData := function(data)
         coll := SingleCollector(gens, data[1]);
         for i in [2..Length(data)] do
             if IsInt(data[i][2]) then
-                conj := [];;
+                conj := [];
                 for j in [1..Length(data[i][3])/2] do
                     Add(conj, gens.(data[i][3][2*j-1])^(data[i][3][2*j]));
                 od;
@@ -58,8 +60,11 @@ end;
 #
 SOTRec.w := function(x, y)
   local w;
-    if x mod y = 0 then w := 1;
-    else w := 0; fi;
+    if x mod y = 0 then
+      w := 1;
+    else
+      w := 0;
+    fi;
   return w;
   end;
 ############################################################################
@@ -87,8 +92,14 @@ SOTRec.QthRootM2P2 := function(p, q)
     a := Z(p,2);
     b := a^((p^2-1)/q);
     m := ([ [0, 1], [Int((-b^(p+1)) * One(GF(p))), Int((b+b^p) * One(GF(p)))] ] * ZmodnZObj(1, p^2))^p;
-    u1 := Int(m[1][1]) mod p;    u2 := Int(m[1][2]) mod p;    v1 := Int(m[2][1]) mod p;    v2 := Int(m[2][2]) mod p;
-    u3 := (Int(m[1][1]) - u1)/p; u4 := (Int(m[1][2]) - u2)/p; v3 := (Int(m[2][1]) - v1)/p; v4 := (Int(m[2][2]) - v2)/p;
+    u1 := Int(m[1][1]) mod p;
+    u2 := Int(m[1][2]) mod p;
+    v1 := Int(m[2][1]) mod p;
+    v2 := Int(m[2][2]) mod p;
+    u3 := (Int(m[1][1]) - u1)/p;
+    u4 := (Int(m[1][2]) - u2)/p;
+    v3 := (Int(m[2][1]) - v1)/p;
+    v4 := (Int(m[2][2]) - v2)/p;
     mat := [ [u1, u2, 0, 0],
              [v1, v2, 0, 0],
              [u3, u4, u1, u2],
@@ -114,8 +125,11 @@ end;
 #
 SOTRec.delta := function(x, y)
   local w;
-    if x = y then w := 1;
-    else w := 0; fi;
+    if x = y then
+      w := 1;
+    else
+      w := 0;
+    fi;
   return w;
   end;
 ############################################################################
@@ -187,14 +201,15 @@ SOTRec.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
   local l, det, evm;
     l := Eigenvalues(GF(p), mat);
     det := DeterminantMat(mat);
-    if Length(l) = 4 then evm := Collected(l);
+    if Length(l) = 4 then
+      evm := Collected(l);
     elif Length(l) = 3 then
       if l[1]^2*l[2]*l[3] = det then
         evm := Collected([l[2], l[3], l[1], l[1]]);
       elif l[1]*l[2]^2*l[3] = det then
         evm := Collected([l[1], l[3], l[2], l[2]]);
       elif l[1]*l[2]*l[3]^2 = det then
-          evm := Collected([l[1], l[2], l[3], l[3]]);
+        evm := Collected([l[1], l[2], l[3], l[3]]);
       fi;
     elif Length(l) = 2 then
       if l[1]^3*l[2] = det then
@@ -204,10 +219,11 @@ SOTRec.EigenvaluesWithMultiplicitiesGL4P := function(mat, p)
       elif l[1]^2*l[2]^2 = det then
         evm := Collected([l[1], l[1], l[2], l[2]]);
       fi;
-    else evm := Collected([l[1], l[1], l[1], l[1]]);
-  fi;
-  SortBy(evm, x -> x[2]);
-  return evm;
+    else
+      evm := Collected([l[1], l[1], l[1], l[1]]);
+    fi;
+    SortBy(evm, x -> x[2]);
+    return evm;
 end;
 ############################################################################
 SOTRec.EigenvaluesGL4P2 := function(mat, p)
@@ -232,9 +248,10 @@ SOTRec.EigenvaluesGL4P2 := function(mat, p)
       fi;
     elif Length(l) = 2 then
       evm := [ [l[1], l[2]], [l[1], l[2]] ];
-    else evm := [ [l[1], l[1]], [l[1], l[1]] ];
-  fi;
-  return evm;
+    else
+      evm := [ [l[1], l[1]], [l[1], l[1]] ];
+    fi;
+    return evm;
 end;
 ############################################################################
 ############################################################################

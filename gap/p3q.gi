@@ -90,7 +90,8 @@ SOTRec.allGroupsP3Q := function(p, q)
       c := ZmodnZObj(Int(Z(p)), p^3);
       if not c^(p - 1) = ZmodnZObj(1, p^2) then
         d := c;
-      else d := c + 1;
+      else
+        d := c + 1;
       fi;
       s3 := d^((p^3 - p^2)/q);
       S3 := Int(s3);
@@ -102,7 +103,8 @@ SOTRec.allGroupsP3Q := function(p, q)
       e := ZmodnZObj(Int(Z(p)), p^2);
       if not e^(p - 1) = ZmodnZObj(1, p^2) then
         f := e;
-      else f := e + 1;
+      else
+        f := e + 1;
       fi;
 
       s2 := f^((p^2-p)/q);
@@ -161,7 +163,9 @@ SOTRec.allGroupsP3Q := function(p, q)
             fi;
           od;
         od;
-        if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+        if (q - 1) mod 3 = 0 then
+          Add(res, [bb, 2*bb]);
+        fi;
       return res;
     end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
 
@@ -275,7 +279,9 @@ SOTRec.GroupP3Q := function(p, q, i)
     c11 := SOTRec.delta([p,q], [2,3]);
 ############ add abelian groups in:
     all := [ [ [p, p, p, q], [1, [2, 1]], [2, [3, 1]] ], [ [p, p, p, q], [1, [2, 1]] ], [ [p, p, p, q] ] ];
-    if i < 4 then return SOTRec.groupFromData(all[i]); fi;
+    if i < 4 then
+      return SOTRec.groupFromData(all[i]);
+    fi;
 ############ add nonabelian nilpotent groups in:
     if i > 3 and i < 6 and p > 2 then
       Append(all, [ [ [p, p, p, q], [2, 1, [2, 1, 3, 1]] ], [ [p, p, p, q], [1, [3, 1]], [2, 1, [2, 1, 3, 1]] ] ]);
@@ -354,7 +360,8 @@ SOTRec.GroupP3Q := function(p, q, i)
       c := ZmodnZObj(Int(Z(p)), p^3);
       if not c^(p - 1) = ZmodnZObj(1, p^2) then
         d := c;
-      else d := c + 1;
+      else
+        d := c + 1;
       fi;
       s3 := d^((p^3 - p^2)/q);
       S3 := Int(s3);
@@ -366,7 +373,8 @@ SOTRec.GroupP3Q := function(p, q, i)
       e := ZmodnZObj(Int(Z(p)), p^2);
       if not e^(p - 1) = ZmodnZObj(1, p^2) then
         f := e;
-      else f := e + 1;
+      else
+        f := e + 1;
       fi;
 
       s2 := f^((p^2-p)/q);
@@ -436,7 +444,9 @@ SOTRec.GroupP3Q := function(p, q, i)
               fi;
             od;
           od;
-          if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+          if (q - 1) mod 3 = 0 then
+            Add(res, [bb, 2*bb]);
+          fi;
         return res;
       end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
 
