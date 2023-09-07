@@ -223,11 +223,11 @@ local p, q, Id, a, b, c, d, flag, P, Q, Zen,gens, G, exps1, exps2, pcgs, pc, m, 
         exps2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
         m := [ exps1{[2, 3]}, exps2{[2, 3]} ] * One(GF(p));
         x := Inverse(LogFFE(Eigenvalues(GF(p), m)[1], a^((p - 1)/q))) mod q;
-        det := DeterminantMat(m^x);
-        if (LogFFE((LogFFE(det, a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1)) < (q + 1)/2 then
-          k := LogFFE((LogFFE(det, a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
+        det := LogFFE((LogFFE(DeterminantMat(m^x), a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
+        if det < (q + 1)/2 then
+          k := det;
         else
-          k := (q - 1) - LogFFE((LogFFE(det, a^((p - 1)/q)) - 1)*One(GF(q)), b) mod (q - 1);
+          k := (q - 1) - det;
         fi;
         return [n, 4 + k];
       elif flag[1] = p^2 then
@@ -841,7 +841,7 @@ end;
 SOTRec.IdGroupP2QR := function(group, n, fac)
 local p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
   c1, c2, c3, c4, c5, c6, c7, k, l, m, tmp, exp, exp1, exp2, expp1q, expp2q, expp1r, expp2r,
-  matq, detq, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
+  matq, det, matr, detr, matqr, evqr, mat, mat_k, Id, x, y, z, ev, lst, N1, N2,
   pcgsp, pcgsq, pcgsr;
 
     p := fac[3][1];
@@ -1102,10 +1102,11 @@ local p, q, r, P, Q, R, Zen,a, b, c, u, v, flag, G, gens, pc, pcgs, g, h,
           pcgs := [gens[1]^x, gens[2], gens[3], gens[4]];
           pc := PcgsByPcSequence(FamilyObj(pcgs[1]), pcgs);
           matq := [expp1q{[2, 3]}, expp2q{[2, 3]}]^x * One(GF(p));
-          if LogFFE((LogFFE(Determinant(matq), b^((p-1)/q)) - 1)*One(GF(q)), c) mod (q - 1) < (q + 1)/2 then
-            k := LogFFE((LogFFE(Determinant(matq), b^((p-1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
+          det := LogFFE((LogFFE(DeterminantMat(matq), b^((p-1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
+          if det < (q + 1)/2 then
+            k := det;
           else
-            k := (q - 1) - LogFFE((LogFFE(Determinant(matq), b^((p-1)/q)) - 1)*One(GF(q)), c) mod (q - 1);
+            k := (q - 1) - det;
           fi;
           return [n, 3 + k + c1 + c2 + c3 + c4
           + SOTRec.w((r - 1), q)

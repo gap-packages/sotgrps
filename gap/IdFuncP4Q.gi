@@ -12,7 +12,7 @@
 SOTRec.IdGroupP4Q := function(group, n, fac)
   local p, q, flag, P, Q, Zen, zenp, gens, G, a, b, c, d, e, f, g, h, r1, r2, r3, r4, s1, s2, s3, s4 ,R1, R2, R3, R4, S1, S2, S3, S4,
         sc, fpc, idfp, pc, mat, matGL2, matGL3, matGL4, Idfunc, IdTuplei, i, j, k, l, m, s, t, u, v, w, x, y, z,
-        exps1, exps2, pcgs, pcgsp, pcgsq, idP, fp, fq, g1, g2, g3, g4, g5, char, dP, dG,
+        exps1, exps2, pcgs, pcgsp, pcgsq, idP, g1, g2, g3, g4, g5, char, dP, dG,
         exp1, exp2, exp3, exp4, det, tmp, ev, evm, N1, N2,
         c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15,
         c16, c17, c18, c19, c20, c21, c22, c23, c24, c25, c26, c27, c28, c29, c30, data;
@@ -206,8 +206,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 6 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if idfp[2] = 2 then
           return [n, c0 + c1 + c2 + c3 + c4 + c5 + 1];
@@ -219,8 +217,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 7 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
@@ -259,8 +255,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 8 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
@@ -291,8 +285,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 9 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
@@ -314,8 +306,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 10 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
@@ -354,8 +344,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 11 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 3 then
@@ -381,8 +369,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 12 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 2 then
@@ -430,8 +416,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 13 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 3 then
           if idfp[2] = 2 then
@@ -479,8 +463,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 14 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[2] = 5 then
@@ -500,8 +482,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
 
       elif idP = 15 then
         f := FittingSubgroup(group);
-        fp := Pcgs(SylowSubgroup(f, p));
-        fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 3 and idfp[2] = 5 then
           return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
