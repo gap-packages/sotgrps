@@ -65,9 +65,12 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
     pcgsp := Pcgs(P);;
     pcgsq := Pcgs(Q);;
     Zen := Centre(group);;
-    if p = 2 then idP := Position([ 1, 5, 2, 10, 14, 13, 11, 3, 12, 4, 6, 8, 7, 9 ], IdGroup(P)[2]);
-    elif p = 3 then idP := Position([ 1, 5, 2, 11, 15, 14, 6, 13, 3, 4, 12, 8, 9, 7, 10 ], IdGroup(P)[2]);
-    else idP := Position([ 1, 5, 2, 11, 15, 14, 6, 13, 3, 4, 12, 9, 10, 7, 8 ], IdGroup(P)[2]);
+    if p = 2 then
+        idP := Position([ 1, 5, 2, 10, 14, 13, 11, 3, 12, 4, 6, 8, 7, 9 ], IdGroup(P)[2]);
+    elif p = 3 then
+        idP := Position([ 1, 5, 2, 11, 15, 14, 6, 13, 3, 4, 12, 8, 9, 7, 10 ], IdGroup(P)[2]);
+    else
+        idP := Position([ 1, 5, 2, 11, 15, 14, 6, 13, 3, 4, 12, 9, 10, 7, 8 ], IdGroup(P)[2]);
     fi;
     ####
     c0 := 15 - SOTRec.delta(2, p);
@@ -107,82 +110,111 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
     ####
     Idfunc := function(q, l)
       local x, y, a, b, tuple, n, id;
-        x := l[1] mod (q - 1); y := l[2] mod (q - 1);
-        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then return 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
+        x := l[1] mod (q - 1);
+        y := l[2] mod (q - 1);
+        if l in [[(q-1)/3, 2*(q-1)/3], [2*(q-1)/3, (q-1)/3]] then
+          return 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
         else
           tuple := SortedList(Filtered(
           [SortedList([x, y]), SortedList([-x, y-x] mod (q - 1)), SortedList([-y, x-y] mod (q - 1))],
           list -> list[1] < Int((q + 2)/3) and list[2] < q - 1 - list[1]))[1];
-          a := tuple[1]; b := tuple[2];
+          a := tuple[1];
+          b := tuple[2];
           return Sum([1..a-1], x -> q - 1 - 3*x) + b + 1 - 2*a;
         fi;
     end;
     ####
     IdTuplei := function(q, l)
       local x, y, z, a, b, c, tuple, n, id;
-        x := l[2] mod (q - 1); y := l[3] mod (q - 1); z := l[4] mod (q - 1);
+        x := l[2] mod (q - 1);
+        y := l[3] mod (q - 1);
+        z := l[4] mod (q - 1);
         tuple := SortedList(Filtered(
         [SortedList([x, y, z]), SortedList([-x, y-x, z-x] mod (q - 1)), SortedList([-y, z-y, x-y] mod (q - 1)), SortedList([-z, x-z, y-z] mod (q - 1))],
         list -> list[1] < Int((q + 3)/4) and list[2] < q - 2*list[1]))[1];
-        a := tuple[1]; b := tuple[2]; c := tuple[3];
-        if tuple = [(q-1)/4, (q-1)/2, 3*(q-1)/4] then return 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4));
-        else id := Sum([1..a-1], x -> Sum([2*x..(q-1)/2], y -> q - 1 - 2*x - y) + Sum([(q+1)/2..q - 2 - 2*x], y -> q - 2 - 2*x - y));
+        a := tuple[1];
+        b := tuple[2];
+        c := tuple[3];
+        if tuple = [(q-1)/4, (q-1)/2, 3*(q-1)/4] then
+          return 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4));
+        else
+          id := Sum([1..a-1], x -> Sum([2*x..(q-1)/2], y -> q - 1 - 2*x - y) + Sum([(q+1)/2..q - 2 - 2*x], y -> q - 2 - 2*x - y));
           if b < (q + 1)/2 then
             id := id + Sum([2*a..b-1], x -> q - 1 - 2*a - x) + c - a - b + 1;
-          else id := id + Sum([2*a..(q - 1)/2], x -> q - 1 - 2*a - x) + Sum([(q + 1)/2..(b - 1)], x -> q - 2 - 2*a - x) + c - a - b;
+          else
+            id := id + Sum([2*a..(q - 1)/2], x -> q - 1 - 2*a - x) + Sum([(q + 1)/2..(b - 1)], x -> q - 2 - 2*a - x) + c - a - b;
           fi;
         fi;
       return id;
     end;
     ####
-    flag := [IsNormal(group, P), IsNormal(group, Q), DerivedSubgroup(group)]; dG := flag[3];
+    flag := [IsNormal(group, P), IsNormal(group, Q), DerivedSubgroup(group)];
+    dG := flag[3];
     ####
     if IsNilpotent(group) then
       return [n, idP];
     elif flag{[1, 2]} = [false, true] then
       sc := Size(Zen);
       if idP = 1 then
-        if sc = p^3 then return [n, c0 + 1];
-        elif sc = p^2 then return [n, c0 + 2];
-        elif sc = p then return [n, c0 + 3];
-        elif sc = 1 then return [n, c0 + 4];
+        if sc = p^3 then
+          return [n, c0 + 1];
+        elif sc = p^2 then
+          return [n, c0 + 2];
+        elif sc = p then
+          return [n, c0 + 3];
+        elif sc = 1 then
+          return [n, c0 + 4];
         fi;
 
       elif idP = 2 then
         if sc = p^3 then
-          if IsCyclic(Zen) then return [n, c0 + c1 + 1];
-          else return [n, c0 + c1 + 2];
+          if IsCyclic(Zen) then
+            return [n, c0 + c1 + 1];
+          else
+            return [n, c0 + c1 + 2];
           fi;
         elif sc = p^2 then
-          if IsCyclic(Zen) then return [n, c0 + c1 + 3];
-          else return [n, c0 + c1 + 4];
+          if IsCyclic(Zen) then
+            return [n, c0 + c1 + 3];
+          else
+            return [n, c0 + c1 + 4];
           fi;
-        elif sc = p then return [n, c0 + c1 + 5];
+        elif sc = p then
+          return [n, c0 + c1 + 5];
         fi;
 
       elif idP = 3 then
-        if sc = p^3 then return [n, c0 + c1 + c2 + 1];
-        elif sc = p^2 then return [n, c0 + c1 + c2 + 2];
+        if sc = p^3 then
+          return [n, c0 + c1 + c2 + 1];
+        elif sc = p^2 then
+          return [n, c0 + c1 + c2 + 2];
         fi;
 
       elif idP = 4 then
         if sc = p^3 then
-          if Exponent(Zen) = p^2 then return [n, c0 + c1 + c2 + c3 + 1];
-          else return [n, c0 + c1 + c2 + c3 + 2];
+          if Exponent(Zen) = p^2 then
+            return [n, c0 + c1 + c2 + c3 + 1];
+          else
+            return [n, c0 + c1 + c2 + c3 + 2];
           fi;
-        elif sc = p^2 then return [n, c0 + c1 + c2 + c3 + 3];
+        elif sc = p^2 then
+          return [n, c0 + c1 + c2 + c3 + 3];
         fi;
 
-      elif idP = 5 then return [n, c0 + c1 + c2 + c3 + c4 + 1];
+      elif idP = 5 then
+        return [n, c0 + c1 + c2 + c3 + c4 + 1];
 
       elif idP = 6 then
         f := FittingSubgroup(group);
         fp := Pcgs(SylowSubgroup(f, p));
         fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
-        if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 1];
-        elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 2];
-        elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + 3];
+        if idfp[2] = 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + 1];
+        elif idfp[2] = 3 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + 2];
+        elif idfp[2] = 4 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + 3];
         fi;
 
       elif idP = 7 then
@@ -199,7 +231,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               k := LogFFE(ExponentsOfPcElement(G, gens[3]^gens[2])[3] * One(GF(q)), r1) mod p;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + k];
-            elif Order(g) < p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + p];
+            elif Order(g) < p^3 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + p];
             fi;
           elif idfp[1] = p^2 then
             if idfp[2] = 1 then
@@ -210,13 +243,17 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               x := Inverse(ExponentsOfPcElement(G, gens[3]^gens[1])[4]) mod p;
               k := LogFFE(ExponentsOfPcElement(G, gens[5]^(gens[2]^x))[5] * One(GF(q)), r1) mod p;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + p + k];
-            elif idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 2*p];
+            elif idfp[2] = 2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 2*p];
             fi;
           fi;
         elif p = 2 then
-          if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 1];
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 2];
-          elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 3];
+          if idfp[2] = 2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 1];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 2];
+          elif idfp[2] = 5 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + 3];
           fi;
         fi;
 
@@ -235,15 +272,20 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             x := Inverse(ExponentsOfPcElement(G, gens[2]^gens[1])[3]) mod p;
             k := LogFFE(ExponentsOfPcElement(G, gens[4]^(gens[1]^x))[4] * One(GF(q)), r1) mod p;
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + k];
-          elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + p];
-          elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + p + 1];
+          elif idfp[2] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + p];
+          elif idfp[2] = 5 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + p + 1];
           fi;
         elif p = 2 then
           if idfp[1] = 8 then
-            if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 1];
-            elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 2];
+            if idfp[2] = 2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 1];
+            elif idfp[2] = 5 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 2];
             fi;
-          elif idfp[1] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 3];
+          elif idfp[1] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + 3];
           fi;
         fi;
 
@@ -254,14 +296,19 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
           if idfp[1] = p^3 then
-            if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1];
-            elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 2];
+            if idfp[2] = 2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1];
+            elif idfp[2] = 5 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 2];
             fi;
-          elif idfp[1] = p^2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 3];
+          elif idfp[1] = p^2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 3];
           fi;
         elif p = 2 then
-          if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1];
-          elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 2];
+          if idfp[2] = 2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 1];
+          elif idfp[2] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + 2];
           fi;
         fi;
 
@@ -295,10 +342,13 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         elif p = 2 then
           if idfp[1] = 8 then
             repeat g := Random(P); until Group([g^p, pcgsq[1]]) = flag[3];
-            if pcgsq[1]^g <> pcgsq[1] then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1];
-            else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 2];
+            if pcgsq[1]^g <> pcgsq[1] then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 1];
+            else
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 2];
             fi;
-          elif idfp[1] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 3];
+          elif idfp[1] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + 3];
           fi;
         fi;
 
@@ -308,17 +358,23 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
-          if idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1];
-          elif idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 2];
+          if idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1];
+          elif idfp[2] = 5 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 2];
           fi;
         elif p = 2 then
           if idfp[1] = 8 then
-            if idfp[2] = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1];
-            elif idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 2];
+            if idfp[2] = 1 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 1];
+            elif idfp[2] = 2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 2];
             fi;
           elif idfp[1] = 4 then
-            if idfp[2] = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 3];
-            elif idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 4];
+            if idfp[2] = 1 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 3];
+            elif idfp[2] = 2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + 4];
             fi;
           fi;
         fi;
@@ -337,10 +393,13 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
             k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(q)), r1^x) mod p;
-            if k > (p - 1)/2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + p - k];
-            else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + k];
+            if k > (p - 1)/2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + p - k];
+            else
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + k];
             fi;
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2];
           elif idfp[2] = 4 then
             if p > 3 then
               repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
@@ -350,16 +409,22 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
               k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(q)), r1^x) mod p;
-              if k > (p - 1)/2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + p - k];
-              else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + k];
+              if k > (p - 1)/2 then
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + p - k];
+              else
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + k];
               fi;
-            elif p = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + 1];
+            elif p = 3 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + (p + 1)/2 + 1];
             fi;
           fi;
         elif p = 2 then
-          if idfp[2] = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 1];
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 2];
-          elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 3];
+          if idfp[2] = 1 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 1];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 2];
+          elif idfp[2] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + 3];
           fi;
         fi;
 
@@ -377,10 +442,13 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
             k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(q)), r1^x) mod p;
-            if k > (p - 1)/2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + p - k];
-            else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + k];
+            if k > (p - 1)/2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + p - k];
+            else
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + k];
             fi;
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2];
           elif idfp[2] = 4 then
             repeat g4 := Random(P); until Group([g4, Pcgs(Zen)[1]]) = DerivedSubgroup(P);
             repeat g2 := Random(P); until Group([g2^p]) = Zen and g2^g4 = g2 and pcgsq[1]^g2 = pcgsq[1]^R1;
@@ -389,17 +457,23 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             x := RootMod(ExponentsOfPcElement(G, gens[2]^gens[1])[3], 2, p);
             k := LogFFE(ExponentsOfPcElement(G, gens[4]^gens[1])[4] * One(GF(q)), r1^x) mod p;
-            if k > (p - 1)/2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2 + p - k];
-            else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2 + k];
+            if k > (p - 1)/2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2 + p - k];
+            else
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + (p + 1)/2 + k];
             fi;
           fi;
         elif p = 3 then
-          if idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 1];
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 2];
+          if idfp[2] = 2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 1];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 2];
           fi;
         else #p = 2
-          if idfp[2] = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 1];
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 2];
+          if idfp[2] = 1 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 1];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + 2];
           fi;
         fi;
 
@@ -409,13 +483,18 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
         if p > 2 then
-          if idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1];
-          elif idfp[2] = 3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2];
-          elif idfp[1] = 27 and idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2 + SOTRec.delta(3, p)];
+          if idfp[2] = 5 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1];
+          elif idfp[2] = 3 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2];
+          elif idfp[1] = 27 and idfp[2] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2 + SOTRec.delta(3, p)];
           fi;
         elif p = 2 then
-          if idfp[2] = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1];
-          elif idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2];
+          if idfp[2] = 1 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 1];
+          elif idfp[2] = 4 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + 2];
           fi;
         fi;
 
@@ -424,21 +503,28 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         fp := Pcgs(SylowSubgroup(f, p));
         fq := Pcgs(SylowSubgroup(f, q));
         idfp := IdGroup(SylowSubgroup(f, p));
-        if p > 3 and idfp[2] = 5 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
-        elif p > 3 and idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 2];
-        elif p = 3 and idfp[2] = 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
-        elif p = 3 and idfp[2] = 4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 2];
+        if p > 3 and idfp[2] = 5 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
+        elif p > 3 and idfp[2] = 4 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 2];
+        elif p = 3 and idfp[2] = 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 1];
+        elif p = 3 and idfp[2] = 4 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + 2];
         fi;
       fi;
 
     elif flag{[1, 2]} = [true, false] then
       sc := Size(Zen);
       f := FrattiniSubgroup(group);
-      if idP = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + 1];
+      if idP = 1 then
+        return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + 1];
 
       elif idP = 2 then
-        if sc = p then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 1];
-        elif sc = p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 2];
+        if sc = p then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 1];
+        elif sc = p^3 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + 2];
         elif sc = 1 then
           repeat g := Random(P); until Order(g) = p^3 and Group([g^p]) = f;
           repeat h := Random(P); until Order(h) = p and Group([g, h]) = P;
@@ -450,7 +536,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         fi;
 
       elif idP = 3 then
-        if sc = p^2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1];
+        if sc = p^2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1];
         elif sc = 1 and (p - 1) mod q = 0 then
           pc := Pcgs(f);
           gens := [pcgsq[1], pc[1], pc[2]];
@@ -459,14 +546,17 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
           exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
           matGL2 := [exp1{[2, 3]}, exp2{[2, 3]}]*One(GF(p));
           ev := SortedList(List(Eigenvalues(GF(p), matGL2), x -> LogFFE(LogMod(Int(x), S2, p)*One(GF(q)), b)));
-          if Length(ev) = 1 then k := 0;
+          if Length(ev) = 1 then
+            k := 0;
           else
             k := ev[2] - ev[1];
-            if k > (q - 1)/2 then k := (q - 1) - k;
+            if k > (q - 1)/2 then
+              k := (q - 1) - k;
             fi;
           fi;
           return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1 + (k + 1)];
-        elif sc = 1 and (p + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1];
+        elif sc = 1 and (p + 1) mod q = 0 and q > 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + 1];
         fi;
 
       elif idP = 4 then
@@ -478,16 +568,19 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               group := group/Zen;
               pcgsq := Pcgs(SylowSubgroup(group, q));
               pcgsp := Pcgs(SylowSubgroup(group, p));
-              gens := [pcgsq[1]]; Append(gens, pcgsp);
+              gens := [pcgsq[1]];
+              Append(gens, pcgsp);
               G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
               exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
               exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
               matGL2 := [exp1{[2, 3]}, exp2{[2, 3]}] * One(GF(p));
               ev := SortedList(List(Eigenvalues(GF(p), matGL2), x -> LogFFE(LogFFE(x, s1)*One(GF(q)), b)));
-              if Length(ev) = 1 then k := 0;
+              if Length(ev) = 1 then
+                k := 0;
               else
                 k := ev[2] - ev[1];
-                if k > (q - 1)/2 then k := (q - 1) - k;
+                if k > (q - 1)/2 then
+                  k := (q - 1) - k;
                 fi;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + 1 + (k + 1)];
@@ -528,15 +621,19 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                         + (q^2 - 3*q + 2)/2 + k];
             fi;
           fi;
-        elif (p + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + 1];
+        elif (p + 1) mod q = 0 and q > 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17 + c18 + 1];
         fi;
 
       elif idP = 5 then
-        if sc = p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        if sc = p^3 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                   + c18 + c19 + 1];
         elif sc = p^2 then
           if (p - 1) mod q = 0 then
-            gens:= [pcgsq[1]]; Append(gens, Filtered(pcgsp, x -> not x in Zen)); Append(gens, Filtered(pcgsp, x -> x in Zen));
+            gens:= [pcgsq[1]];
+            Append(gens, Filtered(pcgsp, x -> not x in Zen));
+            Append(gens, Filtered(pcgsp, x -> x in Zen));
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
             exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
             exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -546,7 +643,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             det := LogFFE((LogFFE(det^x, s1) - 1)*One(GF(q)), b) mod (q - 1);
             if det < Int((q + 1)/2) then
               k := det;
-            else k := (q - 1) - det;
+            else
+              k := (q - 1) - det;
             fi;
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                                       + c18 + c19 + 1 + k + 1];
@@ -556,7 +654,9 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
           fi;
         elif sc = p then
           if (p - 1) mod q = 0 then
-            gens:= [pcgsq[1]]; Append(gens, Filtered(pcgsp, x -> not x in Zen)); Append(gens, Filtered(pcgsp, x -> x in Zen));
+            gens:= [pcgsq[1]];
+            Append(gens, Filtered(pcgsp, x -> not x in Zen));
+            Append(gens, Filtered(pcgsp, x -> x in Zen));
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
             exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
             exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -603,7 +703,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                           + c18 + c19 + 4];
           elif (p - 1) mod q = 0 then
-            gens:= [pcgsq[1]]; Append(gens, pcgsp);;
+            gens:= [pcgsq[1]];
+            Append(gens, pcgsp);;
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);;
             exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);;
             exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);;
@@ -623,7 +724,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
             elif List(evm, x -> x[2]) = [2, 2] then
               evm := SortedList(List(evm, x -> LogFFE(LogFFE(x[1], s1) * One(GF(q)), b)));
               k := evm[2] - evm[1];
-              if k > (q - 1)/2 then k := q - 1 - k;
+              if k > (q - 1)/2 then
+                k := q - 1 - k;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
                       + c16 + c17 + c18 + c19
@@ -632,10 +734,12 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               x := Inverse(LogFFE(Filtered(evm, x -> x[2] = 2)[1][1], s1)) mod q;
               k := LogFFE(LogFFE(Filtered(evm, x -> x[2] = 1)[1][1]^x, s1)*One(GF(q)), b) mod (q - 1);
               l := LogFFE(LogFFE(Filtered(evm, x -> x[2] = 1)[2][1]^x, s1)*One(GF(q)), b) mod (q - 1);
-              if l > k then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
+              if l > k then
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
                       + c16 + c17 + c18 + c19
                       + 1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + q - 1 + Int(q - 1)/2 + (2*q - 4 - k)*(k - 1)/2 + l - k];
-              elif k > l then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
+              elif k > l then
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15
                       + c16 + c17 + c18 + c19
                       + 1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + q - 1 + Int(q - 1)/2 + (2*q - 4 - l)*(l - 1)/2 + k - l];
               fi;
@@ -648,7 +752,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                       + 1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + q - 1 + Int(q - 1)/2 + (q - 2)*(q - 3)/2 + k];
             fi;
           elif (p + 1) mod q = 0 and q > 2 then
-            gens:= [pcgsq[1]]; Append(gens, pcgsp);
+            gens:= [pcgsq[1]];
+            Append(gens, pcgsp);
             G := PcgsByPcSequence(FamilyObj(gens[1]), gens);
             exp1 := ExponentsOfPcElement(G, gens[2]^gens[1]);
             exp2 := ExponentsOfPcElement(G, gens[3]^gens[1]);
@@ -666,21 +771,25 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               k := y - (q - 1)/2;
             elif y > Int((q - 1)/4) then
               k := (q - 1)/2 - y;
-            else k := y;
+            else
+              k := y;
             fi;
             return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                       + c18 + c19 + 1 + k + 1];
-          elif (p^2 + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          elif (p^2 + 1) mod q = 0 and q > 2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                     + c18 + c19 + 1];
           fi;
         fi;
 
       elif idP = 6 then
         if (p - 1) mod q = 0 then
-          if sc = p^2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          if sc = p^2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                     + c18 + c19 + c20 + 1];
           elif sc = 1 then
-            if Size(flag[3]) = p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+            if Size(flag[3]) = p^3 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                       + c18 + c19 + c20 + 2];
             elif Size(flag[3]) = p^4 then
               zenp := Centre(P);
@@ -693,29 +802,36 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               exp2 := ExponentsOfPcElement(G, gens[5]^gens[1]);
               mat := [exp1{[2, 5]}, exp2{[2, 5]}] * One(GF(p));
               evm := Eigenvalues(GF(p), mat);
-              if Length(evm) = 1 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+              if Length(evm) = 1 then
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + 2 + Int((q - 1)/2)];
-              else k := SortedList([Inverse(LogFFE(evm[2], evm[1]) + 1) mod q, Inverse(LogFFE(evm[1], evm[2]) + 1) mod q]);
+              else
+                k := SortedList([Inverse(LogFFE(evm[2], evm[1]) + 1) mod q, Inverse(LogFFE(evm[1], evm[2]) + 1) mod q]);
                 k := Filtered(k, x-> x > 1 and x < (q + 3)/2)[1];
-              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+                return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                        + c18 + c19 + c20 + 2 + k - 1];
               fi;
             fi;
           fi;
-        elif (p + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        elif (p + 1) mod q = 0 and q > 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + 1];
-        elif n = 48 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        elif n = 48 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + 1];
         fi;
 
-      elif idP = 7 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+      elif idP = 7 then
+        return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                 + c18 + c19 + c20 + c21 + 1];
 
       elif idP = 8 then
         if sc = p then
-          if IsCyclic(flag[3]) then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          if IsCyclic(flag[3]) then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                     + c18 + c19 + c20 + c21 + c22 + 2];
-          else return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          else
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                     + c18 + c19 + c20 + c21 + c22 + 1];
           fi;
         elif sc = 1 then
@@ -733,9 +849,11 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
       elif idP = 9 then
         if (p - 1) mod q = 0 then
           if sc = p then
-            if Size(flag[3]) = p^2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+            if Size(flag[3]) = p^2 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                       + c18 + c19 + c20 + c21 + c22 + c23 + 1];
-            elif Size(flag[3]) = p^4 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+            elif Size(flag[3]) = p^4 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                       + c18 + c19 + c20 + c21 + c22 + c23 + 2];
             fi;
           elif sc = 1 then
@@ -749,20 +867,24 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               k := LogFFE(ExponentsOfPcElement(G, gens[3]^(gens[1]^x))[3] * One(GF(p)), s1) - 1;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + 2 + k];
-            elif Size(flag[3]) = p^3 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+            elif Size(flag[3]) = p^3 then
+              return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                       + c18 + c19 + c20 + c21 + c22 + c23 + c24];
             fi;
           fi;
-        elif n = 48 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        elif n = 48 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + c21 + c22 + c23 + 1];
         fi;
 
-      elif idP = 10 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+      elif idP = 10 then
+        return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + 1];
 
       elif idP = 11 then
         if (p - 1) mod q = 0 then
-          if sc = p^2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+          if sc = p^2 then
+            return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                     + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 1];
           elif sc = p then
             zenp := Centre(P);
@@ -790,7 +912,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               x := Inverse(LogFFE(exp3[4] * One(GF(p)), s1)) mod q;
               matGL3 := ([exp1{[2, 3, 4]}, exp2{[2, 3, 4]}, exp3{[2, 3, 4]}])^x * One(GF(p));
               k := List(Filtered(Eigenvalues(GF(p), matGL3), x -> x <> s1), x -> LogFFE(x, s1) mod q)[1];
-              if k > (q + 1)/2 then k := q + 1 - k;
+              if k > (q + 1)/2 then
+                k := q + 1 - k;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                         + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 3 + k - 1];
@@ -812,9 +935,11 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
               evm := SOTRec.EigenvaluesWithMultiplicitiesGL4P(mat, p);
               if Length(evm) = 2 then
                 k := (q - 1)/2;
-              else x := Inverse(LogFFE(Filtered(List(evm, x->x[1]), x -> not x in ev)[1], s1)) mod q;
+              else
+                x := Inverse(LogFFE(Filtered(List(evm, x->x[1]), x -> not x in ev)[1], s1)) mod q;
                 k := LogFFE(Filtered(ev, x -> x <> Z(p)^0)[1]^x, s1);
-                if k > (q - 1)/2 then k := q - k;
+                if k > (q - 1)/2 then
+                  k := q - k;
                 fi;
               fi;
               return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
@@ -856,7 +981,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                 evm := SOTRec.EigenvaluesWithMultiplicitiesGL4P(mat, p);
                 if List(evm, x -> x[2]) = [1, 3] then
                   if y = evm[1][1] and z = evm[2][1] then
-                    k := 1; l := 0;
+                    k := 1;
+                    l := 0;
                   fi;
                 elif List(evm, x -> x[2]) = [1, 1, 2] then
                   if z = evm[3][1] then
@@ -870,7 +996,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                   elif (y = evm[1][1] and z = evm[2][1]) or (y = evm[2][1] and z = evm[1][1]) then
                     x := Inverse(LogFFE(evm[3][1], s1)) mod q;
                     l := LogFFE((LogFFE(y^x, s1) - 1) * One(GF(q)), b) mod (q - 1);
-                    if l > (q - 3)/2 then l := q - 1 - l;
+                    if l > (q - 3)/2 then
+                      l := q - 1 - l;
                     fi;
                     k := LogFFE((z * One(GF(p)))^x, s1);
                   fi;
@@ -892,7 +1019,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                 if List(evm, x -> x[2]) = [2, 2] then
                   x := Inverse(LogFFE(Filtered(List(evm, x -> x[1]), x -> x <> y)[1], s1)) mod q;
                   l := LogFFE((LogFFE(y^x, s1) - 1) * One(GF(q)), b) mod (q - 1);
-                  if l > (q - 3)/2 then l := q - 1 - l;
+                  if l > (q - 3)/2 then
+                    l := q - 1 - l;
                   fi;
                   k := LogFFE((z * One(GF(p)))^x, s1);
                 elif List(evm, x -> x[2]) = [1, 1, 2] then
@@ -909,7 +1037,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                       + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + ((2*q + 1) + (q - 1)/2*(k - 1) + l + 1)*(1 - SOTRec.delta(2, q)) + 2*SOTRec.delta(2, q)];
             fi;
           fi;
-        elif (p + 1) mod q = 0 and q > 2 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        elif (p + 1) mod q = 0 and q > 2 then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + 1];
         fi;
 
@@ -952,7 +1081,8 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         fi;
 
       elif idP = 14 then
-        if sc = p then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+        if sc = p then
+          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + 1];
         elif sc = 1 then
           zenp := Centre(P);
@@ -968,21 +1098,27 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
                     + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + 2 + k];
         fi;
 
-      elif idP = 15 then return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
+      elif idP = 15 then
+        return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                 + c18 + c19 + c20 + c21 + c22 + c23 + c24 + c25 + c26 + c27 + c28 + c29 + c30];
       fi;
     elif flag{[1, 2]} = [false, false] then
       f := FrattiniSubgroup(group);
       if n = 48 then
-        if Size(f) = 1 then return [48, 49];
-        elif Size(f) = 2 and Size(dG) = 12 then return [48, 50];
+        if Size(f) = 1 then
+          return [48, 49];
+        elif Size(f) = 2 and Size(dG) = 12 then
+          return [48, 50];
         elif Size(f) = 2 and Size(dG) = 24 then
           repeat g := Random(P); until Order(g) < 8 and not g in dG and not g in Zen;
-          if Order(g) = 2 then return [48, 51];
-          else return [48, 52];
+          if Order(g) = 2 then
+            return [48, 51];
+          else
+            return [48, 52];
           fi;
         fi;
-      elif n = 1053 then return [n, 51];
+      elif n = 1053 then
+        return [n, 51];
       fi;
     fi;
 end;

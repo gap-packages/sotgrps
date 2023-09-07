@@ -4,7 +4,9 @@
 SOTRec.sot := function(n)
 	local i, sglav;
 		i := 0;
-		repeat i := i + 1; sglav := SMALL_AVAILABLE_FUNCS[i](n);
+		repeat
+		  i := i + 1;
+		  sglav := SMALL_AVAILABLE_FUNCS[i](n);
 		until sglav <> fail or i = 11;
 		return sglav <> fail;
 	end;

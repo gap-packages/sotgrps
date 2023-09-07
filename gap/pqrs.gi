@@ -237,7 +237,8 @@ local all, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp,
         + (p - 1)*SOTRec.w((q - 1), p)*SOTRec.w((s - 1), (p*r))
         + SOTRec.w((s - 1), (p*q*r));
 
-    if i = 1 then return SOTRec.groupFromData(all[1]);
+    if i = 1 then
+      return SOTRec.groupFromData(all[1]);
     ##Cluster 2: |Z(G)| \in {pq, pr, ps, qr, qs, rs}, G \cong H \times Z(G), where gcd(|H|, |Z(G)|) = 1 and Z(H) = 1
     elif i > 1 and i < 2 + c1 then
       all := [];

@@ -22,8 +22,10 @@ local a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Roo
     c := Z(q); #\sigma_q
 
     u := ZmodnZObj(Int(Z(p)), p^2);
-    if not u^(p-1) = ZmodnZObj(1, p^2) then v := u;
-    else v := u + 1;
+    if not u^(p-1) = ZmodnZObj(1, p^2) then
+      v := u;
+    else
+      v := u + 1;
     fi;
     if (p - 1) mod q = 0 then
       ii := Int(v^((p^2-p)/q)) mod p;
@@ -47,13 +49,34 @@ local a, b, c, u, v, ii, qq, iii, qqq, k, l, Rootpr, Rootpq, Rootrq, Rootrp, Roo
 ############ abelian groups:
     all := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];
 ############ precompute canonical roots:
-    if (r - 1) mod p = 0 then rootrp := a^((r-1)/p); Rootrp := Int(rootrp); fi; #\rho(r, p)
-    if (r - 1) mod (p^2) = 0 then rootrp2 := a^((r-1)/(p^2)); Rootrp2 := Int(rootrp2); fi; #\rho(r, p^2)
-    if (r - 1) mod q = 0 then rootrq := a^((r-1)/q); Rootrq := Int(rootrq); fi; #\rho(r, q)
-    if (p - 1) mod r = 0 then rootpr := b^((p-1)/r); Rootpr := Int(rootpr); fi; #\rho(p, r)
-    if (p - 1) mod q = 0 then rootpq := b^((p-1)/q); Rootpq := Int(rootpq); fi; #\rho(p, q)
-    if (q - 1) mod p = 0 then rootqp := c^((q-1)/p); Rootqp := Int(rootqp); fi; #\rho(q, p)
-    if (q - 1) mod (p^2) = 0 then rootqp2 := c^((q-1)/(p^2)); Rootqp2 := Int(rootqp2); fi; #\rho(q, p^2)
+    if (r - 1) mod p = 0 then
+      rootrp := a^((r-1)/p);
+      Rootrp := Int(rootrp);
+    fi; #\rho(r, p)
+    if (r - 1) mod (p^2) = 0 then
+      rootrp2 := a^((r-1)/(p^2));
+      Rootrp2 := Int(rootrp2);
+    fi; #\rho(r, p^2)
+    if (r - 1) mod q = 0 then
+      rootrq := a^((r-1)/q);
+      Rootrq := Int(rootrq);
+    fi; #\rho(r, q)
+    if (p - 1) mod r = 0 then
+      rootpr := b^((p-1)/r);
+      Rootpr := Int(rootpr);
+    fi; #\rho(p, r)
+    if (p - 1) mod q = 0 then
+      rootpq := b^((p-1)/q);
+      Rootpq := Int(rootpq);
+    fi; #\rho(p, q)
+    if (q - 1) mod p = 0 then
+      rootqp := c^((q-1)/p);
+      Rootqp := Int(rootqp);
+    fi; #\rho(q, p)
+    if (q - 1) mod (p^2) = 0 then
+      rootqp2 := c^((q-1)/(p^2));
+      Rootqp2 := Int(rootqp2);
+    fi; #\rho(q, p^2)
 
 ############ case 1: nonabelian and Fitting subgroup has order r -- p^2q | (r - 1), unique up to isomorphism
     if (r - 1) mod (p^2*q) = 0 then ##C_{p^2q} \ltimes C_r
@@ -293,21 +316,37 @@ end;
 ######################################################
 SOTRec.NumberGroupsP2QR := function(p, q, r)
   local m;
-    if p = 2 and q = 3 and r = 5 then m := 13;
-    fi;
-    if q = 2 then
-      m := 10 + (2*r + 7)*SOTRec.w((p - 1), r) + 3*SOTRec.w((p + 1), r) + 6*SOTRec.w((r - 1), p) + 2*SOTRec.w((r - 1), (p^2));
-    fi;
-    if q > 2 and not (p = 2 and q = 3 and r = 5) then
+    if p = 2 and q = 3 and r = 5 then
+      m := 13;
+    elif q = 2 then
+      m := 10 + (2*r + 7)*SOTRec.w((p - 1), r)
+              + 3*SOTRec.w((p + 1), r)
+              + 6*SOTRec.w((r - 1), p)
+              + 2*SOTRec.w((r - 1), (p^2));
+    elif q > 2 and not (p = 2 and q = 3 and r = 5) then
       m := 2 + (p^2 - p)*SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), (p^2))
-      + (p - 1)*(SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p^2))*SOTRec.w((q - 1), p) + 2*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p))
-      + (q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)/2
-      + (q - 1)*(SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q) + SOTRec.w((p - 1), q) + SOTRec.w((p - 1), (q*r)) + 2*SOTRec.w((r - 1), (p*q))*SOTRec.w((p - 1), q))/2
-      + (q*r + 1)*SOTRec.w((p - 1), (q*r))/2
-      + (r + 5)*SOTRec.w((p - 1), r)*(1 + SOTRec.w((p - 1), q))/2
-      + SOTRec.w((p^2 - 1), (q*r)) + 2*SOTRec.w((r - 1), (p*q)) + SOTRec.w((r - 1), p)*SOTRec.w((p - 1), q) + SOTRec.w((r - 1), (p^2*q))
-      + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p) + 2*SOTRec.w((q - 1), p) + 3*SOTRec.w((p - 1), q) + 2*SOTRec.w((r - 1), p)
-      + 2*SOTRec.w((r - 1), q) + SOTRec.w((r - 1), (p^2)) + SOTRec.w((q - 1), p^2) + SOTRec.w((p + 1), r) + SOTRec.w((p + 1), q);
+             + (p - 1)*(SOTRec.w((q - 1), (p^2))*SOTRec.w((r - 1), p) + SOTRec.w((r - 1), (p^2))*SOTRec.w((q - 1), p)
+             + 2*SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p))
+             + (q - 1)*(q + 4)*SOTRec.w((p - 1), q)*SOTRec.w((r - 1), q)/2
+             + (q - 1)*(SOTRec.w((p + 1), q)*SOTRec.w((r - 1), q)
+             + SOTRec.w((p - 1), q)
+             + SOTRec.w((p - 1), (q*r))
+             + 2*SOTRec.w((r - 1), (p*q))*SOTRec.w((p - 1), q))/2
+             + (q*r + 1)*SOTRec.w((p - 1), (q*r))/2
+             + (r + 5)*SOTRec.w((p - 1), r)*(1 + SOTRec.w((p - 1), q))/2
+             + SOTRec.w((p^2 - 1), (q*r))
+             + 2*SOTRec.w((r - 1), (p*q))
+             + SOTRec.w((r - 1), p)*SOTRec.w((p - 1), q)
+             + SOTRec.w((r - 1), (p^2*q))
+             + SOTRec.w((r - 1), p)*SOTRec.w((q - 1), p)
+             + 2*SOTRec.w((q - 1), p)
+             + 3*SOTRec.w((p - 1), q)
+             + 2*SOTRec.w((r - 1), p)
+             + 2*SOTRec.w((r - 1), q)
+             + SOTRec.w((r - 1), (p^2))
+             + SOTRec.w((q - 1), p^2)
+             + SOTRec.w((p + 1), r)
+             + SOTRec.w((p + 1), q);
     fi;
     return m;
   end;
@@ -329,17 +368,39 @@ local a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
     b := Z(p);
     c := Z(q);
 
-    if (r - 1) mod p = 0 then rootrp := a^((r-1)/p); Rootrp := Int(rootrp); fi;
-    if (r - 1) mod (p^2) = 0 then rootrp2 := a^((r-1)/(p^2)); Rootrp2 := Int(rootrp2); fi;
-    if (r - 1) mod q = 0 then rootrq := a^((r-1)/q); Rootrq := Int(rootrq); fi;
-    if (p - 1) mod r = 0 then rootpr := b^((p-1)/r); Rootpr := Int(rootpr); fi;
-    if (p - 1) mod q = 0 then rootpq := b^((p-1)/q); Rootpq := Int(rootpq); fi;
-    if (q - 1) mod p = 0 then rootqp := c^((q-1)/p); Rootqp := Int(rootqp); fi;
-    if (q - 1) mod (p^2) = 0 then rootqp2 := c^((q-1)/(p^2)); Rootqp2 := Int(rootqp2); fi;
+    if (r - 1) mod p = 0 then
+      rootrp := a^((r-1)/p);
+      Rootrp := Int(rootrp);
+    fi;
+    if (r - 1) mod (p^2) = 0 then
+      rootrp2 := a^((r-1)/(p^2));
+      Rootrp2 := Int(rootrp2);
+    fi;
+    if (r - 1) mod q = 0 then
+      rootrq := a^((r-1)/q);
+      Rootrq := Int(rootrq);
+    fi;
+    if (p - 1) mod r = 0 then
+      rootpr := b^((p-1)/r);
+      Rootpr := Int(rootpr);
+    fi;
+    if (p - 1) mod q = 0 then
+      rootpq := b^((p-1)/q);
+      Rootpq := Int(rootpq);
+    fi;
+    if (q - 1) mod p = 0 then
+      rootqp := c^((q-1)/p);
+      Rootqp := Int(rootqp);
+    fi;
+    if (q - 1) mod (p^2) = 0 then
+      rootqp2 := c^((q-1)/(p^2));
+      Rootqp2 := Int(rootqp2);
+    fi;
 
     if not Int(b)^(p-1) mod p^2 = 1 then
       v := ZmodnZObj(Int(b), p^2);
-    else v := ZmodnZObj(Int(b) + p, p^2);
+    else
+      v := ZmodnZObj(Int(b) + p, p^2);
     fi;
     if (p - 1) mod q = 0 then
       ii := Int(v^((p^2-p)/q)) mod p;
@@ -383,7 +444,8 @@ local a, b, c, u, v, ii, qq, iii, qqq, k, l, matq, matr, matqr, mat, mat_k,
 
 ############ add abelian groups in:
     l0 := [ [ [p, p, q, r], [1, [2, 1]] ], [ [p, p, q, r] ] ];
-    if i < 3 then G := SOTRec.groupFromData(l0[i]);
+    if i < 3 then
+      G := SOTRec.groupFromData(l0[i]);
       return G;
     fi;
 ############ case 1: nonabelian and Fitting subgroup has order r -- unique isomorphism type iff p^2q | (r - 1)

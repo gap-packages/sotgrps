@@ -385,7 +385,9 @@ SOTRec.allGroupsP4Q := function(p, q, arg...)
                 fi;
               od;
             od;
-            if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+            if (q - 1) mod 3 = 0 then
+              Add(res, [bb, 2*bb]);
+            fi;
           return res;
         end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
 
@@ -421,7 +423,9 @@ SOTRec.allGroupsP4Q := function(p, q, arg...)
               od;
             od;
            od;
-           if (q-1) mod 4 = 0 then Add(res, [(q-1)/4, (q-1)/2, 3*(q-1)/4]); fi;
+           if (q-1) mod 4 = 0 then
+             Add(res, [(q-1)/4, (q-1)/2, 3*(q-1)/4]);
+           fi;
            return res;
         end;
       #expected length 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4))
@@ -615,8 +619,10 @@ SOTRec.allGroupsP4Q := function(p, q, arg...)
       [4, 2, [3, Int(matGL3[1][2]), 4, Int(matGL3[2][2]), 5, Int(matGL3[3][2])]],
       [5, 2, [3, Int(matGL3[1][3]), 4, Int(matGL3[2][3]), 5, Int(matGL3[3][3])]] ]);
     fi;
-    if Length(arg) = 0 then return List(all, x -> SOTRec.groupFromData(x));
-    else return all;
+    if Length(arg) = 0 then
+      return List(all, x -> SOTRec.groupFromData(x));
+    else
+      return all;
     fi;
 end;
 ###################################################################
@@ -1081,7 +1087,9 @@ SOTRec.GroupP4Q := function(p, q, id)
                     fi;
                   od;
                 od;
-                if (q - 1) mod 3 = 0 then Add(res, [bb, 2*bb]);fi;
+                if (q - 1) mod 3 = 0 then
+                  Add(res, [bb, 2*bb]);
+                fi;
               return res;
             end; #explength := 1/6*(q^2 - 5*q + 6 + 4*SOTRec.w((q - 1), 3));
             for k in func(q) do
@@ -1124,7 +1132,9 @@ SOTRec.GroupP4Q := function(p, q, id)
               fi;
                 od;
               od;
-               if qq mod 4 = 0 and id = 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4)) then return  [(q-1)/4, (q-1)/2, 3*(q-1)/4]; fi;
+               if qq mod 4 = 0 and id = 1/24*(q^3- 9*q^2+29*q-33 + 12*SOTRec.w((q - 1), 4)) then
+                 return  [(q-1)/4, (q-1)/2, 3*(q-1)/4];
+               fi;
             end;
             k := TupleiById(q, id - C0 - Sum([1..19],x->C[x])  - (1/6*(q^2 + 4*q + 9 + 4*SOTRec.w((q - 1), 3) - 3*SOTRec.delta(2, q)) + 1/2*(q^2 - 2*q + 3))*SOTRec.w((p - 1), q));
             return SOTRec.groupFromData([ [q, p, p, p, p], [2, 1, [2, S1]], [3, 1, [3, Int(s1^(Int(b^(k[1]))))]], [4, 1, [4, Int(s1^(Int(b^(k[2]))))]], [5, 1, [5, Int(s1^(Int(b^(k[3]))))]] ]);
@@ -1361,19 +1371,36 @@ SOTRec.NumberGroupsP4Q := function(p, q)
     Assert(1, p <> q);
     Assert(1, IsPrimeInt(p));
     Assert(1, IsPrimeInt(q));
-    if q = 2 then return 55;
-    elif p = 2 and q <> 3 then return 14 + 28 + 9*SOTRec.w((q - 1), 4) + 2*SOTRec.w((q - 1), 8) + SOTRec.w((q - 1), 16) + SOTRec.delta(5, q) + SOTRec.delta(7, q);
-    elif p = 3 and q <> 2 then return 15 + 2*SOTRec.delta(13, q) + SOTRec.delta(5, q) + 34*SOTRec.w((q - 1), 3) + 11*SOTRec.w((q - 1), 9) + 2*SOTRec.w((q - 1), 27) + SOTRec.w((q - 1), 81);
-    elif q = 3 and p <> 2 then return 15 +54*SOTRec.w((p - 1), 3) + 6*SOTRec.w((p + 1), 3);
-    elif p = 2 and q = 3 then return 52;
-    else return 15 + SOTRec.w((q - 1), p)*(5*p + 19)
-                   + SOTRec.w((q - 1), p^2)*(2*p + 5)
-                   + SOTRec.w((q - 1), p^3)*2
-                   + SOTRec.w((q - 1), p^4)
-                   + SOTRec.w((p - 1), q)*1/24*(q^3 + 31*q^2 + 189*q + 423 + 16*SOTRec.w(q - 1, 3) + 12*SOTRec.w(q - 1, 4))
-                   + SOTRec.w((p + 1), q)*1/4*(q + 21 + 2*SOTRec.w(q - 1, 4))
-                   + SOTRec.w((p^2 + p + 1), q)
-                   + SOTRec.w((p^2 + 1), q) - SOTRec.delta(3, p)*SOTRec.w((p - 1), q);
+    if q = 2 then
+      return 55;
+    elif p = 2 and q = 3 then
+      return 52;
+    elif p = 2 and q <> 3 then
+      return 14 + 28
+                + 9*SOTRec.w((q - 1), 4)
+                + 2*SOTRec.w((q - 1), 8)
+                + SOTRec.w((q - 1), 16)
+                + SOTRec.delta(5, q)
+                + SOTRec.delta(7, q);
+    elif p = 3 and q <> 2 then
+      return 15 + 2*SOTRec.delta(13, q)
+                + SOTRec.delta(5, q)
+                + 34*SOTRec.w((q - 1), 3)
+                + 11*SOTRec.w((q - 1), 9)
+                + 2*SOTRec.w((q - 1), 27)
+                + SOTRec.w((q - 1), 81);
+    elif q = 3 and p <> 2 then
+      return 15 + 54*SOTRec.w((p - 1), 3)
+                + 6*SOTRec.w((p + 1), 3);
+    else
+      return 15 + SOTRec.w((q - 1), p)*(5*p + 19)
+                + SOTRec.w((q - 1), p^2)*(2*p + 5)
+                + SOTRec.w((q - 1), p^3)*2
+                + SOTRec.w((q - 1), p^4)
+                + SOTRec.w((p - 1), q)*1/24*(q^3 + 31*q^2 + 189*q + 423 + 16*SOTRec.w(q - 1, 3) + 12*SOTRec.w(q - 1, 4))
+                + SOTRec.w((p + 1), q)*1/4*(q + 21 + 2*SOTRec.w(q - 1, 4))
+                + SOTRec.w((p^2 + p + 1), q)
+                + SOTRec.w((p^2 + 1), q) - SOTRec.delta(3, p)*SOTRec.w((p - 1), q);
     fi;
   end;
 

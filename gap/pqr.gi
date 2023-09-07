@@ -17,9 +17,15 @@ local a, b, rootpq, rootpr, rootqr, all, k;
     a := Z(p);
     b := Z(q);
 
-    if (p - 1) mod r = 0 then rootpr := Int(a^((p-1)/r)); fi;
-    if (p - 1) mod q = 0 then rootpq := Int(a^((p-1)/q)); fi;
-    if (q - 1) mod r = 0 then rootqr := Int(b^((q-1)/r)); fi;
+    if (p - 1) mod r = 0 then
+      rootpr := Int(a^((p-1)/r));
+    fi;
+    if (p - 1) mod q = 0 then
+      rootpq := Int(a^((p-1)/q));
+    fi;
+    if (q - 1) mod r = 0 then
+      rootqr := Int(b^((q-1)/r));
+    fi;
 
     all := [ [ [r, q, p] ] ]; #(C_r \ltimes C_q) \times C_p
     ####case 1: r | (q - 1), Z(G) \cong C_p, G \cong (C_r \ltimes C_q) \times C_p
@@ -56,7 +62,9 @@ local w;
     Assert(1, IsPrimeInt(p));
     Assert(1, IsPrimeInt(q));
     Assert(1, IsPrimeInt(r));
-    w := 1 + SOTRec.w((q-1), r) + SOTRec.w((p - 1), r) + (r - 1) * SOTRec.w((q - 1), r) * SOTRec.w((p - 1), r) + SOTRec.w((p - 1), q) + SOTRec.w((p - 1), r) * SOTRec.w((p - 1), q);
+    w := 1 + SOTRec.w((q-1), r)
+           + SOTRec.w((p - 1), r) + (r - 1) * SOTRec.w((q - 1), r) * SOTRec.w((p - 1), r)
+           + SOTRec.w((p - 1), q) + SOTRec.w((p - 1), r) * SOTRec.w((p - 1), q);
     return w;
 end;
 ##############################################
@@ -70,14 +78,22 @@ local all, a, b, k, c1, c2, c3, c4, c5, rootpq, rootpr, rootqr;
     Assert(1, IsPrimeInt(r));
     #abelian groups
     all := [ [ [r, q, p] ] ];
-    if i = 1 then return SOTRec.groupFromData(all[1]); fi;
+    if i = 1 then
+      return SOTRec.groupFromData(all[1]);
+    fi;
     ####precompute roots:
     a := Z(p);
     b := Z(q);
 
-    if (p - 1) mod r = 0 then rootpr := Int(a^((p-1)/r)); fi;
-    if (p - 1) mod q = 0 then rootpq := Int(a^((p-1)/q)); fi;
-    if (q - 1) mod r = 0 then rootqr := Int(b^((q-1)/r)); fi;
+    if (p - 1) mod r = 0 then
+      rootpr := Int(a^((p-1)/r));
+    fi;
+    if (p - 1) mod q = 0 then
+      rootpq := Int(a^((p-1)/q));
+    fi;
+    if (q - 1) mod r = 0 then
+      rootqr := Int(b^((q-1)/r));
+    fi;
     ####enumeration
     c1 := SOTRec.w((q - 1), r);
     c2 := SOTRec.w((p - 1), r);
