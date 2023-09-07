@@ -168,7 +168,7 @@ local all, u, v, w, k, l, rootsr, rootsq, rootsp, rootrq, rootrp, rootqp, tmp, l
 
       ##class 3: G' \cong C_{qs}, G \cong C_{pr} \ltimes C_{qs}
       if (s - 1) mod r = 0 and (q - 1) mod p = 0 then
-        Add(all, [ [p, r, q, s], [3, 1, [2, rootqp]], [4, 2, [4, rootsr]] ]);
+        Add(all, [ [p, r, q, s], [3, 1, [3, rootqp]], [4, 2, [4, rootsr]] ]);
       fi;
       if (q - 1) mod p = 0 and (s - 1) mod (p*r) = 0 then
         for k in [1..(p - 1)] do
@@ -359,7 +359,7 @@ local all, u, v, w, j, k, l, c1, c2, c3, rootsr, rootsq, rootsp, rootrq, rootrp,
 
       ##class 3: G' \cong C_{qs}, G \cong C_{pr} \ltimes C_{qs}
       if (s - 1) mod r = 0 and (q - 1) mod p = 0 then
-        Add(all, [ [p, r, q, s], [3, 1, [2, rootqp]], [4, 2, [4, rootsr]] ]);
+        Add(all, [ [p, r, q, s], [3, 1, [3, rootqp]], [4, 2, [4, rootsr]] ]);
       fi;
       if (q - 1) mod p = 0 and (s - 1) mod (p*r) = 0 then
         for k in [1..(p - 1)] do
