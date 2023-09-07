@@ -43,11 +43,7 @@ end);
 ############################################################################
 ##NumberOfSOTGroups takes in a positive integer n that factorise in at most 4 primes or has the form p^4q (p, q are distinct primes), and outputs the number of isomorphism types of groups of order n.
 	##For orders that factorise in at most four primes, see [2, Theorem 2.1] for further details.
-InstallGlobalFunction( NumberOfSOTGroups, function(n)
-	local fac, ind;
-		fac := Collected(Factors(n));
-		SortBy(fac, Reversed);
-		ind := List(fac, x -> x[2]);
+BindGlobal( "_NumberOfSOTGroups", function(n, fac, ind)
 		if ind in [ [1], [2], [3], [4] ] then
 			return SOTRec.NumberPGroups(fac[1][1], fac[1][2]);
 		elif ind = [1, 1] then
@@ -71,6 +67,14 @@ InstallGlobalFunction( NumberOfSOTGroups, function(n)
 		fi;
 	end);
 
+InstallGlobalFunction( NumberOfSOTGroups, function(n)
+    local fac, ind;
+    fac := Collected(Factors(n));
+    SortBy(fac, Reversed);
+    ind := List(fac, x -> x[2]);
+    return _NumberOfSOTGroups(n, fac, ind);
+end);
+
 ############################################################################
 ##IsSOTAvailable takes in a positive integer value n, and determines whether the groups of order n are available in the SOTGrps package.
 InstallGlobalFunction( IsSOTAvailable, function(n)
@@ -87,12 +91,13 @@ end);
 ############################################################################
 ##SOTGroup takes in an ordered pair of positive integers (n, i), it outputs the i-th groups in the list AllSOTGroups(n). That is, it outputs the i-th isomorphism type of groups of order n.
 InstallGlobalFunction( SOTGroup, function(n, i, arg...)
-	local fac, ind, G;
+	local fac, ind, G, num;
 		SOTRec.PCP := Length(arg) > 0 and IsBoundGlobal("IsPcpGroup") and arg[1] = ValueGlobal("IsPcpGroup");
 		fac := Collected(Factors(n));
 		SortBy(fac, Reversed);
 		ind := List(fac, x -> x[2]);
-		if i <= NumberOfSOTGroups(n) then
+		num := _NumberOfSOTGroups(n, fac, ind);
+		if i <= num then
 			if ind in [ [1], [2], [3], [4] ] then
 				G := SOTRec.PGroup(fac[1][1], fac[1][2], i);
 			elif ind = [1, 1] then
@@ -118,60 +123,77 @@ InstallGlobalFunction( SOTGroup, function(n, i, arg...)
 			return G;
 		fi;
 
-		Error("Wrong input: there are in total ", NumberOfSOTGroups(n), " groups of order ", n, ".\n");
+		Error("Wrong input: there are in total ", num, " groups of order ", n, ".");
 end);
 ############################################################################
 ##SOTGroupsInformation(n) gives the enumeration of groups of order n if IsSOTAvailable(n) = true.
+BindGlobal( "_SOTGroupsInformation", function(n, fac, ind)
+    Print("\>\>\n");
+    if ind = [1] then
+        Print("There is 1 cyclic group.");
+    elif ind = [2] then
+        Print("There is 1 cyclic group, and 1 elementary abelian group.");
+    elif ind = [3] then
+        Print("There are 3 abelian groups, and 2 extraspecial groups.");
+    elif ind = [4] then
+        if fac[1] = 2 then
+            Print("There are 5 abelian groups, and 9 nonabelian groups.");
+        else
+            Print("There are 5 abelian groups, and 10 nonabelian groups.");
+        fi;
+    elif ind = [1, 1] then ##pq, a = 1
+        if (fac[2][1] - 1) mod fac[1][1] = 0 then
+            Print("There is 1 cyclic group, and 1 nonabelian group.");
+        else
+            Print("There is 1 cyclic group.");
+        fi;
+    elif ind = [1, 2] then
+        if not (fac[1][1] - 1) mod fac[2][1] = 0 and
+           not (fac[2][1] - 1) mod fac[1][1] = 0 then
+            Print("There are 2 abelian groups.");
+        else
+            Print("There are 2 abelian groups, the rest is non-abelian.");
+        fi;
+    elif ind = [1, 1, 1] then
+        Print("The order is square free.");
+    elif ind = [2, 2] then
+        SOTRec.infoP2Q2(n, fac);
+    elif ind = [1, 3] then
+        SOTRec.infoP3Q(n, fac);
+    elif ind = [1, 1, 2] then
+        SOTRec.infoP2QR(n, fac);
+    elif ind = [1, 1, 1, 1] then
+        SOTRec.infoPQRS(n, fac);
+    elif ind = [1, 4] then
+        SOTRec.infoP4Q(n, fac);
+    else
+        _SOT_UnsupportedOrder(n);
+    fi;
+    Print("\<\<");
+end);
+
 InstallGlobalFunction( SOTGroupsInformation, function(n)
-	local fac, ind;
-			fac := Collected(Factors(n));
-			SortBy(fac, Reversed);
-			ind := List(fac, x -> x[2]);
-			if Length(ind) = 1 then ##p-groups
-				if ind = [1] then Print("There is a unique group of order", n, "up to isomorphism, and it is cyclic.");
-				elif ind = [2] then Print("There are two isomorphism types of p-groups of order ", n, ": there is one cyclic group, and one elementary abelian group.");
-				elif ind = [3] then Print("There are five isomorpshim types of p-groups of order ", n, ": there are three abelian groups, and two extraspecial groups.");
-				elif ind = [4] then
-					if fac[1] = 2 then Print("There are 14 isomorphism types of p-groups of order 16: there are 5 abelian groups, and 9 nonabelian groups.");
-					else Print("There are 15 isomorphism types of groups of order ", n, ": there are 5 abelian groups, and 10 nonabelian groups.");
-					fi;
-				fi;
-			elif ind = [1, 1] then ##pq, a = 1
-				if (fac[2][1] - 1) mod fac[1][1] = 0 then
-					Print("There are two isomorphism types of squarefree groups of order ", n, ": there is one abelian group, and one nonebalian group.");
-				else Print("There is a unique group of order ", n, ", up to isomorphism, and it is abelian.");
-				fi;
-			elif ind = [1, 2] then
-				if not (fac[1][1] - 1) mod fac[2][1] = 0 and not (fac[2][1] - 1) mod fac[1][1] = 0 then
-					Print("There are two isomorphism types of order ", n, ": one is cyclic, and one is isomorphic to the abelian group(", [n, 2], ").");
-				else Print("There are ", SOTRec.NumberGroupsP2Q(fac[2][1], fac[1][1]), " isomorphism types of groups of order ", n, ".");
-				fi;
-			elif ind = [1, 1, 1] then
-				Print("There are ", SOTRec.NumberGroupsPQR(n), " isomorphism types of squarefree groups of order ", n, ".");
-			elif ind = [2, 2] then
-				SOTRec.infoP2Q2(n, fac);
-			elif ind = [1, 3] then
-				SOTRec.infoP3Q(n, fac);
-			elif ind = [1, 1, 2] then
-				SOTRec.infoP2QR(n, fac);
-			elif ind = [1, 1, 1, 1] then
-				SOTRec.infoPQRS(n, fac);
-			elif ind = [1, 4] then
-				SOTRec.infoP4Q(n, fac);
-			elif Sum(ind) >= 5 then
-				_SOT_UnsupportedOrder(n);
-			fi;
+    local fac, ind, num;
+    fac := Collected(Factors(n));
+    SortBy(fac, Reversed);
+    ind := List(fac, x -> x[2]);
+
+    num := _NumberOfSOTGroups(n, fac, ind);
+    if num = 1 then
+        Print("\n  There is 1 group of order ",n,".\n");
+    else
+        Print("\n  There are ",num," groups of order ",n,".\n" );
+    fi;
+    _SOTGroupsInformation(n, fac, ind);
+    Print("\n");
 end);
 
 ######################################################
 ##IdSOTGroup takes in a group G (that is, IsGroup(G) = true) of order n such that IsSOTAvailable(n) = true and determines its SOT-group ID.
 	##That is, it outputs an ordered pair (n, i) where m = |G| and i is the position of G in the list AllSOTGroups(n).
-InstallMethod( IdSOTGroup, [ IsGroup ],
+InstallMethod( IdSOTGroup, [ IsGroup and IsFinite ],
 function(group)
 	local n, ind, fac;
-		if not IsFinite(group) then
-			TryNextMethod();
-		fi;
 		n := Size(group);
 		fac := Collected(Factors(n));
 		SortBy(fac, Reversed);
