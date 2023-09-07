@@ -229,7 +229,7 @@ SOTRec.allGroupsP4Q := function(p, q, arg...)
         Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [5, 2, [5, R1]] ]); #F(G) \cong p_+ \times C_q
         if p > 3 then
           for k in [1..(p - 1)/2] do
-            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [5, 2, [5, R1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong p_- \times C_q
+            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong p_- \times C_q
           od;
         else #p = 3
           Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, p - 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, p - 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong 3_- \times C_q
@@ -249,7 +249,7 @@ SOTRec.allGroupsP4Q := function(p, q, arg...)
       od;
       Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(a), 4, 1]], [5, 2, [5, R1]] ]); #F(G) \cong p_+ \times C_q
       for k in [1..(p - 1)/2] do
-        Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, Int(a), 4, 1]], [5, 2, [5, R1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong p_- \times C_q
+        Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [4, 1, [3, Int(a), 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong p_- \times C_q
       od;
     elif p = 3 and (q - 1) mod 3 = 0 then
       Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 1]], [4, 1, [3, 2, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
@@ -775,9 +775,9 @@ SOTRec.GroupP4Q := function(p, q, id)
     elif id > C0 + Sum([1..5],x->C[x]) and id < C0 + Sum([1..6],x->C[x]) + 1 then
       if p > 2 then
         if (q - 1) mod p = 0 then
-          Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
-          Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [5, 2, [5, R1]] ]); #F(G) \cong p_+ \times C_q
-          Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong p_- \times C_q
+            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
+            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [5, 2, [5, R1]] ]); #F(G) \cong p_+ \times C_q
+            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong p_- \times C_q
         fi;
       elif p = 2 then
         Add(all, [ [2, 2, 2, 2, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [4, 1, [3, 1, 4, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong (C_4 \times C_2) \times C_q, G \cong C_2 \ltimes F(G), Z(G) \cong C_4
@@ -851,23 +851,23 @@ SOTRec.GroupP4Q := function(p, q, id)
     #or [ [2, 2, 2, 2], [1, [3, 1]], [2, [3, 1]], [2, 1, [2, 1, 4, 1]] ]
     elif id > C0 + Sum([1..9],x->C[x]) and id < C0 + Sum([1..10],x->C[x]) + 1 then
       if p > 2 then
-        if (q - 1) mod p = 0 then
-          Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, R1]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
-          for k in [1..p - 1] do
-            Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, Int(r1^k)]] ]); #F(G) \cong (C_p \times C_{p^2}) \times C_q
-          od;
-        fi;
-        if (q - 1) mod p^2 = 0 then
-          for k in [1..p - 1] do
-            Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, Int(r2^k)]], [5, 4, [5, Int(r1^k)]] ]); #F(G) \cong C_{p^2} \times C_q
-          od;
-        fi;
-      elif p = 2 then
-        Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
-        Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
-        if (q - 1) mod (p^2) = 0 then
+          if (q - 1) mod p = 0 then #F(G) \cong (C_p \times C_{p^2}) \times C_q
+            Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, R1]] ]);
+            for k in [1..p - 1] do #F(G) \cong (C_p \times C_{p^2}) \times C_q
+              Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, Int(r1^k)]] ]);
+            od;
+          fi;
+          if (q - 1) mod p^2 = 0 then #F(G) \cong C_{p^2} \times C_q
+            for k in [1..p - 1] do
+              Add(all, [ [p, p, p, p, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, Int(r2^k)]], [5, 4, [5, Int(r1^k)]] ]);
+            od;
+          fi;
+        elif p = 2 then
+          Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 2, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
+          Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, q - 1]] ]); #F(G) \cong C_q \times (C_4 \times C_2)
+          if (q - 1) mod (p^2) = 0 then
             Add(all, [ [2, 2, 2, 2, q], [1, [4, 1]], [2, [3, 1]], [2, 1, [2, 1, 3, 1]], [5, 1, [5, R2]], [5, 4, [5, q - 1]] ]); #F(G) \cong C_q \times C_4
-        fi;
+          fi;
       fi;
       return SOTRec.groupFromData(all[id - C0 - Sum([1..9],x->C[x])]);
 
@@ -904,7 +904,7 @@ SOTRec.GroupP4Q := function(p, q, id)
               Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 3, 1, 4, 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, 1, 4, 1]], [5, 1, [5, Int(r1^k)]] ]);
             od;
           else #p = 3
-            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, p - 1]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, p - 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong 3_- \times C_q
+            Add(all, [ [p, p, p, p, q], [2, [3, 1]], [2, 1, [2, 1, 4, 2]], [4, 1, [3, 1, 4, 1]], [4, 2, [3, p - 1, 4, 1]], [5, 1, [5, R1]] ]); #F(G) \cong 3_- \times C_q
           fi;
         fi;
       elif p = 2 then
@@ -1377,6 +1377,3 @@ SOTRec.NumberGroupsP4Q := function(p, q)
     fi;
   end;
 
-
-
-####FOR LATER
