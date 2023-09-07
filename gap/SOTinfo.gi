@@ -82,7 +82,6 @@ SOTRec.infoP3Q := function(n, fac)
     p := fac[2][1];
     q := fac[1][1];
     ####
-    Assert(1, p > q);
     Assert(1, IsPrimeInt(p));
     Assert(1, IsPrimeInt(q));
     ####
