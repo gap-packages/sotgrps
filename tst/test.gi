@@ -116,10 +116,8 @@ SOTRec.testIdSOTGroup := function(orders)
             copies := [];
             if IsPermGroup(sot[i]) then
                 Assert(0, sot[i] = soty[i]);
-            elif not signature in [ [1,4], [1,1,1,1] ] then # case p^4*q is problematic
+            else
                 Assert(0, CodePcGroup(sot[i]) = CodePcGroup(soty[i]));
-            elif CodePcGroup(sot[i]) <> CodePcGroup(soty[i]) then
-                Add(copies, getRandomPc(soty[i]));
             fi;
             if n < 5000 then
                 Add(copies, getRandomPerm(sot[i]));
