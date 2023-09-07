@@ -796,9 +796,6 @@ SOTRec.IdGroupP4Q := function(group, n, fac)
         elif (p + 1) mod q = 0 and q > 2 then
           return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
                   + c18 + c19 + c20 + 1];
-        elif n = 48 then
-          return [n, c0 + c1 + c2 + c3 + c4 + c5 + c6 + c7 + c8 + c9 + c10 + c11 + c12 + c13 + c14 + c15 + c16 + c17
-                  + c18 + c19 + c20 + 1];
         fi;
 
       elif idP = 7 then
