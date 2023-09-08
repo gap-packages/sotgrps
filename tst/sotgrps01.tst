@@ -10,7 +10,7 @@
 #
 gap> START_TEST("sotgrps01.tst");
 
-# doc/_Chapter_The_SOTGrps_package.xml:33-42
+# doc/_Chapter_The_SOTGrps_package.xml:42-51
 gap> AllSOTGroups(60);
 [ <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
@@ -20,24 +20,24 @@ gap> AllSOTGroups(60);
   <pc group of size 60 with 4 generators>, <pc group of size 60 with 4 generators>,
  Alt( [ 1 .. 5 ] ) ]
 
-# doc/_Chapter_The_SOTGrps_package.xml:54-60
+# doc/_Chapter_The_SOTGrps_package.xml:63-69
 gap> NumberOfSOTGroups(2*3*5*7);
 12
 gap> NumberOfSOTGroups(2*3*5*7*11);
 Error, Order 2310 is not supported by SOTGrps.
 Please refer to the SOTGrps documentation for the list of supported orders.
 
-# doc/_Chapter_The_SOTGrps_package.xml:74-77
+# doc/_Chapter_The_SOTGrps_package.xml:83-86
 gap> SOTGroup(2*3*5*7, 1);
 <pc group of size 210 with 4 generators>
 
-# doc/_Chapter_The_SOTGrps_package.xml:100-105
+# doc/_Chapter_The_SOTGrps_package.xml:109-114
 gap> G:=Image(IsomorphismPermGroup(SmallGroup(690,1)));;
 gap> H:=Image(IsomorphismPcGroup(SmallGroup(690,1)));;
 gap> IsIsomorphicSOTGroups(G,H);
 true
 
-# doc/_Chapter_The_SOTGrps_package.xml:127-159
+# doc/_Chapter_The_SOTGrps_package.xml:136-168
 gap> SOTGroupsInformation(2^2*3*19);
 
   There are 15 groups of order 228.
