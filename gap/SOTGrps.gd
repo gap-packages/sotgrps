@@ -13,6 +13,15 @@
 ##
 ##
 #! @Section Main functions
+#!
+#! In addition to the functions described below, the &SOTGrps; package also extends the
+#! the Small Groups Library as provided by the &SmallGrp; package: with &SOTGrps; loaded,
+#! functions such as <C>NumberSmallGroups</C>, <C>SmallGroup</C> or <C>IdGroup</C>
+#! will work for orders support by &SOTGrps; but not by &SmallGrp;.
+#!
+#! Note: for orders support by &SOTGrps; *and* by &SmallGrp;, the respective ids as
+#! produced by <C>IdGroup</C> versus <C>IdSOTGroup</C> in general do not agree.
+#! In a future version we may provided functions to convert between them.
 
 #! @Description
 #!  takes in a number <A>n</A> that factorises into at most four primes or is of the form <M>p^4q</M> (<M>p</M>, <M>q</M> are distinct primes),

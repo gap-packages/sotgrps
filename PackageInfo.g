@@ -88,4 +88,10 @@ AvailabilityTest := ReturnTrue,
 TestFile := "tst/testall.g",
 Keywords := ["construction of finite groups","identification of finite groups"],
 
+AutoDoc := rec(
+    entities := rec(
+        SmallGrp := "<Package>SmallGrp</Package>" ,
+    ),
+),
+
 ));
