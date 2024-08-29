@@ -15,6 +15,15 @@
   
   [1X1.1 [33X[0;0YMain functions[133X[101X
   
+  [33X[0;0YIn  addition  to  the  functions  described  below, the [5XSOTGrps[105X package also
+  extends  the  the  Small Groups Library as provided by the [5XSmallGrp[105X package:
+  with  [5XSOTGrps[105X  loaded,  functions  such  as [10XNumberSmallGroups[110X, [10XSmallGroup[110X or
+  [10XIdGroup[110X will work for orders support by [5XSOTGrps[105X but not by [5XSmallGrp[105X.[133X
+  
+  [33X[0;0YNote: for orders support by [5XSOTGrps[105X *and* by [5XSmallGrp[105X, the respective ids as
+  produced  by  [10XIdGroup[110X versus [10XIdSOTGroup[110X in general do not agree. In a future
+  version we may provided functions to convert between them.[133X
+  
   [1X1.1-1 AllSOTGroups[101X
   
   [33X[1;0Y[29X[2XAllSOTGroups[102X( [3Xn[103X[, [3Xfilter[103X] ) [32X function[133X
@@ -127,18 +136,25 @@
     [4X[28X     SOT 4 - 7 have Fitting subgroup of order 76.[128X[104X
     [4X[28X     SOT 8 - 9 have Fitting subgroup of order 38.[128X[104X
     [4X[28X     SOT 10 - 15 have Fitting subgroup of order 114.[128X[104X
+    [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XSOTGroupsInformation(2662);[127X[104X
     [4X[28X[128X[104X
-    [4X[28X  There are 15 groups of order 2662.[128X[104X
+    [4X[28X There are 15 groups of order 2662.[128X[104X
     [4X[28X[128X[104X
-    [4X[28X  The groups of order p^3q are solvable by Burnside's pq-Theorem.[128X[104X
-    [4X[28X  These groups are sorted by their Sylow subgroups.[128X[104X
-    [4X[28X     1 - 3 are abelian.[128X[104X
-    [4X[28X     4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a normal Sylow 2-subgroup.[128X[104X
-    [4X[28X     6 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 1 ].[128X[104X
-    [4X[28X     7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 2 ].[128X[104X
-    [4X[28X     10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 5 ].[128X[104X
-    [4X[28X     13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 3 ].[128X[104X
-    [4X[28X     15 is non-nilpotent and has a normal Sylow 2-subgroup [ 2, 1 ] with Sylow 11-subgroup [ 1331, 4 ].[128X[104X
+    [4X[28X The groups of order p^3q are solvable by Burnside's pq-Theorem.[128X[104X
+    [4X[28X These groups are sorted by their Sylow subgroups.[128X[104X
+    [4X[28X   1 - 3 are abelian.[128X[104X
+    [4X[28X   4 - 5 are nonabelian nilpotent and have a normal Sylow 11-subgroup and a[128X[104X
+    [4X[28X       normal Sylow 2-subgroup.[128X[104X
+    [4X[28X   6 is non-nilpotent and has a normal Sylow 2-subgroup with Sylow[128X[104X
+    [4X[28X      11-subgroup [ 1331, 1 ].[128X[104X
+    [4X[28X   7 - 9 are non-nilpotent and have a normal Sylow 2-subgroup with Sylow[128X[104X
+    [4X[28X      11-subgroup [ 1331, 2 ].[128X[104X
+    [4X[28X   10 - 12 are non-nilpotent and have a normal Sylow 2-subgroup with Sylow[128X[104X
+    [4X[28X      11-subgroup [ 1331, 5 ].[128X[104X
+    [4X[28X   13 - 14 are non-nilpotent and have a normal Sylow 2-subgroup with Sylow[128X[104X
+    [4X[28X      11-subgroup [ 1331, 3 ].[128X[104X
+    [4X[28X   15 is non-nilpotent and has a normal Sylow 2-subgroup with Sylow[128X[104X
+    [4X[28X     11-subgroup [ 1331, 4 ].[128X[104X
   [4X[32X[104X
   

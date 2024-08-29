@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "SOTGrps",
 Subtitle    := "Constructing and identifying groups of small order type",
-Version     := "1.2",
-Date        := "20/06/2023", # dd/mm/yyyy format
+Version     := "1.3",
+Date        := "29/08/2024", # dd/mm/yyyy format
 License     := "GPL-2.0-or-later",
 
 Persons := [
@@ -87,5 +87,11 @@ AvailabilityTest := ReturnTrue,
 
 TestFile := "tst/testall.g",
 Keywords := ["construction of finite groups","identification of finite groups"],
+
+AutoDoc := rec(
+    entities := rec(
+        SmallGrp := "<Package>SmallGrp</Package>" ,
+    ),
+),
 
 ));
