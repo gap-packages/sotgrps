@@ -53,7 +53,7 @@ In particular, with `SOTGroup(n, i)`, we construct the `i`-th group of
 order `n` in our SOT-group list.
 
 `IdSOTGroup(group)` returns the group ID in line with `SOTGroup(n, i)`,
-namely, the position of the input group of order n in the list
+namely, the position of the input group of order `n` in the list
 constructed by `AllSOTGroups(n)`.
 
 ## References
