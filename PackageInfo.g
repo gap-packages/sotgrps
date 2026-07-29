@@ -10,8 +10,8 @@ SetPackageInfo( rec(
 
 PackageName := "SOTGrps",
 Subtitle    := "Constructing and identifying groups of small order type",
-Version     := "1.3",
-Date        := "29/08/2024", # dd/mm/yyyy format
+Version     := "1.3.1",
+Date        := "29/07/2026", # dd/mm/yyyy format
 License     := "GPL-2.0-or-later",
 
 Persons := [

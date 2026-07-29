@@ -1,5 +1,11 @@
 This file describes changes in the `sotgrps` package.
 
+# 1.3.1 (2026-07-29)
+
+  - Declare `SmallGrp` as a needed package. It always was required, as
+    `gap/Integration.gi` extends the small groups library, but this used
+    to be masked by `SmallGrp` being loaded by default.
+
 # 1.3 (2024-08-29)
 
   - Ensure the presentations used by `AllSOTGroups(n)[i]` and `SOTGroup(n,i)`
