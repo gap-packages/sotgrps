@@ -37,7 +37,7 @@ gap> testOrder(13^3*2);
     15 is non-nilpotent and has a normal Sylow 2-subgroup with Sylow 
        13-subgroup [ 2197, 4 ].
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 gap> testOrder(13^3*3);
@@ -60,7 +60,7 @@ gap> testOrder(13^3*3);
     19 is non-nilpotent and has a normal Sylow 3-subgroup with Sylow 
        13-subgroup [ 2197, 4 ].
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 gap> testOrder(13^3*5);
@@ -73,7 +73,7 @@ gap> testOrder(13^3*5);
     4 - 5 are nonabelian nilpotent and have a normal Sylow 13-subgroup and a
         normal Sylow 5-subgroup.
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 gap> testOrder(13^3*7);
@@ -90,7 +90,7 @@ gap> testOrder(13^3*7);
     7 is non-nilpotent and has a normal Sylow 7-subgroup with Sylow 
        13-subgroup [ 2197, 3 ].
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 gap> testOrder(13^3*11);
@@ -103,7 +103,7 @@ gap> testOrder(13^3*11);
     4 - 5 are nonabelian nilpotent and have a normal Sylow 13-subgroup and a
         normal Sylow 11-subgroup.
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 gap> testOrder(37^3*7);
@@ -118,7 +118,7 @@ gap> testOrder(37^3*7);
     6 is non-nilpotent and has a normal Sylow 7-subgroup with Sylow 
        37-subgroup [ 50653, 5 ].
 
-  This size belongs to layer 12 of the SmallGroups library. 
+  This size belongs to the layer "SOTGrps". 
   IdSmallGroup is available for this size. 
  
 
