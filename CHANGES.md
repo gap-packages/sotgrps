@@ -1,5 +1,12 @@
 This file describes changes in the `sotgrps` package.
 
+# Unreleased
+
+  - Register with the small groups library through `SmallGroupsAddLayer`
+    where `SmallGrp` offers it, instead of filling its arrays by hand. The
+    old route is kept for older `SmallGrp`, where `SOTGRPS_LAYER` and
+    `SOTGRPS_POS` are still bound; with the new one they are not.
+
 # 1.3.1 (2026-07-29)
 
   - Declare `SmallGrp` as a needed package. It always was required, as
