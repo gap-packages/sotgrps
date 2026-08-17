@@ -2,6 +2,7 @@ This file describes changes in the `sotgrps` package.
 
 # Unreleased
 
+  - Require GAP 4.12
   - If available, use the `SmallGroupsAddLayer` function provided by `SmallGrp`
 
 # 1.3.1 (2026-07-29)
