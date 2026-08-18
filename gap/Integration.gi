@@ -1,5 +1,42 @@
 ## Integration with SmallGrps
 
+if IsBound(SmallGroupsAddLayer) then
+
+# SmallGrp 1.7 and up: describe the layer and let SmallGrp place it
+SmallGroupsAddLayer( rec(
+    name := "SOTGrps",
+
+    # the orders we cover, and how many groups we have of each
+    available := function( size )
+        if not IsSOTAvailable(size) then
+            return fail;
+        fi;
+        return rec( number := NumberOfSOTGroups(size) );
+    end,
+
+    # Method for SmallGroup(size, i):
+    group := function( size, i, inforec )
+        return SOTGroup(size, i);
+    end,
+
+    # Method for IdGroup(G):
+    id := function( G, inforec )
+        return IdSOTGroup(G)[2];
+    end,
+
+    # Method for SmallGroupsInformation(size):
+    information := function( size, inforec, num )
+        local fac, ind;
+        fac := Collected(Factors(size));
+        SortBy(fac, Reversed);
+        ind := List(fac, x -> x[2]);
+        _SOTGroupsInformation(size, fac, ind);
+        Print("\n");
+    end ) );
+
+else
+
+# SmallGrp before 1.7: claim the slots and fill the arrays by hand
 
 # Get the next available "layer" id (the built-in library
 # consists of 11 layers, but other packages may already have
@@ -68,3 +105,5 @@ SMALL_GROUPS_INFORMATION[ SOTGRPS_POS ] := function( size, inforec, num )
     _SOTGroupsInformation(size, fac, ind);
     Print("\n");
 end;
+
+fi;
