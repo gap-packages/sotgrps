@@ -70,7 +70,7 @@ most four primes. In: Journal of Symbolic Computation (108) (2022), pp.
 The SOTGrps package is free software; you can redistribute and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or (at
-your opinion) any later version.
+your option) any later version.
 
 The SOTGrps package is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
